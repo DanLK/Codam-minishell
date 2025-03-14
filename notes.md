@@ -11,3 +11,7 @@
 
 - [Linux filesystem video](https://www.youtube.com/watch?v=P0QZnAnsQ4c&list=PLvrGkX6pcHIC8-UKfChyYGcQtvJtniH3c&index=4)
 - [Linux filesystem video -- faster](https://www.youtube.com/watch?v=A3G-3hp88mo)
+
+## Readline 
+
+- [Programming with GNU Readline](https://web.mit.edu/gnu/doc/html/rlman_2.html)
