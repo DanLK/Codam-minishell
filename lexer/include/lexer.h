@@ -6,14 +6,14 @@
 /*   By: dloustal <dloustal@student.42.fr>            +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/03/14 16:58:50 by dloustal      #+#    #+#                 */
-/*   Updated: 2025/03/14 18:03:14 by dloustal      ########   odam.nl         */
+/*   Updated: 2025/03/17 14:13:47 by dloustal      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef LEXER_H
 # define LEXER_H
 # include <unistd.h>
-# include "../../libft/libft.h"
+# include "libft.h"
 
 enum e_Type
 {
@@ -28,6 +28,8 @@ enum e_Type
 	UNSET,
 	ENV,
 	EXIT,
+	// Options (for example -n)
+	OPTION,
 	// Redirections
 	RED_INPUT,
 	RED_OUTPUT,
@@ -35,14 +37,17 @@ enum e_Type
 	RED_OUT_APP,
 	// Operators
 	PIPE,
-	// Exit status
+	// Exit status ($?)
 	EXIT_STATUS,
 	// Parameter Expansion ($)
-	PARAM_EXPANSION,
+	ENV_VAR,
 	// Path
-	PATH,
+	FILE_PATH,
 	// Literals
-	STRING,
+	SQ_STRING,
+	DQ_STRING,
+	//Whitespace
+	WHITESPACE,
 	//EOF
 	EOF
 };
@@ -52,5 +57,7 @@ typedef struct token
 	enum e_Type	type;
 	char		*lexeme;
 }		t_token;
+
+t_token	**scan(char *source);
 
 #endif
