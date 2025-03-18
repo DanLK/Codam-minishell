@@ -15,3 +15,72 @@
 ## Readline 
 
 - [Programming with GNU Readline](https://web.mit.edu/gnu/doc/html/rlman_2.html)
+
+## Prompt examples
+
+- `echo "Hello"`
+- `echo "Hello" > output.txt`
+- `cat < input.txt`
+- `echo "Hello" >> output.txt`
+- `cat << EOF` (with input until EOF is entered)
+- `echo "Hello" | cat`
+- `cd /usr && pwd`
+- `cd .. && pwd`
+- `export MYVAR="Hello" && echo $MYVAR`
+- `unset MYVAR && echo $MYVAR`
+- `echo $?`
+- `echo "Hello $USER"`
+- `export PATH="/usr/bin:$PATH" && env | grep PATH`
+- `echo "Hello" | echo "Ignored"`
+- `echo "Hello" > file.txt && cat < file.txt`
+- `echo "Hello" > file.txt && cat file.txt | echo "Output ignored"`
+
+1. Redirections with Pipes
+
+    ```
+	echo "Hello" > file.txt && cat < file.txt | echo "Ignored"
+    echo "Line 1" > file.txt && echo "Line 2" >> file.txt && cat < file.txt
+    echo "Hello" > file.txt && cat < file.txt | echo $? > status.txt
+    export MYVAR="Test" && echo $MYVAR > file.txt && cat < file.txt | echo $?
+    echo "Hello" > file.txt && echo "World" >> file.txt && cat < file.txt | echo $? >> status.txt
+	```
+
+2. Here-Document (<<) with Pipes
+
+	```
+    cat << EOF | echo "Processing" (followed by input, ends with EOF)
+    cat << STOP | echo "Received input" (followed by input, ends with STOP)
+    cat << END | env | grep PATH (followed by input, ends with END)
+    cat << DONE | echo $? (followed by input, ends with DONE)
+    cat << DATA | export VAR="Hello" && echo $VAR (followed by input, ends with DATA)
+	```
+
+	Just heredoc
+	```
+	cat <<EOF > myfile.txt
+	[database]
+	user=admin
+	password=secret
+	host=localhost
+	EOF
+	```
+	
+3. Pipes and Environment Variables
+
+	```
+    export MYVAR="Hello" && echo $MYVAR | cat
+    export MYVAR="Test" && echo $MYVAR | echo $?
+    export PATH="/usr/bin:$PATH" && env | grep PATH | echo "Path Updated"
+    echo "Hello" | env | grep PATH
+    export USERNAME="User" && echo "Welcome, $USERNAME" | echo $? > status.txt
+	```
+
+4. Combining Built-ins with Redirections and Pipes
+
+	```
+    pwd | echo "Current directory ignored"
+    pwd > path.txt && cat < path.txt
+    cd /usr && pwd | echo "Changed directory"
+    cd .. && pwd | echo $? > status.txt
+    export TEMP="Data" && echo $TEMP > temp.txt && cat < temp.txt | echo $?
+	```
