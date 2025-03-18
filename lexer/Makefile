@@ -1,5 +1,5 @@
 NAME = lexer
-SRC = lexer.c
+SRC = lexer.c token_list.c clear_list.c
 MAIN = main.c
 SRC_DIR = ./src
 OBJ_DIR = ./obj
