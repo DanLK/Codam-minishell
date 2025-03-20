@@ -6,7 +6,7 @@
 /*   By: dloustal <dloustal@student.42.fr>            +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/10/08 13:58:09 by dloustal      #+#    #+#                 */
-/*   Updated: 2025/02/24 12:29:28 by dloustal      ########   odam.nl         */
+/*   Updated: 2025/03/20 15:57:44 by dloustal      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,8 @@ int		ft_isalnum(int c);
 int		ft_isascii(int c);
 
 int		ft_isprint(int c);
+
+bool	ft_isspace(char c);
 
 size_t	ft_strlen(const char *s);
 
