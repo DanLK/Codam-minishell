@@ -6,7 +6,7 @@
 /*   By: rojornod <rojornod@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/10 14:21:08 by rojornod          #+#    #+#             */
-/*   Updated: 2025/03/17 14:12:40 by rojornod         ###   ########.fr       */
+/*   Updated: 2025/03/20 17:16:19 by rojornod         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,4 +18,7 @@
 #include <fcntl.h>
 #include <signal.h>
 #include <limits.h>
-#include "../libft/libft.h"
+#include "../../libft/libft.h"
+
+void	echo_builtin(char *string);
+void	pwd_builtin(void);
