@@ -6,7 +6,7 @@
 /*   By: dloustal <dloustal@student.42.fr>            +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/03/14 16:58:50 by dloustal      #+#    #+#                 */
-/*   Updated: 2025/03/20 17:08:11 by dloustal      ########   odam.nl         */
+/*   Updated: 2025/03/21 11:43:58 by dloustal      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,6 +91,7 @@ bool			is_next(int *cur, char *src, char expected);
 void			consume_space(int *cur, int *start, char *src);
 char			*read_quoted(int *cur, int start, char *src, char quotes);
 char			*read_filepath(int *cur, int start, char *src);
+char			*read_identifier(int *cur, int start, char *src);
 
 // Memory clears
 void			clear_token_list(t_token_list *list);

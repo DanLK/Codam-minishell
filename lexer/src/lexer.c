@@ -6,7 +6,7 @@
 /*   By: dloustal <dloustal@student.42.fr>            +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/03/14 17:06:59 by dloustal      #+#    #+#                 */
-/*   Updated: 2025/03/20 17:16:42 by dloustal      ########   odam.nl         */
+/*   Updated: 2025/03/21 11:44:59 by dloustal      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,6 +50,7 @@ void	get_cur_token(t_token_list *tokens, char *src, int s, int *cur)
 
 	if (!tokens || !src)
 		return ;
+	consume_space(cur, &s, src);
 	c = get_current_char(cur, src);
 	lexeme = "";
 	if (c == '|')
@@ -100,6 +101,12 @@ void	get_cur_token(t_token_list *tokens, char *src, int s, int *cur)
 	{
 		lexeme = read_quoted(cur, s, src, '\'');
 		append_token(tokens, SQ_STRING, lexeme);
+		free(lexeme);
+	}
+	if (ft_isalnum(c) || c == '_')
+	{
+		lexeme = read_identifier(cur, s, src);
+		append_token(tokens, IDENTIFIER, lexeme);
 		free(lexeme);
 	}
 }
