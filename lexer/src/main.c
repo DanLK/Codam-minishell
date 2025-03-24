@@ -6,7 +6,7 @@
 /*   By: dloustal <dloustal@student.42.fr>            +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/03/17 11:29:28 by dloustal      #+#    #+#                 */
-/*   Updated: 2025/03/21 11:47:27 by dloustal      ########   odam.nl         */
+/*   Updated: 2025/03/24 15:55:04 by dloustal      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,7 @@ int	main(void)
 	t_token_list	*list;
 	// char			*substr;
 	// int	cur;
+
 	
 	// list = init_token_list();
 	// append_token(list, ECHO, "echo");
@@ -26,7 +27,7 @@ int	main(void)
 	// print_token_list(list);
 	// clear_token_list(list);
 
-	list = scan("(MYVAR=abcd >>test.txt \"Hoi, wie ben je? Ik ben $USER\" << | echo \'I am a sigle quoted string\')");
+	list = scan("M YVAR=hola | echo \"    Im a double quoted string with spaces \"  Hello   <file.txt word anotherword ");
 	print_token_list(list);
 	clear_token_list(list);
 

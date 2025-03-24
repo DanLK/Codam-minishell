@@ -6,7 +6,7 @@
 /*   By: dloustal <dloustal@student.42.fr>            +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/03/14 17:06:59 by dloustal      #+#    #+#                 */
-/*   Updated: 2025/03/21 11:44:59 by dloustal      ########   odam.nl         */
+/*   Updated: 2025/03/24 14:57:44 by dloustal      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,22 +55,22 @@ void	get_cur_token(t_token_list *tokens, char *src, int s, int *cur)
 	lexeme = "";
 	if (c == '|')
 		append_token(tokens, PIPE, "|");
-	if (c == '(')
+	else if (c == '(')
 		append_token(tokens, LEFT_PAREN, "(");
-	if (c == ')')
+	else if (c == ')')
 		append_token(tokens, RIGHT_PAREN, ")");
-	if (c == '=')
+	else if (c == '=')
 		append_token(tokens, EQUAL, "=");
 	if (c == '>')
 	{
 		if (is_next(cur, src, '>'))
-		{	
-			append_token(tokens, RED_OUT_APP, ">>");
+		{
+			append_token(tokens, REDIR_OUT_APPEND, ">>");
 			s += 2;
 		}
 		else
 		{
-			append_token(tokens, RED_OUTPUT, ">");
+			append_token(tokens, REDIR_OUT, ">");
 			s++;
 		}
 		lexeme = read_filepath(cur, s, src);
@@ -82,7 +82,7 @@ void	get_cur_token(t_token_list *tokens, char *src, int s, int *cur)
 		if (is_next(cur, src, '<'))
 			append_token(tokens, HEREDOC, "<<");
 		else
-			append_token(tokens, RED_INPUT, "<");
+			append_token(tokens, REDIR_IN, "<");
 	}
 	if (c == '$')
 	{
@@ -106,35 +106,15 @@ void	get_cur_token(t_token_list *tokens, char *src, int s, int *cur)
 	if (ft_isalnum(c) || c == '_')
 	{
 		lexeme = read_identifier(cur, s, src);
-		append_token(tokens, IDENTIFIER, lexeme);
+		if (is_keyword(lexeme) != -1)
+			append_token(tokens, is_keyword(lexeme), lexeme);
+		else
+			append_token(tokens, IDENTIFIER, lexeme);
 		free(lexeme);
 	}
 }
 
-char	get_current_char(int *cur, char *src)
-{
-	char	c;
-	
-	if (!src || *cur >= (int)ft_strlen(src))
-		return ('\0');
-	c = src[*cur];
-	*cur += 1;
-	return (c);
-}
+// void	get_redir_tkn(t_token_list *tokens, char *src, int s, int *cur)
+// {
 
-bool	is_next(int *cur, char *src, char expected)
-{
-	char	c;
-	int		i;
-
-	if (!src || *cur >= (int)ft_strlen(src) - 1)
-		return (false);
-	i = *cur;
-	c = src[i];
-	if (src[i] == expected)
-	{
-		*cur += 1;
-		return (true);
-	}
-	return (false);
-}
+// }

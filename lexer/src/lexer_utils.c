@@ -6,7 +6,7 @@
 /*   By: dloustal <dloustal@student.42.fr>            +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/03/20 15:41:02 by dloustal      #+#    #+#                 */
-/*   Updated: 2025/03/21 11:43:29 by dloustal      ########   odam.nl         */
+/*   Updated: 2025/03/24 15:51:48 by dloustal      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,6 @@ void	consume_space(int *cur, int *start, char *src)
 // Missing accounting for single or double quoted sequences
 char	*read_filepath(int *cur, int start, char *src)
 {
-	char	*substr;
 	int		st;
 	char	c;
 
@@ -56,16 +55,24 @@ char	*read_filepath(int *cur, int start, char *src)
 		st += 1;
 	}
 	c = src[*cur];
+	if (c == '\"')
+		return (get_current_char(cur, src), read_quoted(cur, st, src, '"'));
+	if (c == '\'')
+		return (get_current_char(cur, src), read_quoted(cur, st, src, '\''));	
 	while (c)
 	{
-		c = src[*cur];
-		if (c == ' ' || c == '|' || c == '&'
-			|| c == '<' || c == '>')
+		if (is_special_char(c))
 			break ;
 		*cur += 1;
+		c = src[*cur];
 	}
-	substr = ft_substr(src, st, (*cur) - st);
-	return (substr);
+	return (ft_substr(src, st, (*cur) - st));
+}
+
+bool	is_special_char(char c)
+{
+	return (c == ' ' || c == '|' || c == '&'
+			|| c == '<' || c == '>');
 }
 
 char	*read_identifier(int *cur, int start, char *src)
@@ -77,7 +84,7 @@ char	*read_identifier(int *cur, int start, char *src)
 	if (!src || *cur >= (int)ft_strlen(src))
 		return (NULL);
 	st = start;
-	c = src[*cur];
+	c = src[--(*cur)];
 	while (c && (ft_isalnum(c) || c == '_'))
 	{
 		*cur += 1;
@@ -85,4 +92,14 @@ char	*read_identifier(int *cur, int start, char *src)
 	}
 	substr = ft_substr(src, st, (*cur) - st);
 	return (substr);
+}
+
+const t_map	*get_map(void)
+{
+	static const t_map	keywords = {
+		.words = {"echo", "cd", "pwd", "export", "unset", "env", "exit"},
+		.types = {ECHO, CD, PWD, EXPORT, UNSET, ENV, EXIT}
+	};
+
+	return (&keywords);
 }

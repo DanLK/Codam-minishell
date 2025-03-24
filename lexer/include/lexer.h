@@ -6,7 +6,7 @@
 /*   By: dloustal <dloustal@student.42.fr>            +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/03/14 16:58:50 by dloustal      #+#    #+#                 */
-/*   Updated: 2025/03/21 11:43:58 by dloustal      ########   odam.nl         */
+/*   Updated: 2025/03/24 15:16:17 by dloustal      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,40 +20,38 @@
 enum e_Type
 {
 	// Single character tokens
-	LEFT_PAREN,
-	RIGHT_PAREN,
-	EQUAL,
+	LEFT_PAREN, //0
+	RIGHT_PAREN, //1
+	EQUAL, //2
 	// Builtins
 	ECHO,
 	CD,
-	PWD,
+	PWD, //5
 	EXPORT,
 	UNSET,
 	ENV,
-	EXIT,
+	EXIT, //9
 	// Options (for example -n)
 	OPTION_N,
 	// Redirections
-	RED_INPUT,
-	RED_OUTPUT,
+	REDIR_IN, //11
+	REDIR_OUT,
 	HEREDOC,
-	RED_OUT_APP,
+	REDIR_OUT_APPEND,
 	// Operators
-	PIPE,
+	PIPE, //15
 	// Exit status ($?)
 	EXIT_STATUS,
 	// Parameter Expansion ($)
 	ENV_VAR,
 	// Path
-	FILE_PATH,
+	FILE_PATH, //18
 	// Literals
 	SQ_STRING,
 	DQ_STRING,
-	IDENTIFIER,
-	//Whitespace
-	WHITESPACE,
+	IDENTIFIER, //21
 	//EOF to indicate end of input
-	EOF
+	EOF //22
 };
 
 typedef struct token
@@ -73,6 +71,18 @@ typedef struct s_token_list
 	struct s_token_node	*head;
 }		t_token_list;
 
+typedef struct s_lex_info
+{
+	int	start;
+	int	current;
+}		t_lex_info;
+
+typedef struct s_map
+{
+	char		*words[7];
+	enum e_Type	types[7];
+}		t_map;
+
 // List utilities
 t_token_list	*init_token_list(void);
 t_token_node	*new_node(enum e_Type type, char *lex);
@@ -91,7 +101,13 @@ bool			is_next(int *cur, char *src, char expected);
 void			consume_space(int *cur, int *start, char *src);
 char			*read_quoted(int *cur, int start, char *src, char quotes);
 char			*read_filepath(int *cur, int start, char *src);
+bool			is_special_char(char c);
 char			*read_identifier(int *cur, int start, char *src);
+const t_map		*get_map(void);
+
+// Lexer utilities 2
+int				is_keyword(char *lexeme);
+bool			kw_compare(const t_map *keywords, char *lexeme, int i);
 
 // Memory clears
 void			clear_token_list(t_token_list *list);
