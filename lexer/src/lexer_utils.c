@@ -6,7 +6,7 @@
 /*   By: dloustal <dloustal@student.42.fr>            +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/03/20 15:41:02 by dloustal      #+#    #+#                 */
-/*   Updated: 2025/03/20 17:10:34 by dloustal      ########   odam.nl         */
+/*   Updated: 2025/03/21 11:43:29 by dloustal      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,6 +63,25 @@ char	*read_filepath(int *cur, int start, char *src)
 			|| c == '<' || c == '>')
 			break ;
 		*cur += 1;
+	}
+	substr = ft_substr(src, st, (*cur) - st);
+	return (substr);
+}
+
+char	*read_identifier(int *cur, int start, char *src)
+{
+	char	*substr;
+	int		st;
+	char	c;
+
+	if (!src || *cur >= (int)ft_strlen(src))
+		return (NULL);
+	st = start;
+	c = src[*cur];
+	while (c && (ft_isalnum(c) || c == '_'))
+	{
+		*cur += 1;
+		c = src[*cur];
 	}
 	substr = ft_substr(src, st, (*cur) - st);
 	return (substr);

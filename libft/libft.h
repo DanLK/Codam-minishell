@@ -6,7 +6,7 @@
 /*   By: dloustal <dloustal@student.42.fr>            +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/10/08 13:58:09 by dloustal      #+#    #+#                 */
-/*   Updated: 2025/03/20 15:57:44 by dloustal      ########   odam.nl         */
+/*   Updated: 2025/03/21 11:26:42 by dloustal      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 # define LIBFT_H
 
 # include <stdlib.h>
+# include <stdbool.h> 
 
 typedef struct s_list
 {
