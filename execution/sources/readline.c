@@ -6,7 +6,7 @@
 /*   By: rojornod <rojornod@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/10 14:21:17 by rojornod          #+#    #+#             */
-/*   Updated: 2025/03/24 16:16:05 by rojornod         ###   ########.fr       */
+/*   Updated: 2025/03/28 17:19:09 by rojornod         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ t_vars	*initialize_data(void)
         perror("malloc on vars initialization");
         exit(EXIT_FAILURE);
     }
-	return (vars);
+	return (NULL);
 }
 
 static char	*get_home_dir(void)
@@ -52,7 +52,7 @@ void	create_history_file(void)
 	int	fd;
 
 	fd = open("./.shell_history", O_WRONLY | O_APPEND | O_CREAT, 0644);
-	printf("file created\n");
+	printf("history file created\n");
 	close(fd);
 }
 
@@ -76,6 +76,18 @@ void	write_history_file(char *read)
 	write(fd, "\n", 1);
 }
 
+void print_environment(char **envp)
+{
+	int	i;
+	
+	i = 0;
+	while (envp[i])
+	{
+		ft_printf("%s\n", envp[i]);
+		i++;
+	}
+}
+
 /******************************************************************************
 *	
 *	-The main maintains a constant loop until terminated by user.
@@ -83,16 +95,19 @@ void	write_history_file(char *read)
 *	-It simulates and actual shell, where you can keep inputing commands
 *
 ******************************************************************************/
-int	main(void)
+int	main(int argc, char **argv, char **envp)
 {
 	char	*home_dir;	
 	char	*read;
 	t_vars	*vars;
 	
+	ft_printf("initializing_data..\n");
 	vars = initialize_data();
+	ft_printf("copying environment..\n");
+	copy_env(&vars, envp);
+	ft_printf("environment_copied..\n");
 	home_dir = get_home_dir();
-	add_var(&vars,"HOME", home_dir, 1);
-	print_vars(vars);
+	edit_var(vars, "HOME", home_dir);
 	create_history_file();
 	ft_printf("created history file\n");
 	while (1)
@@ -104,7 +119,15 @@ int	main(void)
 		if (ft_strncmp(read, "echo", 4) == 0)
 			echo_builtin(read);
 		if (ft_strncmp(read, "cd", 2) == 0)
-			cd_builtin("libft/printf", vars);
+			cd_builtin("execution", vars);
+		if (ft_strncmp(read, "cd2", 3) == 0)
+			cd_builtin(NULL, vars);
+		if (ft_strncmp(read, "edit", 4) == 0)
+			edit_var(vars, "HOME", "rojornod/personal/minishell/execution");
+		if (ft_strncmp(read, "env", 3) == 0)
+			print_vars(vars);
+		if (ft_strncmp(read, "find", 4) == 0)
+			find_vars(vars, "HOME");
 		write_history_file(read);
 	}
 	return (0);

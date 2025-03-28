@@ -6,7 +6,7 @@
 /*   By: rojornod <rojornod@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/20 11:27:48 by rojornod          #+#    #+#             */
-/*   Updated: 2025/03/24 15:52:26 by rojornod         ###   ########.fr       */
+/*   Updated: 2025/03/28 17:12:09 by rojornod         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,13 +87,13 @@ void	echo_builtin(char *string)
 }
 
 /******************************************************************************
-	
-	-Currently this function simply displays the current working directory if 
-	it detects that the user typed pwd
-	
-	-getcwd gives you the current working directory when given a buffer and 
-	size
-	
+*	
+*	-Currently this function simply displays the current working directory if 
+*	it detects that the user typed pwd
+*	
+*	-getcwd gives you the current working directory when given a buffer and 
+*	size
+*	
 ******************************************************************************/
 void	pwd_builtin(void)
 {
@@ -107,18 +107,36 @@ void	pwd_builtin(void)
 
 /******************************************************************************
 *
-*	-Function that will be called when user types CD.
-*	-If path is NULL CD will default to the home directory. The home directory
+*	Function that will be called when user types cd.
+*
+*	-If path is NULL, cd will default to the home directory. The home directory
 *	 is set when the program first runs and is the root folder of the program
 *	-If there is a valid path, the chdir will change directory to that path
-*
+*	-If the path is invalid an error message will be output and the directory 
+	 won't change
 ******************************************************************************/
 void	cd_builtin(char *path, t_vars *vars)
 {
-	// pwd_builtin();
-	// if (!path)
-	// 	chdir(vars->home_dir);
-	// else 
-	// 	chdir(path);
-	// pwd_builtin();
+	char	buff[PATH_MAX + 1];
+	
+	edit_var(vars, "OLDPWD", getcwd(buff, PATH_MAX + 1));
+	if (!path)
+	{
+		vars = find_vars(vars, "HOME");
+		if (!vars)
+		 	ft_printf("error: no HOME variable found");
+	 	else
+		{
+			ft_printf("%s\n", vars->value);
+			chdir(vars->value);
+		}
+	}
+	else
+	{
+		if (chdir(path) < 0)
+			ft_printf("minishell: cd: %s: No such file or directory\n", path);
+		else
+			chdir(path);
+	}
+
 }
