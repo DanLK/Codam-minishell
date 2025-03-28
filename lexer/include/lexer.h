@@ -6,7 +6,7 @@
 /*   By: dloustal <dloustal@student.42.fr>            +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/03/14 16:58:50 by dloustal      #+#    #+#                 */
-/*   Updated: 2025/03/24 15:16:17 by dloustal      ########   odam.nl         */
+/*   Updated: 2025/03/28 11:55:56 by dloustal      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 # define LEXER_H
 # include <unistd.h>
 # include <stdlib.h>
+# include <stdio.h>
 # include <stdbool.h>
 # include "libft.h"
 
@@ -24,7 +25,7 @@ enum e_Type
 	RIGHT_PAREN, //1
 	EQUAL, //2
 	// Builtins
-	ECHO,
+	ECHO, //3
 	CD,
 	PWD, //5
 	EXPORT,
@@ -51,7 +52,7 @@ enum e_Type
 	DQ_STRING,
 	IDENTIFIER, //21
 	//EOF to indicate end of input
-	EOF //22
+	END //22
 };
 
 typedef struct token
@@ -94,8 +95,7 @@ void			print_token_list(t_token_list *list);
 t_token_list	*scan(char *src);
 t_token_list	*populate_tokens(t_token_list *tokens, char *src);
 void			get_cur_token(t_token_list *tokens, char *src, int s, int *cur);
-char			get_current_char(int *cur, char *src);
-bool			is_next(int *cur, char *src, char expected);
+
 
 // Lexer utilities
 void			consume_space(int *cur, int *start, char *src);
@@ -108,6 +108,9 @@ const t_map		*get_map(void);
 // Lexer utilities 2
 int				is_keyword(char *lexeme);
 bool			kw_compare(const t_map *keywords, char *lexeme, int i);
+bool			issymbol(char c);
+char			get_current_char(int *cur, char *src);
+bool			is_next(int *cur, char *src, char expected);
 
 // Memory clears
 void			clear_token_list(t_token_list *list);

@@ -6,7 +6,7 @@
 /*   By: dloustal <dloustal@student.42.fr>            +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/03/20 15:41:02 by dloustal      #+#    #+#                 */
-/*   Updated: 2025/03/24 15:51:48 by dloustal      ########   odam.nl         */
+/*   Updated: 2025/03/28 17:41:25 by dloustal      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,17 +15,30 @@
 char	*read_quoted(int *cur, int start, char *src, char quotes)
 {
 	char	*substr;
+	bool	quot_closed;
 
 	if (!src || *cur >= (int)ft_strlen(src))
 		return (NULL);
+	quot_closed = false;
 	while (src[*cur])
 	{
 		if (src[*cur] == quotes)
+		{
+			quot_closed = true;
 			break ;
+		}
 		*cur += 1;
 	}
-	*cur += 1;
-	substr = ft_substr(src, start + 1, (*cur) - start - 2);
+	if (quot_closed)
+	{
+		*cur += 1;
+		substr = ft_substr(src, start + 1, (*cur) - start - 2);
+	}
+	else
+	{
+		perror("Unclosed quotations");
+		substr = ft_substr(src, start + 1, (*cur) - start - 1);
+	}
 	return (substr);
 }
 
@@ -85,7 +98,7 @@ char	*read_identifier(int *cur, int start, char *src)
 		return (NULL);
 	st = start;
 	c = src[--(*cur)];
-	while (c && (ft_isalnum(c) || c == '_'))
+	while (c && (ft_isalnum(c) || issymbol(c)))
 	{
 		*cur += 1;
 		c = src[*cur];

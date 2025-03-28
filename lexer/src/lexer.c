@@ -6,12 +6,11 @@
 /*   By: dloustal <dloustal@student.42.fr>            +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/03/14 17:06:59 by dloustal      #+#    #+#                 */
-/*   Updated: 2025/03/24 14:57:44 by dloustal      ########   odam.nl         */
+/*   Updated: 2025/03/28 11:57:40 by dloustal      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "lexer.h"
-#include <stdlib.h>
 
 t_token_list	*scan(char *src)
 {
@@ -39,7 +38,7 @@ t_token_list	*populate_tokens(t_token_list *tokens, char *src)
 		start = current;
 		get_cur_token(tokens, src, start, &current);
 	}
-	append_token(tokens, EOF, "EOF");
+	append_token(tokens, END, "END");
 	return (tokens);
 }
 
@@ -103,7 +102,14 @@ void	get_cur_token(t_token_list *tokens, char *src, int s, int *cur)
 		append_token(tokens, SQ_STRING, lexeme);
 		free(lexeme);
 	}
-	if (ft_isalnum(c) || c == '_')
+	if (c == '-')
+	{
+		if (is_next(cur, src, 'n'))
+			append_token(tokens, OPTION_N, "-n");
+		else
+			perror("Invalid option: only -n is allowed.");
+	}
+	if (ft_isalnum(c) || issymbol(c))
 	{
 		lexeme = read_identifier(cur, s, src);
 		if (is_keyword(lexeme) != -1)
@@ -114,7 +120,3 @@ void	get_cur_token(t_token_list *tokens, char *src, int s, int *cur)
 	}
 }
 
-// void	get_redir_tkn(t_token_list *tokens, char *src, int s, int *cur)
-// {
-
-// }
