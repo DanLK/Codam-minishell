@@ -6,7 +6,7 @@
 /*   By: rojornod <rojornod@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/20 10:06:02 by rojornod          #+#    #+#             */
-/*   Updated: 2025/03/20 16:28:05 by rojornod         ###   ########.fr       */
+/*   Updated: 2025/03/21 10:50:45 by rojornod         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,8 @@ void	signal_reciever(int signal)
 void	signal_handler(int signal)
 {
 	struct sigaction	action;
-
+	(void)signal;
+	
 	action.sa_flags = 0;
 	action.sa_handler = signal_reciever;
 	sigaction(SIGINT, &action, NULL);
