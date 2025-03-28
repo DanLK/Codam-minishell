@@ -6,7 +6,7 @@
 /*   By: dloustal <dloustal@student.42.fr>            +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/03/24 11:46:50 by dloustal      #+#    #+#                 */
-/*   Updated: 2025/03/24 14:33:52 by dloustal      ########   odam.nl         */
+/*   Updated: 2025/03/28 11:41:47 by dloustal      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,7 +57,7 @@ bool	is_next(int *cur, char *src, char expected)
 	char	c;
 	int		i;
 
-	if (!src || *cur >= (int)ft_strlen(src) - 1)
+	if (!src || *cur >= (int)ft_strlen(src))
 		return (false);
 	i = *cur;
 	c = src[i];
@@ -67,4 +67,9 @@ bool	is_next(int *cur, char *src, char expected)
 		return (true);
 	}
 	return (false);
+}
+
+bool	issymbol(char c)
+{
+	return (c == '_' || c == '.' || c == '/');
 }
