@@ -6,7 +6,7 @@
 /*   By: dloustal <marvin@42.fr>                      +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/03/14 17:06:59 by dloustal      #+#    #+#                 */
-/*   Updated: 2025/03/31 16:27:46 by dloustalot    ########   odam.nl         */
+/*   Updated: 2025/03/31 16:53:57 by dloustalot    ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,13 +43,11 @@ t_token_list	*populate_tkns(t_token_list *tokens, char *src, t_scanner *s)
 void	get_cur_token(t_token_list *tokens, char *src, t_scanner *s)
 {
 	char	c;
-	char	*lexeme;
 
 	if (!tokens || !src)
 		return ;
 	consume_space(s, src);
 	c = get_current_char(&s->cur, src);
-	lexeme = "";
 	if (c == '|')
 		append_token(tokens, PIPE, "|");
 	else if (c == '(')
@@ -58,63 +56,86 @@ void	get_cur_token(t_token_list *tokens, char *src, t_scanner *s)
 		append_token(tokens, RIGHT_PAREN, ")");
 	else if (c == '=')
 		append_token(tokens, EQUAL, "=");
+	else if (c == '>' || c == '<')
+		redir_tkn(tokens, src, s, c);
+	else if (c == '$' || c == '"' || c == '\'')
+		tkn_quote(tokens, src, s, c);
+	else if (c == '-' || ft_isalnum(c) || issymbol(c))
+		tkn_opt_word(tokens, src, s, c);
+}
+
+void	redir_tkn(t_token_list *tkns, char *src, t_scanner *s, char c)
+{
+	char	*lexeme;
+
 	if (c == '>')
 	{
 		if (is_next(&(s->cur), src, '>'))
 		{
-			append_token(tokens, REDIR_OUT_APPEND, ">>");
+			append_token(tkns, REDIR_OUT_APPEND, ">>");
 			s->start += 2;
 		}
 		else
 		{
-			append_token(tokens, REDIR_OUT, ">");
+			append_token(tkns, REDIR_OUT, ">");
 			(s->start)++;
 		}
 		lexeme = read_filepath(s, src);
-		append_token(tokens, FILE_PATH, lexeme);
+		append_token(tkns, FILE_PATH, lexeme);
 		free(lexeme);
 	}
-	if (c == '<')
+	else if (c == '<')
 	{
 		if (is_next(&(s->cur), src, '<'))
-			append_token(tokens, HEREDOC, "<<");
+			append_token(tkns, HEREDOC, "<<");
 		else
-			append_token(tokens, REDIR_IN, "<");
+			append_token(tkns, REDIR_IN, "<");
 	}
+}
+
+void	tkn_quote(t_token_list *tkns, char *src, t_scanner *s, char c)
+{
+	char	*lexeme;
+
 	if (c == '$')
 	{
 		if (is_next(&(s->cur), src, '?'))
-			append_token(tokens, EXIT_STATUS, "$?");
+			append_token(tkns, EXIT_STATUS, "$?");
 		else
-			append_token(tokens, ENV_VAR, "$");
+			append_token(tkns, ENV_VAR, "$");
 	}
-	if (c == '"')
+	else if (c == '"')
 	{
 		lexeme = read_quoted(s, src, '"');
-		append_token(tokens, DQ_STRING, lexeme);
+		append_token(tkns, DQ_STRING, lexeme);
 		free(lexeme);
 	}
-	if (c == '\'')
+	else if (c == '\'')
 	{
 		lexeme = read_quoted(s, src, '\'');
-		append_token(tokens, SQ_STRING, lexeme);
-		free(lexeme);
-	}
-	if (c == '-')
-	{
-		if (is_next(&(s->cur), src, 'n'))
-			append_token(tokens, OPTION_N, "-n");
-		else
-			perror("Invalid option: only -n is allowed.");
-	}
-	if (ft_isalnum(c) || issymbol(c))
-	{
-		lexeme = read_identifier(s, src);
-		if (is_keyword(lexeme) != -1)
-			append_token(tokens, is_keyword(lexeme), lexeme);
-		else
-			append_token(tokens, IDENTIFIER, lexeme);
+		append_token(tkns, SQ_STRING, lexeme);
 		free(lexeme);
 	}
 }
 
+void	tkn_opt_word(t_token_list *tkns, char *src, t_scanner *s, char c)
+{
+	char	*lexeme;
+
+	if (c == '-')
+	{
+		if (is_next(&(s->cur), src, 'n'))
+			append_token(tkns, OPTION_N, "-n");
+		else
+			perror("Invalid option: only -n is allowed.");
+	}
+	else if (ft_isalnum(c) || issymbol(c))
+	{
+		lexeme = read_identifier(s, src);
+		if (is_keyword(lexeme) != -1)
+			append_token(tkns, is_keyword(lexeme), lexeme);
+		else
+			append_token(tkns, IDENTIFIER, lexeme);
+		free(lexeme);
+	}	
+}
