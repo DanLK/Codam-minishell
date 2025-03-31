@@ -3,10 +3,10 @@
 /*                                                        ::::::::            */
 /*   token_list.c                                       :+:    :+:            */
 /*                                                     +:+                    */
-/*   By: dloustal <dloustal@student.42.fr>            +#+                     */
+/*   By: dloustal <marvin@42.fr>                      +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/03/18 12:09:34 by dloustal      #+#    #+#                 */
-/*   Updated: 2025/03/24 14:32:00 by dloustal      ########   odam.nl         */
+/*   Updated: 2025/03/31 16:12:42 by dloustalot    ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,7 +87,19 @@ void	print_token_list(t_token_list *list)
 		ft_printf("Token list is empty.\n");
 	while (node)
 	{
-		ft_printf("%d: %s\n", (node->token)->type, (node->token)->lexeme);
+		printf("%d: %s\n", (node->token)->type, (node->token)->lexeme);
 		node = node->next;
 	}
+}
+
+t_scanner	*init_scanner(int cur, int start)
+{
+	t_scanner	*scanner;
+	
+	scanner = malloc(sizeof(t_scanner));
+	if (!scanner)
+		return (NULL);
+	scanner->cur = cur;
+	scanner->start = start;
+	return (scanner);
 }

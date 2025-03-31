@@ -3,10 +3,10 @@
 /*                                                        ::::::::            */
 /*   lexer.h                                            :+:    :+:            */
 /*                                                     +:+                    */
-/*   By: dloustal <dloustal@student.42.fr>            +#+                     */
+/*   By: dloustal <marvin@42.fr>                      +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/03/14 16:58:50 by dloustal      #+#    #+#                 */
-/*   Updated: 2025/03/28 11:55:56 by dloustal      ########   odam.nl         */
+/*   Updated: 2025/03/31 16:12:32 by dloustalot    ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,11 +72,11 @@ typedef struct s_token_list
 	struct s_token_node	*head;
 }		t_token_list;
 
-typedef struct s_lex_info
+typedef struct s_scanner
 {
 	int	start;
-	int	current;
-}		t_lex_info;
+	int	cur;
+}		t_scanner;
 
 typedef struct s_map
 {
@@ -89,20 +89,21 @@ t_token_list	*init_token_list(void);
 t_token_node	*new_node(enum e_Type type, char *lex);
 t_token_node	*get_last(t_token_list *list);
 void			append_token(t_token_list *list, enum e_Type type, char *lex);
+t_scanner		*init_scanner(int cur, int start);
 void			print_token_list(t_token_list *list);
 
 // Lexer
 t_token_list	*scan(char *src);
-t_token_list	*populate_tokens(t_token_list *tokens, char *src);
-void			get_cur_token(t_token_list *tokens, char *src, int s, int *cur);
+t_token_list	*populate_tkns(t_token_list *tokens, char *src, t_scanner *s);
+void			get_cur_token(t_token_list *tokens, char *src, t_scanner *s);
 
 
 // Lexer utilities
-void			consume_space(int *cur, int *start, char *src);
-char			*read_quoted(int *cur, int start, char *src, char quotes);
-char			*read_filepath(int *cur, int start, char *src);
+void			consume_space(t_scanner *scanner, char *src);
+char			*read_quoted(t_scanner *scanner, char *src, char quotes);
+char			*read_filepath(t_scanner *scanner, char *src);
 bool			is_special_char(char c);
-char			*read_identifier(int *cur, int start, char *src);
+char			*read_identifier(t_scanner *scanner, char *src);
 const t_map		*get_map(void);
 
 // Lexer utilities 2
