@@ -1,6 +1,6 @@
-NAME = lexer
-SRC = lexer.c lexer_utils.c lexer_utils_2.c token_list.c token_identifier.c clear_list.c
-MAIN = lexer_main.c
+NAME = parser
+SRC = 
+MAIN = parser_main.c
 SRC_DIR = ./src
 OBJ_DIR = ./obj
 OBJ = $(SRC:%.c=$(OBJ_DIR)/%.o)
@@ -11,10 +11,12 @@ CFLAGS += -Wall -Wextra -Werror
 LIBFT_NAME = ../libft/libft.a
 LIBFT_PATH = ../libft
 
+LEXER_PATH = ../lexer
+
 all: $(NAME)
 
 $(NAME): $(OBJ) $(LIBFT_NAME) $(MAIN_OBJ)
-	$(CC) -Iinclude -I$(LIBFT_PATH) -o $(NAME) $(CFLAGS) $(OBJ) $(MAIN_OBJ) $(LIBFT_NAME)
+	$(CC) -Iinclude -I$(LEXER_PATH)/include -I$(LIBFT_PATH) -o $(NAME) $(CFLAGS) $(OBJ) $(MAIN_OBJ) $(LIBFT_NAME)
 
 $(OBJ_DIR)/%.o: $(SRC_DIR)/%.c
 	mkdir -p $(dir $@)
