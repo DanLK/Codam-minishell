@@ -3,10 +3,10 @@
 /*                                                        ::::::::            */
 /*   lexer.h                                            :+:    :+:            */
 /*                                                     +:+                    */
-/*   By: dloustal <marvin@42.fr>                      +#+                     */
+/*   By: dloustal <dloustal@student.42.fr>            +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/03/14 16:58:50 by dloustal      #+#    #+#                 */
-/*   Updated: 2025/03/31 16:52:19 by dloustalot    ########   odam.nl         */
+/*   Updated: 2025/04/01 16:32:09 by dloustal      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,8 +95,9 @@ void			print_token_list(t_token_list *list);
 // Lexer
 t_token_list	*scan(char *src);
 t_token_list	*populate_tkns(t_token_list *tokens, char *src, t_scanner *s);
+
+//Token type identifier (token_identifier.c)
 void			get_cur_token(t_token_list *tokens, char *src, t_scanner *s);
-//Aux get_token
 void			redir_tkn(t_token_list *tkns, char *src, t_scanner *s, char c);
 void			tkn_quote(t_token_list *tkns, char *src, t_scanner *s, char c);
 void			tkn_opt_word(t_token_list *tkns, char *src, t_scanner *s, char c);
