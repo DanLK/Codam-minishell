@@ -6,7 +6,7 @@
 /*   By: dloustal <dloustal@student.42.fr>            +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/03/14 16:58:50 by dloustal      #+#    #+#                 */
-/*   Updated: 2025/04/01 16:43:40 by dloustal      ########   odam.nl         */
+/*   Updated: 2025/04/02 13:46:04 by dloustal      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,7 +69,7 @@ typedef struct s_token_node
 
 typedef struct s_token_list
 {
-	struct s_token_node	*head;
+	t_token_node	*head;
 }		t_token_list;
 
 typedef struct s_scanner
@@ -86,6 +86,7 @@ typedef struct s_map
 
 // List utilities
 t_token_list	*init_token_list(void);
+t_token			*create_token(enum e_Type type, char *lex);
 t_token_node	*new_node(enum e_Type type, char *lex);
 t_token_node	*get_last(t_token_list *list);
 void			append_token(t_token_list *list, enum e_Type type, char *lex);

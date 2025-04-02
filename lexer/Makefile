@@ -1,6 +1,6 @@
 NAME = lexer
 SRC = lexer.c lexer_utils.c lexer_utils_2.c token_list.c token_identifier.c clear_list.c
-MAIN = lexer_main.c
+MAIN = main_lexer.c
 SRC_DIR = ./src
 OBJ_DIR = ./obj
 OBJ = $(SRC:%.c=$(OBJ_DIR)/%.o)
