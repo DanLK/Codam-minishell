@@ -3,10 +3,10 @@
 /*                                                        ::::::::            */
 /*   token_list.c                                       :+:    :+:            */
 /*                                                     +:+                    */
-/*   By: dloustal <marvin@42.fr>                      +#+                     */
+/*   By: dloustal <dloustal@student.42.fr>            +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/03/18 12:09:34 by dloustal      #+#    #+#                 */
-/*   Updated: 2025/03/31 16:12:42 by dloustalot    ########   odam.nl         */
+/*   Updated: 2025/04/02 16:14:36 by dloustal      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,22 @@ t_token_list	*init_token_list(void)
 	return (list);
 }
 
+t_token	*create_token(enum e_Type type, char *lex)
+{
+	t_token	*token;
+	char	*lexeme;
+
+	token = malloc(sizeof(t_token));
+	if (!token)
+		return (NULL);
+	token->type = type;
+	lexeme = ft_strdup(lex);
+	if (!lexeme)
+		return (free(token), NULL);
+	token->lexeme = lexeme;
+	return (token);
+}
+
 t_token_node	*new_node(enum e_Type type, char *lex)
 {
 	t_token			*token;
@@ -30,14 +46,12 @@ t_token_node	*new_node(enum e_Type type, char *lex)
 
 	if (!lex)
 		return (NULL);
-	token = malloc(sizeof(t_token));
+	token = create_token(type, lex);
 	if (!token)
 		return (NULL);
-	token->type = type;
-	token->lexeme = ft_strdup(lex);
 	node = malloc(sizeof(t_token_node));
 	if (!node)
-		return (NULL);
+		return (free(token), NULL);
 	node->token = token;
 	node->next = NULL;
 	return (node);
