@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        ::::::::            */
-/*   main.c                                             :+:    :+:            */
+/*   lexer_main.c                                       :+:    :+:            */
 /*                                                     +:+                    */
-/*   By: dloustal <marvin@42.fr>                      +#+                     */
+/*   By: dloustal <dloustal@student.42.fr>            +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/03/17 11:29:28 by dloustal      #+#    #+#                 */
-/*   Updated: 2025/03/31 16:44:41 by dloustalot    ########   odam.nl         */
+/*   Updated: 2025/04/01 17:27:27 by dloustal      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ int	main(void)
 	// print_token_list(list);
 	// clear_token_list(list);
 
-	list = scan("echo <> EOF | \'I am a single quoted sequence\' | exit");
+	list = scan("(echo -n -n vnfaf MYVAR=variable) | \"I am a single quoted sequence $USER\" | exit");
 	print_token_list(list);
 	clear_token_list(list);
 
