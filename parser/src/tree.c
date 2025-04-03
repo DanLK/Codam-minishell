@@ -6,7 +6,7 @@
 /*   By: dloustal <dloustal@student.42.fr>            +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/04/02 12:48:02 by dloustal      #+#    #+#                 */
-/*   Updated: 2025/04/02 16:05:49 by dloustal      ########   odam.nl         */
+/*   Updated: 2025/04/03 19:11:47 by dloustal      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,21 +57,3 @@ void	insert_right(t_t_node *root, t_token *token)
 		return ;
 	root->right = new;
 }
-
-void	pretty_print_tree(t_t_node *root, int depth)
-{
-	int	i;
-
-	if (!root)
-		return ;
-	i = 0;
-	pretty_print_tree(root->right, depth + 1);
-	while (i < depth)
-	{
-		ft_printf("        ");
-		i++;
-	}
-	ft_printf("%d\n\n", (root->token)->type);
-	pretty_print_tree(root->left, depth + 1);
-}
-
