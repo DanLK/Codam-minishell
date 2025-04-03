@@ -1,37 +1,32 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        ::::::::            */
-/*   parser.c                                           :+:    :+:            */
+/*   memory_clears_parser.c                             :+:    :+:            */
 /*                                                     +:+                    */
 /*   By: dloustal <dloustal@student.42.fr>            +#+                     */
 /*                                                   +#+                      */
-/*   Created: 2025/04/01 16:49:04 by dloustal      #+#    #+#                 */
-/*   Updated: 2025/04/03 16:30:34 by dloustal      ########   odam.nl         */
+/*   Created: 2025/04/03 15:39:13 by dloustal      #+#    #+#                 */
+/*   Updated: 2025/04/03 15:58:22 by dloustal      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "parser.h"
 
-t_tree	*parse(t_token_list *tokens)
+void	clear_subtree(t_t_node *root)
 {
-	t_tree	*ast;
-
-	ast = init_tree();
-	if (!ast)
-		return (NULL);
-	parse_tokens(ast, tokens);
+	if (!root)
+		return ;
+	free(root->token->lexeme);
+	free(root->token);
+	clear_subtree(root->left);
+	clear_subtree(root->right);
+	free(root);
 }
 
-void	parse_tokens(t_tree *ast, t_token_list *tokens)
+void	clear_tree(t_tree *tree)
 {
-	t_parser	*parser;
-
-	if (!ast || !tokens)
+	if (!tree)
 		return ;
-	parser = malloc(sizeof(t_parser));
-	if (!parser)
-		return ;
-	parser->current = tokens->head;
-	parser->previous = NULL;
-	read_pipe(ast, tokens, parser);
+	clear_subtree(tree->root);
+	free(tree);
 }
