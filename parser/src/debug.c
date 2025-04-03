@@ -1,41 +1,41 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        ::::::::            */
-/*   memory_clears_parser.c                             :+:    :+:            */
+/*   debug.c                                            :+:    :+:            */
 /*                                                     +:+                    */
 /*   By: dloustal <dloustal@student.42.fr>            +#+                     */
 /*                                                   +#+                      */
-/*   Created: 2025/04/03 15:39:13 by dloustal      #+#    #+#                 */
-/*   Updated: 2025/04/03 17:25:55 by dloustal      ########   odam.nl         */
+/*   Created: 2025/04/03 19:11:27 by dloustal      #+#    #+#                 */
+/*   Updated: 2025/04/03 19:18:41 by dloustal      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "parser.h"
 
-void	clear_subtree(t_t_node *root)
+void	pretty_print_tree(t_t_node *root, int depth)
 {
+	int	i;
+
 	if (!root)
+	{
 		return ;
-	free(root->token->lexeme);
-	free(root->token);
-	clear_subtree(root->left);
-	clear_subtree(root->right);
-	free(root);
+	}
+	i = 0;
+	pretty_print_tree(root->right, depth + 1);
+	while (i < depth)
+	{
+		ft_printf("        ");
+		i++;
+	}
+	ft_printf("%d\n\n", (root->token)->type);
+	pretty_print_tree(root->left, depth + 1);
 }
-
-void	clear_tree(t_tree *tree)
+void	print_token(t_token *token)
 {
-	if (!tree)
+	if (!token)
+	{
+		ft_printf("Token is NULL. Nothing to print\n");
 		return ;
-	clear_subtree(tree->root);
-	free(tree);
-}
-
-void	clear_tree_node(t_t_node *node)
-{
-	if (!node)
-		return ;
-	free(node->token->lexeme);
-	free(node->token);
-	free(node);
+	}
+	ft_printf("[%d]: %s\n", token->type, token->lexeme);
 }
