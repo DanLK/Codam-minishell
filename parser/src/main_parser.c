@@ -6,7 +6,7 @@
 /*   By: dloustal <dloustal@student.42.fr>            +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/04/01 16:48:50 by dloustal      #+#    #+#                 */
-/*   Updated: 2025/04/03 19:19:17 by dloustal      ########   odam.nl         */
+/*   Updated: 2025/04/08 18:10:13 by dloustal      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ int	main(void)
 	t_token_list	*list;
 	t_tree			*ast;
 
-	list = scan("echo -n Hello");
+	list = scan("unset EXACT");
 	// print_token_list(list);
 	ft_printf("\n");
 	ast = parse(list);
