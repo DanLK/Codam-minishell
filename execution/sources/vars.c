@@ -6,13 +6,22 @@
 /*   By: rojornod <rojornod@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/24 15:31:59 by rojornod          #+#    #+#             */
-/*   Updated: 2025/03/28 16:36:55 by rojornod         ###   ########.fr       */
+/*   Updated: 2025/04/08 16:52:19 by rojornod         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
-t_vars	*create_var(char *name, char *value)
+/******************************************************************************
+*
+*	-Takes var_name and var_value as parameters
+*	-Allocates memory to the size of the t_vars list
+*	-Creates a new node with var_name and var_value assigned to new_node->name
+*	 and new_node->value respectively. new_node->next is assigned NULL.
+*	-Returns the new node.
+*
+******************************************************************************/
+t_vars	*create_var(char *var_name, char *var_value, int exp)
 {
 	t_vars	*new_node;
 
@@ -22,23 +31,43 @@ t_vars	*create_var(char *name, char *value)
 		perror("malloc on new node failed");
 		exit(EXIT_FAILURE);
 	}
-	new_node->name = ft_strdup(name);
-	new_node->value = ft_strdup(value);
-	new_node->next = NULL;
+	if (!var_value)
+	{
+		new_node->name = ft_strdup(var_name);
+		new_node->value = NULL;
+		new_node->exported = 1;
+		new_node->hidden = 1;
+		new_node->next = NULL;
+	}
+	else
+	{
+		new_node->name = ft_strdup(var_name);
+		new_node->value = ft_strdup(var_value);
+		new_node->exported = exp;
+		new_node->hidden = 0;
+		new_node->next = NULL;
+	}
 	return (new_node);
 }
 
-/*
-	-before adding a variable I should check if that variable already exists
-	-if it does, it should edit the value that variable has instead of
-	 creating a new one witht the same name
-*/
-t_vars	*add_var(t_vars **head, char *var_name, char *var_value)
+/******************************************************************************
+*
+* 	-This function takes a double pointer to t_vars, a variable name and value
+*	-It takes the new node created in create_var and adds it at the end of the
+*	 list (when current->next is NULL).
+*	
+*	TO DO notes:
+*	-before adding a variable it should check if that variable already exists
+*	-if it does, it should edit the value that variable has instead of
+*	 creating a new one witht the same name
+*
+*******************************************************************************/
+t_vars	*add_var(t_vars **head, char *var_name, char *var_value, int exp)
 {
 	t_vars	*new_node;
 	t_vars	*current;
-	
-	new_node = create_var(var_name, var_value);
+
+	new_node = create_var(var_name, var_value, exp); //malloc is used here. needs to be free
 	if (!(*head))
 		*head = new_node;
 	else
@@ -48,32 +77,55 @@ t_vars	*add_var(t_vars **head, char *var_name, char *var_value)
 			current = current->next;
 		current->next = new_node;
 	}
+	//ft_printf("variable added\n");
 	return (*head);
 }
 
-void	print_vars(t_vars *vars)
+/******************************************************************************
+* 
+*	-This function prints all the environment variables stored in t_vars list.
+*	-Will be called by the env command.
+*	-Can be used to see what is currently stored in all the variables.
+*
+*	EDGE CASES DONE :
+*	-env won't print variables with no value attached to them
+*
+******************************************************************************/
+void	env_builtin(t_vars *head)
 {
-	while (vars)
+	while (head)
 	{
-		printf("%s=%s \n", vars->name, vars->value);
-		vars = vars->next;
+		if (head->name && head->hidden == 0)
+			printf("%s=%s, export:[%d], hidden[%d] \n", head->name, head->value, head->exported, head->hidden);
+		head = head->next;
 	}
 }
 
+/******************************************************************************
+*
+*	-This function takes as arguments a pointer to the head of the list and
+*	 the variable name that we want to look for.
+*	-While the current node is not NULL it compares current->name to var_name.
+*	-If the loop finds a match it returns that node and the values of each elem.
+*	-If it doesn't find a match it returns an error message and NULL.
+*
+******************************************************************************/
 t_vars	*find_vars(t_vars *head, char *var_name)
 {
 	size_t	size;
 	t_vars	*current;
+	char	*temp_var;
 
 	size = ft_strlen(var_name);
 	current = head;
 	while (current)
 	{
 		if (ft_strncmp(current->name, var_name, size) == 0)
-			return (current);
+			return (ft_printf("NAME[%s] VALUE [%s] HIDDEN [%d] EXPORT [%d]\n", current->name, current->value, current->hidden, current->exported), current);
 		else
 			current = current->next;
 	}
+	ft_printf("variable not found\n");
 	return (NULL);
 }
 
@@ -107,18 +159,12 @@ void	copy_env(t_vars **head, char **envp)
 		tokens = ft_split(envp[i], '=');
 		if (!tokens)
 		{
-			perror("error splitting tokens in the environment copy\n");
+			perror("error splitting tokens");
 			exit(EXIT_FAILURE);
 		}
 		else if (tokens && tokens[0] && tokens[1])
-			add_var(head, tokens[0], tokens[1]);
+			add_var(head, tokens[0], tokens[1], 1);
 		i++;
 	}
-	i = 0;
-	while (tokens[i])
-	{
-		free(tokens[i]);
-		i++;
-	}
-	free(tokens);
+	free_array(tokens);
 }

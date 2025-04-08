@@ -6,13 +6,14 @@
 /*   By: rojornod <rojornod@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/20 11:27:48 by rojornod          #+#    #+#             */
-/*   Updated: 2025/03/28 17:12:09 by rojornod         ###   ########.fr       */
+/*   Updated: 2025/04/08 14:05:58 by rojornod         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
 /******************************************************************************
+*	
 *	Built ins to do:
 *		echo with option -n
 *		cd with only relative path or absolute path
@@ -26,17 +27,20 @@
 
 void	exit_builtin(char *exit_cmd)
 {
-    ft_printf("exit\n");
-    if (exit_cmd)
-        exit(255);
+	ft_printf("exit\n");
+	if (exit_cmd)
+		exit(255);
 }
 
 /******************************************************************************
 *	
 *	Very barebones echo. so far it prints the text after echo with either a new 
 *	line or not based on the -n flag.
-*	
-*******************************************************************************
+*
+*	32 = SPACE
+*	34 = "
+*	39 = '
+*	92 = \
 *
 *	SOME TO DO
 *
@@ -113,30 +117,72 @@ void	pwd_builtin(void)
 *	 is set when the program first runs and is the root folder of the program
 *	-If there is a valid path, the chdir will change directory to that path
 *	-If the path is invalid an error message will be output and the directory 
-	 won't change
+*	 won't change
+*
 ******************************************************************************/
 void	cd_builtin(char *path, t_vars *vars)
 {
 	char	buff[PATH_MAX + 1];
-	
+
 	edit_var(vars, "OLDPWD", getcwd(buff, PATH_MAX + 1));
 	if (!path)
 	{
 		vars = find_vars(vars, "HOME");
 		if (!vars)
-		 	ft_printf("error: no HOME variable found");
-	 	else
-		{
-			ft_printf("%s\n", vars->value);
+			ft_printf("error: no HOME variable found");
+		else
 			chdir(vars->value);
-		}
 	}
 	else
 	{
 		if (chdir(path) < 0)
 			ft_printf("minishell: cd: %s: No such file or directory\n", path);
-		else
-			chdir(path);
 	}
+}
+/******************************************************************************
+*
+*		This function will print out all the exported variables
+*
+******************************************************************************/
+void	export_builtin(t_vars *head, char *var_name, char *var_value)
+{
+	if (!var_name)
+	{
+		while (head)
+		{
+			if (head->value == NULL)
+				ft_printf("declare -x %s, hidden [%d]\n", head->name, head->hidden);
+			else
+				ft_printf("declare -x %s=%s export [%d]\n", head->name, head->value, head->exported);
+			head = head->next;
+		}
+	}
+	else if (var_name && var_value)
+		add_var(&head, var_name, var_value, 1);
+	else if (var_name && !var_value)
+		add_var(&head, var_name, NULL, 1);
+}
 
+/******************************************************************************
+*
+*	-This function will delete the node where the var_name is found
+*
+******************************************************************************/
+void	unset_builtin(t_vars **head, char *var_name)
+{
+	t_vars	*temp;
+
+	while (*head)
+	{
+		if (ft_strcmp((*head)->name, var_name) == 0)
+		{
+			ft_printf("var found\nname [%s], value [%s]", (*head)->name, (*head)->value);
+			temp = *head;
+			*head = (*head)->next;
+			free(temp);
+			ft_printf("freed temp\n");
+			return ;
+		}
+		head = &(*head)->next;
+	}
 }

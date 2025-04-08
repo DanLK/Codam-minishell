@@ -6,12 +6,13 @@
 /*   By: rojornod <rojornod@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/20 10:06:02 by rojornod          #+#    #+#             */
-/*   Updated: 2025/03/21 10:50:45 by rojornod         ###   ########.fr       */
+/*   Updated: 2025/04/08 10:33:30 by rojornod         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
+volatile sig_atomic_t	g_recieved = 0;
 /******************************************************************************
 
 	This is the handling of signals
@@ -21,16 +22,18 @@
 	
 *****************************************************************************/
 
-void	signal_reciever(int signal)
+void	signal_handler(int signal)
 {
 	if (signal == SIGINT)
 	{
-		ft_printf("^C\n");
+		write(1, "ctrl-c exits\n", 13);
+		g_recieved = 1;
 		exit(130);
 	}
 	else if (signal == SIGQUIT)
-		ft_printf("nothing happens");
-	/* 
+		ft_printf("nothing happens\n");
+	
+		/* 
 		ctrl + D does not send a signal but instead causes input functions
 	to return EOF
 		I don't think this if condition works but I'll leave it for now 
@@ -39,17 +42,18 @@ void	signal_reciever(int signal)
 	if (!signal)
 	{
 		ft_printf("exit\n");
+		g_recieved = 1;
 		exit(0);
 	}
 }
 
-void	signal_handler(int signal)
+// I need to create a signal handler function for each of parent, child and heredoc
+void	signal_action(void)
 {
 	struct sigaction	action;
-	(void)signal;
-	
+
 	action.sa_flags = 0;
-	action.sa_handler = signal_reciever;
+	action.sa_handler = signal_handler;
 	sigaction(SIGINT, &action, NULL);
 	sigaction(SIGQUIT, &action, NULL);
 }
