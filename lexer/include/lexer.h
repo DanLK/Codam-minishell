@@ -6,7 +6,7 @@
 /*   By: dloustal <dloustal@student.42.fr>            +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/03/14 16:58:50 by dloustal      #+#    #+#                 */
-/*   Updated: 2025/03/24 15:16:17 by dloustal      ########   odam.nl         */
+/*   Updated: 2025/04/02 13:46:04 by dloustal      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 # define LEXER_H
 # include <unistd.h>
 # include <stdlib.h>
+# include <stdio.h>
 # include <stdbool.h>
 # include "libft.h"
 
@@ -24,7 +25,7 @@ enum e_Type
 	RIGHT_PAREN, //1
 	EQUAL, //2
 	// Builtins
-	ECHO,
+	ECHO, //3
 	CD,
 	PWD, //5
 	EXPORT,
@@ -51,7 +52,7 @@ enum e_Type
 	DQ_STRING,
 	IDENTIFIER, //21
 	//EOF to indicate end of input
-	EOF //22
+	END //22
 };
 
 typedef struct token
@@ -68,14 +69,14 @@ typedef struct s_token_node
 
 typedef struct s_token_list
 {
-	struct s_token_node	*head;
+	t_token_node	*head;
 }		t_token_list;
 
-typedef struct s_lex_info
+typedef struct s_scanner
 {
 	int	start;
-	int	current;
-}		t_lex_info;
+	int	cur;
+}		t_scanner;
 
 typedef struct s_map
 {
@@ -85,29 +86,38 @@ typedef struct s_map
 
 // List utilities
 t_token_list	*init_token_list(void);
+t_token			*create_token(enum e_Type type, char *lex);
 t_token_node	*new_node(enum e_Type type, char *lex);
 t_token_node	*get_last(t_token_list *list);
 void			append_token(t_token_list *list, enum e_Type type, char *lex);
+t_scanner		*init_scanner(int cur, int start);
 void			print_token_list(t_token_list *list);
 
 // Lexer
 t_token_list	*scan(char *src);
-t_token_list	*populate_tokens(t_token_list *tokens, char *src);
-void			get_cur_token(t_token_list *tokens, char *src, int s, int *cur);
-char			get_current_char(int *cur, char *src);
-bool			is_next(int *cur, char *src, char expected);
+t_token_list	*populate_tkns(t_token_list *tokens, char *src, t_scanner *s);
+
+//Token type identifier (token_identifier.c)
+void			get_cur_token(t_token_list *tokens, char *src, t_scanner *s);
+void			redir_tkn(t_token_list *tkns, char *src, t_scanner *s, char c);
+void			tkn_quote(t_token_list *tkns, char *src, t_scanner *s, char c);
+void			tkn_opt_word(t_token_list *tkns, char *src, t_scanner *s, char c);
+
 
 // Lexer utilities
-void			consume_space(int *cur, int *start, char *src);
-char			*read_quoted(int *cur, int start, char *src, char quotes);
-char			*read_filepath(int *cur, int start, char *src);
+void			consume_space(t_scanner *scanner, char *src);
+char			*read_quoted(t_scanner *scanner, char *src, char quotes);
+char			*read_filepath(t_scanner *scanner, char *src);
 bool			is_special_char(char c);
-char			*read_identifier(int *cur, int start, char *src);
+char			*read_identifier(t_scanner *scanner, char *src);
 const t_map		*get_map(void);
 
 // Lexer utilities 2
 int				is_keyword(char *lexeme);
 bool			kw_compare(const t_map *keywords, char *lexeme, int i);
+bool			issymbol(char c);
+char			get_current_char(int *cur, char *src);
+bool			is_next(int *cur, char *src, char expected);
 
 // Memory clears
 void			clear_token_list(t_token_list *list);
