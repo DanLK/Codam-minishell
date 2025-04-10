@@ -6,7 +6,7 @@
 /*   By: dloustal <dloustal@student.42.fr>            +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/04/02 12:48:02 by dloustal      #+#    #+#                 */
-/*   Updated: 2025/04/03 19:11:47 by dloustal      ########   odam.nl         */
+/*   Updated: 2025/04/10 14:18:32 by dloustal      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,36 +23,37 @@ t_tree	*init_tree(void)
 	return (tree);
 }
 
-t_t_node	*new_tree_node(t_token *token)
+t_t_node	*new_tree_node(enum e_Ptype p_type,  t_token_list *tokens)
 {
 	t_t_node	*node;
 
-	if (!token)
+	if (!tokens)
 		return (NULL);
 	node = malloc(sizeof(t_t_node));
 	if (!node)
 		return (NULL);
-	node->token = token;
+	node->tokens = tokens;
+	node->p_type = p_type;
 	node->left = NULL;
 	node->right = NULL;
 	return (node);
 }
 
-void	insert_left(t_t_node *root, t_token *token)
+void	insert_left(t_t_node *root, enum e_Ptype p_type, t_token_list *tokens)
 {
 	t_t_node	*new;
 
-	new = new_tree_node(token);
+	new = new_tree_node(p_type, tokens);
 	if (!new)
 		return ;
 	root->left = new;
 }
 
-void	insert_right(t_t_node *root, t_token *token)
+void	insert_right(t_t_node *root, enum e_Ptype p_type, t_token_list *tokens)
 {
 	t_t_node	*new;
 
-	new = new_tree_node(token);
+	new = new_tree_node(p_type, tokens);
 	if (!new)
 		return ;
 	root->right = new;
