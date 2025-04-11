@@ -6,7 +6,7 @@
 /*   By: dloustal <dloustal@student.42.fr>            +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/04/03 19:11:27 by dloustal      #+#    #+#                 */
-/*   Updated: 2025/04/11 10:46:03 by dloustal      ########   odam.nl         */
+/*   Updated: 2025/04/11 13:29:01 by dloustal      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,29 +37,29 @@ static const char *get_token_type(enum e_Type type)
 {
 	switch (type)
 	{
-		case LEFT_PAREN: return "LEFT_PAREN";
-		case RIGHT_PAREN: return "RIGHT_PAREN";
-		case EQUAL: return "EQUAL";
-		case ECHO: return "ECHO";
-		case CD: return "CD";
-		case PWD: return "PWD";
-		case EXPORT: return "EXPORT";
-		case UNSET: return "UNSET";
-		case ENV: return "ENV";
-		case EXIT: return "EXIT";
-		case OPTION_N: return "OPTION_N";
-		case REDIR_IN: return "REDIR_IN";
-		case REDIR_OUT: return "REDIR_OUT";
-		case HEREDOC: return "HEREDOC";
-		case REDIR_OUT_APPEND: return "REDIR_OUT_APPEND";
-		case PIPE: return "PIPE";
-		case EXIT_STATUS: return "EXIT_STATUS";
-		case ENV_VAR: return "ENV_VAR";
-		case FILE_PATH: return "FILE_PATH";
-		case SQ_STRING: return "SQ_STRING";
-		case DQ_STRING: return "DQ_STRING";
-		case IDENTIFIER: return "IDENTIFIER";
-		case END: return "END";
+		case TKN_L_PAREN: return "LEFT_PAREN";
+		case TKN_R_PAREN: return "RIGHT_PAREN";
+		case TKN_EQUAL: return "EQUAL";
+		case TKN_ECHO: return "ECHO";
+		case TKN_CD: return "CD";
+		case TKN_PWD: return "PWD";
+		case TKN_EXPORT: return "EXPORT";
+		case TKN_UNSET: return "UNSET";
+		case TKN_ENV: return "ENV";
+		case TKN_EXIT: return "EXIT";
+		case TKN_OPTION_N: return "OPTION_N";
+		case TKN_REDIR_IN: return "REDIR_IN";
+		case TKN_REDIR_OUT: return "REDIR_OUT";
+		case TKN_HEREDOC: return "HEREDOC";
+		case TKN_REDIR_OUT_APP: return "REDIR_OUT_APPEND";
+		case TKN_PIPE: return "PIPE";
+		case TKN_EXIT_STATUS: return "EXIT_STATUS";
+		case TKN_ENV_VAR: return "ENV_VAR";
+		case TKN_FILE_PATH: return "FILE_PATH";
+		case TKN_SQ_STRING: return "SQ_STRING";
+		case TKN_DQ_STRING: return "DQ_STRING";
+		case TKN_WORD: return "WORD";
+		case TKN_END: return "END";
 		default: return "UNKNOWN";
 	}
 }
@@ -71,7 +71,7 @@ void print_t_token_list(t_token_list *list, const char *prefix, int is_last)
 	is_last = 3;
 	while (curr)
 	{
-		printf("%sToken: %s -> \"%s\"\n",
+		printf("%sType: %s -> \"%s\"\n",
 			   prefix,
 			   //is_last && curr->next == NULL ? "└── " : "├── ",
 			   get_token_type(curr->token->type),

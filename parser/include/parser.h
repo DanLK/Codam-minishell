@@ -6,7 +6,7 @@
 /*   By: dloustal <dloustal@student.42.fr>            +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/04/01 16:41:23 by dloustal      #+#    #+#                 */
-/*   Updated: 2025/04/10 16:34:51 by dloustal      ########   odam.nl         */
+/*   Updated: 2025/04/11 15:06:29 by dloustal      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,13 +54,9 @@ void		clear_tree_node(t_t_node *node);
 
 //Parsing
 t_tree		*parse(t_token_list *tokens);
+void		parse_pipe(t_t_node **root, t_token_list *tokens, t_parser *parser);
 void		parse_tokens(t_t_node **root, t_token_list *tokens, t_parser *parser);
 void		advance(t_parser *parser);
-
-// Reading commands
-void		read_echo(t_tree *ast, t_token_list *tokens, t_parser *parser);
-void		read_builtin(t_tree *ast, t_token_list *tokens, t_parser *parser);
-void		read_unset(t_tree *ast, t_token_list *tokens, t_parser *parser);
 
 //Parser utilities
 bool		is_operator(t_token_node *node);
