@@ -6,7 +6,7 @@
 /*   By: dloustal <dloustal@student.42.fr>            +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/04/01 16:49:04 by dloustal      #+#    #+#                 */
-/*   Updated: 2025/04/10 16:40:24 by dloustal      ########   odam.nl         */
+/*   Updated: 2025/04/11 10:58:27 by dloustal      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,6 @@ void	parse_tokens(t_t_node **root, t_token_list *tokens, t_parser *parser)
 	t_token_list	*operator;
 	enum e_Type		token_type;
 	char			*lexeme;
-	// t_tree			*subtree;
 
 	if (!tokens || !parser)
 		return ;
@@ -67,9 +66,8 @@ void	parse_tokens(t_t_node **root, t_token_list *tokens, t_parser *parser)
 		advance(parser);
 		*root = new_tree_node(PARSER_OPERATOR, operator);
 		insert_left(*root, PARSER_COMMAND, command);
-		// print_token_list(operator);
 		if (parser->current->token->type == END)
-			perror("Missing right side operand");
+			perror("Missing right side operand"); // Not sure if this is really a syntax error
 		else
 		{
 			parse_tokens(&((*root)->right), tokens, parser);

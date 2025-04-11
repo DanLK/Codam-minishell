@@ -6,30 +6,12 @@
 /*   By: dloustal <dloustal@student.42.fr>            +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/04/03 19:11:27 by dloustal      #+#    #+#                 */
-/*   Updated: 2025/04/10 15:38:28 by dloustal      ########   odam.nl         */
+/*   Updated: 2025/04/11 10:46:03 by dloustal      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "parser.h"
 
-// void	pretty_print_tree(t_t_node *root, int depth)
-// {
-// 	int	i;
-
-// 	if (!root)
-// 	{
-// 		return ;
-// 	}
-// 	i = 0;
-// 	pretty_print_tree(root->right, depth + 1);
-// 	while (i < depth)
-// 	{
-// 		ft_printf("        ");
-// 		i++;
-// 	}
-// 	ft_printf("%d\n\n", (root->token)->type);
-// 	pretty_print_tree(root->left, depth + 1);
-// }
 void	print_token(t_token *token)
 {
 	if (!token)
@@ -39,6 +21,7 @@ void	print_token(t_token *token)
 	}
 	ft_printf("[%d]: %s\n", token->type, token->lexeme);
 }
+
 static const char *get_parser_type(enum e_Ptype type)
 {
 	switch (type)
@@ -85,11 +68,12 @@ void print_t_token_list(t_token_list *list, const char *prefix, int is_last)
 {
 	t_token_node *curr = list ? list->head : NULL;
 
+	is_last = 3;
 	while (curr)
 	{
-		printf("%s%sToken: %s -> \"%s\"\n",
+		printf("%sToken: %s -> \"%s\"\n",
 			   prefix,
-			   is_last && curr->next == NULL ? "└── " : "├── ",
+			   //is_last && curr->next == NULL ? "└── " : "├── ",
 			   get_token_type(curr->token->type),
 			   curr->token->lexeme);
 		curr = curr->next;
@@ -131,10 +115,10 @@ void print_parse_tree(t_tree *tree)
 {
 	if (!tree || !tree->root)
 	{
-		printf("Parse tree is empty.\n");
+		printf("Tree is empty.\n");
 		return;
 	}
-	printf("=== PARSE TREE ===\n");
+	printf("=== ABSTRACT SYNTAX TREE ===\n\n");
 	print_tree_node(tree->root, "", 1);
 	printf("==================\n");
 }
