@@ -6,7 +6,7 @@
 /*   By: dloustal <dloustal@student.42.fr>            +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/04/01 16:48:50 by dloustal      #+#    #+#                 */
-/*   Updated: 2025/04/08 18:10:13 by dloustal      ########   odam.nl         */
+/*   Updated: 2025/04/14 17:18:35 by dloustal      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,32 +14,19 @@
 
 int	main(void)
 {
-	// t_t_node *node0 = new_tree_node(create_token(0, "("));
-	// t_t_node *node1 = new_tree_node(create_token(1, "left"));
-	// t_t_node *node2 = new_tree_node(create_token(2, "right"));
-    // node0->left = node1;
-    // node0->right = node2;
-	// t_t_node *node3 = new_tree_node(create_token(3, "left"));
-	// t_t_node *node4 = new_tree_node(create_token(4, "right"));
-	// node1->left = node3;
-	// node1->right = node4;
-	// t_t_node *node5 = new_tree_node(create_token(5, "left"));
-	// t_t_node *node6 = new_tree_node(create_token(6, "right"));
-	// node2->left = node5;
-	// node2->right = node6;
-	// t_tree *tree = init_tree();
-	// tree->root = node0;
-	// pretty_print_tree(tree->root, 0);
-	// clear_tree(tree);
-	t_token_list	*list;
-	t_tree			*ast;
+	t_token_list	*tokens;
+	t_parser		*parser;
+	t_t_node		*pipe;
 
-	list = scan("unset EXACT");
-	// print_token_list(list);
-	ft_printf("\n");
-	ast = parse(list);
-	pretty_print_tree(ast->root, 0);
-	clear_token_list(list);
-	clear_tree(ast);
+	tokens = scan("cmd1|cmd2|cmd3"); // WEIRD CASE: A|B|C
+	parser = malloc(sizeof(t_parser));
+	if(!parser)
+		return (0);
+	parser->current = tokens->head;
+	parser->previous = NULL;
+	pipe = parse_pipe(parser);
+	print_tree_node(pipe, "", 1);
+	// clear_token_list(tokens);
+	// free(parser);
 	return (0);
 }

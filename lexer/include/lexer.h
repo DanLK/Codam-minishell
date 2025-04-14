@@ -6,7 +6,7 @@
 /*   By: dloustal <dloustal@student.42.fr>            +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/03/14 16:58:50 by dloustal      #+#    #+#                 */
-/*   Updated: 2025/04/02 13:46:04 by dloustal      ########   odam.nl         */
+/*   Updated: 2025/04/11 11:17:19 by dloustal      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,38 +21,38 @@
 enum e_Type
 {
 	// Single character tokens
-	LEFT_PAREN, //0
-	RIGHT_PAREN, //1
-	EQUAL, //2
+	TKN_L_PAREN, //0
+	TKN_R_PAREN, //1
+	TKN_EQUAL, //2
 	// Builtins
-	ECHO, //3
-	CD,
-	PWD, //5
-	EXPORT,
-	UNSET,
-	ENV,
-	EXIT, //9
+	TKN_ECHO, //3
+	TKN_CD,
+	TKN_PWD, //5
+	TKN_EXPORT,
+	TKN_UNSET,
+	TKN_ENV,
+	TKN_EXIT, //9
 	// Options (for example -n)
-	OPTION_N,
+	TKN_OPTION_N,
 	// Redirections
-	REDIR_IN, //11
-	REDIR_OUT,
-	HEREDOC,
-	REDIR_OUT_APPEND,
+	TKN_REDIR_IN, //11
+	TKN_REDIR_OUT,
+	TKN_HEREDOC,
+	TKN_REDIR_OUT_APP,
 	// Operators
-	PIPE, //15
+	TKN_PIPE, //15
 	// Exit status ($?)
-	EXIT_STATUS,
+	TKN_EXIT_STATUS,
 	// Parameter Expansion ($)
-	ENV_VAR,
+	TKN_ENV_VAR,
 	// Path
-	FILE_PATH, //18
+	TKN_FILE_PATH, //18
 	// Literals
-	SQ_STRING,
-	DQ_STRING,
-	IDENTIFIER, //21
+	TKN_SQ_STRING,
+	TKN_DQ_STRING,
+	TKN_WORD, //21
 	//EOF to indicate end of input
-	END //22
+	TKN_END //22
 };
 
 typedef struct token

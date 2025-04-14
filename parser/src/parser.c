@@ -5,153 +5,87 @@
 /*                                                     +:+                    */
 /*   By: dloustal <dloustal@student.42.fr>            +#+                     */
 /*                                                   +#+                      */
-/*   Created: 2025/04/01 16:49:04 by dloustal      #+#    #+#                 */
-/*   Updated: 2025/04/08 18:09:40 by dloustal      ########   odam.nl         */
+/*   Created: 2025/04/14 14:37:49 by dloustal      #+#    #+#                 */
+/*   Updated: 2025/04/14 17:24:02 by dloustal      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "parser.h"
 
-t_tree	*parse(t_token_list *tokens)
+/**************************************************************************** 
+ * Recursively parses the pipes
+****************************************************************************/
+t_t_node	*parse_pipe(t_parser *parser)
 {
-	t_tree	*ast;
-	t_parser	*parser;
+	t_t_node		*right;
+	t_t_node		*node;
+	enum e_Type	token_type;
 
-	ast = init_tree();
-	if (!ast)
-		return (NULL);
-	parser = malloc(sizeof(t_parser));
 	if (!parser)
 		return (NULL);
-	parser->current = tokens->head;
-	parser->previous = NULL;
-	parse_tokens(ast, tokens, parser);
-	free(parser);
-	return (ast);
-}
-
-void	parse_tokens(t_tree *ast, t_token_list *tokens, t_parser *parser)
-{
-	if (!ast || !tokens || !parser)
-		return ;
-	read_echo(ast, tokens, parser);
-	read_builtin(ast, tokens, parser);
-	read_unset(ast, tokens, parser);
-}
-
-// void	read_pipe(t_tree *ast, t_token_list *tokens, t_parser *parser)
-// {
-// 	t_t_node	*new;
-
-// 	if (!ast || !tokens || !parser)
-// 		return ;
-// 	read_command(ast, tokens, parser);
-// 	while (parser->current->token->type == PIPE)
-// 	{
-// 		new = new_tree_node(create_token(PIPE, "|"));
-// 		if (!new)
-// 			return ;
-// 		ast->root = new;
-// 		advance(parser);
-// 		read_command(ast, tokens, parser);
-// 	}
-// 	clear_tree_node(new);
-// }
-
-void	read_echo(t_tree *ast, t_token_list *tokens, t_parser *parser)
-{
-	t_t_node	*new;
-	enum e_Type	type;
-	char		*lexeme;
-
-	if (!ast || !tokens || !parser)
-		return ;
-	if (parser->current->token->type == ECHO)
+	node = parse_command(parser);
+	token_type = parser->current->token->type;
+	while (token_type == TKN_PIPE)
 	{
-		lexeme = ft_strdup(parser->current->token->lexeme);
-		new = new_tree_node(create_token(ECHO, lexeme));
-		if (!new)
-			return ;
-		ast->root = new;
 		advance(parser);
-		free(lexeme);
-		if (parser->current->token->type == OPTION_N)
-		{
-			insert_left(ast->root, create_token(OPTION_N, "-n"));
-			advance(parser);
-		}
-		// Keep reading lexemes that are words and append them together in
-		// a string to add it as the lexeme of token type word(?) 
-		// or something appropriate for the input of the echo command
-		type = parser->current->token->type;
-		if (type == IDENTIFIER || type == SQ_STRING || type == DQ_STRING)
-		{
-			lexeme = ft_strdup(parser->current->token->lexeme);
-			insert_right(ast->root, create_token(IDENTIFIER, lexeme));
-			advance(parser);
-		}
-		free(lexeme);
+		right = parse_command(parser);
+		node = pipe_node(node, right);
+		// print_tree_node(node, "", 1);
+		token_type = parser->current->token->type;
+		// ft_printf("TOKENTYPE: %d\n", token_type);
 	}
+	return (node);
 }
 
-void	read_builtin(t_tree *ast, t_token_list *tokens, t_parser *parser)
+/**************************************************************************** 
+ * It creates a pipe tree node with the given left and right children
+****************************************************************************/
+t_t_node	*pipe_node(t_t_node *left, t_t_node *right)
 {
-	t_t_node	*new;
-	enum e_Type	type;
-	char		*lexeme;
+	t_t_node		*node;
+	t_token_list	*pipe;
 
-	if (!ast || !tokens || !parser)
-		return ;
-	type = parser->current->token->type;
-	if (type == PWD || type == ENV || type == EXIT)
-	{
-		lexeme = ft_strdup(parser->current->token->lexeme);
-		new = new_tree_node(create_token(type, lexeme));
-		if (!new)
-			return ;
-		ast->root = new;
-		advance(parser);
-		free(lexeme);
-	} // else read_echo; read_cd; read_export;
+	if (!left || !right)
+		return (NULL);
+	pipe = init_token_list();
+	if (!pipe)
+		return (NULL);
+	append_token(pipe, TKN_PIPE, "|");
+	node = new_tree_node(PARSER_OPERATOR, pipe);
+	if (!node)
+		return (NULL);
+	node->left = left;
+	node->right = right;
+	return (node);
 }
 
-void	read_unset(t_tree *ast, t_token_list *tokens, t_parser *parser)
+/**************************************************************************** 
+ * Parses a command, the most atomic and with highest precedence entity
+ * 
+ *  - For now I'm ignoring redirectionss 
+****************************************************************************/
+t_t_node	*parse_command(t_parser *parser)
 {
-	t_t_node	*new;
-	enum e_Type	type;
-	char		*lexeme;
-	t_token		*token;
-
-	if (!ast || !tokens || !parser)
-		return ;
-	if (parser->current->token->type == UNSET)
-	{
-		new = new_tree_node(create_token(UNSET, "unset"));
-		if (!new)
-			return ;
-		ast->root = new;
-		advance(parser);
-	}
-	type = parser->current->token->type;
-	if (type == IDENTIFIER)
-	{
-		lexeme = ft_strdup(parser->current->token->lexeme);
-		token = create_token(IDENTIFIER, lexeme);
-		if (!token)
-			return ;
-		insert_left(ast->root, token);
-		advance(parser);
-		free(lexeme);
-	}
-}
-
-void	advance(t_parser *parser)
-{
-	t_token_node *tmp;
+	t_token_list	*command;
+	enum e_Type		token_type;
+	char			*lexeme;
+	t_t_node		*node;
 
 	if (!parser)
-		return ;
-	tmp = parser->current;
-	parser->current = parser->current->next;
-	parser->previous = tmp;
+		return (NULL);
+	command = init_token_list();
+	if (!command)
+		return (NULL);
+	token_type = parser->current->token->type;
+	while (token_type != TKN_PIPE && token_type != TKN_END)
+	{
+		lexeme = parser->current->token->lexeme;
+		append_token(command, token_type, lexeme);
+		advance(parser);
+		token_type = parser->current->token->type;
+	}
+	node = new_tree_node(PARSER_COMMAND, command);
+	if (!node)
+		return (NULL);
+	return (node);
 }
