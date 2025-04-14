@@ -6,7 +6,7 @@
 /*   By: dloustal <dloustal@student.42.fr>            +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/04/01 16:48:50 by dloustal      #+#    #+#                 */
-/*   Updated: 2025/04/11 15:14:12 by dloustal      ########   odam.nl         */
+/*   Updated: 2025/04/14 17:18:35 by dloustal      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,14 +14,19 @@
 
 int	main(void)
 {
-	t_token_list	*list;
-	t_tree			*ast;
+	t_token_list	*tokens;
+	t_parser		*parser;
+	t_t_node		*pipe;
 
-	list = scan("export MYVAR=dani >>    file.txt | echo Hello World");
-	ast = parse(list);
-	// print_parse_tree(ast);
-	//Clear memory
-	clear_tree(ast);
-	clear_token_list(list);
+	tokens = scan("cmd1|cmd2|cmd3"); // WEIRD CASE: A|B|C
+	parser = malloc(sizeof(t_parser));
+	if(!parser)
+		return (0);
+	parser->current = tokens->head;
+	parser->previous = NULL;
+	pipe = parse_pipe(parser);
+	print_tree_node(pipe, "", 1);
+	// clear_token_list(tokens);
+	// free(parser);
 	return (0);
 }
