@@ -6,7 +6,7 @@
 /*   By: dloustal <dloustal@student.42.fr>            +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/03/17 11:29:28 by dloustal      #+#    #+#                 */
-/*   Updated: 2025/04/03 17:37:46 by dloustal      ########   odam.nl         */
+/*   Updated: 2025/04/15 13:57:13 by dloustal      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ int	main(void)
 	// print_token_list(list);
 	// clear_token_list(list);
 
-	list = scan("pwd");
+	list = scan("ls -all - -xY  filex");
 	print_token_list(list);
 	clear_token_list(list);
 

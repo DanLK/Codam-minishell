@@ -6,7 +6,7 @@
 /*   By: dloustal <dloustal@student.42.fr>            +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/04/03 19:11:27 by dloustal      #+#    #+#                 */
-/*   Updated: 2025/04/11 13:29:01 by dloustal      ########   odam.nl         */
+/*   Updated: 2025/04/15 13:54:32 by dloustal      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,7 @@ static const char *get_token_type(enum e_Type type)
 		case TKN_UNSET: return "UNSET";
 		case TKN_ENV: return "ENV";
 		case TKN_EXIT: return "EXIT";
-		case TKN_OPTION_N: return "OPTION_N";
+		case TKN_OPTION: return "OPTION";
 		case TKN_REDIR_IN: return "REDIR_IN";
 		case TKN_REDIR_OUT: return "REDIR_OUT";
 		case TKN_HEREDOC: return "HEREDOC";
