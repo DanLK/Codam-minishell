@@ -6,7 +6,7 @@
 /*   By: dloustal <dloustal@student.42.fr>            +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/04/01 16:41:23 by dloustal      #+#    #+#                 */
-/*   Updated: 2025/04/15 15:38:58 by dloustal      ########   odam.nl         */
+/*   Updated: 2025/04/15 16:28:30 by dloustal      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,8 @@
 enum e_Ptype
 {
 	PARSER_COMMAND,
-	PARSER_OPERATOR,
+	PARSER_PIPE,
+	PARSER_REDIR,
 	PARSER_FILEPATH
 };
 
