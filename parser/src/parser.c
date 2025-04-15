@@ -6,7 +6,7 @@
 /*   By: dloustal <dloustal@student.42.fr>            +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/04/14 14:37:49 by dloustal      #+#    #+#                 */
-/*   Updated: 2025/04/15 13:20:06 by dloustal      ########   odam.nl         */
+/*   Updated: 2025/04/15 16:18:24 by dloustal      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,17 +23,57 @@ t_t_node	*parse_pipe(t_parser *parser)
 
 	if (!parser)
 		return (NULL);
-	node = parse_command(parser);
+	node = parse_redir(parser);
 	token_type = parser->current->token->type;
 	while (token_type == TKN_PIPE)
 	{
 		advance(parser);
-		right = parse_command(parser);
+		right = parse_redir(parser);
 		node = pipe_node(node, right);
 		// print_tree_node(node, "", 1);
 		token_type = parser->current->token->type;
 		// ft_printf("TOKENTYPE: %d\n", token_type);
 	}
+	return (node);
+}
+
+t_t_node	*parse_redir(t_parser *parser)
+{
+	t_t_node	*node;
+	t_t_node	*right;
+	t_token		*redir_tkn;
+	enum e_Type	token_type;
+
+	if (!parser)
+		return (NULL);
+	node = parse_command(parser);
+	redir_tkn = parser->current->token;
+	token_type = redir_tkn->type;
+	if (is_redirection(token_type))
+	{
+		advance(parser);
+		right = parse_redir(parser); //Filepath? // 
+		node = redir_node(node, right, redir_tkn);
+	}
+	return(node);
+}
+
+t_t_node	*redir_node(t_t_node *left, t_t_node *right, t_token *redir_tkn)
+{
+	t_t_node		*node;
+	t_token_list	*redir;
+
+	if (!left|| !right || !redir_tkn) //Not sure about this check yet
+		return (NULL);
+	redir = init_token_list();
+	if (!redir)
+		return (NULL);
+	append_token(redir, redir_tkn->type, redir_tkn->lexeme);
+	node = new_tree_node(PARSER_OPERATOR, redir);
+	if (!node)
+		return (NULL);
+	node->left = left;
+	node->right = right;
 	return (node);
 }
 
@@ -77,7 +117,7 @@ t_t_node	*parse_command(t_parser *parser)
 	if (!command)
 		return (NULL);
 	token_type = parser->current->token->type;
-	while (token_type != TKN_PIPE && token_type != TKN_END)
+	while (!is_operator(token_type) && token_type != TKN_END)
 	{
 		lexeme = parser->current->token->lexeme;
 		append_token(command, token_type, lexeme);

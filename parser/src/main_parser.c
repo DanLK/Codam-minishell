@@ -6,7 +6,7 @@
 /*   By: dloustal <dloustal@student.42.fr>            +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/04/01 16:48:50 by dloustal      #+#    #+#                 */
-/*   Updated: 2025/04/15 14:14:00 by dloustal      ########   odam.nl         */
+/*   Updated: 2025/04/15 16:18:07 by dloustal      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ int	main(void)
 	t_parser		*parser;
 	t_t_node		*pipe;
 
-	tokens = scan("v|x| cb"); // WEIRD CASE: A|B|C
+	tokens = scan("echo HELLO < out1 < out2 > out3 | cat out3");
 	parser = malloc(sizeof(t_parser));
 	if(!parser)
 		return (0);
