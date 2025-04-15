@@ -6,7 +6,7 @@
 /*   By: dloustal <dloustal@student.42.fr>            +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/04/01 16:41:23 by dloustal      #+#    #+#                 */
-/*   Updated: 2025/04/14 17:13:13 by dloustal      ########   odam.nl         */
+/*   Updated: 2025/04/15 16:28:30 by dloustal      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,8 @@
 enum e_Ptype
 {
 	PARSER_COMMAND,
-	PARSER_OPERATOR,
+	PARSER_PIPE,
+	PARSER_REDIR,
 	PARSER_FILEPATH
 };
 
@@ -52,11 +53,6 @@ void		clear_subtree(t_t_node *root);
 void		clear_tree(t_tree *tree);
 void		clear_tree_node(t_t_node *node);
 
-//Parsing
-t_t_node	*parse_command(t_parser *parser);
-t_t_node	*parse_pipe(t_parser *parser);
-
-
 /********************************************************************************
  * Functions from the old parser i.e. the first attempt at parsing 
 ********************************************************************************/
@@ -66,9 +62,20 @@ t_t_node	*parse_pipe(t_parser *parser);
 // void		advance(t_parser *parser);
 /********************************************************************************
 ********************************************************************************/
-//Parser utilities
+//Parsing
+t_t_node	*parse_command(t_parser *parser);
+t_t_node	*parse_pipe(t_parser *parser);
+t_t_node	*parse_redir(t_parser *parser);
+
+//Parsing node creation
 t_t_node	*pipe_node(t_t_node *left, t_t_node *right);
-bool		is_operator(t_token_node *node);
+t_t_node	*redir_out_node(t_t_node *cmd, t_t_node *filepath);
+t_t_node	*redir_node(t_t_node *left, t_t_node *right, t_token *redir_tkn);
+
+//Parser utilities
+bool		is_operator(enum e_Type type);
+bool 		is_redirection(enum e_Type type);
+bool		is_redir_twochar(enum e_Type type);
 void		advance(t_parser *parser);
 
 //Debug

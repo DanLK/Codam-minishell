@@ -6,7 +6,7 @@
 /*   By: dloustal <dloustal@student.42.fr>            +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/03/20 15:41:02 by dloustal      #+#    #+#                 */
-/*   Updated: 2025/04/11 11:14:46 by dloustal      ########   odam.nl         */
+/*   Updated: 2025/04/15 14:23:39 by dloustal      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,7 +92,7 @@ char	*read_identifier(t_scanner *scanner, char *src)
 	int		st;
 	char	c;
 
-	if (!src || scanner->cur >= (int)ft_strlen(src))
+	if (!src || scanner->cur > (int)ft_strlen(src))
 		return (NULL);
 	st = scanner->start;
 	c = src[--(scanner->cur)];
