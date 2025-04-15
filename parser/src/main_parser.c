@@ -6,7 +6,7 @@
 /*   By: dloustal <dloustal@student.42.fr>            +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/04/01 16:48:50 by dloustal      #+#    #+#                 */
-/*   Updated: 2025/04/14 17:18:35 by dloustal      ########   odam.nl         */
+/*   Updated: 2025/04/15 13:55:27 by dloustal      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ int	main(void)
 	t_parser		*parser;
 	t_t_node		*pipe;
 
-	tokens = scan("cmd1|cmd2|cmd3"); // WEIRD CASE: A|B|C
+	tokens = scan("ls -all - -xY  filex|cmd2|cmd3"); // WEIRD CASE: A|B|C
 	parser = malloc(sizeof(t_parser));
 	if(!parser)
 		return (0);

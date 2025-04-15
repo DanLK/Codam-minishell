@@ -6,7 +6,7 @@
 /*   By: dloustal <dloustal@student.42.fr>            +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/03/14 16:58:50 by dloustal      #+#    #+#                 */
-/*   Updated: 2025/04/11 11:17:19 by dloustal      ########   odam.nl         */
+/*   Updated: 2025/04/15 13:47:58 by dloustal      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,8 +32,8 @@ enum e_Type
 	TKN_UNSET,
 	TKN_ENV,
 	TKN_EXIT, //9
-	// Options (for example -n)
-	TKN_OPTION_N,
+	// Options
+	TKN_OPTION,
 	// Redirections
 	TKN_REDIR_IN, //11
 	TKN_REDIR_OUT,
@@ -102,6 +102,7 @@ void			get_cur_token(t_token_list *tokens, char *src, t_scanner *s);
 void			redir_tkn(t_token_list *tkns, char *src, t_scanner *s, char c);
 void			tkn_quote(t_token_list *tkns, char *src, t_scanner *s, char c);
 void			tkn_opt_word(t_token_list *tkns, char *src, t_scanner *s, char c);
+char			*read_options(t_scanner *scanner, char *src);
 
 
 // Lexer utilities

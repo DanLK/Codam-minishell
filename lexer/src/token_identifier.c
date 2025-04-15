@@ -6,7 +6,7 @@
 /*   By: dloustal <dloustal@student.42.fr>            +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/04/01 12:11:14 by dloustal      #+#    #+#                 */
-/*   Updated: 2025/04/11 11:17:19 by dloustal      ########   odam.nl         */
+/*   Updated: 2025/04/15 13:55:18 by dloustal      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,10 +96,12 @@ void	tkn_opt_word(t_token_list *tkns, char *src, t_scanner *s, char c)
 
 	if (c == '-')
 	{
-		if (is_next(&(s->cur), src, 'n'))
-			append_token(tkns, TKN_OPTION_N, "-n");
+		lexeme = read_options(s, src);
+		if (!lexeme || ft_strlen(lexeme) == 1)
+			perror("Invalid options");
 		else
-			perror("Invalid option: only -n is allowed.");
+			append_token(tkns, TKN_OPTION, lexeme);
+		free(lexeme);
 	}
 	else if (ft_isalnum(c) || issymbol(c))
 	{
@@ -110,4 +112,23 @@ void	tkn_opt_word(t_token_list *tkns, char *src, t_scanner *s, char c)
 			append_token(tkns, TKN_WORD, lexeme);
 		free(lexeme);
 	}
+}
+
+char	*read_options(t_scanner *scanner, char *src)
+{
+	char	*option;
+	int		start;
+	char	c;
+
+	if (!scanner || !src || scanner->cur >= (int)ft_strlen(src))
+		return (NULL);
+	start = scanner->start;
+	c = src[(scanner->cur)];
+	while (c && ft_isalpha(c))
+	{
+		scanner->cur += 1;
+		c = src[scanner->cur];
+	}
+	option = ft_substr(src, start, (scanner->cur) - start);
+	return (option);
 }
