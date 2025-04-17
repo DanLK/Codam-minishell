@@ -6,7 +6,7 @@
 /*   By: rojornod <rojornod@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/10 14:21:08 by rojornod          #+#    #+#             */
-/*   Updated: 2025/04/16 15:34:41 by rojornod         ###   ########.fr       */
+/*   Updated: 2025/04/17 14:24:46 by rojornod         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,6 +40,12 @@ typedef struct s_vars
 
 t_vars	*initialize_data(void);
 
+//directories
+char	*get_home_dir(void);
+
+//history
+void	create_history_file(void);
+void	write_history_file(char *read);
 
 //builtins
 void	echo_builtin(char *string);
