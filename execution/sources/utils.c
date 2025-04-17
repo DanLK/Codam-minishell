@@ -6,7 +6,7 @@
 /*   By: rojornod <rojornod@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/01 11:42:47 by rojornod          #+#    #+#             */
-/*   Updated: 2025/04/07 14:54:19 by rojornod         ###   ########.fr       */
+/*   Updated: 2025/04/16 15:42:22 by rojornod         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ int	ft_strcmp(char *s1, char *s2)
 void	free_array(char **array)
 {
 	int	i;
-
+	
 	i = 0;
 	while (array[i])
 	{
@@ -91,17 +91,33 @@ char	**convert_env(t_vars *head)
 	env_copy = malloc((i + 1) * sizeof(char *)); //malloc is used here. needs to be free
 	current = head;
 	i = 0;
-	while (current->next)
+	while (current)
 	{
 		if (current->exported == 1)
 		{
-			temp = ft_strjoin(current->name, "="); //malloc is used here, needs to be free
-			env_copy[i] = ft_strjoin(temp, current->value); //malloc is used here. needs to be free
-			current = current->next;
+			if (!current->value)
+				env_copy[i] = ft_strdup(current->name); //malloc is used here, needs to be free
+			else
+			{
+				temp = ft_strjoin(current->name, "="); //malloc is used here, needs to be free
+				env_copy[i] = ft_strjoin(temp, current->value); //malloc is used here. needs to be free
+			}
 			i++;
 		}
+		current = current->next;
 	}
-	ft_printf("there are [%d] elements in the env list\n", i);
-	ft_printf("first element of array is [%s]\n", env_copy[0]);
+	env_copy[i] = NULL;
+	//ft_printf("there are [%d] elements in the env list\n", i);
+	//ft_printf("first element of array is [%s]\n", env_copy[0]);
 	return (env_copy);
 }
+
+void	debug_print(char *debug_message)
+{
+	int	val;
+	
+	val = 0;
+	if (val == 1)
+		ft_printf("[%s]\n", debug_message);
+}
+

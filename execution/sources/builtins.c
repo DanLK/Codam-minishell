@@ -6,7 +6,7 @@
 /*   By: rojornod <rojornod@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/20 11:27:48 by rojornod          #+#    #+#             */
-/*   Updated: 2025/04/08 14:05:58 by rojornod         ###   ########.fr       */
+/*   Updated: 2025/04/16 10:34:37 by rojornod         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@
 *		echo with option -n
 *		cd with only relative path or absolute path
 *		pwd with no options
-*		exoprt with no options
+*		export with no options
 *		unset with no options
 *		env with no options or arguments
 *		exit with no options
@@ -151,7 +151,7 @@ void	export_builtin(t_vars *head, char *var_name, char *var_value)
 		while (head)
 		{
 			if (head->value == NULL)
-				ft_printf("declare -x %s, hidden [%d]\n", head->name, head->hidden);
+				ft_printf("declare -x %s, value=[%s] export [%d]\n", head->name, head->value, head->exported);
 			else
 				ft_printf("declare -x %s=%s export [%d]\n", head->name, head->value, head->exported);
 			head = head->next;
