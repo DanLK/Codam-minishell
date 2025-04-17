@@ -6,7 +6,7 @@
 /*   By: rojornod <rojornod@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/10 14:21:08 by rojornod          #+#    #+#             */
-/*   Updated: 2025/04/07 17:27:04 by rojornod         ###   ########.fr       */
+/*   Updated: 2025/04/16 15:34:41 by rojornod         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,12 +22,6 @@
 #include <sys/wait.h>
 #include "../../libft/libft.h"
 
-typedef struct s_env_var
-{
-	char				*home_dir;
-	struct s_env_var	*next;
-}	t_env_var;
-
 typedef struct s_vars
 {
 	char				*name;
@@ -36,6 +30,16 @@ typedef struct s_vars
 	int					hidden;
 	struct s_vars		*next;
 }	t_vars;
+
+// typedef struct	s_extra
+// {
+// 	bool	ischild;
+// 	pid_t	childpid;
+
+// }	t_extra;
+
+t_vars	*initialize_data(void);
+
 
 //builtins
 void	echo_builtin(char *string);
@@ -57,9 +61,14 @@ int		ft_strcmp(char *s1, char *s2);
 void	free_array(char **array);
 void	show_pid(void);
 char	**convert_env(t_vars *head);
-
-//environment
-void	copy_env(t_vars **head, char **envp);
+void	debug_print(char *debug_message);
 
 //signals
 void	signal_action(void);
+
+//external commands
+char	*find_path(t_vars *head, char *command);
+void	exec_external_com(t_vars *head, char **envp, char **command, int size);
+
+//child process
+int		create_child_proc(t_vars *vars, char **command, char *path, int size);

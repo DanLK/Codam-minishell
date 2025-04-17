@@ -6,7 +6,7 @@
 /*   By: rojornod <rojornod@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/20 10:06:02 by rojornod          #+#    #+#             */
-/*   Updated: 2025/04/08 10:33:30 by rojornod         ###   ########.fr       */
+/*   Updated: 2025/04/16 14:23:09 by rojornod         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,11 +24,12 @@ volatile sig_atomic_t	g_recieved = 0;
 
 void	signal_handler(int signal)
 {
+
+	
 	if (signal == SIGINT)
 	{
-		write(1, "ctrl-c exits\n", 13);
+		write(1, "ctrl-c doesnt exit\n", 13);
 		g_recieved = 1;
-		exit(130);
 	}
 	else if (signal == SIGQUIT)
 		ft_printf("nothing happens\n");

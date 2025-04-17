@@ -6,7 +6,7 @@
 /*   By: rojornod <rojornod@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/24 15:31:59 by rojornod          #+#    #+#             */
-/*   Updated: 2025/04/08 16:52:19 by rojornod         ###   ########.fr       */
+/*   Updated: 2025/04/16 15:30:56 by rojornod         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ t_vars	*create_var(char *var_name, char *var_value, int exp)
 	}
 	if (!var_value)
 	{
-		new_node->name = ft_strdup(var_name);
+		new_node->name = ft_strdup(var_name); //malloc used here. needs to be free
 		new_node->value = NULL;
 		new_node->exported = 1;
 		new_node->hidden = 1;
@@ -41,8 +41,8 @@ t_vars	*create_var(char *var_name, char *var_value, int exp)
 	}
 	else
 	{
-		new_node->name = ft_strdup(var_name);
-		new_node->value = ft_strdup(var_value);
+		new_node->name = ft_strdup(var_name); //malloc used here. needs to be free
+		new_node->value = ft_strdup(var_value); //malloc used here. needs to be free
 		new_node->exported = exp;
 		new_node->hidden = 0;
 		new_node->next = NULL;
@@ -121,8 +121,9 @@ t_vars	*find_vars(t_vars *head, char *var_name)
 	while (current)
 	{
 		if (ft_strncmp(current->name, var_name, size) == 0)
-			return (ft_printf("NAME[%s] VALUE [%s] HIDDEN [%d] EXPORT [%d]\n", current->name, current->value, current->hidden, current->exported), current);
-		else
+			//return (ft_printf("NAME[%s] VALUE [%s] HIDDEN [%d] EXPORT [%d]\n", current->name, current->value, current->hidden, current->exported), current);
+			return (current);
+			else
 			current = current->next;
 	}
 	ft_printf("variable not found\n");
@@ -137,7 +138,7 @@ void	edit_var(t_vars *head, char *var_name, char *var_value)
 	else
 	{
 		free(head->value);
-		head->value = ft_strdup(var_value);
+		head->value = ft_strdup(var_value); //malloc is used here. needs to be free
 	}
 }
 
@@ -154,17 +155,25 @@ void	copy_env(t_vars **head, char **envp)
 	char	**tokens;
 
 	i = 0;
+	debug_print("starting while loop");
 	while (envp[i])
 	{
+		debug_print("splitting tokens");
 		tokens = ft_split(envp[i], '=');
+		debug_print("checking split successful");
 		if (!tokens)
 		{
-			perror("error splitting tokens");
+			debug_print("error splitting tokens");
 			exit(EXIT_FAILURE);
 		}
-		else if (tokens && tokens[0] && tokens[1])
+		else if (tokens && tokens[0] && tokens[1]){
 			add_var(head, tokens[0], tokens[1], 1);
+			debug_print("var added");
+		}
+		free_array(tokens);
 		i++;
+		debug_print("loop finsihed");
 	}
-	free_array(tokens);
+	debug_print("loop exited successfully");
+	//free_array(tokens);
 }
