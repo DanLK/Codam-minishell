@@ -6,7 +6,7 @@
 /*   By: rojornod <rojornod@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/24 15:31:59 by rojornod          #+#    #+#             */
-/*   Updated: 2025/04/16 15:30:56 by rojornod         ###   ########.fr       */
+/*   Updated: 2025/04/18 17:38:41 by rojornod         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -114,7 +114,7 @@ t_vars	*find_vars(t_vars *head, char *var_name)
 {
 	size_t	size;
 	t_vars	*current;
-	char	*temp_var;
+	//char	*temp_var;
 
 	size = ft_strlen(var_name);
 	current = head;
@@ -155,25 +155,25 @@ void	copy_env(t_vars **head, char **envp)
 	char	**tokens;
 
 	i = 0;
-	debug_print("starting while loop");
+	debug_print("starting while loop", 'r');
 	while (envp[i])
 	{
-		debug_print("splitting tokens");
+		debug_print("splitting tokens", 'r');
 		tokens = ft_split(envp[i], '=');
-		debug_print("checking split successful");
+		debug_print("checking split successful", 'd');
 		if (!tokens)
 		{
-			debug_print("error splitting tokens");
+			debug_print("error splitting tokens", 'r');
 			exit(EXIT_FAILURE);
 		}
 		else if (tokens && tokens[0] && tokens[1]){
 			add_var(head, tokens[0], tokens[1], 1);
-			debug_print("var added");
+			debug_print("var added", 'r');
 		}
 		free_array(tokens);
 		i++;
-		debug_print("loop finsihed");
+		debug_print("loop finsihed", 'r');
 	}
-	debug_print("loop exited successfully");
+	debug_print("loop exited successfully", 'r');
 	//free_array(tokens);
 }

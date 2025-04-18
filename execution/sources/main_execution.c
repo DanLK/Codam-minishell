@@ -6,7 +6,7 @@
 /*   By: rojornod <rojornod@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/17 14:20:17 by rojornod          #+#    #+#             */
-/*   Updated: 2025/04/17 14:25:48 by rojornod         ###   ########.fr       */
+/*   Updated: 2025/04/18 17:43:56 by rojornod         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,15 +24,17 @@ int	main(int argc, char **argv, char **envp)
 	char	*home_dir;	
 	char	*read;
 	t_vars	*vars;
+	(void)argv;
+	(void)argc;
 	
 	
 	vars = initialize_data();
 	// extra = initialize_extra();
-	debug_print("initializing environment");
+	debug_print("initializing environment", 'r');
 	copy_env(&vars, envp);
-	debug_print("environment copied");
-	debug_print("env\n");
-	debug_print("getting home directory");
+	debug_print("environment copied", 'r');
+	debug_print("env", 'r');
+	debug_print("getting home directory", 'r');
 	home_dir = get_home_dir();
 	edit_var(vars, "HOME", home_dir);
 	add_var(&vars, "TEST", NULL, 0);
@@ -46,8 +48,12 @@ int	main(int argc, char **argv, char **envp)
 			continue ;
 		
 		else if (ft_strcmp(read, "pwd") == 0)
+		{
+			debug_print("command is pwd", 'r');
+			is_external_cmd(vars, read);
+			is_builtin(read);
 			pwd_builtin();
-			
+		}	
 		else if (ft_strncmp(read, "echo", 4) == 0)
 			echo_builtin(read);
 		
@@ -119,7 +125,7 @@ int	main(int argc, char **argv, char **envp)
 			size = (ft_strlen(read)- 5);
 			var_name = malloc(size * (sizeof(char)));
 			while (read[i] != '\0')
-			var_name[j++] = read[i++];	  
+			var_name[j++] = read[i++];
 			find_vars(vars, var_name);
 		}
 		/* 

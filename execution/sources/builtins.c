@@ -6,7 +6,7 @@
 /*   By: rojornod <rojornod@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/20 11:27:48 by rojornod          #+#    #+#             */
-/*   Updated: 2025/04/16 10:34:37 by rojornod         ###   ########.fr       */
+/*   Updated: 2025/04/18 17:10:18 by rojornod         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -186,3 +186,5 @@ void	unset_builtin(t_vars **head, char *var_name)
 		head = &(*head)->next;
 	}
 }
+
+
