@@ -6,7 +6,7 @@
 /*   By: rojornod <rojornod@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/20 10:06:02 by rojornod          #+#    #+#             */
-/*   Updated: 2025/04/16 14:23:09 by rojornod         ###   ########.fr       */
+/*   Updated: 2025/04/17 17:12:23 by rojornod         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,11 +28,11 @@ void	signal_handler(int signal)
 	
 	if (signal == SIGINT)
 	{
-		write(1, "ctrl-c doesnt exit\n", 13);
+		write(1, "ctrl-c doesnt exit\n", 19);
 		g_recieved = 1;
 	}
 	else if (signal == SIGQUIT)
-		ft_printf("nothing happens\n");
+		ft_printf("nothing will happen\n");
 	
 		/* 
 		ctrl + D does not send a signal but instead causes input functions

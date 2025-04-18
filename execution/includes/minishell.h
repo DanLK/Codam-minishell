@@ -6,7 +6,7 @@
 /*   By: rojornod <rojornod@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/10 14:21:08 by rojornod          #+#    #+#             */
-/*   Updated: 2025/04/17 14:24:46 by rojornod         ###   ########.fr       */
+/*   Updated: 2025/04/18 17:42:05 by rojornod         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,11 @@ typedef struct s_vars
 	int					hidden;
 	struct s_vars		*next;
 }	t_vars;
+typedef struct s_pipe_info
+{
+	int fdin;
+	int fdout;
+}	t_info;
 
 // typedef struct	s_extra
 // {
@@ -67,7 +72,7 @@ int		ft_strcmp(char *s1, char *s2);
 void	free_array(char **array);
 void	show_pid(void);
 char	**convert_env(t_vars *head);
-void	debug_print(char *debug_message);
+void	debug_print(char *debug_message, char c);
 
 //signals
 void	signal_action(void);
@@ -78,3 +83,8 @@ void	exec_external_com(t_vars *head, char **envp, char **command, int size);
 
 //child process
 int		create_child_proc(t_vars *vars, char **command, char *path, int size);
+
+
+//commands
+int	is_builtin(char *command);
+int	is_external_cmd(t_vars	*head, char *command);

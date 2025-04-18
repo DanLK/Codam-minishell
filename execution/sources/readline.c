@@ -6,7 +6,7 @@
 /*   By: rojornod <rojornod@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/10 14:21:17 by rojornod          #+#    #+#             */
-/*   Updated: 2025/04/17 14:25:13 by rojornod         ###   ########.fr       */
+/*   Updated: 2025/04/18 17:38:49 by rojornod         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,10 +34,10 @@
 t_vars	*initialize_data(void)
 {
 	t_vars	*head;
-	debug_print("initializing extra");
+	debug_print("initializing extra", 'r');
 
 	head = malloc(sizeof(t_vars));
-	debug_print("malloced struct");
+	debug_print("malloced struct", 'r');
 	if (!head)
 	{
 		perror("malloc on vars initialization");
@@ -88,7 +88,7 @@ void	write_history_file(char *read)
 {
 	int		fd;
 	int		i;
-	char	*number;
+	//char	*number;
 	
 	i = 0;
 	fd = open("./.shell_history", O_WRONLY | O_APPEND | O_CREAT, 0644);
