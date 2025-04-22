@@ -6,7 +6,7 @@
 /*   By: dloustal <dloustal@student.42.fr>            +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/04/17 11:53:23 by dloustal      #+#    #+#                 */
-/*   Updated: 2025/04/17 15:17:54 by dloustal      ########   odam.nl         */
+/*   Updated: 2025/04/22 11:00:26 by dloustal      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,11 +22,11 @@ int	main(int argc, char **argv, char **envp)
 	(void)argv;
 	vars = initialize_data();
 	// extra = initialize_extra();
-	debug_print("initializing environment");
+	debug_print("initializing environment", 'd');
 	copy_env(&vars, envp);
-	debug_print("environment copied");
-	debug_print("env\n");
-	debug_print("getting home directory");
+	debug_print("environment copied", 'd');
+	debug_print("env\n", 'd');
+	debug_print("getting home directory", 'd');
 	home_dir = get_home_dir();
 	edit_var(vars, "HOME", home_dir);
 	add_var(&vars, "TEST", NULL, 0);

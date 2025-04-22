@@ -9,7 +9,7 @@ MAIN_OBJ = $(MAIN:%.c=$(OBJ_DIR)/%.o)
 EXEC_SRC = builtins.c child_process.c external_commands.c readline.c signal_handling.c utils.c vars.c 
 EXEC_OBJ = $(EXEC_SRC:%.c=$(EXEC_DIR)/obj/%.o)
 
-CFLAGS += 
+CFLAGS += -Wall -Wextra -Werror
 
 LIBFT_NAME = ../libft/libft.a
 LIBFT_DIR = ../libft
