@@ -84,3 +84,18 @@
     cd .. && pwd | echo $? > status.txt
     export TEMP="Data" && echo $TEMP > temp.txt && cat < temp.txt | echo $?
 	```
+
+
+# BUILTINS SYNTAX
+
+- echo
+
+- cd
+
+	Accepts exactly one parameter
+
+- pwd
+
+	Accepts more parameters and just ignores them
+
+- 

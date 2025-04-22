@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   minishell.h                                        :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: rojornod <rojornod@student.42.fr>          +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/03/10 14:21:08 by rojornod          #+#    #+#             */
-/*   Updated: 2025/04/18 17:42:05 by rojornod         ###   ########.fr       */
+/*                                                        ::::::::            */
+/*   minishell.h                                        :+:    :+:            */
+/*                                                     +:+                    */
+/*   By: dloustal <dloustal@student.42.fr>            +#+                     */
+/*                                                   +#+                      */
+/*   Created: 2025/03/10 14:21:08 by rojornod      #+#    #+#                 */
+/*   Updated: 2025/04/22 16:44:59 by dloustal      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,12 +58,12 @@ void	pwd_builtin(void);
 void	cd_builtin(char *command, t_vars *vars);
 void	export_builtin(t_vars *head, char *var_name, char *var_value);
 void	unset_builtin(t_vars **head, char *var_name);
+void	exit_builtin(char *exit_cmd);
 
 //variables
 t_vars	*add_var(t_vars **head, char *var_name, char *var_value, int exp);
 t_vars	*create_var(char *name, char *value, int exp);
 t_vars	*find_vars(t_vars *head, char *var_name);
-void	env_builtin(t_vars *vars);
 void	copy_env(t_vars **head, char **envp);
 void	edit_var(t_vars *vars, char *var_name, char *var_value);
 
