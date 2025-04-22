@@ -6,13 +6,13 @@
 /*   By: dloustal <dloustal@student.42.fr>            +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/04/01 16:41:23 by dloustal      #+#    #+#                 */
-/*   Updated: 2025/04/15 16:28:30 by dloustal      ########   odam.nl         */
+/*   Updated: 2025/04/22 12:04:11 by dloustal      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef PARSER_H
 # define PARSER_H
-# include "../lexer/include/lexer.h"
+# include "lexer.h"
 
 enum e_Ptype
 {
