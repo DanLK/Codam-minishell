@@ -6,7 +6,7 @@
 /*   By: dloustal <dloustal@student.42.fr>            +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/03/18 12:09:34 by dloustal      #+#    #+#                 */
-/*   Updated: 2025/04/02 16:14:36 by dloustal      ########   odam.nl         */
+/*   Updated: 2025/04/23 13:53:28 by dloustal      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -116,4 +116,23 @@ t_scanner	*init_scanner(int cur, int start)
 	scanner->cur = cur;
 	scanner->start = start;
 	return (scanner);
+}
+
+int	len_token_list(t_token_list *list)
+{
+	t_token_node	*head;
+	int				len;
+
+	if (!list)
+		return (0);
+	len = 0;
+	head = list->head;
+	if (!head)
+		return (0);
+	while (head->next)
+	{
+		len++;
+		head = head->next;
+	}
+	return (len);
 }

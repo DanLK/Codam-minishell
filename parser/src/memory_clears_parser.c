@@ -6,7 +6,7 @@
 /*   By: dloustal <dloustal@student.42.fr>            +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/04/03 15:39:13 by dloustal      #+#    #+#                 */
-/*   Updated: 2025/04/11 10:58:42 by dloustal      ########   odam.nl         */
+/*   Updated: 2025/04/23 16:54:44 by dloustal      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,4 +28,24 @@ void	clear_tree(t_tree *tree)
 		return ;
 	clear_subtree(tree->root);
 	free(tree);
+}
+
+void	clear_array(char **words)
+{
+	char	*word;
+	char	*tmp;
+	int		i;
+
+	if (!words)
+		return ;
+	i = 0;
+	word = words[0];
+	while(word)
+	{
+		i++;
+		tmp = words[i];
+		free(word);
+		word = tmp;
+	}
+	free(words);
 }

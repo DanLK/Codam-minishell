@@ -6,7 +6,7 @@
 /*   By: dloustal <dloustal@student.42.fr>            +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/03/10 14:21:08 by rojornod      #+#    #+#                 */
-/*   Updated: 2025/04/22 16:44:59 by dloustal      ########   odam.nl         */
+/*   Updated: 2025/04/23 10:40:50 by dloustal      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,6 +73,7 @@ t_vars	*create_var(char *name, char *value, int exp);
 t_vars	*find_vars(t_vars *head, char *var_name);
 void	copy_env(t_vars **head, char **envp);
 void	edit_var(t_vars *vars, char *var_name, char *var_value);
+void	env_builtin(t_vars *head);
 
 //utils
 int		ft_strcmp(char *s1, char *s2);

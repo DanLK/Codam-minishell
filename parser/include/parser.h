@@ -6,7 +6,7 @@
 /*   By: dloustal <dloustal@student.42.fr>            +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/04/01 16:41:23 by dloustal      #+#    #+#                 */
-/*   Updated: 2025/04/22 12:04:11 by dloustal      ########   odam.nl         */
+/*   Updated: 2025/04/23 14:06:21 by dloustal      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,6 +52,7 @@ void		insert_right(t_t_node *root, enum e_Ptype p_type, t_token_list *tokens);
 void		clear_subtree(t_t_node *root);
 void		clear_tree(t_tree *tree);
 void		clear_tree_node(t_t_node *node);
+void		clear_array(char **words);
 
 /********************************************************************************
  * Functions from the old parser i.e. the first attempt at parsing 

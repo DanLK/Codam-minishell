@@ -6,7 +6,7 @@
 /*   By: dloustal <dloustal@student.42.fr>            +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/03/14 16:58:50 by dloustal      #+#    #+#                 */
-/*   Updated: 2025/04/22 14:29:44 by dloustal      ########   odam.nl         */
+/*   Updated: 2025/04/23 13:54:16 by dloustal      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,6 +92,7 @@ t_token_node	*get_last(t_token_list *list);
 void			append_token(t_token_list *list, enum e_Type type, char *lex);
 t_scanner		*init_scanner(int cur, int start);
 void			print_token_list(t_token_list *list);
+int				len_token_list(t_token_list *list);
 
 // Lexer
 t_token_list	*scan(char *src);

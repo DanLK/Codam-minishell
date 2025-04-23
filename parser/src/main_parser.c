@@ -6,7 +6,7 @@
 /*   By: dloustal <dloustal@student.42.fr>            +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/04/01 16:48:50 by dloustal      #+#    #+#                 */
-/*   Updated: 2025/04/15 16:43:05 by dloustal      ########   odam.nl         */
+/*   Updated: 2025/04/23 17:12:27 by dloustal      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,8 +25,9 @@ int	main(void)
 	parser->current = tokens->head;
 	parser->previous = NULL;
 	pipe = parse_pipe(parser);
-	print_tree_node(pipe, "", 1);
+	// print_tree_node(pipe, "", 1);
 	clear_token_list(tokens);
+	clear_subtree(pipe);
 	free(parser);
 	return (0);
 }

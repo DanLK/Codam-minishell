@@ -6,7 +6,7 @@
 /*   By: dloustal <dloustal@student.42.fr>            +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/04/17 11:53:23 by dloustal      #+#    #+#                 */
-/*   Updated: 2025/04/22 16:45:26 by dloustal      ########   odam.nl         */
+/*   Updated: 2025/04/23 17:16:31 by dloustal      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -178,7 +178,7 @@ int	main(int argc, char **argv, char **envp)
 	t_t_node		*root;
 	t_vars			*vars;
 	char			*home_dir;	
-	// char			*read;
+	char			*read;
 	(void)argv;
 	(void)argc;
 	
@@ -192,13 +192,27 @@ int	main(int argc, char **argv, char **envp)
 
 	vars = initialize_data();
 	copy_env(&vars, envp);
-	tokens = scan("exit");
-	parser = malloc(sizeof(t_parser));
-	if(!parser)
-		return (0);
-	parser->current = tokens->head;
-	parser->previous = NULL;
-	root = parse_pipe(parser);
-	print_tree_node(root, "", 1);
-	ft_printf("EXEC RETURN: %d\n", execute_builtin(&root, vars));
+	while (1)
+	{
+		read = readline("> ");
+		
+		if (read[0] == '\0')
+			continue ;
+		else
+		{
+			tokens = scan(read);
+			parser = malloc(sizeof(t_parser));
+			if(!parser)
+				return (0);
+			parser->current = tokens->head;
+			parser->previous = NULL;
+			root = parse_pipe(parser);
+			// print_tree_node(root, "", 1);
+			execute_builtin(&root, vars);
+			// ft_printf("EXEC RETURN: %d\n", execute_builtin(&root, vars));
+			clear_token_list(tokens);
+			clear_subtree(root);
+			free(parser);
+		}
+	}
 }

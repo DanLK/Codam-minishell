@@ -6,7 +6,7 @@
 /*   By: dloustal <dloustal@student.42.fr>            +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/04/22 13:36:45 by dloustal      #+#    #+#                 */
-/*   Updated: 2025/04/22 16:44:03 by dloustal      ########   odam.nl         */
+/*   Updated: 2025/04/23 16:58:24 by dloustal      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,9 @@ int	execute_builtin(t_t_node **root, t_vars *vars)
 	tokens = (*root)->tokens;
 	type = tokens->head->token->type;
 	if (type == TKN_ECHO)
-		return (1); // temporarily
+	{
+		return (execute_echo(tokens)); // temporarily
+	}
 	if (type == TKN_CD)
 	{
 		str = tokens->head->next->token->lexeme;
@@ -77,4 +79,35 @@ int	execute_builtin(t_t_node **root, t_vars *vars)
 		return (7);
 	}
 	return (125); //For now
+}
+
+/*******************************************************************************
+ *  Transforms the token list on the command node into an array containing 
+ * the parameters to echo and calls the echo_builtin function
+*******************************************************************************/
+int	execute_echo(t_token_list *tokens)
+{
+	char			**params;
+	int				len;
+	int				i;
+	t_token_node	*node;
+
+	if (!tokens)
+		return (125); //For now
+	len = len_token_list(tokens);
+	params = (char**)malloc((len + 1) * sizeof(char *));
+	if (!params)
+		return (125);
+	params[len] = NULL;
+	node = tokens->head->next;
+	i = 0;
+	while (i < len)
+	{
+		params[i]  = ft_strdup(node->token->lexeme);
+		node = node->next;
+		i++;
+	}
+	echo_builtin(params); //Must return the value this returns
+	clear_array(params);
+	return (1);
 }
