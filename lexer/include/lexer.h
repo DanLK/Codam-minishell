@@ -6,7 +6,7 @@
 /*   By: dloustal <dloustal@student.42.fr>            +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/03/14 16:58:50 by dloustal      #+#    #+#                 */
-/*   Updated: 2025/04/15 13:47:58 by dloustal      ########   odam.nl         */
+/*   Updated: 2025/04/22 14:29:44 by dloustal      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -110,6 +110,7 @@ void			consume_space(t_scanner *scanner, char *src);
 char			*read_quoted(t_scanner *scanner, char *src, char quotes);
 char			*read_filepath(t_scanner *scanner, char *src);
 bool			is_special_char(char c);
+bool			is_builtin_type(enum e_Type type);
 char			*read_identifier(t_scanner *scanner, char *src);
 const t_map		*get_map(void);
 

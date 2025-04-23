@@ -6,7 +6,7 @@
 /*   By: dloustal <dloustal@student.42.fr>            +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/03/20 15:41:02 by dloustal      #+#    #+#                 */
-/*   Updated: 2025/04/15 14:23:39 by dloustal      ########   odam.nl         */
+/*   Updated: 2025/04/22 14:29:33 by dloustal      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,6 +84,11 @@ bool	is_special_char(char c)
 {
 	return (c == ' ' || c == '|' || c == '&'
 			|| c == '<' || c == '>');
+}
+
+bool	is_builtin_type(enum e_Type type)
+{
+	return (type >= TKN_ECHO && type <= TKN_EXIT);
 }
 
 char	*read_identifier(t_scanner *scanner, char *src)

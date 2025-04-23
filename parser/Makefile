@@ -10,10 +10,11 @@ LEXER_OBJ = $(LEXER_SRC:%.c=$(LEXER_DIR)/obj/%.o)
 
 CFLAGS += -Wall -Wextra -Werror
 
-LIBFT_NAME = ../libft/libft.a
-LIBFT_PATH = ../libft
 
 LEXER_DIR = ../lexer
+
+LIBFT_NAME = ../libft/libft.a
+LIBFT_PATH = ../libft
 
 all: $(NAME)
 
@@ -22,7 +23,7 @@ $(NAME): $(OBJ) $(LIBFT_NAME) $(MAIN_OBJ) $(LEXER_OBJ)
 
 $(OBJ_DIR)/%.o: $(SRC_DIR)/%.c
 	mkdir -p $(dir $@)
-	$(CC) -c -Iinclude -I$(LIBFT_PATH) $(CFLAGS) -o $@ $<
+	$(CC) -c -Iinclude -I$(LEXER_DIR)/include -I$(LIBFT_PATH) $(CFLAGS) -o $@ $<
 
 $(LIBFT_NAME):
 	$(MAKE) -C $(LIBFT_PATH)
