@@ -3,10 +3,10 @@
 /*                                                        ::::::::            */
 /*   lexer_utils.c                                      :+:    :+:            */
 /*                                                     +:+                    */
-/*   By: dloustal <marvin@42.fr>                      +#+                     */
+/*   By: dloustal <dloustal@student.42.fr>            +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/03/20 15:41:02 by dloustal      #+#    #+#                 */
-/*   Updated: 2025/03/31 16:23:02 by dloustalot    ########   odam.nl         */
+/*   Updated: 2025/04/15 14:23:39 by dloustal      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,7 +92,7 @@ char	*read_identifier(t_scanner *scanner, char *src)
 	int		st;
 	char	c;
 
-	if (!src || scanner->cur >= (int)ft_strlen(src))
+	if (!src || scanner->cur > (int)ft_strlen(src))
 		return (NULL);
 	st = scanner->start;
 	c = src[--(scanner->cur)];
@@ -109,7 +109,7 @@ const t_map	*get_map(void)
 {
 	static const t_map	keywords = {
 		.words = {"echo", "cd", "pwd", "export", "unset", "env", "exit"},
-		.types = {ECHO, CD, PWD, EXPORT, UNSET, ENV, EXIT}
+		.types = {TKN_ECHO, TKN_CD, TKN_PWD, TKN_EXPORT, TKN_UNSET, TKN_ENV, TKN_EXIT}
 	};
 
 	return (&keywords);
