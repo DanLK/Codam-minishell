@@ -6,7 +6,7 @@
 /*   By: rojornod <rojornod@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/10 14:21:17 by rojornod          #+#    #+#             */
-/*   Updated: 2025/04/18 17:38:49 by rojornod         ###   ########.fr       */
+/*   Updated: 2025/04/22 11:38:05 by rojornod         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,6 +39,21 @@ t_vars	*initialize_data(void)
 	head = malloc(sizeof(t_vars));
 	debug_print("malloced struct", 'r');
 	if (!head)
+	{
+		perror("malloc on vars initialization");
+		exit(EXIT_FAILURE);
+	}
+	return (NULL);
+}
+
+t_exe_info	*initialize_info(void)
+{
+	t_exe_info	*info;
+	debug_print("initializing extra", 'r');
+
+	info = malloc(sizeof(t_exe_info));
+	debug_print("malloced struct", 'r');
+	if (!info)
 	{
 		perror("malloc on vars initialization");
 		exit(EXIT_FAILURE);

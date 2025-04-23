@@ -6,7 +6,7 @@
 /*   By: rojornod <rojornod@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/20 11:27:48 by rojornod          #+#    #+#             */
-/*   Updated: 2025/04/18 17:10:18 by rojornod         ###   ########.fr       */
+/*   Updated: 2025/04/23 10:19:43 by rojornod         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,41 +52,46 @@ void	exit_builtin(char *exit_cmd)
 *	-double dash (--) makes echo ignore potential flags (ex: -n)
 *	
 ******************************************************************************/
-static void	echo_printing(char *string, int i)
+static void	echo_printing(char **tokens, int i)
 {
-	while (string[i] != '\0')
-	{
-		if (string[i] == 34 || string[i] == 39 || string[i] == 92)
-			i++;
-		else if (string[i] == 32 && string[i + 1] == 32)
+	int	j;
+	
+	j = 0;
+	while (tokens[i])
+	 {
+		if (tokens[i][j] == ' ' || tokens[i][j] == '\'' || tokens[i][j] == '\\')
+	 		j++;
+	 	else if (tokens[i][j] == ' ' && tokens[i][j + 1] == ' ')
+	 	{
+	 		ft_putstr_fd(tokens[i], 1);
+			while (tokens[i][j] == ' ')
+	 			j++;
+	 	}
+	 	else
 		{
-			ft_printf("%c", string[i]);
-			i++;
-			while (string[i] == 32)
-				i++;
+	 		ft_putstr_fd(tokens[i], 1);
+			ft_putchar_fd(' ', 1);
 		}
-		else
-		{
-			ft_printf("%c", string[i]);
-			i++;
-		}
+		i++;
 	}
 }
 
-void	echo_builtin(char *string)
+void	echo_builtin(char **tokens)
 {
 	int	i;
 
-	i = 5;
-	if (string[5] == '-' && string[6] == 'n')
+
+	i = 0;
+	if (ft_strcmp(tokens[1], "-n") == 0)
 	{
-		i = 7;
-		echo_printing(string, i);
+		i = 1;
+		echo_printing(tokens, i);
 	}
 	else
 	{
-		echo_printing(string, i);
-		ft_printf("\n");
+		i = 0;
+		echo_printing(tokens, i);
+		ft_putchar_fd('\n', 1);
 	}
 }
 
