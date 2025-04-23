@@ -49,6 +49,7 @@ clean:
 	rm -rf $(OBJ_DIR)
 	rm -f $(EXEC_DIR)/$(EXEC_OBJ)
 	rm -rf $(EXEC_DIR)/$(OBJ_DIR)
+	rm -f .shell_history
 	$(MAKE) -C $(LEXER_DIR) clean
 	$(MAKE) -C $(PARSER_DIR) clean
 	$(MAKE) -C $(LIBFT_DIR) clean
