@@ -6,7 +6,7 @@
 /*   By: rojornod <rojornod@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/09 10:14:24 by rojornod          #+#    #+#             */
-/*   Updated: 2025/04/18 17:49:55 by rojornod         ###   ########.fr       */
+/*   Updated: 2025/04/22 16:05:32 by rojornod         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,7 +69,8 @@ int	is_external_cmd(t_vars	*head, char *command)
 	{
 		debug_print("command is external", 'r');
 		return (0);
-}	}
+	}	
+}
 
 int	is_builtin(char *command)
 {
@@ -88,4 +89,33 @@ int	is_builtin(char *command)
 	}
 	debug_print("command is not a builtin", 'r');
 	return (0);
+}
+
+int	find_cmd(t_vars *head, char *cmd)
+{
+	int		i;
+	char	*built[] = {"echo", "cd", "pwd", "export", "unset", "env", "exit"};
+	
+	i = 0;
+	while (built[i])
+	{
+		if (ft_strcmp(built[i], cmd) == 0)
+		{
+			debug_print("command is a builtin", 'r');
+			return (1);
+		}
+			i++;
+	}
+	debug_print("command is not a builtin", 'r');
+	if (!find_path(head, cmd))
+	{
+		debug_print("command is not external", 'r');
+		return (1);
+	}
+	else
+	{
+		debug_print("command is external", 'r');
+		return (0);
+	}	
+	
 }

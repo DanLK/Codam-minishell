@@ -6,13 +6,13 @@
 /*   By: rojornod <rojornod@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/16 11:11:31 by rojornod          #+#    #+#             */
-/*   Updated: 2025/04/18 17:40:57 by rojornod         ###   ########.fr       */
+/*   Updated: 2025/04/22 13:45:37 by rojornod         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
-int	create_child_proc(t_vars *vars, char **command, char *path, int size)
+int	create_child_proc(t_vars *vars, char **cmd, char *path, int size)
 {
 	//t_info	*info;
 	pid_t	pid;
@@ -23,9 +23,9 @@ int	create_child_proc(t_vars *vars, char **command, char *path, int size)
 	i = 0;
 	env_copy = convert_env(vars);
 	argv = malloc((size + 1) * sizeof(char *));
-	while (command[i])
+	while (cmd[i])
 	{
-		argv[i] = ft_strdup(command[i]); //malloc used needs to be free
+		argv[i] = ft_strdup(cmd[i]); //malloc used needs to be free
 		i++;
 	}
 	argv[i] = NULL;

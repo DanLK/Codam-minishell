@@ -21,6 +21,8 @@
 #include <sys/types.h>
 #include <sys/wait.h>
 #include "../../libft/libft.h"
+#define STDIN  0
+#define STDOUT 1
 
 typedef struct s_vars
 {
@@ -30,11 +32,15 @@ typedef struct s_vars
 	int					hidden;
 	struct s_vars		*next;
 }	t_vars;
-typedef struct s_pipe_info
+
+typedef struct s_exe_info
 {
-	int fdin;
-	int fdout;
-}	t_info;
+	char	**cmd;
+	char	*path;
+	int		size;
+	int 	fdin;
+	int 	fdout;
+}	t_exe_info;
 
 // typedef struct	s_extra
 // {
@@ -43,7 +49,8 @@ typedef struct s_pipe_info
 
 // }	t_extra;
 
-t_vars	*initialize_data(void);
+t_vars		*initialize_data(void);
+t_exe_info	*initialize_info(void);
 
 //directories
 char	*get_home_dir(void);
@@ -53,7 +60,7 @@ void	create_history_file(void);
 void	write_history_file(char *read);
 
 //builtins
-void	echo_builtin(char *string);
+void	echo_builtin(char **tokens);
 void	pwd_builtin(void);
 void	cd_builtin(char *command, t_vars *vars);
 void	export_builtin(t_vars *head, char *var_name, char *var_value);
@@ -79,12 +86,14 @@ void	signal_action(void);
 
 //external commands
 char	*find_path(t_vars *head, char *command);
-void	exec_external_com(t_vars *head, char **envp, char **command, int size);
+void	exec_external_com(t_vars *head, char **envp, char **cmd, int size);
 
 //child process
-int		create_child_proc(t_vars *vars, char **command, char *path, int size);
+int		create_child_proc(t_vars *vars, char **cmd, char *path, int size);
 
+//pipes 
+void	exec_pipe(t_vars *head, char **envp, char **command, int i);
 
 //commands
-int	is_builtin(char *command);
-int	is_external_cmd(t_vars	*head, char *command);
+int		is_builtin(char *command);
+int		is_external_cmd(t_vars	*head, char *command);

@@ -6,7 +6,7 @@
 /*   By: rojornod <rojornod@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/17 14:20:17 by rojornod          #+#    #+#             */
-/*   Updated: 2025/04/18 17:43:56 by rojornod         ###   ########.fr       */
+/*   Updated: 2025/04/22 16:37:59 by rojornod         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,14 +21,16 @@
 ******************************************************************************/
 int	main(int argc, char **argv, char **envp)
 {
-	char	*home_dir;	
-	char	*read;
-	t_vars	*vars;
+	char		*home_dir;	
+	char		*read;
+	t_vars		*vars;
+	t_exe_info 	*info;
 	(void)argv;
 	(void)argc;
 	
 	
 	vars = initialize_data();
+	info = initialize_info();
 	// extra = initialize_extra();
 	debug_print("initializing environment", 'r');
 	copy_env(&vars, envp);
@@ -47,6 +49,19 @@ int	main(int argc, char **argv, char **envp)
 		if (read[0] == '\0')
 			continue ;
 		
+		else if (ft_strchr(read, '|'))
+		{
+			char **command;
+			
+			command = ft_split(read, '|');
+			if (!command)
+				ft_printf("command array is null\n");
+			int i = 0;
+			while (command[i])
+				i++;
+			exec_pipe(vars, envp, command, i);
+		}
+		
 		else if (ft_strcmp(read, "pwd") == 0)
 		{
 			debug_print("command is pwd", 'r');
@@ -55,7 +70,14 @@ int	main(int argc, char **argv, char **envp)
 			pwd_builtin();
 		}	
 		else if (ft_strncmp(read, "echo", 4) == 0)
-			echo_builtin(read);
+		{
+			char **tokens;
+
+			tokens = ft_split(read, ' ');
+			if (!tokens)
+				return (-1);
+			echo_builtin(tokens);
+		}
 		
 		else if (ft_strcmp(read, "cd") == 0)
 			cd_builtin("execution", vars);
@@ -94,17 +116,17 @@ int	main(int argc, char **argv, char **envp)
 			unset_builtin(&vars, "TEST");
 			
 		else if (ft_strcmp(read, "minishell") == 0) //opens a new minishell inside a minishell using child processes
-			{
-			char **command;
+		{
+			char	**cmd;
 			
-			command = ft_split(read, ' ');
+			cmd = ft_split(read, ' ');
 			int i = 0;
-			while (command[i])
+			while (cmd[i])
 			{
-				ft_printf("[%d] [%s]\n", i, command[i]);
+				ft_printf("[%d] [%s]\n", i, cmd[i]);
 				i++;
 			}
-			create_child_proc(vars, command, "./minishell", i);
+			create_child_proc(vars, cmd, "./minishell", i);
 		}	
 		else if (ft_strcmp(read, "envlist") == 0) //converts the environment variables from a linked list to an array then displays it 
 			convert_env(vars);
@@ -141,39 +163,17 @@ int	main(int argc, char **argv, char **envp)
 		/**********external commands************/
 		else 
 		{
-			char **command;
-			
-			//ft_printf("command is else\n");
-			command = ft_split(read, ' ');
-			if (!command)
-			ft_printf("command array is null\n");
+			char **cmd;	
+				
+			debug_print("external command", 'r');
+			cmd = ft_split(read, ' ');
+			if (!cmd)
+				ft_printf("command array is null\n");
 			int i = 0;
-			while (command[i])
-			{
-				//ft_printf("[%d] [%s]\n", i, command[i]);
+			while (cmd[i])
 				i++;
-			}
-			exec_external_com(vars, envp, command, i);
-			// if (ft_strcmp(read, "date") == 0)
-			// 	exec_external_com(vars, envp, read);
-			
-			// if (ft_strcmp(read, "ls") == 0)
-			// 	exec_external_com(vars, envp, read);
-			
-			// if (ft_strcmp(read, "whoami") == 0)
-			// 	exec_external_com(vars, envp, read);
-			
-			// if (ft_strcmp(read, "uptime") == 0)
-			// 	exec_external_com(vars, envp, read);
-			
-			// if (ft_strcmp(read, "hostname") == 0)
-			// 	exec_external_com(vars, envp, read);
-			
-			// if (ft_strcmp(read, "invalidcom") == 0)
-			// 	exec_external_com(vars, envp, read);
-			
-			// if (ft_strcmp(read, "mkdir") == 0)
-			// 	exec_external_com(vars, envp, read);
+			debug_print("checks made om external commands", 'r');
+			exec_external_com(vars, envp, cmd, i);
 		}
 			
 			/***************************************/

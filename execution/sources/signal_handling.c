@@ -6,7 +6,7 @@
 /*   By: rojornod <rojornod@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/20 10:06:02 by rojornod          #+#    #+#             */
-/*   Updated: 2025/04/17 17:12:23 by rojornod         ###   ########.fr       */
+/*   Updated: 2025/04/22 14:05:32 by rojornod         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,9 +26,12 @@ void	signal_handler(int signal)
 {
 
 	
-	if (signal == SIGINT)
+	if (signal == SIGINT) 
 	{
-		write(1, "ctrl-c doesnt exit\n", 19);
+		write(1, "\n", 1);
+		rl_replace_line("", 0);
+		rl_on_new_line();
+		rl_redisplay();
 		g_recieved = 1;
 	}
 	else if (signal == SIGQUIT)
