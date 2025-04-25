@@ -6,7 +6,7 @@
 /*   By: dloustal <dloustal@student.42.fr>            +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/04/22 12:02:07 by dloustal      #+#    #+#                 */
-/*   Updated: 2025/04/23 14:08:20 by dloustal      ########   odam.nl         */
+/*   Updated: 2025/04/24 11:33:41 by dloustal      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,8 +16,10 @@
 # include "minishell.h"
 
 // Executioner
+int	execute_src(t_t_node **root, t_vars *vars);
 int	execute_command(t_t_node **root, t_vars *vars);
 int	execute_builtin(t_t_node **root, t_vars *vars);
 int	execute_echo(t_token_list *tokens);
+int	execute_unset(t_token_list *tokens, t_vars **head);
 
 #endif

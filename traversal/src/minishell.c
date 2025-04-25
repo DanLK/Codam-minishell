@@ -6,7 +6,7 @@
 /*   By: dloustal <dloustal@student.42.fr>            +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/04/17 11:53:23 by dloustal      #+#    #+#                 */
-/*   Updated: 2025/04/23 17:16:31 by dloustal      ########   odam.nl         */
+/*   Updated: 2025/04/24 12:37:53 by dloustal      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -145,7 +145,7 @@
 // 			// if (ft_strcmp(read, "date") == 0)
 // 			// 	exec_external_com(vars, envp, read);
 			
-// 			// if (ft_strcmp(read, "ls") == 0)
+// 			// if (ft_strcmp(read, "ls") == 0)ill reachable: 210,087 bytes in 486 blocks
 // 			// 	exec_external_com(vars, envp, read);
 			
 // 			// if (ft_strcmp(read, "whoami") == 0)
@@ -207,8 +207,8 @@ int	main(int argc, char **argv, char **envp)
 			parser->current = tokens->head;
 			parser->previous = NULL;
 			root = parse_pipe(parser);
-			// print_tree_node(root, "", 1);
-			execute_builtin(&root, vars);
+			print_tree_node(root, "", 1);
+			execute_src(&root, vars);
 			// ft_printf("EXEC RETURN: %d\n", execute_builtin(&root, vars));
 			clear_token_list(tokens);
 			clear_subtree(root);
