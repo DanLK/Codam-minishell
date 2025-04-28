@@ -6,7 +6,7 @@
 /*   By: dloustal <dloustal@student.42.fr>            +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/03/20 11:27:48 by rojornod      #+#    #+#                 */
-/*   Updated: 2025/04/23 16:40:01 by dloustal      ########   odam.nl         */
+/*   Updated: 2025/04/24 12:24:42 by dloustal      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ void	exit_builtin(char *exit_cmd)
 *	
 *	Very barebones echo. so far it prints the text after echo with either a new 
 *	line or not based on the -n flag.
-*
+* = a
 *	32 = SPACE
 *	34 = "
 *	39 = '

@@ -6,7 +6,7 @@
 /*   By: dloustal <dloustal@student.42.fr>            +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/04/22 13:36:45 by dloustal      #+#    #+#                 */
-/*   Updated: 2025/04/24 12:35:21 by dloustal      ########   odam.nl         */
+/*   Updated: 2025/04/25 14:00:52 by dloustal      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,8 +51,6 @@ int	execute_builtin(t_t_node **root, t_vars *vars)
 {
 	t_token_list	*tokens;
 	enum e_Type		type;
-	char			*str;
-
 
 	if (!root)
 		return (125);
@@ -62,8 +60,7 @@ int	execute_builtin(t_t_node **root, t_vars *vars)
 		return (execute_echo(tokens));
 	if (type == TKN_CD)
 	{
-		str = tokens->head->next->token->lexeme;
-		cd_builtin(str, vars);
+		cd_builtin(tokens->head->next->token->lexeme, vars);
 		return (2); // Temporarily
 	}
 	if (type == TKN_PWD)
