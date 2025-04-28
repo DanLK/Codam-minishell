@@ -6,11 +6,27 @@
 /*   By: dloustal <dloustal@student.42.fr>            +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/04/22 13:36:45 by dloustal      #+#    #+#                 */
-/*   Updated: 2025/04/23 16:58:24 by dloustal      ########   odam.nl         */
+/*   Updated: 2025/04/25 14:00:52 by dloustal      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "traversal.h"
+
+/*******************************************************************************
+ *  Executes the src code represented by an AST built by the parser
+*******************************************************************************/
+int	execute_src(t_t_node **root, t_vars *vars)
+{
+	if (!root)
+		return (125); //For now
+	if ((*root)->p_type == PARSER_COMMAND)
+		return (execute_command(root, vars));
+	else
+	{
+		ft_printf("Not able to execute right now\n");
+		return (125); // For now, as an error code
+	}
+}
 
 /*******************************************************************************
  *  Assuming the root node is of type P_COMMAND
@@ -35,21 +51,16 @@ int	execute_builtin(t_t_node **root, t_vars *vars)
 {
 	t_token_list	*tokens;
 	enum e_Type		type;
-	char			*str;
-
 
 	if (!root)
 		return (125);
 	tokens = (*root)->tokens;
 	type = tokens->head->token->type;
 	if (type == TKN_ECHO)
-	{
-		return (execute_echo(tokens)); // temporarily
-	}
+		return (execute_echo(tokens));
 	if (type == TKN_CD)
 	{
-		str = tokens->head->next->token->lexeme;
-		cd_builtin(str, vars);
+		cd_builtin(tokens->head->next->token->lexeme, vars);
 		return (2); // Temporarily
 	}
 	if (type == TKN_PWD)
@@ -64,8 +75,7 @@ int	execute_builtin(t_t_node **root, t_vars *vars)
 	}
 	if (type == TKN_UNSET)
 	{
-		str = tokens->head->next->token->lexeme;
-		unset_builtin(&vars, str);
+		execute_unset(tokens, &vars);
 		return (5); // Temporarily
 	}
 	if (type == TKN_ENV)
@@ -110,4 +120,22 @@ int	execute_echo(t_token_list *tokens)
 	echo_builtin(params); //Must return the value this returns
 	clear_array(params);
 	return (1);
+}
+
+int	execute_unset(t_token_list *tokens, t_vars **head)
+{
+	t_token_node	*node;
+	// int		exit_status;
+
+	if (!tokens || !head)
+		return (125); //For now
+	node = tokens->head->next; //Should be the first argument fot the unset
+	if (!node)
+		return (0); //Success??
+	while (node)
+	{
+		unset_builtin(head, node->token->lexeme); // Assign to exit_status 
+		node = node->next;
+	}
+	return (0); // If all went well i.e. if all the exit status were 0
 }

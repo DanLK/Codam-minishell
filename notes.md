@@ -98,4 +98,20 @@
 
 	Accepts more parameters and just ignores them
 
-- 
+- export (with no options)
+
+	With no arguments it displays all the exported variables
+
+	```export name[=value]``` Meaning it can have one TKN_WORD as an argument or [TKN_WORD, EQUAL, TKN_WORD] 
+
+- unset
+
+	```unset var_name_here``` if there is no ```var_name``` then it does nothing. It can take multiple varnames to unset
+
+
+
+## Special cases
+
+- ```echo -n -n -n```
+
+

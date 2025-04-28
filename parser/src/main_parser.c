@@ -6,7 +6,7 @@
 /*   By: dloustal <dloustal@student.42.fr>            +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/04/01 16:48:50 by dloustal      #+#    #+#                 */
-/*   Updated: 2025/04/23 17:12:27 by dloustal      ########   odam.nl         */
+/*   Updated: 2025/04/24 12:38:01 by dloustal      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,14 +18,14 @@ int	main(void)
 	t_parser		*parser;
 	t_t_node		*pipe;
 
-	tokens = scan("cat -e src/debug.c | grep \"PARSER\" > parser_occ.txt");
+	tokens = scan("unset myvar | echo hello | cat haha");
 	parser = malloc(sizeof(t_parser));
 	if(!parser)
 		return (0);
 	parser->current = tokens->head;
 	parser->previous = NULL;
 	pipe = parse_pipe(parser);
-	// print_tree_node(pipe, "", 1);
+	print_tree_node(pipe, "", 1);
 	clear_token_list(tokens);
 	clear_subtree(pipe);
 	free(parser);
