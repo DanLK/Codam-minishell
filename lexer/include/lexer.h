@@ -6,7 +6,7 @@
 /*   By: dloustal <dloustal@student.42.fr>            +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/03/14 16:58:50 by dloustal      #+#    #+#                 */
-/*   Updated: 2025/04/23 13:54:16 by dloustal      ########   odam.nl         */
+/*   Updated: 2025/04/28 10:28:29 by dloustal      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,7 @@ enum e_Type
 	// Exit status ($?)
 	TKN_EXIT_STATUS,
 	// Parameter Expansion ($)
-	TKN_ENV_VAR,
+	TKN_ENV_VAR, //17
 	// Path
 	TKN_FILE_PATH, //18
 	// Literals
@@ -102,6 +102,7 @@ t_token_list	*populate_tkns(t_token_list *tokens, char *src, t_scanner *s);
 void			get_cur_token(t_token_list *tokens, char *src, t_scanner *s);
 void			redir_tkn(t_token_list *tkns, char *src, t_scanner *s, char c);
 void			tkn_quote(t_token_list *tkns, char *src, t_scanner *s, char c);
+char			*tkn_env_var(char *src, t_scanner *scanner);
 void			tkn_opt_word(t_token_list *tkns, char *src, t_scanner *s, char c);
 char			*read_options(t_scanner *scanner, char *src);
 

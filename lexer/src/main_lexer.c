@@ -6,7 +6,7 @@
 /*   By: dloustal <dloustal@student.42.fr>            +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/03/17 11:29:28 by dloustal      #+#    #+#                 */
-/*   Updated: 2025/04/22 15:52:29 by dloustal      ########   odam.nl         */
+/*   Updated: 2025/04/28 10:29:03 by dloustal      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ int	main(void)
 	// print_token_list(list);
 	// clear_token_list(list);
 
-	list = scan("echo Hello      World");
+	list = scan("echo Hello $MY_VAR");
 	print_token_list(list);
 	clear_token_list(list);
 
