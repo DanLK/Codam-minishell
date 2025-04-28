@@ -6,7 +6,7 @@
 /*   By: dloustal <dloustal@student.42.fr>            +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/04/17 11:53:23 by dloustal      #+#    #+#                 */
-/*   Updated: 2025/04/24 12:37:53 by dloustal      ########   odam.nl         */
+/*   Updated: 2025/04/28 17:25:26 by dloustal      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -207,8 +207,10 @@ int	main(int argc, char **argv, char **envp)
 			parser->current = tokens->head;
 			parser->previous = NULL;
 			root = parse_pipe(parser);
-			print_tree_node(root, "", 1);
-			execute_src(&root, vars);
+			// expand_var_tree(&root, vars);
+			expand_dq_string("pwd: $PWD", vars);
+			// print_tree_node(root, "", 1);
+			// execute_src(&root, vars);
 			// ft_printf("EXEC RETURN: %d\n", execute_builtin(&root, vars));
 			clear_token_list(tokens);
 			clear_subtree(root);

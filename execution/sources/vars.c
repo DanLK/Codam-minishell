@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   vars.c                                             :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: rojornod <rojornod@student.42.fr>          +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/03/24 15:31:59 by rojornod          #+#    #+#             */
-/*   Updated: 2025/04/18 17:38:41 by rojornod         ###   ########.fr       */
+/*                                                        ::::::::            */
+/*   vars.c                                             :+:    :+:            */
+/*                                                     +:+                    */
+/*   By: dloustal <dloustal@student.42.fr>            +#+                     */
+/*                                                   +#+                      */
+/*   Created: 2025/03/24 15:31:59 by rojornod      #+#    #+#                 */
+/*   Updated: 2025/04/28 12:31:20 by dloustal      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -123,7 +123,7 @@ t_vars	*find_vars(t_vars *head, char *var_name)
 		if (ft_strncmp(current->name, var_name, size) == 0)
 			//return (ft_printf("NAME[%s] VALUE [%s] HIDDEN [%d] EXPORT [%d]\n", current->name, current->value, current->hidden, current->exported), current);
 			return (current);
-			else
+		else
 			current = current->next;
 	}
 	ft_printf("variable not found\n");

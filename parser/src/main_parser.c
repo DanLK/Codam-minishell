@@ -6,7 +6,7 @@
 /*   By: dloustal <dloustal@student.42.fr>            +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/04/01 16:48:50 by dloustal      #+#    #+#                 */
-/*   Updated: 2025/04/24 12:38:01 by dloustal      ########   odam.nl         */
+/*   Updated: 2025/04/28 12:25:22 by dloustal      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ int	main(void)
 	t_parser		*parser;
 	t_t_node		*pipe;
 
-	tokens = scan("unset myvar | echo hello | cat haha");
+	tokens = scan("echo $PATH >> out.txt");
 	parser = malloc(sizeof(t_parser));
 	if(!parser)
 		return (0);

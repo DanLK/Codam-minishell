@@ -6,7 +6,7 @@
 /*   By: dloustal <dloustal@student.42.fr>            +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/04/01 12:11:14 by dloustal      #+#    #+#                 */
-/*   Updated: 2025/04/15 13:55:18 by dloustal      ########   odam.nl         */
+/*   Updated: 2025/04/28 11:37:28 by dloustal      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,7 +74,11 @@ void	tkn_quote(t_token_list *tkns, char *src, t_scanner *s, char c)
 		if (is_next(&(s->cur), src, '?'))
 			append_token(tkns, TKN_EXIT_STATUS, "$?");
 		else
-			append_token(tkns, TKN_ENV_VAR, "$");
+		{
+			lexeme = tkn_env_var(src, s);
+			append_token(tkns, TKN_ENV_VAR, lexeme);
+			free(lexeme);
+		}
 	}
 	else if (c == '"')
 	{
@@ -88,6 +92,18 @@ void	tkn_quote(t_token_list *tkns, char *src, t_scanner *s, char c)
 		append_token(tkns, TKN_SQ_STRING, lexeme);
 		free(lexeme);
 	}
+}
+
+char	*tkn_env_var(char *src, t_scanner *scanner)
+{
+	char	*substr;
+
+	if (!src || scanner->cur >= (int)ft_strlen(src))
+		return (NULL);
+	while (!is_special_char(src[scanner->cur]) && src[scanner->cur])
+		scanner->cur += 1;
+	substr = ft_substr(src, scanner->start + 1, scanner->cur - scanner->start - 1);
+	return (substr);
 }
 
 void	tkn_opt_word(t_token_list *tkns, char *src, t_scanner *s, char c)
