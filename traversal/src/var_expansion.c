@@ -6,52 +6,11 @@
 /*   By: dloustal <dloustal@student.42.fr>            +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/04/28 09:49:04 by dloustal      #+#    #+#                 */
-/*   Updated: 2025/04/28 17:25:07 by dloustal      ########   odam.nl         */
+/*   Updated: 2025/04/29 16:20:34 by dloustal      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "traversal.h"
-
-/*****************************************************************************
- * Exchanges the environment variable for its value in a given node
- * Assumes the token type of the node is TKN_ENV_VAR
-******************************************************************************/
-void	expand_var(t_token_node *node, t_vars *vars)
-{
-	t_vars	*var;
-
-	if (!node || !vars)
-		return ;
-	var = find_vars(vars, node->token->lexeme);
-	if (var)
-	{
-		node->token->lexeme = ft_strdup(var->value); //Not sure whether I should change it for a copy of var instead
-		node->token->type = TKN_WORD;
-	}
-	else
-	{
-		perror("Variable not found"); //This is a syntax error and should stop and clean everything
-		return ;
-	}
-}
-
-/*****************************************************************************
- * Expands the necessary variables in a token list
-******************************************************************************/
-void	expand_var_list(t_token_list *tokens, t_vars *vars)
-{
-	t_token_node *node;
-
-	if (!tokens || !vars)
-		return ;
-	node = tokens->head;
-	while (node)
-	{
-		if (node->token->type == TKN_ENV_VAR)
-			expand_var(node, vars);
-		node = node->next;
-	}
-}
 
 /*****************************************************************************
  * Traverses the tree and expands the variables
@@ -68,72 +27,127 @@ void	expand_var_tree(t_t_node **root, t_vars *vars)
 }
 
 /*****************************************************************************
- * Expands a variable in a double quoted string
- * Returns a string with the var replaced
+ * Expands the necessary variables in a token list 
+ * 
+ * Expands the nodes of type ENV_VAR and the nodes of type DQ_STRING
+ * 
 ******************************************************************************/
-char	*expand_dq_string(char *string, t_vars *vars)
+void	expand_var_list(t_token_list *tokens, t_vars *vars)
+{
+	t_token_node	*node;
+	char			*old_lexeme;
+
+	if (!tokens || !vars)
+		return ;
+	node = tokens->head;
+	while (node)
+	{
+		if (node->token->type == TKN_ENV_VAR)
+			expand_envvar(node, vars);
+		if (node->token->type == TKN_DQ_STRING)
+		{
+			old_lexeme = node->token->lexeme;
+			node->token->lexeme = expand_dqstring(node->token->lexeme, vars);
+			free(old_lexeme);
+		}
+		node = node->next;
+	}
+}
+
+/*****************************************************************************
+ * Exchanges the environment variable for its value in a given node
+ * Assumes the token type of the node is TKN_ENV_VAR
+******************************************************************************/
+void	expand_envvar(t_token_node *node, t_vars *vars)
+{
+	t_vars	*var;
+	char	*old_lexeme;
+
+	if (!node || !vars)
+		return ;
+	var = find_vars(vars, node->token->lexeme);
+	if (var)
+	{
+		old_lexeme = node->token->lexeme;
+		free(old_lexeme);
+		node->token->lexeme = ft_strdup(var->value); //Not sure whether I should change it for a copy of var instead
+		node->token->type = TKN_WORD;
+	}
+	else
+	{
+		perror("Variable not found"); //This is a syntax error and should stop and clean everything
+		return ;
+	}
+}
+
+/*****************************************************************************
+ * Expands all variables in a double quoted string
+ * Returns a new string with all the vars replaced
+******************************************************************************/
+char	*expand_dqstring(char *string, t_vars *vars)
 {
 	int		i;
 	char	*result;
-	char	*start;
-	char	*var_name;
-	t_vars	*var;
+	char	*tmp;
+	int		len;
 
 	if (!string || !vars)
 		return (NULL);
-	if (!ft_strnstr(string, "$", ft_strlen(string)))//$ exists nowhere in the string
-		return (string);
+	if (!ft_strnstr(string, "$", ft_strlen(string)))
+		return (ft_strdup(string));
 	i = get_position(string, '$');
-	while (i)
+	result = ft_strdup(string);
+	if (!result)
+		return (NULL);
+	len = (int)ft_strlen(string);
+	while (i < len)
 	{
-		start = ft_substr(string, 0, i);
-		// ft_printf("start: %s\n", start);
-		var_name = get_var_name(string, i);
-		var = find_vars(vars, var_name);
-		if (!var)
-		{
-			perror("Variable not found"); //Clean up?
-			result = ft_strjoin(start, ""); //At the moment replacing with the empty string
-		}
-		// ft_printf("var_name: [%s]\n", var_name);
-		// ft_printf("var->value: %s\n", var->value);
-		result = ft_strjoin(start, var->value);
-		result = ft_strjoin(result, ft_substr(string, i + 1 + ft_strlen(var_name), ft_strlen(string) - i - 1 - ft_strlen(var_name)));
-		ft_printf("%s\n", result);
-		i = get_position(start, '$');
+		tmp = result;
+		result = expand_one_dqstring(tmp, vars);
+		free(tmp);
+		if (!result)
+			return (NULL);
+		i = get_position(result, '$');
+		len = (int)ft_strlen(result);
 	}
-	free(start);
 	return (result);
 }
 
-char	*get_var_name(char *string, int pos)
+/*****************************************************************************
+ * Expands a variable in a double quoted string
+ * Returns a string with the var replaced
+ * 
+ * aux[0] = start
+ * aux[1] = var_name
+ * aux[2] = start + var value
+ * aux[3] = rest
+ * 
+******************************************************************************/
+char	*expand_one_dqstring(char *string, t_vars *vars)
 {
-	char	*name;
 	int		i;
-
-	if (pos >= (int)(ft_strlen(string) - 1))
+	char	*result;
+	char	**aux;
+	t_vars	*var;
+	
+	i = get_position(string, '$');
+	aux = malloc(5 * sizeof(char *));
+	if (!aux)
 		return (NULL);
-	i = 0;
-	while (!is_special_char(string[pos + i + 1]))
-		i++;
-	name = ft_substr(string, pos + 1, i);
-	return (name);
-}
-
-int	get_position(char *string, char c)
-{
-	int i;
-	int	len;
-
-	if (!string)
-		return (0);
-	i = 0;
-	len = ft_strlen(string);
-	while (i < len && string[i])
+	aux[0] = ft_substr(string, 0, i);
+	aux[1] = get_var_name(string, i);
+	var = find_vars(vars, aux[1]);
+	if (!var || !var->value)
 	{
-		if (string[i] == c)
-			return (i);
-		i++;
+		perror("Variable not found"); //Clean up?
+		aux[2] = ft_strjoin(aux[0], ""); //At the moment replacing with the empty string
 	}
-	return (0);
+	else
+		aux[2] = ft_strjoin(aux[0], var->value);
+	aux[3] = ft_substr(string, i + 1 + ft_strlen(aux[1]),
+				ft_strlen(string)- i - 1 - ft_strlen(aux[1]));
+	aux[4] = NULL;
+	result = ft_strjoin(aux[2], aux[3]);
+	clear_array(aux);
+	return (result);
 }
