@@ -6,7 +6,7 @@
 /*   By: dloustal <dloustal@student.42.fr>            +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/04/28 09:49:04 by dloustal      #+#    #+#                 */
-/*   Updated: 2025/04/29 12:22:12 by dloustal      ########   odam.nl         */
+/*   Updated: 2025/04/29 16:20:34 by dloustal      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,6 +35,7 @@ void	expand_var_tree(t_t_node **root, t_vars *vars)
 void	expand_var_list(t_token_list *tokens, t_vars *vars)
 {
 	t_token_node	*node;
+	char			*old_lexeme;
 
 	if (!tokens || !vars)
 		return ;
@@ -44,7 +45,11 @@ void	expand_var_list(t_token_list *tokens, t_vars *vars)
 		if (node->token->type == TKN_ENV_VAR)
 			expand_envvar(node, vars);
 		if (node->token->type == TKN_DQ_STRING)
+		{
+			old_lexeme = node->token->lexeme;
 			node->token->lexeme = expand_dqstring(node->token->lexeme, vars);
+			free(old_lexeme);
+		}
 		node = node->next;
 	}
 }
@@ -56,12 +61,15 @@ void	expand_var_list(t_token_list *tokens, t_vars *vars)
 void	expand_envvar(t_token_node *node, t_vars *vars)
 {
 	t_vars	*var;
+	char	*old_lexeme;
 
 	if (!node || !vars)
 		return ;
 	var = find_vars(vars, node->token->lexeme);
 	if (var)
 	{
+		old_lexeme = node->token->lexeme;
+		free(old_lexeme);
 		node->token->lexeme = ft_strdup(var->value); //Not sure whether I should change it for a copy of var instead
 		node->token->type = TKN_WORD;
 	}
@@ -80,46 +88,66 @@ char	*expand_dqstring(char *string, t_vars *vars)
 {
 	int		i;
 	char	*result;
+	char	*tmp;
+	int		len;
 
 	if (!string || !vars)
 		return (NULL);
+	if (!ft_strnstr(string, "$", ft_strlen(string)))
+		return (ft_strdup(string));
 	i = get_position(string, '$');
-	result = string;
-	while (i > 0)
+	result = ft_strdup(string);
+	if (!result)
+		return (NULL);
+	len = (int)ft_strlen(string);
+	while (i < len)
 	{
-		result = expand_one_dqstring(result, vars);
+		tmp = result;
+		result = expand_one_dqstring(tmp, vars);
+		free(tmp);
+		if (!result)
+			return (NULL);
 		i = get_position(result, '$');
+		len = (int)ft_strlen(result);
 	}
-	// ft_printf("result: \n%s\n", result);
 	return (result);
 }
 
 /*****************************************************************************
  * Expands a variable in a double quoted string
  * Returns a string with the var replaced
+ * 
+ * aux[0] = start
+ * aux[1] = var_name
+ * aux[2] = start + var value
+ * aux[3] = rest
+ * 
 ******************************************************************************/
 char	*expand_one_dqstring(char *string, t_vars *vars)
 {
 	int		i;
 	char	*result;
-	char	*start;
-	char	*var_name;
+	char	**aux;
 	t_vars	*var;
-
-	if (!string || !vars)
-		return (NULL);
+	
 	i = get_position(string, '$');
-	start = ft_substr(string, 0, i);
-	var_name = get_var_name(string, i);
-	var = find_vars(vars, var_name);
-	if (!var)
+	aux = malloc(5 * sizeof(char *));
+	if (!aux)
+		return (NULL);
+	aux[0] = ft_substr(string, 0, i);
+	aux[1] = get_var_name(string, i);
+	var = find_vars(vars, aux[1]);
+	if (!var || !var->value)
 	{
 		perror("Variable not found"); //Clean up?
-		result = ft_strjoin(start, ""); //At the moment replacing with the empty string
+		aux[2] = ft_strjoin(aux[0], ""); //At the moment replacing with the empty string
 	}
-	result = ft_strjoin(start, var->value);
-	result = ft_strjoin(result, ft_substr(string, i + 1 + ft_strlen(var_name),
-				ft_strlen(string)- i - 1 - ft_strlen(var_name)));
-	free(start);
+	else
+		aux[2] = ft_strjoin(aux[0], var->value);
+	aux[3] = ft_substr(string, i + 1 + ft_strlen(aux[1]),
+				ft_strlen(string)- i - 1 - ft_strlen(aux[1]));
+	aux[4] = NULL;
+	result = ft_strjoin(aux[2], aux[3]);
+	clear_array(aux);
 	return (result);
 }
