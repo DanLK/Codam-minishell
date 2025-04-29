@@ -1,6 +1,6 @@
 NAME = minishell
 MAIN = minishell.c
-SRC = executioner.c var_expansion.c
+SRC = executioner.c var_expansion.c var_expansion_utils.c
 LEXER_SRC = lexer.c lexer_utils.c lexer_utils_2.c token_list.c token_identifier.c clear_list.c
 PARSER_SRC = tree.c memory_clears_parser.c parser.c parser_utilities.c parser_nodes.c debug.c
 SRC_DIR = ./src
