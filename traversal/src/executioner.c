@@ -6,7 +6,7 @@
 /*   By: dloustal <dloustal@student.42.fr>            +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/04/22 13:36:45 by dloustal      #+#    #+#                 */
-/*   Updated: 2025/04/25 14:00:52 by dloustal      ########   odam.nl         */
+/*   Updated: 2025/04/30 11:35:03 by dloustal      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,22 @@ int	execute_src(t_t_node **root, t_vars *vars)
 		return (125); // For now, as an error code
 	}
 }
+
+/*
+exec_pipe(root, vars)
+{
+	fork()
+	if (pid == 0)
+	{
+		execute_src(root->left, vars);
+
+	}
+	if (pid > 0)
+	{
+		execute_src(root->right, vars);
+	}
+}
+*/
 
 /*******************************************************************************
  *  Assuming the root node is of type P_COMMAND
