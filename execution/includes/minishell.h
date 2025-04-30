@@ -6,7 +6,7 @@
 /*   By: rojornod <rojornod@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/10 14:21:08 by rojornod          #+#    #+#             */
-/*   Updated: 2025/04/22 16:10:49 by rojornod         ###   ########.fr       */
+/*   Updated: 2025/04/30 11:43:18 by rojornod         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,24 +33,14 @@ typedef struct s_vars
 	struct s_vars		*next;
 }	t_vars;
 
-typedef struct s_exe_info
+typedef struct s_fd_info
 {
-	char	**cmd;
-	char	*path;
-	int		size;
 	int 	fdin;
 	int 	fdout;
-}	t_exe_info;
-
-// typedef struct	s_extra
-// {
-// 	bool	ischild;
-// 	pid_t	childpid;
-
-// }	t_extra;
+}	t_fd_info;
 
 t_vars		*initialize_data(void);
-t_exe_info	*initialize_info(void);
+t_fd_info	*initialize_info(void);
 
 //directories
 char	*get_home_dir(void);
@@ -92,7 +82,7 @@ void	exec_external_com(t_vars *head, char **envp, char **cmd, int size);
 int		create_child_proc(t_vars *vars, char **cmd, char *path, int size);
 
 //pipes 
-void	exec_pipe(t_vars *head, char **envp, char **command, int i);
+void	exec_pipe(t_vars *head, t_fd_info *info, char **envp, char **command);
 
 //commands
 int		is_builtin(char *command);

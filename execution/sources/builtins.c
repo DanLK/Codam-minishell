@@ -6,7 +6,7 @@
 /*   By: rojornod <rojornod@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/20 11:27:48 by rojornod          #+#    #+#             */
-/*   Updated: 2025/04/23 10:19:43 by rojornod         ###   ########.fr       */
+/*   Updated: 2025/04/23 11:58:37 by rojornod         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,21 +75,34 @@ static void	echo_printing(char **tokens, int i)
 		i++;
 	}
 }
-
+/******************************************************************************
+*
+*		-This function first checks if echo was passed with no extra arguments
+*		 and if thats true it prints a new line.
+*		-If echo ws passed with the flag -n it then checks if there is nothing
+*		 after that and if its true it gives the prompt
+*		 back
+*		-If echo is passed with text, it calls the echo_printing function
+*		
+******************************************************************************/
 void	echo_builtin(char **tokens)
 {
 	int	i;
 
 
 	i = 0;
+	if (!tokens[1])
+		return (ft_putchar_fd('\n', 1));
 	if (ft_strcmp(tokens[1], "-n") == 0)
 	{
-		i = 1;
+		i = 2;
+		if (!tokens[i])
+			return ;
 		echo_printing(tokens, i);
 	}
 	else
 	{
-		i = 0;
+		i = 1;
 		echo_printing(tokens, i);
 		ft_putchar_fd('\n', 1);
 	}
@@ -189,6 +202,26 @@ void	unset_builtin(t_vars **head, char *var_name)
 			return ;
 		}
 		head = &(*head)->next;
+	}
+}
+
+/******************************************************************************
+* 
+*	-This function prints all the environment variables stored in t_vars list.
+*	-Will be called by the env command.
+*	-Can be used to see what is currently stored in all the variables.
+*
+*	EDGE CASES DONE :
+*	-env won't print variables with no value attached to them
+*
+******************************************************************************/
+void	env_builtin(t_vars *head)
+{
+	while (head)
+	{
+		if (head->name && head->hidden == 0)
+			printf("%s=%s, export:[%d], hidden[%d] \n", head->name, head->value, head->exported, head->hidden);
+		head = head->next;
 	}
 }
 

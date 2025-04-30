@@ -6,7 +6,7 @@
 /*   By: rojornod <rojornod@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/17 14:20:17 by rojornod          #+#    #+#             */
-/*   Updated: 2025/04/22 16:37:59 by rojornod         ###   ########.fr       */
+/*   Updated: 2025/04/30 11:44:12 by rojornod         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,11 +24,11 @@ int	main(int argc, char **argv, char **envp)
 	char		*home_dir;	
 	char		*read;
 	t_vars		*vars;
-	t_exe_info 	*info;
+	t_fd_info 	*info;
 	(void)argv;
 	(void)argc;
 	
-	
+	populate_generic_node();
 	vars = initialize_data();
 	info = initialize_info();
 	// extra = initialize_extra();
@@ -59,7 +59,7 @@ int	main(int argc, char **argv, char **envp)
 			int i = 0;
 			while (command[i])
 				i++;
-			exec_pipe(vars, envp, command, i);
+			exec_pipe(vars, info, envp, command);
 		}
 		
 		else if (ft_strcmp(read, "pwd") == 0)
@@ -175,8 +175,6 @@ int	main(int argc, char **argv, char **envp)
 			debug_print("checks made om external commands", 'r');
 			exec_external_com(vars, envp, cmd, i);
 		}
-			
-			/***************************************/
 		add_history(read);
 		write_history_file(read);
 	}
