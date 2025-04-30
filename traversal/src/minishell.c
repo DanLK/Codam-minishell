@@ -6,7 +6,7 @@
 /*   By: dloustal <dloustal@student.42.fr>            +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/04/17 11:53:23 by dloustal      #+#    #+#                 */
-/*   Updated: 2025/04/29 16:20:51 by dloustal      ########   odam.nl         */
+/*   Updated: 2025/04/30 11:22:48 by dloustal      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,7 +78,7 @@ int	main(int argc, char **argv, char **envp)
 	edit_var(vars, "HOME", home_dir);
 	add_var(&vars, "TEST", NULL, 0);
 
-	tokens = scan("echo \"I am $USR hehe !!\"");
+	tokens = scan("cmd1 | cmd2 | cmd3");
 	// print_token_list(tokens);
 	// ft_printf("-------------------------------------\n");
 	parser = malloc(sizeof(t_parser));
