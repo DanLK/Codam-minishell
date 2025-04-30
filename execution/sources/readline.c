@@ -6,7 +6,7 @@
 /*   By: rojornod <rojornod@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/10 14:21:17 by rojornod          #+#    #+#             */
-/*   Updated: 2025/04/22 11:38:05 by rojornod         ###   ########.fr       */
+/*   Updated: 2025/04/30 10:37:20 by rojornod         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,12 +46,12 @@ t_vars	*initialize_data(void)
 	return (NULL);
 }
 
-t_exe_info	*initialize_info(void)
+t_fd_info	*initialize_info(void)
 {
-	t_exe_info	*info;
+	t_fd_info	*info;
 	debug_print("initializing extra", 'r');
 
-	info = malloc(sizeof(t_exe_info));
+	info = malloc(sizeof(t_fd_info));
 	debug_print("malloced struct", 'r');
 	if (!info)
 	{
@@ -106,7 +106,7 @@ void	write_history_file(char *read)
 	//char	*number;
 	
 	i = 0;
-	fd = open("./.shell_history", O_WRONLY | O_APPEND | O_CREAT, 0644);
+	fd = open("../.shell_history", O_WRONLY | O_APPEND | O_CREAT, 0644);
 	while (read[i] != '\0')
 		i++;
 	write(fd, read, i);

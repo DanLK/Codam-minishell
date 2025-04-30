@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
-/*                                                        ::::::::            */
-/*   utils.c                                            :+:    :+:            */
-/*                                                     +:+                    */
-/*   By: dloustal <dloustal@student.42.fr>            +#+                     */
-/*                                                   +#+                      */
-/*   Created: 2025/04/01 11:42:47 by rojornod      #+#    #+#                 */
-/*   Updated: 2025/04/22 11:01:03 by dloustal      ########   odam.nl         */
+/*                                                        :::      ::::::::   */
+/*   utils.c                                            :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: rojornod <rojornod@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/04/01 11:42:47 by rojornod          #+#    #+#             */
+/*   Updated: 2025/04/30 13:10:21 by rojornod         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -111,15 +111,17 @@ char	**convert_env(t_vars *head)
 	//ft_printf("first element of array is [%s]\n", env_copy[0]);
 	return (env_copy);
 }
-/*
-	-This function will turn on a sort of debug mode where you can print debug
-	 messages throught the code.
-	-They are turned on by changing the values to 1 and off on 0
-	-To not be cluttured with messages, I made it so we can each turn on our
-	 our messages by passing a char r(oberto) or d(aniela). We can turn off the
-	 the other ones prints by turning the values (val_d or val_r) to 0.
-	 this way it will be easier to debug each of our own code.
-*/
+/******************************************************************************
+*
+*	-This function will turn on a sort of debug mode where you can print debug
+*	 messages throught the code.
+*	-They are turned on by changing the values to 1 and off on 0
+*	-To not be cluttured with messages, I made it so we can each turn on our
+*	 our messages by passing a char r(oberto) or d(aniela). We can turn off the
+*	 the other ones prints by turning the values (val_d or val_r) to 0.
+*	 this way it will be easier to debug each of our own code.
+*
+******************************************************************************/
 void	debug_print(char *debug_message, char c)
 {
 	int	val_d;

@@ -6,7 +6,7 @@
 /*   By: rojornod <rojornod@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/20 10:06:02 by rojornod          #+#    #+#             */
-/*   Updated: 2025/04/22 14:05:32 by rojornod         ###   ########.fr       */
+/*   Updated: 2025/04/23 15:47:51 by rojornod         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,11 @@ void	signal_handler(int signal)
 		g_recieved = 1;
 	}
 	else if (signal == SIGQUIT)
-		ft_printf("nothing will happen\n");
+	{
+		rl_replace_line("", 0);
+		rl_on_new_line();
+		rl_redisplay();
+	}
 	
 		/* 
 		ctrl + D does not send a signal but instead causes input functions

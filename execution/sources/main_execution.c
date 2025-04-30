@@ -6,7 +6,7 @@
 /*   By: rojornod <rojornod@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/17 14:20:17 by rojornod          #+#    #+#             */
-/*   Updated: 2025/04/22 16:37:59 by rojornod         ###   ########.fr       */
+/*   Updated: 2025/04/30 16:00:05 by rojornod         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,10 +24,9 @@ int	main(int argc, char **argv, char **envp)
 	char		*home_dir;	
 	char		*read;
 	t_vars		*vars;
-	t_exe_info 	*info;
+	t_fd_info 	*info;
 	(void)argv;
 	(void)argc;
-	
 	
 	vars = initialize_data();
 	info = initialize_info();
@@ -39,7 +38,8 @@ int	main(int argc, char **argv, char **envp)
 	debug_print("getting home directory", 'r');
 	home_dir = get_home_dir();
 	edit_var(vars, "HOME", home_dir);
-	add_var(&vars, "TEST", NULL, 0);
+	add_var(&vars, "TEST", "val", 0);
+	add_var(&vars, "TEST3", "val3", 0);
 	create_history_file();
 	signal_action();
 	while (1)
@@ -59,7 +59,7 @@ int	main(int argc, char **argv, char **envp)
 			int i = 0;
 			while (command[i])
 				i++;
-			exec_pipe(vars, envp, command, i);
+			//execute_pipe(vars, info, envp, command);
 		}
 		
 		else if (ft_strcmp(read, "pwd") == 0)
@@ -175,8 +175,6 @@ int	main(int argc, char **argv, char **envp)
 			debug_print("checks made om external commands", 'r');
 			exec_external_com(vars, envp, cmd, i);
 		}
-			
-			/***************************************/
 		add_history(read);
 		write_history_file(read);
 	}
