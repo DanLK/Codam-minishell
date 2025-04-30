@@ -6,7 +6,7 @@
 /*   By: rojornod <rojornod@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/20 11:27:48 by rojornod          #+#    #+#             */
-/*   Updated: 2025/04/23 11:58:37 by rojornod         ###   ########.fr       */
+/*   Updated: 2025/04/30 16:03:50 by rojornod         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -174,6 +174,14 @@ void	export_builtin(t_vars *head, char *var_name, char *var_value)
 				ft_printf("declare -x %s=%s export [%d]\n", head->name, head->value, head->exported);
 			head = head->next;
 		}
+	}
+	else if (var_name)
+	{
+		head = find_vars(head, var_name);
+		if (head)
+		{
+			head->exported = 1;
+		}	
 	}
 	else if (var_name && var_value)
 		add_var(&head, var_name, var_value, 1);

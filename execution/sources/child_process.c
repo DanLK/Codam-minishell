@@ -6,7 +6,7 @@
 /*   By: rojornod <rojornod@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/16 11:11:31 by rojornod          #+#    #+#             */
-/*   Updated: 2025/04/30 11:53:09 by rojornod         ###   ########.fr       */
+/*   Updated: 2025/04/30 13:43:28 by rojornod         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,7 +57,3 @@ int	create_child_proc(t_vars *vars, char **cmd, char *path, int size)
 	return (EXIT_SUCCESS);
 }
 
-void	exec_pipe(t_vars *head, t_fd_info *info)
-{
-	
-}
