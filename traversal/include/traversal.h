@@ -6,7 +6,7 @@
 /*   By: dloustal <dloustal@student.42.fr>            +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/04/22 12:02:07 by dloustal      #+#    #+#                 */
-/*   Updated: 2025/04/29 12:22:38 by dloustal      ########   odam.nl         */
+/*   Updated: 2025/04/30 15:11:44 by dloustal      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,8 @@ int		execute_command(t_t_node **root, t_vars *vars);
 int		execute_builtin(t_t_node **root, t_vars *vars);
 int		execute_echo(t_token_list *tokens);
 int		execute_unset(t_token_list *tokens, t_vars **head);
+int		execute_export(t_token_list *tokens, t_vars *head);
+int		execute_assignment(t_token_list *tokens, t_vars *vars);
 
 // Variable expansion
 void	expand_var_tree(t_t_node **root, t_vars *vars);

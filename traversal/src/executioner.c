@@ -6,7 +6,7 @@
 /*   By: dloustal <dloustal@student.42.fr>            +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/04/22 13:36:45 by dloustal      #+#    #+#                 */
-/*   Updated: 2025/04/30 11:35:03 by dloustal      ########   odam.nl         */
+/*   Updated: 2025/04/30 15:28:25 by dloustal      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,8 @@ int	execute_command(t_t_node **root, t_vars *vars)
 	if (!root)
 		return (125); //Not sure what to return here
 	tokens = (*root)->tokens;
-	if (is_builtin_type(tokens->head->token->type))
+	if (is_builtin_type(tokens->head->token->type)
+	|| tokens->head->token->type == TKN_WORD)
 		return (execute_builtin(root, vars));
 	return (125); //For now
 }
@@ -87,6 +88,7 @@ int	execute_builtin(t_t_node **root, t_vars *vars)
 	}
 	if (type == TKN_EXPORT)
 	{
+		execute_export(tokens, vars);
 		return (4); //For now, further processing of the variable name and variable value are needed
 	}
 	if (type == TKN_UNSET)
@@ -103,6 +105,11 @@ int	execute_builtin(t_t_node **root, t_vars *vars)
 	{
 		exit_builtin(""); // For now
 		return (7);
+	}
+	if (type == TKN_WORD)
+	{
+		execute_assignment(tokens, vars);
+		return (8);
 	}
 	return (125); //For now
 }
@@ -154,4 +161,57 @@ int	execute_unset(t_token_list *tokens, t_vars **head)
 		node = node->next;
 	}
 	return (0); // If all went well i.e. if all the exit status were 0
+}
+
+
+int	execute_export(t_token_list *tokens, t_vars *vars)
+{
+	char			*var_name;
+	char			*var_value;
+	t_token_node	*node;
+	//int			exit_status;
+
+	if (!tokens || !vars)
+		return (125); //For now
+	if (!tokens->head->next)
+	{
+		export_builtin(vars, NULL, NULL);
+		return (0); // For now
+	}
+	node = tokens->head->next;
+	var_name = node->token->lexeme;
+	var_value = NULL;
+	if (node->next && node->next->token->type == TKN_EQUAL) //The equal
+	{
+		if (node->next->next) //There is a node with the value
+			var_value = node->next->next->token->lexeme;
+		else
+			var_value = "";
+	}
+	// Should check that the token list has been fully consumed?
+	export_builtin(vars, var_name, var_value); // Return the exit status
+	return (0); //For now
+}
+
+int	execute_assignment(t_token_list *tokens, t_vars *vars)
+{
+	char			*var_name;
+	char			*var_value;
+	t_token_node	*node;
+
+	if (!tokens || !vars)
+		return (125); // For now
+	node = tokens->head;
+	var_name = node->token->lexeme;
+	if (node->next->token->type == TKN_EQUAL)
+	{
+		if (node->next->next)
+			var_value = node->next->next->token->lexeme;
+		else
+			var_value = "";
+	}
+	else
+		return (125); //For now -- on error
+	add_var(&vars, var_name, var_value, 0); //Add the variable and mark it as not exported
+	return (0); // for now -- on success
 }
