@@ -6,30 +6,11 @@
 /*   By: rojornod <rojornod@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/10 14:21:17 by rojornod          #+#    #+#             */
-/*   Updated: 2025/04/30 10:37:20 by rojornod         ###   ########.fr       */
+/*   Updated: 2025/05/02 17:39:45 by rojornod         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
-
-// t_vars	initialize_data(void)
-// {
-// 	t_vars *head;
-// 	ft_printf("initializing date\n");
-// 	// head = malloc(sizeof(t_vars));
-// 	// if (!head)
-// 	// {
-// 	// 	perror("malloc on vars initialization");
-// 	// 	exit(EXIT_FAILURE);
-// 	// }
-// 	head->name = NULL;
-// 	head->value = NULL;
-// 	head->exported = 0;
-// 	head->hidden = 0;
-// 	head->next = NULL;
-// 	ft_printf("date initialized");
-// 	return (NULL);
-// }
 
 t_vars	*initialize_data(void)
 {
@@ -46,19 +27,20 @@ t_vars	*initialize_data(void)
 	return (NULL);
 }
 
-t_fd_info	*initialize_info(void)
+t_shell_info	*initialize_info(void)
 {
-	t_fd_info	*info;
+	t_shell_info	*info;
 	debug_print("initializing extra", 'r');
 
-	info = malloc(sizeof(t_fd_info));
+	info = malloc(sizeof(t_shell_info));
 	debug_print("malloced struct", 'r');
 	if (!info)
 	{
 		perror("malloc on vars initialization");
 		exit(EXIT_FAILURE);
 	}
-	return (NULL);
+	info->is_child_running = 0;
+	return (info);
 }
 
 char	*get_home_dir(void)
@@ -70,9 +52,8 @@ char	*get_home_dir(void)
 	if (!getcwd(buff, PATH_MAX + 1))
 		return (NULL);
 	current_directory = ft_strdup(buff);
-	// ft_printf("assigned directory\n");
-	// ft_printf("exiting functions...\n");
-	// ft_printf("cd is %s\n", current_directory);
+	if (!current_directory)
+		return (NULL);
 	return (current_directory);
 }
 

@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
-/*                                                        ::::::::            */
-/*   executioner.c                                      :+:    :+:            */
-/*                                                     +:+                    */
-/*   By: dloustal <dloustal@student.42.fr>            +#+                     */
-/*                                                   +#+                      */
-/*   Created: 2025/04/22 13:36:45 by dloustal      #+#    #+#                 */
-/*   Updated: 2025/04/30 15:28:25 by dloustal      ########   odam.nl         */
+/*                                                        :::      ::::::::   */
+/*   executioner.c                                      :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: rojornod <rojornod@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/04/22 13:36:45 by dloustal          #+#    #+#             */
+/*   Updated: 2025/05/01 15:45:08 by rojornod         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,7 +103,7 @@ int	execute_builtin(t_t_node **root, t_vars *vars)
 	}
 	if (type == TKN_EXIT)
 	{
-		exit_builtin(""); // For now
+		exit_builtin(); // FIXED the exit built in to not take any argument
 		return (7);
 	}
 	if (type == TKN_WORD)

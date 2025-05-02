@@ -6,7 +6,7 @@
 /*   By: rojornod <rojornod@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/09 10:14:24 by rojornod          #+#    #+#             */
-/*   Updated: 2025/04/22 16:05:32 by rojornod         ###   ########.fr       */
+/*   Updated: 2025/05/02 17:46:21 by rojornod         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,96 +26,46 @@ char	*find_path(t_vars *head, char *command)
 	char	**temp_path;
 	int		i;
 	char	*path;
+	char	*temp;
 
 	i = 0;
 	current = head;
 	current = find_vars(head, "PATH");
 	temp_path = ft_split(current->value, ':'); //malloc freed after a valid path is found or not
+	if (!temp_path)
+		return (NULL);
 	while (temp_path[i])
 	{
-		temp_path[i] = ft_strjoin(temp_path[i], "/"); //malloc freed after a valid path is found or not
-		temp_path[i] = ft_strjoin(temp_path[i], command); //malloc freed after a valid path is found or not
+		temp = ft_strjoin(temp_path[i], "/"); //malloc freed after a valid path is found or not
+		free(temp_path[i]);
+		if (!temp)
+			return (free_array(temp_path), NULL);
+		temp_path[i] = temp;
+		temp = ft_strjoin(temp_path[i], command); //malloc freed after a valid path is found or not
+		free(temp_path[i]);
+		temp_path[i] = temp;
+		if (!temp_path[i])
+			return (free_array(temp_path), NULL);
 		if (access(temp_path[i], F_OK) == 0)
 		{
 			path = ft_strdup(temp_path[i]); //malloc freed in the create_child_proc function
+			if (!path)
+				return (free_array(temp_path), NULL);
 			free_array(temp_path);
 			return (path);
 		}
 		i++;
 	}
-	ft_printf("\n");
 	free_array(temp_path);
-	return (ft_printf("bash: %s: command not found\n", command), NULL);
+	return (ft_printf("bash: %s command not found\n", command), NULL);
 }
 
-void	exec_external_com(t_vars *head, char **envp, char **command, int size)
+void	exec_external_com(t_vars *head, char **command, int size, t_shell_info *info)
 {
-	(void)envp;
 	char	*path;
 
 	path = find_path(head, command[0]);
-	create_child_proc(head, command, path, size);
+	create_child_proc(head, command, path, size, info);
 }
 
-int	is_external_cmd(t_vars	*head, char *command)
-{
-	
-	if (!find_path(head, command))
-	{
-		debug_print("command is not external", 'r');
-		return (1);
-	}
-	else
-	{
-		debug_print("command is external", 'r');
-		return (0);
-	}	
-}
 
-int	is_builtin(char *command)
-{
-	int		i;
-	char	*builtins[] = {"echo", "cd", "pwd", "export", "unset", "env", "exit"};
-	
-	i = 0;
-	while (builtins[i])
-	{
-		if (ft_strcmp(builtins[i], command) == 0)
-		{
-			debug_print("command is a builtin", 'r');
-			return (1);
-		}
-			i++;
-	}
-	debug_print("command is not a builtin", 'r');
-	return (0);
-}
-
-int	find_cmd(t_vars *head, char *cmd)
-{
-	int		i;
-	char	*built[] = {"echo", "cd", "pwd", "export", "unset", "env", "exit"};
-	
-	i = 0;
-	while (built[i])
-	{
-		if (ft_strcmp(built[i], cmd) == 0)
-		{
-			debug_print("command is a builtin", 'r');
-			return (1);
-		}
-			i++;
-	}
-	debug_print("command is not a builtin", 'r');
-	if (!find_path(head, cmd))
-	{
-		debug_print("command is not external", 'r');
-		return (1);
-	}
-	else
-	{
-		debug_print("command is external", 'r');
-		return (0);
-	}	
-	
-}

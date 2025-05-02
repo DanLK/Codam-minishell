@@ -6,7 +6,7 @@
 /*   By: rojornod <rojornod@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/20 11:27:48 by rojornod          #+#    #+#             */
-/*   Updated: 2025/04/30 16:39:25 by rojornod         ###   ########.fr       */
+/*   Updated: 2025/05/02 14:20:31 by rojornod         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,11 +25,10 @@
 *
 *******************************************************************************/
 
-void	exit_builtin(char *exit_cmd)
+void	exit_builtin(void)
 {
 	ft_printf("exit\n");
-	if (exit_cmd)
-		exit(255);
+	exit(255);
 }
 
 /******************************************************************************
@@ -55,26 +54,27 @@ void	exit_builtin(char *exit_cmd)
 static void	echo_printing(char **tokens, int i)
 {
 	int	j;
-	
+
 	j = 0;
 	while (tokens[i])
-	 {
+	{
 		if (tokens[i][j] == ' ' || tokens[i][j] == '\'' || tokens[i][j] == '\\')
-	 		j++;
-	 	else if (tokens[i][j] == ' ' && tokens[i][j + 1] == ' ')
-	 	{
-	 		ft_putstr_fd(tokens[i], 1);
-			while (tokens[i][j] == ' ')
-	 			j++;
-	 	}
-	 	else
+			j++;
+		else if (tokens[i][j] == ' ' && tokens[i][j + 1] == ' ')
 		{
-	 		ft_putstr_fd(tokens[i], 1);
+			ft_putstr_fd(tokens[i], 1);
+			while (tokens[i][j] == ' ')
+				j++;
+		}
+		else
+		{
+			ft_putstr_fd(tokens[i], 1);
 			ft_putchar_fd(' ', 1);
 		}
 		i++;
 	}
 }
+
 /******************************************************************************
 *
 *		-This function first checks if echo was passed with no extra arguments
@@ -88,7 +88,6 @@ static void	echo_printing(char **tokens, int i)
 void	echo_builtin(char **tokens)
 {
 	int	i;
-
 
 	i = 0;
 	if (!tokens[1])
@@ -157,9 +156,11 @@ void	cd_builtin(char *path, t_vars *vars)
 			ft_printf("minishell: cd: %s: No such file or directory\n", path);
 	}
 }
+
 /******************************************************************************
 *
 *		This function will print out all the exported variables
+		If the value is null and it is exported 
 *
 ******************************************************************************/
 void	export_builtin(t_vars *head, char *var_name, char *var_value)
@@ -168,25 +169,28 @@ void	export_builtin(t_vars *head, char *var_name, char *var_value)
 	{
 		while (head)
 		{
-			if (head->value == NULL)
-				ft_printf("declare -x %s, value=[%s] export [%d]\n", head->name, head->value, head->exported);
-			else
-				ft_printf("declare -x %s=%s export [%d]\n", head->name, head->value, head->exported);
+			if (!head->value && head->exported == 1 && head->hidden != 1)
+				ft_printf("declare -x %s\n", head->name);
+			else if (head->value && head->exported == 1 && head->hidden != 1)
+				ft_printf("declare -x %s=%s\n", head->name, head->value);
 			head = head->next;
 		}
 	}
-	else if (var_name)
+	else
 	{
 		head = find_vars(head, var_name);
 		if (head)
 		{
 			head->exported = 1;
-		}	
+			if (var_value)
+			{
+				free(var_value);
+				head->value = ft_strdup(var_value);
+			}
+		}
+		else
+			add_var(&head, var_name, var_value, 1);
 	}
-	else if (var_name && var_value)
-		add_var(&head, var_name, var_value, 1);
-	else if (var_name && !var_value)
-		add_var(&head, var_name, NULL, 1);
 }
 
 /******************************************************************************
@@ -206,7 +210,6 @@ void	unset_builtin(t_vars **head, char *var_name)
 			temp = *head;
 			*head = (*head)->next;
 			free(temp);
-			ft_printf("freed temp\n");
 			return ;
 		}
 		head = &(*head)->next;
@@ -228,9 +231,7 @@ void	env_builtin(t_vars *head)
 	while (head)
 	{
 		if (head->name && head->hidden == 0)
-			printf("%s=%s, export:[%d], hidden[%d] \n", head->name, head->value, head->exported, head->hidden);
+			printf("%s=%s, [export:[%d], hidden[%d]] \n", head->name, head->value, head->exported, head->hidden);
 		head = head->next;
 	}
 }
-
-
