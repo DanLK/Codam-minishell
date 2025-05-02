@@ -6,11 +6,20 @@
 /*   By: rojornod <rojornod@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/17 14:20:17 by rojornod          #+#    #+#             */
-/*   Updated: 2025/04/30 16:00:05 by rojornod         ###   ########.fr       */
+/*   Updated: 2025/05/02 17:43:45 by rojornod         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
+
+void	set_exit_code_var(t_vars *head)
+{
+	t_vars *current;
+	
+	add_var(&head, "exit_code", "0", 1);
+	current = find_vars(head, "exit_code");
+	current->hidden = 1;
+}
 
 /******************************************************************************
 *
@@ -24,7 +33,7 @@ int	main(int argc, char **argv, char **envp)
 	char		*home_dir;	
 	char		*read;
 	t_vars		*vars;
-	t_fd_info 	*info;
+	t_shell_info 	*info;
 	(void)argv;
 	(void)argc;
 	
@@ -40,8 +49,15 @@ int	main(int argc, char **argv, char **envp)
 	edit_var(vars, "HOME", home_dir);
 	add_var(&vars, "TEST", "val", 0);
 	add_var(&vars, "TEST3", "val3", 0);
+	set_exit_code_var(vars);
 	create_history_file();
-	signal_action();
+	if (info->is_child_running == 0)
+	{
+		signal_action();
+	}
+	else
+		printf("test\n");
+		//signal_child_action();
 	while (1)
 	{
 		read = readline("> ");
@@ -65,8 +81,8 @@ int	main(int argc, char **argv, char **envp)
 		else if (ft_strcmp(read, "pwd") == 0)
 		{
 			debug_print("command is pwd", 'r');
-			is_external_cmd(vars, read);
-			is_builtin(read);
+			// is_external_cmd(vars, read);
+			// is_builtin(read);
 			pwd_builtin();
 		}	
 		else if (ft_strncmp(read, "echo", 4) == 0)
@@ -90,6 +106,9 @@ int	main(int argc, char **argv, char **envp)
 
 		else if (ft_strcmp(read, "cd4") == 0)
 			cd_builtin("sources", vars);
+		
+		else if (ft_strcmp(read, "exit") == 0)
+			exit_builtin();
 			
 		else if (ft_strcmp(read, "edit") == 0) //edits variable with name HOME to a custom value
 			edit_var(vars, "HOME", "rojornod/personal/minishell/execution");
@@ -126,7 +145,7 @@ int	main(int argc, char **argv, char **envp)
 				ft_printf("[%d] [%s]\n", i, cmd[i]);
 				i++;
 			}
-			create_child_proc(vars, cmd, "./minishell", i);
+			create_child_proc(vars, cmd, "./minishell", i, info);
 		}	
 		else if (ft_strcmp(read, "envlist") == 0) //converts the environment variables from a linked list to an array then displays it 
 			convert_env(vars);
@@ -135,7 +154,7 @@ int	main(int argc, char **argv, char **envp)
 			show_pid();
 		
 		else if (ft_strcmp(read, "find") == 0) //tries to find the variable with name HOME 
-			find_vars(vars, "HOME");
+			find_vars(vars, "exit_code");
 		
 		else if (ft_strncmp(read, "find", 4) == 0) //tries to find a variable you given the name. syntax: find <variable name>
 		{
@@ -144,11 +163,13 @@ int	main(int argc, char **argv, char **envp)
 			int		size;
 			char	*var_name;
 			
-			size = (ft_strlen(read)- 5);
-			var_name = malloc(size * (sizeof(char)));
+			size = (ft_strlen(read) - 5);
+			var_name = malloc(size * (sizeof(char)) + 1);
 			while (read[i] != '\0')
-			var_name[j++] = read[i++];
+				var_name[j++] = read[i++];
+			var_name[j] = '\0';
 			find_vars(vars, var_name);
+			
 		}
 		/* 
 		- 	If command is not one of the hard coded ones it means its one of the external ones.
@@ -173,7 +194,7 @@ int	main(int argc, char **argv, char **envp)
 			while (cmd[i])
 				i++;
 			debug_print("checks made om external commands", 'r');
-			exec_external_com(vars, envp, cmd, i);
+			exec_external_com(vars, cmd, i, info);
 		}
 		add_history(read);
 		write_history_file(read);

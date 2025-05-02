@@ -6,7 +6,7 @@
 /*   By: rojornod <rojornod@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/01 11:42:47 by rojornod          #+#    #+#             */
-/*   Updated: 2025/04/30 13:10:21 by rojornod         ###   ########.fr       */
+/*   Updated: 2025/05/02 14:36:50 by rojornod         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ int	ft_strcmp(char *s1, char *s2)
 void	free_array(char **array)
 {
 	int	i;
-	
+
 	i = 0;
 	while (array[i])
 	{
@@ -97,6 +97,8 @@ char	**convert_env(t_vars *head)
 		{
 			if (!current->value)
 				env_copy[i] = ft_strdup(current->name); //malloc is used here, needs to be free
+			if (!env_copy[i])
+				return (free_array(env_copy), NULL);
 			else
 			{
 				temp = ft_strjoin(current->name, "="); //malloc is used here, needs to be free
@@ -107,10 +109,9 @@ char	**convert_env(t_vars *head)
 		current = current->next;
 	}
 	env_copy[i] = NULL;
-	//ft_printf("there are [%d] elements in the env list\n", i);
-	//ft_printf("first element of array is [%s]\n", env_copy[0]);
 	return (env_copy);
 }
+
 /******************************************************************************
 *
 *	-This function will turn on a sort of debug mode where you can print debug
@@ -126,14 +127,11 @@ void	debug_print(char *debug_message, char c)
 {
 	int	val_d;
 	int	val_r;
-	
-	val_d = 0;
-	val_r = 0;
-	
-	if (val_d == 1 && c == 'd')
-			ft_printf("[%s]\n", debug_message);
-	
-	if (val_r == 1 && c == 'r')
-			ft_printf("[%s]\n", debug_message);
-}
 
+	val_d = 0;
+	val_r = 1;
+	if (val_d == 1 && c == 'd')
+		ft_printf("[%s]\n", debug_message);
+	if (val_r == 1 && c == 'r')
+		ft_printf("[%s]\n", debug_message);
+}

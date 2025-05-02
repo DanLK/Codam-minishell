@@ -6,7 +6,7 @@
 /*   By: rojornod <rojornod@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/10 14:21:08 by rojornod          #+#    #+#             */
-/*   Updated: 2025/04/30 15:08:47 by rojornod         ###   ########.fr       */
+/*   Updated: 2025/05/02 17:44:28 by rojornod         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,99 +20,34 @@
 #include <limits.h>
 #include <sys/types.h>
 #include <sys/wait.h>
+#include <errno.h>
 #include "../../libft/libft.h"
+#include "../../parser/include/parser.h"
+#include "../../lexer/include/lexer.h"
+
 #define STDIN  0
 #define STDOUT 1
 
-//parser stuff
-enum e_Ptype
-{
-	PARSER_COMMAND,
-	PARSER_PIPE,
-	PARSER_REDIR,
-	PARSER_FILEPATH
-};
-enum e_Type
-{
-	// Single character tokens
-	TKN_L_PAREN, //0
-	TKN_R_PAREN, //1
-	TKN_EQUAL, //2
-	// Builtins
-	TKN_ECHO, //3
-	TKN_CD,
-	TKN_PWD, //5
-	TKN_EXPORT,
-	TKN_UNSET,
-	TKN_ENV,
-	TKN_EXIT, //9
-	// Options
-	TKN_OPTION,
-	// Redirections
-	TKN_REDIR_IN, //11
-	TKN_REDIR_OUT,
-	TKN_HEREDOC,
-	TKN_REDIR_OUT_APP,
-	// Operators
-	TKN_PIPE, //15
-	// Exit status ($?)
-	TKN_EXIT_STATUS,
-	// Parameter Expansion ($)
-	TKN_ENV_VAR,
-	// Path
-	TKN_FILE_PATH, //18
-	// Literals
-	TKN_SQ_STRING,
-	TKN_DQ_STRING,
-	TKN_WORD, //21
-	//EOF to indicate end of input
-	TKN_END //22
-};
-
-typedef struct token
-{
-	enum e_Type	type;
-	char		*lexeme;
-}		t_token;
-
-typedef struct s_token_node
-{
-	t_token				*token;
-	struct s_token_node	*next;
-}		t_token_node;
-
-typedef struct s_token_list
-{
-	t_token_node	*head;
-}		t_token_list;
-typedef struct s_t_node
-{
-	t_token_list		*tokens;
-	struct s_t_node		*left;
-	struct s_t_node		*right;
-	int					level;
-	enum e_Ptype		p_type;
-}		t_t_node;
-
-// end parser stuff
-
 typedef struct s_vars
 {
-	char				*name;
-	char				*value;
-	int					exported;
-	int					hidden;
-	struct s_vars		*next;
+	char			*name;
+	char			*value;
+	int				exported;
+	int				hidden;
+	struct s_vars	*next;
 }	t_vars;
 
-typedef struct s_fd_info
+typedef struct s_shell_info
 {
+	bool	is_child_running;
+	int		last_exit_code;
+	int		**child_pid;
 	int 	fdin;
 	int 	fdout;
-}	t_fd_info;
+}	t_shell_info;
 
-t_vars		*initialize_data(void);
-t_fd_info	*initialize_info(void);
+t_vars			*initialize_data(void);
+t_shell_info	*initialize_info(void);
 
 //directories
 char	*get_home_dir(void);
@@ -127,7 +62,7 @@ void	pwd_builtin(void);
 void	cd_builtin(char *command, t_vars *vars);
 void	export_builtin(t_vars *head, char *var_name, char *var_value);
 void	unset_builtin(t_vars **head, char *var_name);
-void	exit_builtin(char *exit_cmd);
+void	exit_builtin(void);
 void	env_builtin(t_vars *head);
 
 //variables
@@ -149,13 +84,13 @@ void	signal_action(void);
 
 //external commands
 char	*find_path(t_vars *head, char *command);
-void	exec_external_com(t_vars *head, char **envp, char **cmd, int size);
+void	exec_external_com(t_vars *head, char **cmd, int size, t_shell_info *info);
 
 //child process
-int		create_child_proc(t_vars *vars, char **cmd, char *path, int size);
+int		create_child_proc(t_vars *vars, char **cmd, char *path, int size, t_shell_info *info);
 
 //pipes 
-void	execute_pipe(t_t_node **node, t_vars *head);
+int		execute_pipe(t_t_node **node, t_vars *head);
 
 //commands
 int		is_builtin(char *command);

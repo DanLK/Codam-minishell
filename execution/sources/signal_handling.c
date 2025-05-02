@@ -6,7 +6,7 @@
 /*   By: rojornod <rojornod@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/20 10:06:02 by rojornod          #+#    #+#             */
-/*   Updated: 2025/04/23 15:47:51 by rojornod         ###   ########.fr       */
+/*   Updated: 2025/05/01 17:33:03 by rojornod         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,8 +24,6 @@ volatile sig_atomic_t	g_recieved = 0;
 
 void	signal_handler(int signal)
 {
-
-	
 	if (signal == SIGINT) 
 	{
 		write(1, "\n", 1);
@@ -40,14 +38,7 @@ void	signal_handler(int signal)
 		rl_on_new_line();
 		rl_redisplay();
 	}
-	
-		/* 
-		ctrl + D does not send a signal but instead causes input functions
-	to return EOF
-		I don't think this if condition works but I'll leave it for now 
-	and change it later
-	*/
-	if (!signal)
+	if (!signal) //does nothing for now
 	{
 		ft_printf("exit\n");
 		g_recieved = 1;

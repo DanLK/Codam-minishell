@@ -6,7 +6,7 @@
 /*   By: rojornod <rojornod@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/24 15:31:59 by rojornod          #+#    #+#             */
-/*   Updated: 2025/04/28 17:06:02 by rojornod         ###   ########.fr       */
+/*   Updated: 2025/05/02 14:35:35 by rojornod         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,18 +95,17 @@ t_vars	*find_vars(t_vars *head, char *var_name)
 	size_t	size;
 	t_vars	*current;
 	//char	*temp_var;
-
 	size = ft_strlen(var_name);
 	current = head;
 	while (current)
 	{
 		if (ft_strncmp(current->name, var_name, size) == 0)
 			//return (ft_printf("NAME[%s] VALUE [%s] HIDDEN [%d] EXPORT [%d]\n", current->name, current->value, current->hidden, current->exported), current);
-			return (ft_printf("variable found\n"), current);
-			else
+			return (debug_print("variable found", 'r'), current);
+		else
 			current = current->next;
 	}
-	ft_printf("variable not found\n");
+	debug_print("variable not found", 'r');
 	return (NULL);
 }
 
@@ -146,7 +145,8 @@ void	copy_env(t_vars **head, char **envp)
 			debug_print("error splitting tokens", 'r');
 			exit(EXIT_FAILURE);
 		}
-		else if (tokens && tokens[0] && tokens[1]){
+		else if (tokens && tokens[0] && tokens[1])
+		{
 			add_var(head, tokens[0], tokens[1], 1);
 			debug_print("var added", 'r');
 		}
