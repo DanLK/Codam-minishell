@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   vars.c                                             :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: rojornod <rojornod@student.42.fr>          +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/03/24 15:31:59 by rojornod          #+#    #+#             */
-/*   Updated: 2025/05/02 14:35:35 by rojornod         ###   ########.fr       */
+/*                                                        ::::::::            */
+/*   vars.c                                             :+:    :+:            */
+/*                                                     +:+                    */
+/*   By: dloustal <dloustal@student.42.fr>            +#+                     */
+/*                                                   +#+                      */
+/*   Created: 2025/03/24 15:31:59 by rojornod      #+#    #+#                 */
+/*   Updated: 2025/05/05 16:28:29 by dloustal      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -139,7 +139,7 @@ void	copy_env(t_vars **head, char **envp)
 	{
 		debug_print("splitting tokens", 'r');
 		tokens = ft_split(envp[i], '=');
-		debug_print("checking split successful", 'd');
+		debug_print("checking split successful", 'r');
 		if (!tokens)
 		{
 			debug_print("error splitting tokens", 'r');
