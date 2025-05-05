@@ -6,20 +6,11 @@
 /*   By: rojornod <rojornod@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/17 14:20:17 by rojornod          #+#    #+#             */
-/*   Updated: 2025/05/05 10:55:52 by rojornod         ###   ########.fr       */
+/*   Updated: 2025/05/05 17:32:28 by rojornod         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
-
-void	set_exit_code_var(t_vars *head)
-{
-	t_vars *current;
-	
-	add_var(&head, "exit_code", "0", 1);
-	current = find_vars(head, "exit_code");
-	current->hidden = 1;
-}
 
 /******************************************************************************
 *
@@ -49,16 +40,14 @@ int	main(int argc, char **argv, char **envp)
 	edit_var(vars, "HOME", home_dir);
 	add_var(&vars, "TEST", "val", 0);
 	add_var(&vars, "TEST3", "val3", 0);
-	set_exit_code_var(vars);
-	ft_printf("is child running [%d]\n", info->is_child_running);
 	create_history_file();
-	if (info->is_child_running == 0)
-		signal_action();
-	else
-	{
-		debug_print("there is a child running", 'r');
-		child_signal_action();
-	}	
+	// if (info->is_child_running == 0)
+	// 	signal_action();
+	// else
+	// {
+	// 	debug_print("there is a child running", 'r');
+	// 	child_signal_action();
+	// }	
 	while (1)
 	{
 		read = readline("> ");

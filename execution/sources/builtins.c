@@ -6,7 +6,7 @@
 /*   By: rojornod <rojornod@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/20 11:27:48 by rojornod          #+#    #+#             */
-/*   Updated: 2025/05/05 14:17:00 by rojornod         ###   ########.fr       */
+/*   Updated: 2025/05/05 17:16:40 by rojornod         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@
 *
 *******************************************************************************/
 
-void	exit_builtin(void)
+int	exit_builtin(void)
 {
 	ft_printf("exit\n");
 	exit(255);
@@ -85,19 +85,19 @@ static void	echo_printing(char **tokens, int i)
 *		-If echo is passed with text, it calls the echo_printing function
 *		
 ******************************************************************************/
-void	echo_builtin(char **tokens)
+int	echo_builtin(char **tokens)
 {
 	//change token index to 0 so it works for parsing
 	int	i;
 
 	i = 0;
 	if (!tokens[0])
-		return (ft_putchar_fd('\n', 1));
+		ft_putchar_fd('\n', 1);
 	if (ft_strcmp(tokens[0], "-n") == 0)
 	{
 		i = 1;
 		if (!tokens[i])
-			return ;
+			return (0);
 		echo_printing(tokens, i);
 	}
 	else
@@ -106,6 +106,7 @@ void	echo_builtin(char **tokens)
 		echo_printing(tokens, i);
 		ft_putchar_fd('\n', 1);
 	}
+	return (0);
 }
 
 /******************************************************************************
@@ -117,14 +118,16 @@ void	echo_builtin(char **tokens)
 *	size
 *	
 ******************************************************************************/
-void	pwd_builtin(void)
+int	pwd_builtin(void)
 {
 	char	*current_directory;
 	char	buff[PATH_MAX + 1];
 
 	current_directory = getcwd(buff, PATH_MAX + 1);
-	if (current_directory != NULL)
-		ft_printf("%s\n", current_directory);
+	if (!current_directory)
+		return (1);
+	ft_printf("%s\n", current_directory);
+	return (0);
 }
 
 /******************************************************************************
@@ -138,7 +141,7 @@ void	pwd_builtin(void)
 *	 won't change
 *
 ******************************************************************************/
-void	cd_builtin(char *path, t_vars *vars)
+int	cd_builtin(char *path, t_vars *vars)
 {
 	char	buff[PATH_MAX + 1];
 
@@ -147,15 +150,27 @@ void	cd_builtin(char *path, t_vars *vars)
 	{
 		vars = find_vars(vars, "HOME");
 		if (!vars)
+		{
 			ft_printf("error: no HOME variable found");
+			return (1);
+		}
 		else
+		{
 			chdir(vars->value);
+			return (0);
+		}
 	}
 	else
 	{
 		if (chdir(path) < 0)
+		{
 			ft_printf("minishell: cd: %s: No such file or directory\n", path);
+			return (1);
+		}
+		else 
+			return (0);
 	}
+	return (1);
 }
 
 /******************************************************************************
@@ -164,7 +179,7 @@ void	cd_builtin(char *path, t_vars *vars)
 		If the value is null and it is exported 
 *
 ******************************************************************************/
-void	export_builtin(t_vars *head, char *var_name, char *var_value)
+int	export_builtin(t_vars *head, char *var_name, char *var_value)
 {
 	if (!var_name)
 	{
@@ -176,6 +191,7 @@ void	export_builtin(t_vars *head, char *var_name, char *var_value)
 				ft_printf("declare -x %s=%s\n", head->name, head->value);
 			head = head->next;
 		}
+		return (0);
 	}
 	else
 	{
@@ -188,9 +204,13 @@ void	export_builtin(t_vars *head, char *var_name, char *var_value)
 				free(var_value);
 				head->value = ft_strdup(var_value);
 			}
+			return (0);
 		}
 		else
+		{
 			add_var(&head, var_name, var_value, 1);
+			return (0);
+		}
 	}
 }
 
@@ -199,7 +219,7 @@ void	export_builtin(t_vars *head, char *var_name, char *var_value)
 *	-This function will delete the node where the var_name is found
 *
 ******************************************************************************/
-void	unset_builtin(t_vars **head, char *var_name)
+int	unset_builtin(t_vars **head, char *var_name)
 {
 	t_vars	*temp;
 
@@ -211,10 +231,11 @@ void	unset_builtin(t_vars **head, char *var_name)
 			temp = *head;
 			*head = (*head)->next;
 			free(temp);
-			return ;
+			return (0);
 		}
 		head = &(*head)->next;
 	}
+	return (1);
 }
 
 /******************************************************************************
@@ -227,12 +248,13 @@ void	unset_builtin(t_vars **head, char *var_name)
 *	-env won't print variables with no value attached to them
 *
 ******************************************************************************/
-void	env_builtin(t_vars *head)
+int	env_builtin(t_vars *head)
 {
 	while (head)
 	{
-		if (head->name && head->hidden == 0)
-			printf("%s=%s, [export:[%d], hidden[%d]] \n", head->name, head->value, head->exported, head->hidden);
+		if (head->value && head->name && head->hidden == 0)
+			ft_printf("%s=%s, [export:[%d], hidden[%d]] \n", head->name, head->value, head->exported, head->hidden);
 		head = head->next;
 	}
+	return (0);
 }
