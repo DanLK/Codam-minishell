@@ -6,7 +6,7 @@
 /*   By: rojornod <rojornod@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/24 15:31:59 by rojornod          #+#    #+#             */
-/*   Updated: 2025/05/05 16:40:45 by rojornod         ###   ########.fr       */
+/*   Updated: 2025/05/05 17:45:19 by rojornod         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,7 +77,6 @@ t_vars	*add_var(t_vars **head, char *var_name, char *var_value, int exp)
 			current = current->next;
 		current->next = new_node;
 	}
-	//ft_printf("variable added\n");
 	return (*head);
 }
 
@@ -94,20 +93,17 @@ t_vars	*find_vars(t_vars *head, char *var_name)
 {
 	size_t	size;
 	t_vars	*current;
-	//char	*temp_var;
+
 	size = ft_strlen(var_name);
 	current = head;
-	ft_printf("[entering loop to find a variable]\n");
 	while (current)
 	{
 		ft_printf("[looking for variable]\n");
 		if (ft_strncmp(current->name, var_name, size) == 0)
 			//return (ft_printf("NAME[%s] VALUE [%s] HIDDEN [%d] EXPORT [%d]\n", current->name, current->value, current->hidden, current->exported), current);
 			return (debug_print("variable found", 'r'), current);
-		else{
-			debug_print("checking next node", 'r');
+		else
 			current = current->next;
-		}
 	}
 	debug_print("variable not found", 'r');
 	return (NULL);
@@ -115,13 +111,11 @@ t_vars	*find_vars(t_vars *head, char *var_name)
 
 void	edit_var(t_vars *head, char *var_name, char *var_value)
 {
-	debug_print("editing a variable", 'r');
 	head = find_vars(head, var_name);
 	if (!head)
 		ft_printf("variable not found\n");
 	else
 	{
-		ft_printf("[variable found]\n");
 		free(head->value);
 		head->value = ft_strdup(var_value); //malloc is used here. needs to be free
 	}
@@ -141,12 +135,11 @@ void	copy_env(t_vars **head, char **envp)
 	char	**tokens;
 
 	i = 0;
-	debug_print("starting while loop", 'r');
 	while (envp[i])
 	{
 		debug_print("splitting tokens", 'r');
 		tokens = ft_split(envp[i], '=');
-		debug_print("checking split successful", 'd');
+		debug_print("checking split successful", 'r');
 		if (!tokens)
 		{
 			debug_print("error splitting tokens", 'r');
@@ -159,8 +152,6 @@ void	copy_env(t_vars **head, char **envp)
 		}
 		free_array(tokens);
 		i++;
-		debug_print("loop finsihed", 'r');
 	}
-	debug_print("loop exited successfully", 'r');
 	//free_array(tokens);
 }
