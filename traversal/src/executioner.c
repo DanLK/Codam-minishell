@@ -6,7 +6,7 @@
 /*   By: dloustal <dloustal@student.42.fr>            +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/04/22 13:36:45 by dloustal      #+#    #+#                 */
-/*   Updated: 2025/05/05 10:53:46 by dloustal      ########   odam.nl         */
+/*   Updated: 2025/05/05 16:47:39 by dloustal      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,15 +15,15 @@
 /*******************************************************************************
  *  Executes the src code represented by an AST built by the parser
 *******************************************************************************/
-int	execute_src(t_t_node **root, t_vars *vars)
+int	execute_src(t_t_node **root, t_vars *vars, t_shell_info *info)
 {
 	if (!root)
 		return (125); //For now
 	if ((*root)->p_type == PARSER_COMMAND)
-		return (execute_command(root, vars));
+		return (execute_command(root, vars, info));
 	else if ((*root)->p_type == PARSER_PIPE)
 	{
-		return (execute_pipe(root, vars));
+		return (execute_pipe(root, vars, info));
 	}
 	else
 	{
@@ -32,35 +32,20 @@ int	execute_src(t_t_node **root, t_vars *vars)
 	}
 }
 
-/*
-exec_pipe(root, vars)
-{
-	fork()
-	if (pid == 0)
-	{
-		execute_src(root->left, vars);
-
-	}
-	if (pid > 0)
-	{
-		execute_src(root->right, vars);
-	}
-}
-*/
-
 /*******************************************************************************
  *  Assuming the root node is of type P_COMMAND
 *******************************************************************************/
-int	execute_command(t_t_node **root, t_vars *vars)
+int	execute_command(t_t_node **root, t_vars *vars, t_shell_info *info)
 {
 	t_token_list	*tokens;
 
 	if (!root)
 		return (125); //Not sure what to return here
 	tokens = (*root)->tokens;
-	if (is_builtin_type(tokens->head->token->type)
-	|| tokens->head->token->type == TKN_WORD)
+	if (is_builtin_type(tokens->head->token->type))
 		return (execute_builtin(root, vars));
+	if (tokens->head->token->type)
+		return (execute_ext_command(root, vars, info));
 	return (125); //For now
 }
 
@@ -132,13 +117,13 @@ int	execute_echo(t_token_list *tokens)
 	if (!tokens)
 		return (125); //For now
 	len = len_token_list(tokens);
-	params = (char**)malloc((len + 1) * sizeof(char *));
+	params = (char**)malloc((len) * sizeof(char *));
 	if (!params)
 		return (125);
-	params[len] = NULL;
+	params[len - 1] = NULL;
 	node = tokens->head->next;
 	i = 0;
-	while (i < len)
+	while (i < len - 1)
 	{
 		params[i]  = ft_strdup(node->token->lexeme);
 		node = node->next;
@@ -166,7 +151,6 @@ int	execute_unset(t_token_list *tokens, t_vars **head)
 	}
 	return (0); // If all went well i.e. if all the exit status were 0
 }
-
 
 int	execute_export(t_token_list *tokens, t_vars *vars)
 {
@@ -218,4 +202,22 @@ int	execute_assignment(t_token_list *tokens, t_vars *vars)
 		return (125); //For now -- on error
 	add_var(&vars, var_name, var_value, 0); //Add the variable and mark it as not exported
 	return (0); // for now -- on success
+}
+
+int	execute_ext_command(t_t_node **root, t_vars *vars, t_shell_info *info)
+{
+	int				size;
+	char			**command;
+	t_token_list	*tokens;
+
+	if (!root || !vars || !info)
+		return (125); //For now
+	tokens = (*root)->tokens;
+	size = len_token_list(tokens);
+	command = tkn_list_to_array(tokens);
+	if (!command)
+		return (125); //For now
+	exec_external_com(vars, command, size, info);
+	clear_array(command);
+	return (0);
 }

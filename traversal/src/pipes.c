@@ -6,7 +6,7 @@
 /*   By: dloustal <dloustal@student.42.fr>            +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/04/18 11:16:24 by rojornod      #+#    #+#                 */
-/*   Updated: 2025/05/05 14:52:37 by dloustal      ########   odam.nl         */
+/*   Updated: 2025/05/05 16:22:17 by dloustal      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,14 +20,14 @@
 *	- Recursively calls execute pipe again
 *	
 *******************************************************************************/
-static int	pipe_l(int fd[2], t_t_node **root, t_vars *head)
+static int	pipe_l(int fd[2], t_t_node **root, t_vars *head, t_shell_info *info)
 {
 	
 	close(fd[0]);
 	debug_print("inside left pipe child process", 'r');
 	dup2(fd[1], STDOUT_FILENO);
 	debug_print("after dup2", 'r');
-	execute_src(root, head);
+	execute_src(root, head, info);
 	debug_print("executed command", 'r');
 	close(fd[1]);
 	debug_print("fd[1] closed", 'r');
@@ -42,12 +42,12 @@ static int	pipe_l(int fd[2], t_t_node **root, t_vars *head)
 *	- Recursively calls execute pipe again
 *	
 *******************************************************************************/
-static int	pipe_r(int fd[2], t_t_node **root, t_vars *head)
+static int	pipe_r(int fd[2], t_t_node **root, t_vars *head, t_shell_info *info)
 {
 	close(fd[1]);
 	dup2(fd[0], STDIN_FILENO);
 	close(fd[0]);
-	execute_src(root, head);
+	execute_src(root, head, info);
 	return (0);
 }
 
@@ -74,7 +74,7 @@ static int	print_error(char type)
 *	-If a pipe is found in the full command this function will be called
 *
 *******************************************************************************/
-int	execute_pipe(t_t_node **root, t_vars *head)
+int	execute_pipe(t_t_node **root, t_vars *head, t_shell_info *info)
 {
 	int		fd[2];
     pid_t	pid_left;
@@ -88,7 +88,7 @@ int	execute_pipe(t_t_node **root, t_vars *head)
 		print_error('f');
 	if (pid_left == 0)
 	{
-		pipe_l(fd, &(*root)->left, head);
+		pipe_l(fd, &(*root)->left, head, info);
 		exit(EXIT_SUCCESS);
 	}
 	pid_right = fork();
@@ -96,7 +96,7 @@ int	execute_pipe(t_t_node **root, t_vars *head)
 		print_error('f');
 	if (pid_right == 0)
 	{
-		pipe_r(fd, &(*root)->right, head);
+		pipe_r(fd, &(*root)->right, head, info);
 		exit(EXIT_SUCCESS);
 	}
 	close(fd[0]);

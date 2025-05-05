@@ -6,7 +6,7 @@
 /*   By: dloustal <dloustal@student.42.fr>            +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/03/10 14:21:08 by rojornod      #+#    #+#                 */
-/*   Updated: 2025/05/05 12:25:54 by dloustal      ########   odam.nl         */
+/*   Updated: 2025/05/05 16:23:43 by dloustal      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,9 +88,6 @@ void	exec_external_com(t_vars *head, char **cmd, int size, t_shell_info *info);
 
 //child process
 int		create_child_proc(t_vars *vars, char **cmd, char *path, int size, t_shell_info *info);
-
-//pipes 
-int		execute_pipe(t_t_node **node, t_vars *head);
 
 //commands
 int		is_builtin(char *command);

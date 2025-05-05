@@ -6,7 +6,7 @@
 /*   By: dloustal <dloustal@student.42.fr>            +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/04/17 11:53:23 by dloustal      #+#    #+#                 */
-/*   Updated: 2025/05/05 12:54:31 by dloustal      ########   odam.nl         */
+/*   Updated: 2025/05/05 16:47:16 by dloustal      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,7 @@ int	main(int argc, char **argv, char **envp)
 	t_parser		*parser;
 	t_t_node		*root;
 	t_vars			*vars;
+	t_shell_info	*info;
 	char			*home_dir;	
 	char			*read;
 	(void)argv;
@@ -25,6 +26,7 @@ int	main(int argc, char **argv, char **envp)
 	
 	
 	vars = initialize_data();
+	info = initialize_info();
 	copy_env(&vars, envp);
 	home_dir = get_home_dir();
 	edit_var(vars, "HOME", home_dir);
@@ -52,7 +54,7 @@ int	main(int argc, char **argv, char **envp)
 			// ft_printf("-------------------------------------\n");
 			// print_tree_node(root, "", 1);
 			// ft_printf("-------------------------------------\n");
-			execute_src(&root, vars);
+			execute_src(&root, vars, info);
 			clear_token_list(tokens);
 			clear_subtree(root);
 			free(parser);

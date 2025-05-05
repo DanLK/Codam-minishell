@@ -6,7 +6,7 @@
 /*   By: dloustal <dloustal@student.42.fr>            +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/03/18 12:09:34 by dloustal      #+#    #+#                 */
-/*   Updated: 2025/04/23 13:53:28 by dloustal      ########   odam.nl         */
+/*   Updated: 2025/05/05 16:46:27 by dloustal      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -129,10 +129,37 @@ int	len_token_list(t_token_list *list)
 	head = list->head;
 	if (!head)
 		return (0);
-	while (head->next)
+	len++;
+	head = head->next;
+	while (head)
 	{
 		len++;
 		head = head->next;
 	}
 	return (len);
+}
+
+char	**tkn_list_to_array(t_token_list *tokens)
+{
+	int				len;
+	char			**command;
+	t_token_node	*node;
+	int				i;
+
+	if (!tokens)
+		return (NULL);
+	len = len_token_list(tokens);
+	command = malloc((len + 1) * sizeof(char *));
+	if (!command)
+		return (NULL);
+	command[len] = NULL;
+	node = tokens->head;
+	i = 0;
+	while (i < len)
+	{
+		command[i]  = ft_strdup(node->token->lexeme);
+		node = node->next;
+		i++;
+	}
+	return (command);
 }

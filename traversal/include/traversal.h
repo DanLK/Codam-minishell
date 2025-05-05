@@ -6,7 +6,7 @@
 /*   By: dloustal <dloustal@student.42.fr>            +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/04/22 12:02:07 by dloustal      #+#    #+#                 */
-/*   Updated: 2025/05/05 12:25:48 by dloustal      ########   odam.nl         */
+/*   Updated: 2025/05/05 16:24:22 by dloustal      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,13 +16,17 @@
 # include "minishell.h"
 
 // Executioner
-int		execute_src(t_t_node **root, t_vars *vars);
-int		execute_command(t_t_node **root, t_vars *vars);
+int		execute_src(t_t_node **root, t_vars *vars, t_shell_info *info);
+int		execute_command(t_t_node **root, t_vars *vars, t_shell_info *info);
 int		execute_builtin(t_t_node **root, t_vars *vars);
 int		execute_echo(t_token_list *tokens);
 int		execute_unset(t_token_list *tokens, t_vars **head);
 int		execute_export(t_token_list *tokens, t_vars *head);
 int		execute_assignment(t_token_list *tokens, t_vars *vars);
+int		execute_ext_command(t_t_node **root, t_vars *vars, t_shell_info *info);
+
+// Piper 
+int		execute_pipe(t_t_node **root, t_vars *head, t_shell_info *info);
 
 // Variable expansion
 void	expand_var_tree(t_t_node **root, t_vars *vars);
