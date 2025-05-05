@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
-/*                                                        ::::::::            */
-/*   minishell.h                                        :+:    :+:            */
-/*                                                     +:+                    */
-/*   By: dloustal <dloustal@student.42.fr>            +#+                     */
-/*                                                   +#+                      */
-/*   Created: 2025/03/10 14:21:08 by rojornod      #+#    #+#                 */
-/*   Updated: 2025/05/05 16:23:43 by dloustal      ########   odam.nl         */
+/*                                                        :::      ::::::::   */
+/*   minishell.h                                        :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: rojornod <rojornod@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/03/10 14:21:08 by rojornod          #+#    #+#             */
+/*   Updated: 2025/05/05 17:38:54 by rojornod         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ typedef struct s_vars
 typedef struct s_shell_info
 {
 	bool	is_child_running;
-	int		last_exit_code;
+	int		last_return_code;
 	int		**child_pid;
 	int 	fdin;
 	int 	fdout;
@@ -57,13 +57,13 @@ void	create_history_file(void);
 void	write_history_file(char *read);
 
 //builtins
-void	echo_builtin(char **tokens);
-void	pwd_builtin(void);
-void	cd_builtin(char *command, t_vars *vars);
-void	export_builtin(t_vars *head, char *var_name, char *var_value);
-void	unset_builtin(t_vars **head, char *var_name);
-void	exit_builtin(void);
-void	env_builtin(t_vars *head);
+int	echo_builtin(char **tokens);
+int	pwd_builtin(void);
+int	cd_builtin(char *command, t_vars *vars);
+int	export_builtin(t_vars *head, char *var_name, char *var_value);
+int	unset_builtin(t_vars **head, char *var_name);
+int	exit_builtin(void);
+int	env_builtin(t_vars *head);
 
 //variables
 t_vars	*add_var(t_vars **head, char *var_name, char *var_value, int exp);
@@ -81,6 +81,7 @@ void	debug_print(char *debug_message, char c);
 
 //signals
 void	signal_action(void);
+void	child_signal_action(void);
 
 //external commands
 char	*find_path(t_vars *head, char *command);
@@ -92,4 +93,7 @@ int		create_child_proc(t_vars *vars, char **cmd, char *path, int size, t_shell_i
 //commands
 int		is_builtin(char *command);
 int		is_external_cmd(t_vars	*head, char *command);
+
+//return values
+int return_codes(t_shell_info	*info, int return_code);
 

@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
-/*                                                        ::::::::            */
-/*   vars.c                                             :+:    :+:            */
-/*                                                     +:+                    */
-/*   By: dloustal <dloustal@student.42.fr>            +#+                     */
-/*                                                   +#+                      */
-/*   Created: 2025/03/24 15:31:59 by rojornod      #+#    #+#                 */
-/*   Updated: 2025/05/05 16:28:29 by dloustal      ########   odam.nl         */
+/*                                                        :::      ::::::::   */
+/*   vars.c                                             :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: rojornod <rojornod@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/03/24 15:31:59 by rojornod          #+#    #+#             */
+/*   Updated: 2025/05/05 17:45:19 by rojornod         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,7 +77,6 @@ t_vars	*add_var(t_vars **head, char *var_name, char *var_value, int exp)
 			current = current->next;
 		current->next = new_node;
 	}
-	//ft_printf("variable added\n");
 	return (*head);
 }
 
@@ -94,11 +93,12 @@ t_vars	*find_vars(t_vars *head, char *var_name)
 {
 	size_t	size;
 	t_vars	*current;
-	//char	*temp_var;
+
 	size = ft_strlen(var_name);
 	current = head;
 	while (current)
 	{
+		ft_printf("[looking for variable]\n");
 		if (ft_strncmp(current->name, var_name, size) == 0)
 			//return (ft_printf("NAME[%s] VALUE [%s] HIDDEN [%d] EXPORT [%d]\n", current->name, current->value, current->hidden, current->exported), current);
 			return (debug_print("variable found", 'r'), current);
@@ -119,6 +119,7 @@ void	edit_var(t_vars *head, char *var_name, char *var_value)
 		free(head->value);
 		head->value = ft_strdup(var_value); //malloc is used here. needs to be free
 	}
+	ft_printf("[variable edited successfully]\n");
 }
 
 /******************************************************************************
@@ -134,7 +135,6 @@ void	copy_env(t_vars **head, char **envp)
 	char	**tokens;
 
 	i = 0;
-	debug_print("starting while loop", 'r');
 	while (envp[i])
 	{
 		debug_print("splitting tokens", 'r');
@@ -152,8 +152,6 @@ void	copy_env(t_vars **head, char **envp)
 		}
 		free_array(tokens);
 		i++;
-		debug_print("loop finsihed", 'r');
 	}
-	debug_print("loop exited successfully", 'r');
 	//free_array(tokens);
 }
