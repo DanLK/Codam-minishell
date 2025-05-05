@@ -6,7 +6,7 @@
 /*   By: dloustal <dloustal@student.42.fr>            +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/04/22 12:02:07 by dloustal      #+#    #+#                 */
-/*   Updated: 2025/04/30 15:11:44 by dloustal      ########   odam.nl         */
+/*   Updated: 2025/05/05 12:25:48 by dloustal      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,5 +34,7 @@ char	*expand_dqstring(char *string, t_vars *vars);
 // Variable expansion utilities
 char	*get_var_name(char *string, int pos);
 int		get_position(char *string, char c);
+
+
 
 #endif

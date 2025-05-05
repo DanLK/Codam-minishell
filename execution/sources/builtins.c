@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   builtins.c                                         :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: rojornod <rojornod@student.42.fr>          +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/03/20 11:27:48 by rojornod          #+#    #+#             */
-/*   Updated: 2025/05/02 14:20:31 by rojornod         ###   ########.fr       */
+/*                                                        ::::::::            */
+/*   builtins.c                                         :+:    :+:            */
+/*                                                     +:+                    */
+/*   By: dloustal <dloustal@student.42.fr>            +#+                     */
+/*                                                   +#+                      */
+/*   Created: 2025/03/20 11:27:48 by rojornod      #+#    #+#                 */
+/*   Updated: 2025/05/05 10:41:59 by dloustal      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,18 +90,18 @@ void	echo_builtin(char **tokens)
 	int	i;
 
 	i = 0;
-	if (!tokens[1])
+	if (!tokens[0])
 		return (ft_putchar_fd('\n', 1));
-	if (ft_strcmp(tokens[1], "-n") == 0)
+	if (ft_strcmp(tokens[0], "-n") == 0)
 	{
-		i = 2;
+		i = 1;
 		if (!tokens[i])
 			return ;
 		echo_printing(tokens, i);
 	}
 	else
 	{
-		i = 1;
+		i = 0;
 		echo_printing(tokens, i);
 		ft_putchar_fd('\n', 1);
 	}
