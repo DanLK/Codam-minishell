@@ -6,7 +6,7 @@
 /*   By: dloustal <dloustal@student.42.fr>            +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/04/17 11:53:23 by dloustal      #+#    #+#                 */
-/*   Updated: 2025/04/30 14:15:42 by dloustal      ########   odam.nl         */
+/*   Updated: 2025/05/05 12:54:31 by dloustal      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,8 +31,6 @@ int	main(int argc, char **argv, char **envp)
 	add_var(&vars, "TEST", NULL, 0);
 	signal_action();
 
-	vars = initialize_data();
-	copy_env(&vars, envp);
 	while (1)
 	{
 		read = readline("> ");
@@ -51,14 +49,16 @@ int	main(int argc, char **argv, char **envp)
 			// ft_printf("-------------------------------------\n");
 			// print_tree_node(root, "", 1);
 			expand_var_tree(&root, vars);
-			ft_printf("-------------------------------------\n");
-			print_tree_node(root, "", 1);
-			ft_printf("-------------------------------------\n");
+			// ft_printf("-------------------------------------\n");
+			// print_tree_node(root, "", 1);
+			// ft_printf("-------------------------------------\n");
 			execute_src(&root, vars);
 			clear_token_list(tokens);
 			clear_subtree(root);
 			free(parser);
 		}
+		add_history(read);
+		write_history_file(read);
 	}
 }
 

@@ -1,6 +1,6 @@
 NAME = minishell
 MAIN = minishell.c
-SRC = executioner.c var_expansion.c var_expansion_utils.c
+SRC = executioner.c var_expansion.c var_expansion_utils.c pipes.c
 LEXER_SRC = lexer.c lexer_utils.c lexer_utils_2.c token_list.c token_identifier.c clear_list.c
 PARSER_SRC = tree.c memory_clears_parser.c parser.c parser_utilities.c parser_nodes.c debug.c
 SRC_DIR = ./src
@@ -32,7 +32,7 @@ $(OBJ_DIR)/%.o: $(SRC_DIR)/%.c
 
 $(EXEC_DIR)/obj/%.o: $(EXEC_DIR)/sources/%.c
 	mkdir -p $(dir $@)
-	$(CC) -c -I$(EXEC_DIR)/includes -I$(LIBFT_DIR) $(CFLAGS) -o $@ $<
+	$(CC) -c -I$(EXEC_DIR)/includes -I$(PARSER_DIR)/include -I$(LEXER_DIR)/include -I$(LIBFT_DIR) $(CFLAGS) -o $@ $<
 
 $(LIBFT_NAME):
 	$(MAKE) -C $(LIBFT_DIR)
@@ -49,7 +49,7 @@ clean:
 	rm -rf $(OBJ_DIR)
 	rm -f $(EXEC_DIR)/$(EXEC_OBJ)
 	rm -rf $(EXEC_DIR)/$(OBJ_DIR)
-	rm -f .shell_history
+	rm -f ../.shell_history
 	$(MAKE) -C $(LEXER_DIR) clean
 	$(MAKE) -C $(PARSER_DIR) clean
 	$(MAKE) -C $(LIBFT_DIR) clean

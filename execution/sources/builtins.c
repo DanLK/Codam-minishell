@@ -6,7 +6,7 @@
 /*   By: rojornod <rojornod@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/20 11:27:48 by rojornod          #+#    #+#             */
-/*   Updated: 2025/05/05 10:47:12 by rojornod         ###   ########.fr       */
+/*   Updated: 2025/05/05 14:17:00 by rojornod         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,14 +95,14 @@ void	echo_builtin(char **tokens)
 		return (ft_putchar_fd('\n', 1));
 	if (ft_strcmp(tokens[0], "-n") == 0)
 	{
-		i = 2;
+		i = 1;
 		if (!tokens[i])
 			return ;
 		echo_printing(tokens, i);
 	}
 	else
 	{
-		i = 1;
+		i = 0;
 		echo_printing(tokens, i);
 		ft_putchar_fd('\n', 1);
 	}
