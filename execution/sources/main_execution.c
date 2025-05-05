@@ -6,7 +6,7 @@
 /*   By: rojornod <rojornod@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/17 14:20:17 by rojornod          #+#    #+#             */
-/*   Updated: 2025/05/02 17:43:45 by rojornod         ###   ########.fr       */
+/*   Updated: 2025/05/05 10:55:52 by rojornod         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,14 +50,15 @@ int	main(int argc, char **argv, char **envp)
 	add_var(&vars, "TEST", "val", 0);
 	add_var(&vars, "TEST3", "val3", 0);
 	set_exit_code_var(vars);
+	ft_printf("is child running [%d]\n", info->is_child_running);
 	create_history_file();
 	if (info->is_child_running == 0)
-	{
 		signal_action();
-	}
 	else
-		printf("test\n");
-		//signal_child_action();
+	{
+		debug_print("there is a child running", 'r');
+		child_signal_action();
+	}	
 	while (1)
 	{
 		read = readline("> ");

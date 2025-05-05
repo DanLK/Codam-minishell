@@ -6,7 +6,7 @@
 /*   By: rojornod <rojornod@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/20 11:27:48 by rojornod          #+#    #+#             */
-/*   Updated: 2025/05/02 14:20:31 by rojornod         ###   ########.fr       */
+/*   Updated: 2025/05/05 10:47:12 by rojornod         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,12 +87,13 @@ static void	echo_printing(char **tokens, int i)
 ******************************************************************************/
 void	echo_builtin(char **tokens)
 {
+	//change token index to 0 so it works for parsing
 	int	i;
 
 	i = 0;
-	if (!tokens[1])
+	if (!tokens[0])
 		return (ft_putchar_fd('\n', 1));
-	if (ft_strcmp(tokens[1], "-n") == 0)
+	if (ft_strcmp(tokens[0], "-n") == 0)
 	{
 		i = 2;
 		if (!tokens[i])

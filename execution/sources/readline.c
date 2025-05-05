@@ -6,7 +6,7 @@
 /*   By: rojornod <rojornod@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/10 14:21:17 by rojornod          #+#    #+#             */
-/*   Updated: 2025/05/02 17:39:45 by rojornod         ###   ########.fr       */
+/*   Updated: 2025/05/05 11:11:08 by rojornod         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,8 +52,10 @@ char	*get_home_dir(void)
 	if (!getcwd(buff, PATH_MAX + 1))
 		return (NULL);
 	current_directory = ft_strdup(buff);
+	ft_printf("[current directory is %s]\n", current_directory);
 	if (!current_directory)
 		return (NULL);
+	ft_printf("current directory is not null, returning current_directory\n");
 	return (current_directory);
 }
 

@@ -6,7 +6,7 @@
 /*   By: rojornod <rojornod@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/16 11:11:31 by rojornod          #+#    #+#             */
-/*   Updated: 2025/05/02 17:44:50 by rojornod         ###   ########.fr       */
+/*   Updated: 2025/05/05 10:29:32 by rojornod         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,9 +26,10 @@ static void parent_process(t_shell_info	*info)
 
 	while (waitpid(-1, &w_status, 0) > 1);
 	if (WIFEXITED(w_status))
-	{	info->is_child_running--;
-		ft_printf("Child process exited with statussss: %d\n", WEXITSTATUS(w_status));
-	
+	{	
+		info->is_child_running--;
+		ft_printf("Child process exited with status: %d\n", WEXITSTATUS(w_status));
+		ft_printf("Is there child: %d\n", info->is_child_running);
 	}
 }
 

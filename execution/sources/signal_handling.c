@@ -6,7 +6,7 @@
 /*   By: rojornod <rojornod@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/20 10:06:02 by rojornod          #+#    #+#             */
-/*   Updated: 2025/05/01 17:33:03 by rojornod         ###   ########.fr       */
+/*   Updated: 2025/05/05 10:13:45 by rojornod         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,4 +55,13 @@ void	signal_action(void)
 	action.sa_handler = signal_handler;
 	sigaction(SIGINT, &action, NULL);
 	sigaction(SIGQUIT, &action, NULL);
+}
+
+void	child_signal_action(void)
+{
+	struct sigaction	child_action;
+	
+	child_action.sa_handler = SIG_DFL;
+	sigaction(SIGINT, &child_action, NULL);
+	sigaction(SIGQUIT, &child_action, NULL);
 }

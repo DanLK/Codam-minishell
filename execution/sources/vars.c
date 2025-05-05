@@ -6,7 +6,7 @@
 /*   By: rojornod <rojornod@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/24 15:31:59 by rojornod          #+#    #+#             */
-/*   Updated: 2025/05/02 14:35:35 by rojornod         ###   ########.fr       */
+/*   Updated: 2025/05/05 11:07:12 by rojornod         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,13 +97,17 @@ t_vars	*find_vars(t_vars *head, char *var_name)
 	//char	*temp_var;
 	size = ft_strlen(var_name);
 	current = head;
+	ft_printf("[entering loop to find a variable]\n");
 	while (current)
 	{
+		ft_printf("[looking for variable]\n");
 		if (ft_strncmp(current->name, var_name, size) == 0)
 			//return (ft_printf("NAME[%s] VALUE [%s] HIDDEN [%d] EXPORT [%d]\n", current->name, current->value, current->hidden, current->exported), current);
 			return (debug_print("variable found", 'r'), current);
-		else
+		else{
+			debug_print("checking next node", 'r');
 			current = current->next;
+		}
 	}
 	debug_print("variable not found", 'r');
 	return (NULL);
@@ -111,14 +115,17 @@ t_vars	*find_vars(t_vars *head, char *var_name)
 
 void	edit_var(t_vars *head, char *var_name, char *var_value)
 {
+	debug_print("editing a variable", 'r');
 	head = find_vars(head, var_name);
 	if (!head)
 		ft_printf("variable not found\n");
 	else
 	{
+		ft_printf("[variable found]\n");
 		free(head->value);
 		head->value = ft_strdup(var_value); //malloc is used here. needs to be free
 	}
+	ft_printf("[variable edited successfully]\n");
 }
 
 /******************************************************************************
