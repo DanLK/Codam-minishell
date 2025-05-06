@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
-/*                                                        ::::::::            */
-/*   traversal.h                                        :+:    :+:            */
-/*                                                     +:+                    */
-/*   By: dloustal <dloustal@student.42.fr>            +#+                     */
-/*                                                   +#+                      */
-/*   Created: 2025/04/22 12:02:07 by dloustal      #+#    #+#                 */
-/*   Updated: 2025/05/05 16:24:22 by dloustal      ########   odam.nl         */
+/*                                                        :::      ::::::::   */
+/*   traversal.h                                        :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: rojornod <rojornod@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/04/22 12:02:07 by dloustal          #+#    #+#             */
+/*   Updated: 2025/05/06 15:55:13 by rojornod         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,6 +39,7 @@ char	*expand_dqstring(char *string, t_vars *vars);
 char	*get_var_name(char *string, int pos);
 int		get_position(char *string, char c);
 
-
+// Redirections
+int	execute_redir_out(t_t_node **root, t_vars *head, t_shell_info *info);
 
 #endif

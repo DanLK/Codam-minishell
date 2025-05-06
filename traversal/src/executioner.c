@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
-/*                                                        ::::::::            */
-/*   executioner.c                                      :+:    :+:            */
-/*                                                     +:+                    */
-/*   By: dloustal <dloustal@student.42.fr>            +#+                     */
-/*                                                   +#+                      */
-/*   Created: 2025/04/22 13:36:45 by dloustal      #+#    #+#                 */
-/*   Updated: 2025/05/05 16:47:39 by dloustal      ########   odam.nl         */
+/*                                                        :::      ::::::::   */
+/*   executioner.c                                      :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: rojornod <rojornod@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/04/22 13:36:45 by dloustal          #+#    #+#             */
+/*   Updated: 2025/05/06 17:43:40 by rojornod         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,10 @@ int	execute_src(t_t_node **root, t_vars *vars, t_shell_info *info)
 	if ((*root)->p_type == PARSER_COMMAND)
 		return (execute_command(root, vars, info));
 	else if ((*root)->p_type == PARSER_PIPE)
+	{
+		return (execute_pipe(root, vars, info));
+	}
+	else if ((*root)->p_type == PARSER_REDIR)
 	{
 		return (execute_pipe(root, vars, info));
 	}
