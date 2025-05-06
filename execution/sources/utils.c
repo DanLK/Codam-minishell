@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
-/*                                                        ::::::::            */
-/*   utils.c                                            :+:    :+:            */
-/*                                                     +:+                    */
-/*   By: dloustal <dloustal@student.42.fr>            +#+                     */
-/*                                                   +#+                      */
-/*   Created: 2025/04/01 11:42:47 by rojornod      #+#    #+#                 */
-/*   Updated: 2025/05/05 16:27:42 by dloustal      ########   odam.nl         */
+/*                                                        :::      ::::::::   */
+/*   utils.c                                            :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: rojornod <rojornod@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/04/01 11:42:47 by rojornod          #+#    #+#             */
+/*   Updated: 2025/05/06 16:07:27 by rojornod         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -128,7 +128,7 @@ void	debug_print(char *debug_message, char c)
 	int	val_d;
 	int	val_r;
 
-	val_d = 1;
+	val_d = 0;
 	val_r = 0;
 	if (val_d == 1 && c == 'd')
 		ft_printf("[%s]\n", debug_message);

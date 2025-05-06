@@ -6,7 +6,7 @@
 /*   By: rojornod <rojornod@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/24 15:31:59 by rojornod          #+#    #+#             */
-/*   Updated: 2025/05/05 17:45:19 by rojornod         ###   ########.fr       */
+/*   Updated: 2025/05/06 16:08:45 by rojornod         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,7 +98,6 @@ t_vars	*find_vars(t_vars *head, char *var_name)
 	current = head;
 	while (current)
 	{
-		ft_printf("[looking for variable]\n");
 		if (ft_strncmp(current->name, var_name, size) == 0)
 			//return (ft_printf("NAME[%s] VALUE [%s] HIDDEN [%d] EXPORT [%d]\n", current->name, current->value, current->hidden, current->exported), current);
 			return (debug_print("variable found", 'r'), current);
@@ -119,7 +118,6 @@ void	edit_var(t_vars *head, char *var_name, char *var_value)
 		free(head->value);
 		head->value = ft_strdup(var_value); //malloc is used here. needs to be free
 	}
-	ft_printf("[variable edited successfully]\n");
 }
 
 /******************************************************************************
