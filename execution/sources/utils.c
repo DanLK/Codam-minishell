@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   utils.c                                            :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: rojornod <rojornod@student.42.fr>          +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/04/01 11:42:47 by rojornod          #+#    #+#             */
-/*   Updated: 2025/05/06 16:07:27 by rojornod         ###   ########.fr       */
+/*                                                        ::::::::            */
+/*   utils.c                                            :+:    :+:            */
+/*                                                     +:+                    */
+/*   By: dloustal <dloustal@student.42.fr>            +#+                     */
+/*                                                   +#+                      */
+/*   Created: 2025/04/01 11:42:47 by rojornod      #+#    #+#                 */
+/*   Updated: 2025/05/07 11:29:08 by dloustal      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,7 +88,7 @@ char	**convert_env(t_vars *head)
 			i++;
 		current = current->next;
 	}
-	env_copy = malloc((i + 1) * sizeof(char *)); //malloc is used here. needs to be free
+	env_copy = malloc((i + 1) * sizeof(char *)); //malloc is used here. needs to be free. Also needs protection
 	current = head;
 	i = 0;
 	while (current)
@@ -96,9 +96,11 @@ char	**convert_env(t_vars *head)
 		if (current->exported == 1)
 		{
 			if (!current->value)
+			{
 				env_copy[i] = ft_strdup(current->name); //malloc is used here, needs to be free
-			if (!env_copy[i])
-				return (free_array(env_copy), NULL);
+				if (!env_copy[i])
+					return (free_array(env_copy), NULL);
+			}
 			else
 			{
 				temp = ft_strjoin(current->name, "="); //malloc is used here, needs to be free
