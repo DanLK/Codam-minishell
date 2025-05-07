@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   executioner.c                                      :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: rojornod <rojornod@student.42.fr>          +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/04/22 13:36:45 by dloustal          #+#    #+#             */
-/*   Updated: 2025/05/06 17:43:40 by rojornod         ###   ########.fr       */
+/*                                                        ::::::::            */
+/*   executioner.c                                      :+:    :+:            */
+/*                                                     +:+                    */
+/*   By: dloustal <dloustal@student.42.fr>            +#+                     */
+/*                                                   +#+                      */
+/*   Created: 2025/04/22 13:36:45 by dloustal      #+#    #+#                 */
+/*   Updated: 2025/05/07 10:18:20 by dloustal      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,9 +46,11 @@ int	execute_command(t_t_node **root, t_vars *vars, t_shell_info *info)
 	if (!root)
 		return (125); //Not sure what to return here
 	tokens = (*root)->tokens;
-	if (is_builtin_type(tokens->head->token->type))
+	if (is_builtin_type(tokens->head->token->type)
+		|| (tokens->head->token->type == TKN_WORD
+		&& tokens->head->next && tokens->head->next->token->type == TKN_EQUAL))
 		return (execute_builtin(root, vars));
-	if (tokens->head->token->type)
+	if (tokens->head->token->type == TKN_WORD)
 		return (execute_ext_command(root, vars, info));
 	return (125); //For now
 }
