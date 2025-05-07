@@ -6,7 +6,7 @@
 /*   By: rojornod <rojornod@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/17 11:53:23 by dloustal          #+#    #+#             */
-/*   Updated: 2025/05/06 16:10:15 by rojornod         ###   ########.fr       */
+/*   Updated: 2025/05/07 10:23:11 by rojornod         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,6 @@ int	main(int argc, char **argv, char **envp)
 	home_dir = get_home_dir();
 	edit_var(vars, "HOME", home_dir);
 	add_var(&vars, "TEST", NULL, 0);
-	execute_redir_out(&root, vars, info);
 	signal_action();
 
 	while (1)
