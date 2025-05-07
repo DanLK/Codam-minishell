@@ -6,7 +6,7 @@
 /*   By: rojornod <rojornod@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/06 10:53:23 by rojornod          #+#    #+#             */
-/*   Updated: 2025/05/07 12:29:58 by rojornod         ###   ########.fr       */
+/*   Updated: 2025/05/07 12:36:15 by rojornod         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,6 @@ int	execute_redir_out(t_t_node **root, t_vars *head, t_shell_info *info)
     pid_t	pid;
 	int		w_status;
 	int		fd;
-	int 	dup;
 	
 	pid = fork();
 	if (pid < 0)
@@ -36,8 +35,7 @@ int	execute_redir_out(t_t_node **root, t_vars *head, t_shell_info *info)
 			close(fd);
 			exit(EXIT_FAILURE);
 		}
-		dup = dup2(fd, STDOUT_FILENO);
-		if (dup < 0)
+		if (dup2(fd, STDOUT_FILENO) < 0)
 		{
 			ft_printf("dup failed\n");
 			close(fd);
@@ -92,7 +90,6 @@ int	execute_redir_app(t_t_node **root, t_vars *head, t_shell_info *info)
 	pid_t	pid;
 	int		w_status;
 	int		fd;
-	int 	dup;
 
 	pid = fork();
 	if (pid < 0)
@@ -106,8 +103,7 @@ int	execute_redir_app(t_t_node **root, t_vars *head, t_shell_info *info)
 			close(fd);
 			exit(EXIT_FAILURE);
 		}
-		dup = dup2(fd, STDOUT_FILENO);
-		if (dup < 0)
+		if(dup2(fd, STDOUT_FILENO) < 0)
 		{
 			ft_printf("dup failed\n");
 			close(fd);
