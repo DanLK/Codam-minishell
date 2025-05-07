@@ -6,7 +6,7 @@
 /*   By: dloustal <dloustal@student.42.fr>            +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/04/01 16:48:50 by dloustal      #+#    #+#                 */
-/*   Updated: 2025/04/28 12:25:22 by dloustal      ########   odam.nl         */
+/*   Updated: 2025/05/07 12:22:47 by dloustal      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,13 +18,19 @@ int	main(void)
 	t_parser		*parser;
 	t_t_node		*pipe;
 
-	tokens = scan("echo $PATH >> out.txt");
+	tokens = scan("echo bye|");
 	parser = malloc(sizeof(t_parser));
 	if(!parser)
 		return (0);
 	parser->current = tokens->head;
 	parser->previous = NULL;
 	pipe = parse_pipe(parser);
+	if (pipe == NULL)
+	{
+		clear_token_list(tokens);
+		free(parser);
+		exit(EXIT_FAILURE);
+	}
 	print_tree_node(pipe, "", 1);
 	clear_token_list(tokens);
 	clear_subtree(pipe);

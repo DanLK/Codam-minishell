@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   minishell.c                                        :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: rojornod <rojornod@student.42.fr>          +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/04/17 11:53:23 by dloustal          #+#    #+#             */
-/*   Updated: 2025/05/07 10:23:11 by rojornod         ###   ########.fr       */
+/*                                                        ::::::::            */
+/*   minishell.c                                        :+:    :+:            */
+/*                                                     +:+                    */
+/*   By: dloustal <dloustal@student.42.fr>            +#+                     */
+/*                                                   +#+                      */
+/*   Created: 2025/04/17 11:53:23 by dloustal      #+#    #+#                 */
+/*   Updated: 2025/05/07 12:24:18 by dloustal      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,12 +48,18 @@ int	main(int argc, char **argv, char **envp)
 			parser->current = tokens->head;
 			parser->previous = NULL;
 			root = parse_pipe(parser);
+			if (root == NULL)
+			{
+				clear_token_list(tokens);
+				free(parser);
+				exit(EXIT_FAILURE);
+			}
 			// ft_printf("-------------------------------------\n");
 			// print_tree_node(root, "", 1);
 			expand_var_tree(&root, vars);
-			// ft_printf("-------------------------------------\n");
-			// print_tree_node(root, "", 1);
-			// ft_printf("-------------------------------------\n");
+			ft_printf("-------------------------------------\n");
+			print_tree_node(root, "", 1);
+			ft_printf("-------------------------------------\n");
 			execute_src(&root, vars, info);
 			clear_token_list(tokens);
 			clear_subtree(root);
