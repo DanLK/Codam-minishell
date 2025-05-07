@@ -6,7 +6,7 @@
 /*   By: rojornod <rojornod@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/22 13:36:45 by dloustal          #+#    #+#             */
-/*   Updated: 2025/05/06 17:43:40 by rojornod         ###   ########.fr       */
+/*   Updated: 2025/05/07 12:02:57 by rojornod         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,9 @@ int	execute_src(t_t_node **root, t_vars *vars, t_shell_info *info)
 	}
 	else if ((*root)->p_type == PARSER_REDIR)
 	{
-		return (execute_pipe(root, vars, info));
+		// I guess in here we figure out what kind of redirection it is:
+		// in, out or out apend
+		return(0);
 	}
 	else
 	{
