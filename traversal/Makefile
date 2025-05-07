@@ -63,5 +63,3 @@ fclean: clean
 re: fclean all
 
 .PHONY: all clean fclean re
-
-#cc execution/sources/*.c libft/*.c libft/printf/*.c -lreadline -o minishell
