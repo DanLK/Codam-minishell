@@ -6,7 +6,7 @@
 /*   By: dloustal <dloustal@student.42.fr>            +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/04/22 13:36:45 by dloustal      #+#    #+#                 */
-/*   Updated: 2025/05/07 10:18:20 by dloustal      ########   odam.nl         */
+/*   Updated: 2025/05/07 11:04:18 by dloustal      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,10 +25,10 @@ int	execute_src(t_t_node **root, t_vars *vars, t_shell_info *info)
 	{
 		return (execute_pipe(root, vars, info));
 	}
-	else if ((*root)->p_type == PARSER_REDIR)
-	{
-		return (execute_pipe(root, vars, info));
-	}
+	// else if ((*root)->p_type == PARSER_REDIR)
+	// {
+	// 	return (execute_pipe(root, vars, info));
+	// }
 	else
 	{
 		ft_printf("Not able to execute right now\n");
