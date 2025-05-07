@@ -6,7 +6,7 @@
 /*   By: dloustal <dloustal@student.42.fr>            +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/04/14 14:37:49 by dloustal      #+#    #+#                 */
-/*   Updated: 2025/04/15 18:13:36 by dloustal      ########   odam.nl         */
+/*   Updated: 2025/05/07 12:22:12 by dloustal      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,18 +19,33 @@ t_t_node	*parse_pipe(t_parser *parser)
 {
 	t_t_node		*right;
 	t_t_node		*node;
-	enum e_Type	token_type;
+	t_token			*token;
 
 	if (!parser)
 		return (NULL);
 	node = parse_redir(parser);
-	token_type = parser->current->token->type;
-	while (token_type == TKN_PIPE)
+	if (!node->tokens->head)
+	{
+		ft_printf("Syntax error near unexpected token \'%s\'\n",
+				parser->current->token->lexeme);
+		clear_subtree(node);
+		return (NULL);
+	}
+	token = parser->current->token;
+	while (token->type == TKN_PIPE)
 	{
 		advance(parser);
 		right = parse_redir(parser);
+		if (!right->tokens->head)
+		{
+			ft_printf("Syntax error near unexpected token \'%s\'\n",
+					token->lexeme);
+			clear_subtree(node);
+			clear_subtree(right);
+			return (NULL);
+		}
 		node = pipe_node(node, right);
-		token_type = parser->current->token->type;
+		token = parser->current->token;
 	}
 	return (node);
 }
