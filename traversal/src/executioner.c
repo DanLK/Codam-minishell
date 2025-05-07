@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
-/*                                                        ::::::::            */
-/*   executioner.c                                      :+:    :+:            */
-/*                                                     +:+                    */
-/*   By: dloustal <dloustal@student.42.fr>            +#+                     */
-/*                                                   +#+                      */
-/*   Created: 2025/04/22 13:36:45 by dloustal      #+#    #+#                 */
-/*   Updated: 2025/05/07 11:04:18 by dloustal      ########   odam.nl         */
+/*                                                        :::      ::::::::   */
+/*   executioner.c                                      :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: rojornod <rojornod@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/04/22 13:36:45 by dloustal          #+#    #+#             */
+/*   Updated: 2025/05/07 12:33:34 by rojornod         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,10 +25,12 @@ int	execute_src(t_t_node **root, t_vars *vars, t_shell_info *info)
 	{
 		return (execute_pipe(root, vars, info));
 	}
-	// else if ((*root)->p_type == PARSER_REDIR)
-	// {
-	// 	return (execute_pipe(root, vars, info));
-	// }
+	else if ((*root)->p_type == PARSER_REDIR)
+	{
+		// I guess in here we figure out what kind of redirection it is:
+		// in, out or out apend
+		return(0);
+	}
 	else
 	{
 		ft_printf("Not able to execute right now\n");
