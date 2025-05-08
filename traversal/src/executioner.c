@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   executioner.c                                      :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: rojornod <rojornod@student.42.fr>          +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/04/22 13:36:45 by dloustal          #+#    #+#             */
-/*   Updated: 2025/05/07 12:33:34 by rojornod         ###   ########.fr       */
+/*                                                        ::::::::            */
+/*   executioner.c                                      :+:    :+:            */
+/*                                                     +:+                    */
+/*   By: dloustal <dloustal@student.42.fr>            +#+                     */
+/*                                                   +#+                      */
+/*   Created: 2025/04/22 13:36:45 by dloustal      #+#    #+#                 */
+/*   Updated: 2025/05/07 17:38:28 by dloustal      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,13 +29,25 @@ int	execute_src(t_t_node **root, t_vars *vars, t_shell_info *info)
 	{
 		// I guess in here we figure out what kind of redirection it is:
 		// in, out or out apend
-		return(0);
+		return (execute_redirection(root, vars, info));
 	}
 	else
 	{
 		ft_printf("Not able to execute right now\n");
 		return (125); // For now, as an error code
 	}
+}
+
+int	execute_redirection(t_t_node **root, t_vars *vars, t_shell_info *info)
+{
+	if (!root || !vars || !info)
+		return (125);
+	if ((*root)->tokens->head->token->type == TKN_REDIR_OUT)
+	{
+		(exp_redir_out(root, vars, info));
+		return (0);
+	}
+	return (125);
 }
 
 /*******************************************************************************

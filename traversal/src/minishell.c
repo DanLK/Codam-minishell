@@ -6,7 +6,7 @@
 /*   By: dloustal <dloustal@student.42.fr>            +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/04/17 11:53:23 by dloustal      #+#    #+#                 */
-/*   Updated: 2025/05/07 12:24:18 by dloustal      ########   odam.nl         */
+/*   Updated: 2025/05/07 12:35:15 by dloustal      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,8 +54,6 @@ int	main(int argc, char **argv, char **envp)
 				free(parser);
 				exit(EXIT_FAILURE);
 			}
-			// ft_printf("-------------------------------------\n");
-			// print_tree_node(root, "", 1);
 			expand_var_tree(&root, vars);
 			ft_printf("-------------------------------------\n");
 			print_tree_node(root, "", 1);

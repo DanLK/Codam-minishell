@@ -6,7 +6,7 @@
 /*   By: dloustal <dloustal@student.42.fr>            +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/04/01 12:11:14 by dloustal      #+#    #+#                 */
-/*   Updated: 2025/04/28 11:37:28 by dloustal      ########   odam.nl         */
+/*   Updated: 2025/05/08 12:22:55 by dloustal      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,7 +61,13 @@ void	redir_tkn(t_token_list *tkns, char *src, t_scanner *s, char c)
 		if (is_next(&(s->cur), src, '<'))
 			append_token(tkns, TKN_HEREDOC, "<<");
 		else
+		{
 			append_token(tkns, TKN_REDIR_IN, "<");
+			(s->start)++;
+			lexeme = read_filepath(s, src);
+			append_token(tkns, TKN_FILE_PATH, lexeme);
+			free(lexeme);
+		}
 	}
 }
 
