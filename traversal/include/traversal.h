@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   traversal.h                                        :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: rojornod <rojornod@student.42.fr>          +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/04/22 12:02:07 by dloustal          #+#    #+#             */
-/*   Updated: 2025/05/06 15:55:13 by rojornod         ###   ########.fr       */
+/*                                                        ::::::::            */
+/*   traversal.h                                        :+:    :+:            */
+/*                                                     +:+                    */
+/*   By: dloustal <dloustal@student.42.fr>            +#+                     */
+/*                                                   +#+                      */
+/*   Created: 2025/04/22 12:02:07 by dloustal      #+#    #+#                 */
+/*   Updated: 2025/05/07 17:37:33 by dloustal      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,8 +24,9 @@ int		execute_unset(t_token_list *tokens, t_vars **head);
 int		execute_export(t_token_list *tokens, t_vars *head);
 int		execute_assignment(t_token_list *tokens, t_vars *vars);
 int		execute_ext_command(t_t_node **root, t_vars *vars, t_shell_info *info);
+int		execute_redirection(t_t_node **root, t_vars *vars, t_shell_info *info);
 
-// Piper 
+// Pipes
 int		execute_pipe(t_t_node **root, t_vars *head, t_shell_info *info);
 
 // Variable expansion
@@ -40,6 +41,9 @@ char	*get_var_name(char *string, int pos);
 int		get_position(char *string, char c);
 
 // Redirections
-int	execute_redir_out(t_t_node **root, t_vars *head, t_shell_info *info);
+int		execute_redir_out(t_t_node **root, t_vars *head, t_shell_info *info);
+
+// Redirection Experiments
+void	exp_redir_out(t_t_node **root, t_vars *vars, t_shell_info *info);
 
 #endif
