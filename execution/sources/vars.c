@@ -6,7 +6,7 @@
 /*   By: rojornod <rojornod@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/24 15:31:59 by rojornod          #+#    #+#             */
-/*   Updated: 2025/05/06 16:08:45 by rojornod         ###   ########.fr       */
+/*   Updated: 2025/05/08 13:52:48 by rojornod         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,13 +27,12 @@ t_vars	*create_var(char *var_name, char *var_value, int exp)
 
 	new_node = malloc(sizeof(t_vars));
 	if (!new_node)
-	{
-		perror("malloc on new node failed");
-		exit(EXIT_FAILURE);
-	}
+		return (NULL);
 	if (!var_value)
 	{
 		new_node->name = ft_strdup(var_name); //malloc used here. needs to be free
+		if (!new_node->name)
+			return (NULL);
 		new_node->value = NULL;
 		new_node->exported = 1;
 		new_node->hidden = 1;
@@ -42,7 +41,11 @@ t_vars	*create_var(char *var_name, char *var_value, int exp)
 	else
 	{
 		new_node->name = ft_strdup(var_name); //malloc used here. needs to be free
+		if (!new_node->name)
+			return (NULL);
 		new_node->value = ft_strdup(var_value); //malloc used here. needs to be free
+		if (!new_node->value)
+			return (NULL);
 		new_node->exported = exp;
 		new_node->hidden = 0;
 		new_node->next = NULL;
