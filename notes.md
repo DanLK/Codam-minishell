@@ -16,6 +16,10 @@
 
 - [Programming with GNU Readline](https://web.mit.edu/gnu/doc/html/rlman_2.html)
 
+## Redirections
+
+- [Redirections info](https://megamorf.gitlab.io/cheat-sheets/cheat-sheet-bash-redirections/)
+
 ## Prompt examples
 
 - `echo "Hello"`
