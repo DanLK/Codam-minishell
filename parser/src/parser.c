@@ -6,7 +6,7 @@
 /*   By: dloustal <dloustal@student.42.fr>            +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/04/14 14:37:49 by dloustal      #+#    #+#                 */
-/*   Updated: 2025/05/07 12:22:12 by dloustal      ########   odam.nl         */
+/*   Updated: 2025/05/08 12:42:00 by dloustal      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,22 +56,24 @@ t_t_node	*parse_pipe(t_parser *parser)
 t_t_node	*parse_redir(t_parser *parser)
 {
 	t_t_node	*node;
-	t_t_node	*right;
-	t_token		*redir_tkn;
-	enum e_Type	token_type;
+	// t_t_node	*right;
+	// t_token		*redir_tkn;
+	// enum e_Type	token_type;
 
 	if (!parser)
 		return (NULL);
 	node = parse_command(parser);
-	redir_tkn = parser->current->token;
-	token_type = redir_tkn->type;
-	if (is_redirection(token_type))
-	{
-		advance(parser);
-		right = parse_redir(parser); //Filepath? // 
-		node = redir_node(node, right, redir_tkn);
-	}
-	return(node);
+	node->p_type = PARSER_REDIR;
+	return (node);
+	// redir_tkn = parser->current->token;
+	// token_type = redir_tkn->type;
+	// if (is_redirection(token_type))
+	// {
+	// 	advance(parser);
+	// 	right = parse_redir(parser); //Filepath? // 
+	// 	node = redir_node(node, right, redir_tkn);
+	// }
+	// return(node);
 }
 
 /**************************************************************************** 
@@ -90,7 +92,7 @@ t_t_node	*parse_command(t_parser *parser)
 	if (!command)
 		return (NULL);
 	token_type = parser->current->token->type;
-	while (!is_operator(token_type) && token_type != TKN_END)
+	while (token_type != TKN_PIPE && token_type != TKN_END)
 	{
 		lexeme = parser->current->token->lexeme;
 		append_token(command, token_type, lexeme);

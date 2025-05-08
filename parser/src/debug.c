@@ -6,7 +6,7 @@
 /*   By: dloustal <dloustal@student.42.fr>            +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/04/03 19:11:27 by dloustal      #+#    #+#                 */
-/*   Updated: 2025/04/15 16:29:55 by dloustal      ########   odam.nl         */
+/*   Updated: 2025/05/08 12:42:13 by dloustal      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ static const char *get_parser_type(enum e_Ptype type)
 		case PARSER_COMMAND: return "P_COMMAND";
 		case PARSER_PIPE: return "P_PIPE";
 		case PARSER_REDIR: return "P_REDIR";
-		case PARSER_FILEPATH: return "FILEPATH";
+		// case PARSER_FILEPATH: return "FILEPATH";
 		default: return "UNKNOWN";
 	}
 }

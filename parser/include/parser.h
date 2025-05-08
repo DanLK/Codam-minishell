@@ -6,7 +6,7 @@
 /*   By: dloustal <dloustal@student.42.fr>            +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/04/01 16:41:23 by dloustal      #+#    #+#                 */
-/*   Updated: 2025/04/23 14:06:21 by dloustal      ########   odam.nl         */
+/*   Updated: 2025/05/08 12:30:09 by dloustal      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ enum e_Ptype
 	PARSER_COMMAND,
 	PARSER_PIPE,
 	PARSER_REDIR,
-	PARSER_FILEPATH
+	// PARSER_FILEPATH
 };
 
 typedef struct s_t_node
