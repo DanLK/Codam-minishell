@@ -6,7 +6,7 @@
 /*   By: rojornod <rojornod@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/01 11:42:47 by rojornod          #+#    #+#             */
-/*   Updated: 2025/05/08 14:15:02 by rojornod         ###   ########.fr       */
+/*   Updated: 2025/05/09 14:34:43 by rojornod         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -105,6 +105,7 @@ char	**convert_env(t_vars *head)
 			{
 				temp = ft_strjoin(current->name, "="); //malloc is used here, needs to be free
 				env_copy[i] = ft_strjoin(temp, current->value); //malloc is used here. needs to be free
+				free(temp);
 			}
 			i++;
 		}
@@ -146,11 +147,16 @@ void	free_vars(t_vars *head)
 	{
 		current = head;
 		head = head->next;
-		if (current->name)
+		if (current->name){
+			//ft_printf("freed name: %s\n", current->name);
 			free(current->name);
-		if (current->value)
-			free(current->value);		
-	}	
-	free(current);
+		}
+		if (current->value){
+			//ft_printf("freed value: %s\n", current->value);
+			free(current->value);
+		
+		}		
+		free(current);
+	}
 }
 

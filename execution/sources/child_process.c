@@ -6,7 +6,7 @@
 /*   By: rojornod <rojornod@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/16 11:11:31 by rojornod          #+#    #+#             */
-/*   Updated: 2025/05/05 17:30:32 by rojornod         ###   ########.fr       */
+/*   Updated: 2025/05/09 15:31:32 by rojornod         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,9 @@ static int	child_process(char *path, char	**argv, char **env_copy, t_shell_info	
 	(void)info;
 	execve(path, argv, env_copy);
 	perror("execve error");
+	free(path);
+	free_array(env_copy);
+	free_array(argv);
 	return (126);
 }
 
@@ -40,11 +43,13 @@ int	create_child_proc(t_vars *vars, char **cmd, char *path, int size, t_shell_in
 	i = 0;
 	env_copy = convert_env(vars);
 	argv = malloc((size + 1) * sizeof(char *)); //malloc used here
+	if (!argv)
+		return (free_array(env_copy), EXIT_FAILURE);
 	while (cmd[i]) 
 	{
 		argv[i] = ft_strdup(cmd[i]); //malloc used needs to be free
 		if (!argv[i])
-			return (free_array(argv), EXIT_FAILURE);
+			return (free_array(argv), free_array(env_copy), free(path), EXIT_FAILURE);
 		i++;
 	}
 	argv[i] = NULL;
@@ -55,5 +60,5 @@ int	create_child_proc(t_vars *vars, char **cmd, char *path, int size, t_shell_in
 		parent_process(info);
 	else //if less than 0 something went wrong
 		return (1);	
-	return (free(path), free_array(argv), EXIT_SUCCESS);
+	return (free(path), free_array(env_copy), free_array(argv), EXIT_SUCCESS);
 }
