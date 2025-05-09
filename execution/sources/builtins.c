@@ -6,7 +6,7 @@
 /*   By: rojornod <rojornod@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/20 11:27:48 by rojornod          #+#    #+#             */
-/*   Updated: 2025/05/05 17:16:40 by rojornod         ###   ########.fr       */
+/*   Updated: 2025/05/09 10:52:58 by rojornod         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,8 +25,11 @@
 *
 *******************************************************************************/
 
-int	exit_builtin(void)
+int	exit_builtin(t_vars *vars, char *home_dir, t_shell_info *info)
 {
+	free_vars(vars);
+	free(home_dir);
+	free(info);
 	ft_printf("exit\n");
 	exit(255);
 }
