@@ -3,10 +3,10 @@
 /*                                                        ::::::::            */
 /*   parser_utilities.c                                 :+:    :+:            */
 /*                                                     +:+                    */
-/*   By: dloustal <dloustal@student.42.fr>            +#+                     */
+/*   By: dloustal <marvin@42.fr>                      +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/04/10 13:05:31 by dloustal      #+#    #+#                 */
-/*   Updated: 2025/04/15 15:48:58 by dloustal      ########   odam.nl         */
+/*   Updated: 2025/05/11 21:22:59 by dloustalot    ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,4 +36,22 @@ bool	is_redirection(enum e_Type type)
 bool	is_redir_twochar(enum e_Type type)
 {
 	return (type == TKN_HEREDOC || type == TKN_REDIR_OUT_APP);
+}
+
+bool	is_redir(t_parser *parser)
+{
+	t_token_node	*tmp;
+
+	if (!parser)
+		return (false);
+	tmp = parser->current;
+	while (tmp)
+	{
+		if (is_redirection(tmp->token->type))
+			return (true);
+		if (tmp->token->type == TKN_PIPE) // Not sure if this is incorrect, it is to process only up to a pipe
+			return (false);
+		tmp = tmp->next;
+	}
+	return (false);
 }

@@ -3,10 +3,10 @@
 /*                                                        ::::::::            */
 /*   memory_clears_parser.c                             :+:    :+:            */
 /*                                                     +:+                    */
-/*   By: dloustal <dloustal@student.42.fr>            +#+                     */
+/*   By: dloustal <marvin@42.fr>                      +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/04/03 15:39:13 by dloustal      #+#    #+#                 */
-/*   Updated: 2025/04/23 16:54:44 by dloustal      ########   odam.nl         */
+/*   Updated: 2025/05/08 19:35:27 by dloustalot    ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,13 +22,13 @@ void	clear_subtree(t_t_node *root)
 	free(root);
 }
 
-void	clear_tree(t_tree *tree)
-{
-	if (!tree)
-		return ;
-	clear_subtree(tree->root);
-	free(tree);
-}
+// void	clear_tree(t_tree *tree)
+// {
+// 	if (!tree)
+// 		return ;
+// 	clear_subtree(tree->root);
+// 	free(tree);
+// }
 
 void	clear_array(char **words)
 {
