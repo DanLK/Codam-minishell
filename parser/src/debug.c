@@ -3,10 +3,10 @@
 /*                                                        ::::::::            */
 /*   debug.c                                            :+:    :+:            */
 /*                                                     +:+                    */
-/*   By: dloustal <dloustal@student.42.fr>            +#+                     */
+/*   By: dloustal <marvin@42.fr>                      +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/04/03 19:11:27 by dloustal      #+#    #+#                 */
-/*   Updated: 2025/05/08 12:42:13 by dloustal      ########   odam.nl         */
+/*   Updated: 2025/05/11 22:00:03 by dloustalot    ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,6 +70,7 @@ void print_t_token_list(t_token_list *list, const char *prefix, int is_last)
 	t_token_node *curr = list ? list->head : NULL;
 
 	is_last = 3;
+	(void)is_last;
 	while (curr)
 	{
 		printf("%sType: %s -> \"%s\"\n",
@@ -86,15 +87,27 @@ void print_tree_node(t_t_node *node, const char *prefix, int is_last)
 	if (!node)
 		return;
 
-	printf("%s%s%s\n", prefix, is_last ? "└── " : "├── ", get_parser_type(node->p_type));
-
+	printf("%s%s%s", prefix, is_last ? "└── " : "├── ", get_parser_type(node->p_type));
+	printf("\n");
+	// printf("%s    is_redir: %d\n", prefix, node->redirs != NULL);
+	
+	
 	// New prefix for children
 	char new_prefix[256];
 	snprintf(new_prefix, sizeof(new_prefix), "%s%s", prefix, is_last ? "    " : "│   ");
 
 	// Print tokens
 	if (node->tokens && node->tokens->head)
+	{
 		print_t_token_list(node->tokens, new_prefix, node->left == NULL && node->right == NULL);
+		printf("%s\n", new_prefix);
+	}
+
+	if (node->redirs != NULL)
+	{
+		printf("%s Redirs:\n", new_prefix);
+		print_redirs(node, new_prefix);
+	}
 
 	// Handle children
 	if (node->left && node->right)
@@ -112,14 +125,19 @@ void print_tree_node(t_t_node *node, const char *prefix, int is_last)
 	}
 }
 
-void print_parse_tree(t_tree *tree)
+void	print_redirs(t_t_node *node, const char *prefix)
 {
-	if (!tree || !tree->root)
+	t_redir_node	*redir;
+	// // t_redir_node	*tmp;
+
+	redir = *(node->redirs);
+	printf("%sType: %s ---- File: %s\n", prefix, get_token_type(redir->type), redir->file);
+	redir = redir->next;
+	// printf("redirs null?: %d\n", node->redirs == NULL);
+	while (redir)
 	{
-		printf("Tree is empty.\n");
-		return;
+		printf("%sType: %s ---- File: %s\n", prefix, get_token_type(redir->type), redir->file);
+		redir = redir->next;
 	}
-	printf("=== ABSTRACT SYNTAX TREE ===\n\n");
-	print_tree_node(tree->root, "", 1);
-	printf("==================\n");
+	printf("\n");
 }

@@ -3,25 +3,25 @@
 /*                                                        ::::::::            */
 /*   tree.c                                             :+:    :+:            */
 /*                                                     +:+                    */
-/*   By: dloustal <dloustal@student.42.fr>            +#+                     */
+/*   By: dloustal <marvin@42.fr>                      +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/04/02 12:48:02 by dloustal      #+#    #+#                 */
-/*   Updated: 2025/04/10 14:18:32 by dloustal      ########   odam.nl         */
+/*   Updated: 2025/05/08 19:34:56 by dloustalot    ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "parser.h"
 
-t_tree	*init_tree(void)
-{
-	t_tree	*tree;
+// t_tree	*init_tree(void)
+// {
+// 	t_tree	*tree;
 
-	tree = malloc(sizeof(t_tree));
-	if (!tree)
-		return (NULL);
-	tree->root = NULL;
-	return (tree);
-}
+// 	tree = malloc(sizeof(t_tree));
+// 	if (!tree)
+// 		return (NULL);
+// 	tree->root = NULL;
+// 	return (tree);
+// }
 
 t_t_node	*new_tree_node(enum e_Ptype p_type,  t_token_list *tokens)
 {
