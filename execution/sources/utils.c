@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
-/*                                                        ::::::::            */
-/*   utils.c                                            :+:    :+:            */
-/*                                                     +:+                    */
-/*   By: dloustal <dloustal@student.42.fr>            +#+                     */
-/*                                                   +#+                      */
-/*   Created: 2025/04/01 11:42:47 by rojornod      #+#    #+#                 */
-/*   Updated: 2025/05/07 11:29:08 by dloustal      ########   odam.nl         */
+/*                                                        :::      ::::::::   */
+/*   utils.c                                            :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: rojornod <rojornod@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/04/01 11:42:47 by rojornod          #+#    #+#             */
+/*   Updated: 2025/05/09 14:34:43 by rojornod         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -105,6 +105,7 @@ char	**convert_env(t_vars *head)
 			{
 				temp = ft_strjoin(current->name, "="); //malloc is used here, needs to be free
 				env_copy[i] = ft_strjoin(temp, current->value); //malloc is used here. needs to be free
+				free(temp);
 			}
 			i++;
 		}
@@ -137,3 +138,25 @@ void	debug_print(char *debug_message, char c)
 	if (val_r == 1 && c == 'r')
 		ft_printf("[%s]\n", debug_message);
 }
+
+void	free_vars(t_vars *head)
+{
+	t_vars	*current;
+	
+	while (head)
+	{
+		current = head;
+		head = head->next;
+		if (current->name){
+			//ft_printf("freed name: %s\n", current->name);
+			free(current->name);
+		}
+		if (current->value){
+			//ft_printf("freed value: %s\n", current->value);
+			free(current->value);
+		
+		}		
+		free(current);
+	}
+}
+

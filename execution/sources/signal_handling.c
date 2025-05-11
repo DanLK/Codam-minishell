@@ -6,7 +6,7 @@
 /*   By: rojornod <rojornod@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/20 10:06:02 by rojornod          #+#    #+#             */
-/*   Updated: 2025/05/05 10:13:45 by rojornod         ###   ########.fr       */
+/*   Updated: 2025/05/08 17:20:34 by rojornod         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,6 +53,7 @@ void	signal_action(void)
 
 	action.sa_flags = 0;
 	action.sa_handler = signal_handler;
+	sigemptyset(&action.sa_mask);
 	sigaction(SIGINT, &action, NULL);
 	sigaction(SIGQUIT, &action, NULL);
 }

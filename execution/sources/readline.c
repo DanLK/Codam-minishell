@@ -6,7 +6,7 @@
 /*   By: rojornod <rojornod@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/10 14:21:17 by rojornod          #+#    #+#             */
-/*   Updated: 2025/05/05 11:11:08 by rojornod         ###   ########.fr       */
+/*   Updated: 2025/05/09 10:26:25 by rojornod         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,8 @@ t_vars	*initialize_data(void)
 		perror("malloc on vars initialization");
 		exit(EXIT_FAILURE);
 	}
-	return (NULL);
+	ft_memset(head, 0, sizeof(t_vars));
+	return (head);
 }
 
 t_shell_info	*initialize_info(void)
