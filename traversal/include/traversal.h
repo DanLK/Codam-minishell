@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
-/*                                                        ::::::::            */
-/*   traversal.h                                        :+:    :+:            */
-/*                                                     +:+                    */
-/*   By: dloustal <dloustal@student.42.fr>            +#+                     */
-/*                                                   +#+                      */
-/*   Created: 2025/04/22 12:02:07 by dloustal      #+#    #+#                 */
-/*   Updated: 2025/05/07 17:37:33 by dloustal      ########   odam.nl         */
+/*                                                        :::      ::::::::   */
+/*   traversal.h                                        :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: rojornod <rojornod@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/04/22 12:02:07 by dloustal          #+#    #+#             */
+/*   Updated: 2025/05/12 10:50:19 by rojornod         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@
 // Executioner
 int		execute_src(t_t_node **root, t_vars *vars, t_shell_info *info);
 int		execute_command(t_t_node **root, t_vars *vars, t_shell_info *info);
-int		execute_builtin(t_t_node **root, t_vars *vars);
+int		execute_builtin(t_t_node **root, t_vars *vars, t_shell_info *info);
 int		execute_echo(t_token_list *tokens);
 int		execute_unset(t_token_list *tokens, t_vars **head);
 int		execute_export(t_token_list *tokens, t_vars *head);

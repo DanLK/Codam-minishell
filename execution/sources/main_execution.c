@@ -6,7 +6,7 @@
 /*   By: rojornod <rojornod@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/17 14:20:17 by rojornod          #+#    #+#             */
-/*   Updated: 2025/05/09 10:43:52 by rojornod         ###   ########.fr       */
+/*   Updated: 2025/05/12 12:29:17 by rojornod         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,6 @@
 ******************************************************************************/
 int	main(int argc, char **argv, char **envp)
 {
-	char		*home_dir;	
 	char		*read;
 	t_vars		*vars;
 	t_shell_info 	*info;
@@ -36,8 +35,8 @@ int	main(int argc, char **argv, char **envp)
 	debug_print("environment copied", 'r');
 	debug_print("env", 'r');
 	debug_print("getting home directory", 'r');
-	home_dir = get_home_dir();
-	edit_var(vars, "HOME", home_dir);
+	info->home_dir = get_home_dir();
+	edit_var(vars, "HOME", info->home_dir);
 	add_var(&vars, "TEST", "val", 0);
 	add_var(&vars, "TEST3", "val3", 0);
 	create_history_file();
@@ -98,7 +97,7 @@ int	main(int argc, char **argv, char **envp)
 			cd_builtin("sources", vars);
 		
 		else if (ft_strcmp(read, "exit") == 0)
-			exit_builtin(vars, home_dir, info);
+			exit_builtin(vars, info);
 			
 		else if (ft_strcmp(read, "edit") == 0) //edits variable with name HOME to a custom value
 			edit_var(vars, "HOME", "rojornod/personal/minishell/execution");

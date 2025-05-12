@@ -6,7 +6,7 @@
 /*   By: rojornod <rojornod@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/01 11:42:47 by rojornod          #+#    #+#             */
-/*   Updated: 2025/05/09 14:34:43 by rojornod         ###   ########.fr       */
+/*   Updated: 2025/05/12 13:50:19 by rojornod         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,7 @@ void	free_array(char **array)
 
 /******************************************************************************
 *
-*	-Small function that shows the pid of the current process
+*	-Small function that shows the pid of the current process need to remove this later
 *
 ******************************************************************************/
 void	show_pid(void)

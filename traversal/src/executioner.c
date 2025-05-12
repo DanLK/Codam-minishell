@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
-/*                                                        ::::::::            */
-/*   executioner.c                                      :+:    :+:            */
-/*                                                     +:+                    */
-/*   By: dloustal <dloustal@student.42.fr>            +#+                     */
-/*                                                   +#+                      */
-/*   Created: 2025/04/22 13:36:45 by dloustal      #+#    #+#                 */
-/*   Updated: 2025/05/07 17:38:28 by dloustal      ########   odam.nl         */
+/*                                                        :::      ::::::::   */
+/*   executioner.c                                      :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: rojornod <rojornod@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/04/22 13:36:45 by dloustal          #+#    #+#             */
+/*   Updated: 2025/05/12 10:50:28 by rojornod         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,7 +63,7 @@ int	execute_command(t_t_node **root, t_vars *vars, t_shell_info *info)
 	if (is_builtin_type(tokens->head->token->type)
 		|| (tokens->head->token->type == TKN_WORD
 		&& tokens->head->next && tokens->head->next->token->type == TKN_EQUAL))
-		return (execute_builtin(root, vars));
+		return (execute_builtin(root, vars, info));
 	if (tokens->head->token->type == TKN_WORD)
 		return (execute_ext_command(root, vars, info));
 	return (125); //For now
@@ -73,7 +73,7 @@ int	execute_command(t_t_node **root, t_vars *vars, t_shell_info *info)
  *  Assuming the root node is of type P_COMMAND and the head of the
  * token list is one of the builtins
 *******************************************************************************/
-int	execute_builtin(t_t_node **root, t_vars *vars)
+int	execute_builtin(t_t_node **root, t_vars *vars, t_shell_info *info)
 {
 	t_token_list	*tokens;
 	enum e_Type		type;
@@ -112,7 +112,7 @@ int	execute_builtin(t_t_node **root, t_vars *vars)
 	}
 	if (type == TKN_EXIT)
 	{
-		exit_builtin(); // FIXED the exit built in to not take any argument
+		exit_builtin(vars, info); // FIXED the exit built in to not take any argument
 		return (7);
 	}
 	if (type == TKN_WORD)
