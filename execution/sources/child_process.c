@@ -6,7 +6,7 @@
 /*   By: rojornod <rojornod@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/16 11:11:31 by rojornod          #+#    #+#             */
-/*   Updated: 2025/05/09 15:31:32 by rojornod         ###   ########.fr       */
+/*   Updated: 2025/05/12 16:14:17 by rojornod         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ static int	child_process(char *path, char	**argv, char **env_copy, t_shell_info	
 	free(path);
 	free_array(env_copy);
 	free_array(argv);
-	return (126);
+	exit(126);
 }
 
 static void parent_process(t_shell_info	*info)
@@ -53,6 +53,8 @@ int	create_child_proc(t_vars *vars, char **cmd, char *path, int size, t_shell_in
 		i++;
 	}
 	argv[i] = NULL;
+	if (!path)
+		return (free_array(env_copy), free_array(argv), EXIT_FAILURE);
 	pid = fork();
 	if (pid == 0) //if pid = 0 then we are in child process
 		child_process(path, argv, env_copy, info);

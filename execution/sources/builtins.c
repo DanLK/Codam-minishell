@@ -6,7 +6,7 @@
 /*   By: rojornod <rojornod@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/20 11:27:48 by rojornod          #+#    #+#             */
-/*   Updated: 2025/05/09 10:52:58 by rojornod         ###   ########.fr       */
+/*   Updated: 2025/05/12 17:17:07 by rojornod         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,10 +25,11 @@
 *
 *******************************************************************************/
 
-int	exit_builtin(t_vars *vars, char *home_dir, t_shell_info *info)
+int	exit_builtin(t_vars *vars,  t_shell_info *info)
 {
 	free_vars(vars);
-	free(home_dir);
+	if (info->home_dir)
+   		free(info->home_dir);
 	free(info);
 	ft_printf("exit\n");
 	exit(255);
@@ -222,21 +223,25 @@ int	export_builtin(t_vars *head, char *var_name, char *var_value)
 *	-This function will delete the node where the var_name is found
 *
 ******************************************************************************/
-int	unset_builtin(t_vars **head, char *var_name)
+int	unset_builtin(t_vars *head, char *var_name)
 {
-	t_vars	*temp;
+	//t_vars	*temp;
 
-	while (*head)
+	(void)var_name;
+	ft_printf("inside unset\n");
+	while (head)
 	{
-		if (ft_strcmp((*head)->name, var_name) == 0)
-		{
-			ft_printf("var found\nname [%s], value [%s]", (*head)->name, (*head)->value);
-			temp = *head;
-			*head = (*head)->next;
-			free(temp);
-			return (0);
-		}
-		head = &(*head)->next;
+		ft_printf("inside unset loop\n");
+		// if (ft_strcmp((head)->name, var_name) == 0)
+		// {
+		// 	ft_printf("var found\nname [%s], value [%s]", head->name, head->value);
+		// 	temp = head;
+		// 	head = head->next;
+		// 	free(temp);
+		// 	return (0);
+		// }
+		ft_printf("var sss\nname [%s], value [%s]", head->name ? head->name : "(null)", head->value ? head->value : "(null)");
+		head = head->next;
 	}
 	return (1);
 }

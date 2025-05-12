@@ -6,7 +6,7 @@
 /*   By: rojornod <rojornod@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/10 14:21:08 by rojornod          #+#    #+#             */
-/*   Updated: 2025/05/09 10:43:16 by rojornod         ###   ########.fr       */
+/*   Updated: 2025/05/12 16:41:27 by rojornod         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,6 +42,7 @@ typedef struct s_shell_info
 	bool	is_child_running;
 	int		last_return_code;
 	int		**child_pid;
+	char	*home_dir;
 	int 	fdin;
 	int 	fdout;
 }	t_shell_info;
@@ -61,8 +62,8 @@ int	echo_builtin(char **tokens);
 int	pwd_builtin(void);
 int	cd_builtin(char *command, t_vars *vars);
 int	export_builtin(t_vars *head, char *var_name, char *var_value);
-int	unset_builtin(t_vars **head, char *var_name);
-int	exit_builtin(t_vars *vars, char *home_dir, t_shell_info *info);
+int	unset_builtin(t_vars *head, char *var_name);
+int	exit_builtin(t_vars *vars, t_shell_info *info);
 int	env_builtin(t_vars *head);
 
 //variables
