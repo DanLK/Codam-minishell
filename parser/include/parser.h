@@ -3,10 +3,10 @@
 /*                                                        ::::::::            */
 /*   parser.h                                           :+:    :+:            */
 /*                                                     +:+                    */
-/*   By: dloustal <marvin@42.fr>                      +#+                     */
+/*   By: dloustal <dloustal@student.42.fr>            +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/04/01 16:41:23 by dloustal      #+#    #+#                 */
-/*   Updated: 2025/05/11 20:53:54 by dloustalot    ########   odam.nl         */
+/*   Updated: 2025/05/13 10:09:25 by dloustal      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,6 @@ typedef struct s_parser
 t_redir_node	*new_r_node(enum e_Type type, char *file);
 t_redir_node	*get_last_redir(t_redir_node **head);
 void			append_redir(t_redir_node **head, enum e_Type type, char *file);
-
 //Tree utilities
 // t_tree		*init_tree(void);
 t_t_node	*new_tree_node(enum e_Ptype p_type, t_token_list *tokens);
@@ -79,14 +78,15 @@ void		clear_array(char **words);
 //Parsing
 t_t_node		*parse_command(t_parser *parser);
 t_t_node		*parse_pipe(t_parser *parser);
-t_t_node		*parse_redir(t_parser *parser);
+// t_t_node		*parse_redir(t_parser *parser);
 
 //Parsing node creation
 t_t_node		*pipe_node(t_t_node *left, t_t_node *right);
 // t_t_node	*redir_out_node(t_t_node *cmd, t_t_node *filepath);
 // t_t_node	*redir_node(t_t_node *left, t_t_node *right, t_token *redir_tkn);
 t_t_node	*redir_node(t_parser *parser);
-void	get_redirs(t_parser *parser, t_redir_node **redir);
+// void	get_redirs(t_parser *parser, t_redir_node **redir);
+t_redir_node	**get_redirs_list(t_parser *parser);
 
 //Parser utilities
 bool			is_operator(enum e_Type type);

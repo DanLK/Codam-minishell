@@ -3,10 +3,10 @@
 /*                                                        ::::::::            */
 /*   parser.c                                           :+:    :+:            */
 /*                                                     +:+                    */
-/*   By: dloustal <marvin@42.fr>                      +#+                     */
+/*   By: dloustal <dloustal@student.42.fr>            +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/04/14 14:37:49 by dloustal      #+#    #+#                 */
-/*   Updated: 2025/05/11 21:49:38 by dloustalot    ########   odam.nl         */
+/*   Updated: 2025/05/13 10:09:31 by dloustal      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,38 +53,38 @@ t_t_node	*parse_pipe(t_parser *parser)
 /**************************************************************************** 
  * Parses a redirection expression, returning the corresponding ast node
 ****************************************************************************/
-t_t_node	*parse_redir(t_parser *parser)
-{
-	t_t_node		*node;
-	// t_redir_node	**redirs;
-	// t_redir_node	*fake_redir;
-	// t_t_node	*right;
-	// t_token		*redir_tkn;
-	// enum e_Type	token_type;
+// t_t_node	*parse_redir(t_parser *parser)
+// {
+// 	t_t_node		*node;
+// 	// t_redir_node	**redirs;
+// 	// t_redir_node	*fake_redir;
+// 	// t_t_node	*right;
+// 	// t_token		*redir_tkn;
+// 	// enum e_Type	token_type;
 
-	if (!parser)
-		return (NULL);
-	// redirs = NULL;
-	node = parse_command(parser);
-	node->p_type = PARSER_REDIR;
-	node->redirs = NULL;
-	// if (is_redir(parser))
-	// {
-	// 	fake_redir = new_r_node(TKN_REDIR_OUT, ">");
-	// 	redirs = &fake_redir;
-	// 	node->redirs = redirs;
-	// }
-	return (node);
-	// redir_tkn = parser->current->token;
-	// token_type = redir_tkn->type;
-	// if (is_redirection(token_type))
-	// {
-	// 	advance(parser);
-	// 	right = parse_redir(parser); //Filepath? // 
-	// 	node = redir_node(node, right, redir_tkn);
-	// }
-	// return(node);
-}
+// 	if (!parser)
+// 		return (NULL);
+// 	// redirs = NULL;
+// 	node = parse_command(parser);
+// 	node->p_type = PARSER_REDIR;
+// 	node->redirs = NULL;
+// 	// if (is_redir(parser))
+// 	// {
+// 	// 	fake_redir = new_r_node(TKN_REDIR_OUT, ">");
+// 	// 	redirs = &fake_redir;
+// 	// 	node->redirs = redirs;
+// 	// }
+// 	return (node);
+// 	// redir_tkn = parser->current->token;
+// 	// token_type = redir_tkn->type;
+// 	// if (is_redirection(token_type))
+// 	// {
+// 	// 	advance(parser);
+// 	// 	right = parse_redir(parser); //Filepath? // 
+// 	// 	node = redir_node(node, right, redir_tkn);
+// 	// }
+// 	// return(node);
+// }
 
 /**************************************************************************** 
  * Parses a command, the most atomic entity -- has highest precedence
@@ -116,10 +116,6 @@ t_t_node	*parse_command(t_parser *parser)
 	}
 	node = new_tree_node(PARSER_COMMAND, command);
 	node->redirs = NULL;
-	// ft_printf("-----------------------------\n");
-	// print_tree_node(node, "", 1);
-	// ft_printf("[debug parse_command] IS_REDIR: %d\n", node->redirs != NULL);
-	// ft_printf("-----------------------------\n");
 	return (node);
 }
 
