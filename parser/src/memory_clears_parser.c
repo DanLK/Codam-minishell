@@ -3,10 +3,10 @@
 /*                                                        ::::::::            */
 /*   memory_clears_parser.c                             :+:    :+:            */
 /*                                                     +:+                    */
-/*   By: dloustal <marvin@42.fr>                      +#+                     */
+/*   By: dloustal <dloustal@student.42.fr>            +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/04/03 15:39:13 by dloustal      #+#    #+#                 */
-/*   Updated: 2025/05/08 19:35:27 by dloustalot    ########   odam.nl         */
+/*   Updated: 2025/05/13 11:09:33 by dloustal      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,7 @@ void	clear_subtree(t_t_node *root)
 	if (!root)
 		return ;
 	clear_token_list(root->tokens);
+	clear_redirs(root->redirs);
 	clear_subtree(root->left);
 	clear_subtree(root->right);
 	free(root);

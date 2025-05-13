@@ -6,7 +6,7 @@
 /*   By: dloustal <dloustal@student.42.fr>            +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/04/15 16:24:19 by dloustal      #+#    #+#                 */
-/*   Updated: 2025/05/13 10:08:25 by dloustal      ########   odam.nl         */
+/*   Updated: 2025/05/13 11:19:06 by dloustal      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -126,6 +126,7 @@ t_redir_node	**get_redirs_list(t_parser *parser)
 		return (NULL);
 	tkn_node = parser->current;
 	head = malloc(sizeof(t_redir_node *));
+	*head = NULL;
 	if (!head)
 		return (NULL);
 	while (tkn_node && tkn_node->token->type != TKN_END
