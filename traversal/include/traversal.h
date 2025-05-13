@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   traversal.h                                        :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: rojornod <rojornod@student.42.fr>          +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/04/22 12:02:07 by dloustal          #+#    #+#             */
-/*   Updated: 2025/05/12 10:50:19 by rojornod         ###   ########.fr       */
+/*                                                        ::::::::            */
+/*   traversal.h                                        :+:    :+:            */
+/*                                                     +:+                    */
+/*   By: dloustal <dloustal@student.42.fr>            +#+                     */
+/*                                                   +#+                      */
+/*   Created: 2025/04/22 12:02:07 by dloustal      #+#    #+#                 */
+/*   Updated: 2025/05/13 15:07:34 by dloustal      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,7 @@ int		execute_export(t_token_list *tokens, t_vars *head);
 int		execute_assignment(t_token_list *tokens, t_vars *vars);
 int		execute_ext_command(t_t_node **root, t_vars *vars, t_shell_info *info);
 int		execute_redirection(t_t_node **root, t_vars *vars, t_shell_info *info);
+void	call_redir(t_redir_node *cur);
 
 // Pipes
 int		execute_pipe(t_t_node **root, t_vars *head, t_shell_info *info);
@@ -45,5 +46,8 @@ int		execute_redir_out(t_t_node **root, t_vars *head, t_shell_info *info);
 
 // Redirection Experiments
 void	exp_redir_out(t_t_node **root, t_vars *vars, t_shell_info *info);
+void	tmp_redir_out(char *file);
+void	tmp_redir_append(char *file);
+void	tmp_redir_in(char *file);
 
 #endif
