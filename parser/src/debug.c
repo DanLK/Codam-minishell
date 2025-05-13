@@ -6,7 +6,7 @@
 /*   By: dloustal <dloustal@student.42.fr>            +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/04/03 19:11:27 by dloustal      #+#    #+#                 */
-/*   Updated: 2025/05/13 10:06:02 by dloustal      ########   odam.nl         */
+/*   Updated: 2025/05/13 17:07:24 by dloustal      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -132,7 +132,7 @@ void	print_redirs(t_t_node *node, const char *prefix)
 	redir = *(node->redirs);
 	while (redir)
 	{
-		printf("%sType: %s ---- File: %s\n", prefix, get_token_type(redir->type), redir->file);
+		printf("%sType: %s ---- File: \"%s\"\n", prefix, get_token_type(redir->type), redir->file);
 		redir = redir->next;
 	}
 	// printf("%s|\n", prefix);

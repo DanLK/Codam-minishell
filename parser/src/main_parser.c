@@ -6,7 +6,7 @@
 /*   By: dloustal <dloustal@student.42.fr>            +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/04/01 16:48:50 by dloustal      #+#    #+#                 */
-/*   Updated: 2025/05/13 11:25:01 by dloustal      ########   odam.nl         */
+/*   Updated: 2025/05/13 17:39:17 by dloustal      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ int	main(void)
 	t_t_node		*pipe;
 	char			*exp;
 
-	exp = "cat < file.c > filedup.c";
+	exp = "echo> >hello ";
 	tokens = scan(exp);
 	parser = malloc(sizeof(t_parser));
 	if(!parser)
