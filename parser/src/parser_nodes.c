@@ -3,10 +3,10 @@
 /*                                                        ::::::::            */
 /*   parser_nodes.c                                     :+:    :+:            */
 /*                                                     +:+                    */
-/*   By: dloustal <marvin@42.fr>                      +#+                     */
+/*   By: dloustal <dloustal@student.42.fr>            +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/04/15 16:24:19 by dloustal      #+#    #+#                 */
-/*   Updated: 2025/05/11 21:54:08 by dloustalot    ########   odam.nl         */
+/*   Updated: 2025/05/13 10:08:25 by dloustal      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,7 +64,7 @@ t_t_node	*redir_node(t_parser *parser)
 	t_token_node	*tkn_node;
 	t_token_list	*cmd;
 	char			*lexeme;
-	t_redir_node	*redir;
+	t_redir_node	**redirs;
 
 	if (!parser)
 		return (NULL);
@@ -82,12 +82,8 @@ t_t_node	*redir_node(t_parser *parser)
 		// ft_printf("[debug redir_node] parser->current: %s\n", tkn_node->token->lexeme);
 	}
 	node = new_tree_node(PARSER_REDIR, cmd);
-	redir = NULL;
-	get_redirs(parser, &redir);
-	node->redirs = &redir;
-	ft_printf("-------------------------\n");
-	print_redirs(node, "");
-	ft_printf("-------------------------\n");
+	redirs = get_redirs_list(parser);
+	node->redirs = redirs;
 	return (node);
 }
 
@@ -96,23 +92,48 @@ t_t_node	*redir_node(t_parser *parser)
  * Builds the redirections list
  * Can assume that parser->current is of type TKN_SOME_REDIR
  **************************************************************/
-void	get_redirs(t_parser *parser, t_redir_node **redir)
+// void	get_redirs(t_parser *parser, t_redir_node **redir)
+// {
+// 	t_token_node	*tkn_node;
+// 	// t_redir_node	*redir;
+// 	// t_redir_node	**redirs;
+// 	// char			*file;
+
+// 	if (!parser)
+// 		return ;
+// 	tkn_node = parser->current;
+// 	while (tkn_node && tkn_node->token->type != TKN_END
+// 		&& tkn_node->token->type != TKN_PIPE)
+// 	{
+// 		// ft_printf("[debug get_redirs] %s\n", tkn_node->token->lexeme);
+// 		append_redir(redir, tkn_node->token->type, tkn_node->token->lexeme);
+// 		// ft_printf("[debug get_redirs] -- after copy: %s\n", get_last_redir(redir)->file);
+// 		advance(parser);
+// 		tkn_node = parser->current;
+// 	}
+// }
+
+/***********************************************************
+ * Builds the redirections list
+ * Can assume that parser->current is of type TKN_SOME_REDIR
+ **************************************************************/
+t_redir_node	**get_redirs_list(t_parser *parser)
 {
+	t_redir_node	**head;
 	t_token_node	*tkn_node;
-	// t_redir_node	*redir;
-	// t_redir_node	**redirs;
-	// char			*file;
 
 	if (!parser)
-		return ;
+		return (NULL);
 	tkn_node = parser->current;
+	head = malloc(sizeof(t_redir_node *));
+	if (!head)
+		return (NULL);
 	while (tkn_node && tkn_node->token->type != TKN_END
 		&& tkn_node->token->type != TKN_PIPE)
 	{
-		// ft_printf("[debug get_redirs] %s\n", tkn_node->token->lexeme);
-		append_redir(redir, tkn_node->token->type, tkn_node->token->lexeme);
-		// ft_printf("[debug get_redirs] -- after copy: %s\n", get_last_redir(redir)->file);
+		append_redir(head, tkn_node->token->type, tkn_node->token->lexeme);
 		advance(parser);
 		tkn_node = parser->current;
 	}
+	return (head);
 }
