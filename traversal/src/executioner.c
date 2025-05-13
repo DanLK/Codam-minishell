@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   executioner.c                                      :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: rojornod <rojornod@student.42.fr>          +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/04/22 13:36:45 by dloustal          #+#    #+#             */
-/*   Updated: 2025/05/12 10:50:28 by rojornod         ###   ########.fr       */
+/*                                                        ::::::::            */
+/*   executioner.c                                      :+:    :+:            */
+/*                                                     +:+                    */
+/*   By: dloustal <dloustal@student.42.fr>            +#+                     */
+/*                                                   +#+                      */
+/*   Created: 2025/04/22 13:36:45 by dloustal      #+#    #+#                 */
+/*   Updated: 2025/05/13 15:07:58 by dloustal      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,16 +38,59 @@ int	execute_src(t_t_node **root, t_vars *vars, t_shell_info *info)
 	}
 }
 
+/*******************************************************************************
+ *  Experiment to execute a redirection node 
+ * -- For now assumming only out redirections are possible
+*******************************************************************************/
 int	execute_redirection(t_t_node **root, t_vars *vars, t_shell_info *info)
 {
+	t_redir_node	*cur;
+	int				std_out;
+	int				std_in;
+
 	if (!root || !vars || !info)
 		return (125);
-	if ((*root)->tokens->head->token->type == TKN_REDIR_OUT)
+	std_out = dup(STDOUT_FILENO);
+	std_in = dup(STDIN_FILENO);
+	if (std_out == -1 || std_in == -1)
 	{
-		(exp_redir_out(root, vars, info));
-		return (0);
+		ft_printf("[execute_redirection] dup failed\n");
+		return (-1);
 	}
-	return (125);
+	cur = (*(*root)->redirs);
+	while (cur)
+	{
+		call_redir(cur);
+		cur = cur->next->next;
+	}
+	execute_command(root, vars, info);
+	if (dup2(std_out, STDOUT_FILENO) == -1 || dup2(std_in, STDIN_FILENO) == -1) {
+        ft_printf("[execute_redirection] dup2 in restoring out fd failed\n");
+        return (-1);
+    }
+    close(std_out);
+	close(std_in);
+	// Free redirection node!!!!!
+	return (0);
+}
+
+void	call_redir(t_redir_node *cur)
+{
+	t_redir_node	*operator_node;
+
+	operator_node = cur;
+	cur = cur->next;
+	if (cur)
+	{
+		if (operator_node->type == TKN_REDIR_OUT)
+			tmp_redir_out(cur->file);
+		else if (operator_node->type == TKN_REDIR_OUT_APP)
+			tmp_redir_append(cur->file);
+		else if (operator_node->type == TKN_REDIR_IN)
+			tmp_redir_in(cur->file);
+	}
+	else
+		ft_printf("[execute_redirection] file node doesn't exist\n");
 }
 
 /*******************************************************************************
@@ -166,7 +209,7 @@ int	execute_unset(t_token_list *tokens, t_vars **head)
 		return (0); //Success??
 	while (node)
 	{
-		unset_builtin(head, node->token->lexeme); // Assign to exit_status 
+		unset_builtin(*head, node->token->lexeme); // Assign to exit_status 
 		node = node->next;
 	}
 	return (0); // If all went well i.e. if all the exit status were 0

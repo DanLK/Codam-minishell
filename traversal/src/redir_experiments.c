@@ -6,7 +6,7 @@
 /*   By: dloustal <dloustal@student.42.fr>            +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/05/07 16:20:49 by dloustal      #+#    #+#                 */
-/*   Updated: 2025/05/08 11:42:30 by dloustal      ########   odam.nl         */
+/*   Updated: 2025/05/13 14:35:05 by dloustal      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -119,3 +119,4 @@ void	exp_redir_out(t_t_node **root, t_vars *vars, t_shell_info *info)
 		ft_printf("And my left child is a command: %s\n", (*root)->left->tokens->head->token->lexeme);
 	}
 }
+
