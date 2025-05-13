@@ -6,7 +6,7 @@
 /*   By: dloustal <dloustal@student.42.fr>            +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/04/01 16:48:50 by dloustal      #+#    #+#                 */
-/*   Updated: 2025/05/13 10:10:04 by dloustal      ########   odam.nl         */
+/*   Updated: 2025/05/13 11:25:01 by dloustal      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ int	main(void)
 	t_t_node		*pipe;
 	char			*exp;
 
-	exp = "echo hello >> file1 > file2 | no | more | redirs";
+	exp = "cat < file.c > filedup.c";
 	tokens = scan(exp);
 	parser = malloc(sizeof(t_parser));
 	if(!parser)
@@ -40,8 +40,8 @@ int	main(void)
 	}
 	ft_printf("Finished parsing... expression: \"%s\"\n", exp);
 	print_tree_node(pipe, "", 1);
-	// clear_token_list(tokens);
-	// clear_subtree(pipe);
-	// free(parser);
+	clear_token_list(tokens);
+	clear_subtree(pipe);
+	free(parser);
 	return (0);
 }

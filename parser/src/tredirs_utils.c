@@ -3,10 +3,10 @@
 /*                                                        ::::::::            */
 /*   tredirs_utils.c                                    :+:    :+:            */
 /*                                                     +:+                    */
-/*   By: dloustal <marvin@42.fr>                      +#+                     */
+/*   By: dloustal <dloustal@student.42.fr>            +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/05/11 18:33:48 by dloustalot    #+#    #+#                 */
-/*   Updated: 2025/05/11 21:58:21 by dloustalot    ########   odam.nl         */
+/*   Updated: 2025/05/13 11:25:33 by dloustal      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ t_redir_node	*get_last_redir(t_redir_node **head)
 {
 	t_redir_node	*tmp;
 
-	if (!head)
+	if (!head || !*head)
 		return (NULL);
 	tmp = *head;
 	if (!tmp)
@@ -62,4 +62,22 @@ void	append_redir(t_redir_node **head, enum e_Type type, char *file)
 		last = get_last_redir(head);
 		last->next = new;
 	}
+}
+
+void	clear_redirs(t_redir_node **head)
+{
+	t_redir_node	*node;
+	t_redir_node	*tmp;
+
+	if (!head)
+		return ;
+	node = *head;
+	while (node)
+	{
+		tmp = node;
+		free(tmp->file);
+		node = node->next;
+		free(tmp);
+	}
+	free(head);
 }
