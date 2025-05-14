@@ -6,7 +6,7 @@
 /*   By: rojornod <rojornod@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/10 14:21:08 by rojornod          #+#    #+#             */
-/*   Updated: 2025/05/14 14:40:48 by rojornod         ###   ########.fr       */
+/*   Updated: 2025/05/14 16:36:43 by rojornod         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,5 +98,7 @@ int		is_builtin(char *command);
 int		is_external_cmd(t_vars	*head, char *command);
 
 //return values
-int return_codes(t_shell_info	*info, int return_code);
+int 	return_codes(t_shell_info	*info, int return_code);
 
+//heredocs
+int 	heredoc(t_vars *vars, t_shell_info *info, char *delim);

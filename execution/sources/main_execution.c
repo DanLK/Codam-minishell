@@ -6,7 +6,7 @@
 /*   By: rojornod <rojornod@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/17 14:20:17 by rojornod          #+#    #+#             */
-/*   Updated: 2025/05/12 12:29:17 by rojornod         ###   ########.fr       */
+/*   Updated: 2025/05/14 17:14:49 by rojornod         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,7 +67,10 @@ int	main(int argc, char **argv, char **envp)
 			//execute_pipe(vars, info, envp, command);
 		}
 		
-		else if (ft_strcmp(read, "pwd") == 0)
+		else if (ft_strcmp(read, "heredoc"))
+			heredoc(vars, info, "eof");
+		
+			else if (ft_strcmp(read, "pwd") == 0)
 		{
 			debug_print("command is pwd", 'r');
 			// is_external_cmd(vars, read);
@@ -106,22 +109,22 @@ int	main(int argc, char **argv, char **envp)
 			env_builtin(vars);
 			
 		else if (ft_strcmp(read, "export") == 0) //export with no arguments. displays the list of all exported variables
-			export_builtin(vars, NULL, NULL);
+			export_builtin(&vars, NULL, NULL);
 			
 		else if (ft_strcmp(read, "export2") == 0) //exports TEST2 with value exmple
-			export_builtin(vars, "TEST2", "example");
+			export_builtin(&vars, "TEST2", "example");
 
 		else if (ft_strcmp(read, "export3") == 0) //exports TEST3 with no value
-			export_builtin(vars, "TEST3", NULL);
+			export_builtin(&vars, "TEST3", NULL);
 			
 		else if (ft_strcmp(read, "unset") == 0) //deletes the variable with name LC_NUMERIC
-			unset_builtin(&vars, "LC_NUMERIC");
+			unset_builtin(vars, "LC_NUMERIC");
 			
 		else if (ft_strcmp(read, "unset2") == 0) //deletes the variable with name TERM_PROGRAM
-			unset_builtin(&vars, "TERM_PROGRAM");
+			unset_builtin(vars, "TERM_PROGRAM");
 			
 		else if (ft_strcmp(read, "unset3") == 0) //deletes the variable with nme TEST
-			unset_builtin(&vars, "TEST");
+			unset_builtin(vars, "TEST");
 			
 		else if (ft_strcmp(read, "minishell") == 0) //opens a new minishell inside a minishell using child processes
 		{
