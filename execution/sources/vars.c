@@ -6,7 +6,7 @@
 /*   By: rojornod <rojornod@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/24 15:31:59 by rojornod          #+#    #+#             */
-/*   Updated: 2025/05/08 17:44:25 by rojornod         ###   ########.fr       */
+/*   Updated: 2025/05/14 10:27:00 by rojornod         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,6 +50,7 @@ t_vars	*create_var(char *var_name, char *var_value, int exp)
 		new_node->hidden = 0;
 		new_node->next = NULL;
 	}
+	//ft_printf("[new_node name: %s] [new_node value: %s] [new_node exported: %d]\n", new_node->name, new_node->value, new_node->exported);
 	return (new_node);
 }
 
