@@ -6,7 +6,7 @@
 /*   By: dloustal <dloustal@student.42.fr>            +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/04/01 12:11:14 by dloustal      #+#    #+#                 */
-/*   Updated: 2025/05/08 12:22:55 by dloustal      ########   odam.nl         */
+/*   Updated: 2025/05/14 10:35:55 by dloustal      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,8 +52,16 @@ void	redir_tkn(t_token_list *tkns, char *src, t_scanner *s, char c)
 			append_token(tkns, TKN_REDIR_OUT, ">");
 			(s->start)++;
 		}
+		// ft_printf("[redir_tkn] s->start: %d\n", s->start);
+		// ft_printf("[redir_tkn] s->cur: %d\n", s->cur);
 		lexeme = read_filepath(s, src);
-		append_token(tkns, TKN_FILE_PATH, lexeme);
+		// ft_printf("[redir_tkn] lexeme == NULL: %d\n", lexeme == NULL);
+		if (lexeme && ft_strlen(lexeme) > 0)
+		{
+			// ft_printf("[redir_tkn] Attempting to append the file_path node\n");
+			append_token(tkns, TKN_FILE_PATH, lexeme);
+		}
+		// ft_printf("[redir_tkn] We get here safely\n");
 		free(lexeme);
 	}
 	else if (c == '<')
@@ -65,7 +73,8 @@ void	redir_tkn(t_token_list *tkns, char *src, t_scanner *s, char c)
 			append_token(tkns, TKN_REDIR_IN, "<");
 			(s->start)++;
 			lexeme = read_filepath(s, src);
-			append_token(tkns, TKN_FILE_PATH, lexeme);
+			if (lexeme && ft_strlen(lexeme) > 0)
+				append_token(tkns, TKN_FILE_PATH, lexeme);
 			free(lexeme);
 		}
 	}
