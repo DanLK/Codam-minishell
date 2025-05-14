@@ -6,7 +6,7 @@
 /*   By: dloustal <dloustal@student.42.fr>            +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/04/22 12:02:07 by dloustal      #+#    #+#                 */
-/*   Updated: 2025/05/13 15:07:34 by dloustal      ########   odam.nl         */
+/*   Updated: 2025/05/14 14:55:57 by dloustal      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,7 @@ int		execute_src(t_t_node **root, t_vars *vars, t_shell_info *info);
 int		execute_command(t_t_node **root, t_vars *vars, t_shell_info *info);
 int		execute_builtin(t_t_node **root, t_vars *vars, t_shell_info *info);
 int		execute_echo(t_token_list *tokens);
+int		execute_cd(t_token_list *tokens, t_vars *vars);
 int		execute_unset(t_token_list *tokens, t_vars **head);
 int		execute_export(t_token_list *tokens, t_vars *head);
 int		execute_assignment(t_token_list *tokens, t_vars *vars);

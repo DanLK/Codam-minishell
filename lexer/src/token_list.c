@@ -6,7 +6,7 @@
 /*   By: dloustal <dloustal@student.42.fr>            +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/03/18 12:09:34 by dloustal      #+#    #+#                 */
-/*   Updated: 2025/05/05 16:46:27 by dloustal      ########   odam.nl         */
+/*   Updated: 2025/05/14 14:54:45 by dloustal      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -138,6 +138,35 @@ int	len_token_list(t_token_list *list)
 	}
 	return (len);
 }
+
+/*********************************************************************
+ * Calculates the length of a token list but ignoring more than one -n
+ * 
+ * Should only ignore them when they are after the echo
+ *********************************************************************/
+// int	len_token_list_echo(t_token_list *list)
+// {
+// 	t_token_node	*head;
+// 	int				len;
+// 	bool			opt_found;
+
+// 	if (!list)
+// 		return (0);
+// 	len = 0;
+// 	head = list->head;
+// 	if (!head)
+// 		return (0);
+// 	len++;
+// 	head = head->next;
+// 	while (head)
+// 	{
+// 		if (ft_strlen(head->token->lexeme) != 2
+// 		|| ft_strncmp(head->token->lexeme, "-n", 2) != 0)
+// 			len++;
+// 		head = head->next;
+// 	}
+// 	return (len);
+// }
 
 char	**tkn_list_to_array(t_token_list *tokens)
 {
