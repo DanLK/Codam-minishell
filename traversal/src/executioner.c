@@ -6,7 +6,7 @@
 /*   By: dloustal <dloustal@student.42.fr>            +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/04/22 13:36:45 by dloustal      #+#    #+#                 */
-/*   Updated: 2025/05/13 15:07:58 by dloustal      ########   odam.nl         */
+/*   Updated: 2025/05/14 15:26:23 by dloustal      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,25 +17,24 @@
 *******************************************************************************/
 int	execute_src(t_t_node **root, t_vars *vars, t_shell_info *info)
 {
+	int	exit_st;
+
 	if (!root)
 		return (125); //For now
 	if ((*root)->p_type == PARSER_COMMAND)
-		return (execute_command(root, vars, info));
+		exit_st = execute_command(root, vars, info);
 	else if ((*root)->p_type == PARSER_PIPE)
-	{
-		return (execute_pipe(root, vars, info));
-	}
+		exit_st = execute_pipe(root, vars, info);
 	else if ((*root)->p_type == PARSER_REDIR)
-	{
-		// I guess in here we figure out what kind of redirection it is:
-		// in, out or out apend
-		return (execute_redirection(root, vars, info));
-	}
+		exit_st = execute_redirection(root, vars, info);
 	else
 	{
 		ft_printf("Not able to execute right now\n");
-		return (125); // For now, as an error code
+		exit_st = 125; // For now, as an error code
 	}
+	info->last_return_code = exit_st;
+	ft_printf("[execute_src] exit status: %d\n", info->last_return_code);
+	return (exit_st);
 }
 
 /*******************************************************************************
@@ -99,6 +98,7 @@ void	call_redir(t_redir_node *cur)
 int	execute_command(t_t_node **root, t_vars *vars, t_shell_info *info)
 {
 	t_token_list	*tokens;
+	int				exit_status;
 
 	if (!root)
 		return (125); //Not sure what to return here
@@ -106,10 +106,19 @@ int	execute_command(t_t_node **root, t_vars *vars, t_shell_info *info)
 	if (is_builtin_type(tokens->head->token->type)
 		|| (tokens->head->token->type == TKN_WORD
 		&& tokens->head->next && tokens->head->next->token->type == TKN_EQUAL))
-		return (execute_builtin(root, vars, info));
+	{
+		exit_status = execute_builtin(root, vars, info);
+		info->last_return_code = exit_status;
+		return (exit_status);
+	}
 	if (tokens->head->token->type == TKN_WORD)
-		return (execute_ext_command(root, vars, info));
-	return (125); //For now
+	{
+		exit_status = execute_ext_command(root, vars, info);
+		info->last_return_code = exit_status;
+		return (exit_status);
+	}
+	info->last_return_code = 125;
+	return (125);
 }
 
 /*******************************************************************************
@@ -128,53 +137,38 @@ int	execute_builtin(t_t_node **root, t_vars *vars, t_shell_info *info)
 	if (type == TKN_ECHO)
 		return (execute_echo(tokens));
 	if (type == TKN_CD)
-	{
-		cd_builtin(tokens->head->next->token->lexeme, vars);
-		return (2); // Temporarily
-	}
+		return (execute_cd(tokens, vars));
 	if (type == TKN_PWD)
-	{
-		//TO DO: Check that the list only contains pwd --->>> NOT NECESSARY
-		pwd_builtin();
-		return (3); // Temporarily
-	}
+		return (pwd_builtin());
 	if (type == TKN_EXPORT)
-	{
-		execute_export(tokens, vars);
-		return (4); //For now, further processing of the variable name and variable value are needed
-	}
+		return (execute_export(tokens, vars));
 	if (type == TKN_UNSET)
-	{
-		execute_unset(tokens, &vars);
-		return (5); // Temporarily
-	}
+		return  (execute_unset(tokens, &vars));
 	if (type == TKN_ENV)
-	{
-		env_builtin(vars);
-		return (6);
-	}
+		return (env_builtin(vars));
 	if (type == TKN_EXIT)
 	{
 		exit_builtin(vars, info); // FIXED the exit built in to not take any argument
 		return (7);
 	}
 	if (type == TKN_WORD)
-	{
-		execute_assignment(tokens, vars);
-		return (8);
-	}
+		return (execute_assignment(tokens, vars));
 	return (125); //For now
 }
 
 /*******************************************************************************
  *  Transforms the token list on the command node into an array containing 
  * the parameters to echo and calls the echo_builtin function
+ * 
+ * 
+ * Maybe the ignoring should happen inside the builtin!!!
 *******************************************************************************/
 int	execute_echo(t_token_list *tokens)
 {
 	char			**params;
 	int				len;
 	int				i;
+	int				exit_st;
 	t_token_node	*node;
 
 	if (!tokens)
@@ -184,7 +178,8 @@ int	execute_echo(t_token_list *tokens)
 	if (!params)
 		return (125);
 	params[len - 1] = NULL;
-	node = tokens->head->next;
+	if (len > 1)
+		node = tokens->head->next;
 	i = 0;
 	while (i < len - 1)
 	{
@@ -192,27 +187,42 @@ int	execute_echo(t_token_list *tokens)
 		node = node->next;
 		i++;
 	}
-	echo_builtin(params); //Must return the value this returns
+	exit_st = echo_builtin(params); //Must return the value this returns
 	clear_array(params);
-	return (1);
+	return (exit_st);
+}
+
+int	execute_cd(t_token_list *tokens, t_vars *vars)
+{
+	if (!tokens || !vars)
+		return (125);
+	if (!tokens->head->next)
+		return cd_builtin(NULL, vars);
+	if (tokens->head->next->next)
+	{
+		ft_printf("minishell: cd: too many arguments\n");
+		return (1);
+	}
+	return (cd_builtin(tokens->head->next->token->lexeme, vars));
 }
 
 int	execute_unset(t_token_list *tokens, t_vars **head)
 {
 	t_token_node	*node;
-	// int		exit_status;
+	int		exit_status;
 
 	if (!tokens || !head)
 		return (125); //For now
 	node = tokens->head->next; //Should be the first argument fot the unset
+	exit_status = 0;
 	if (!node)
 		return (0); //Success??
 	while (node)
 	{
-		unset_builtin(*head, node->token->lexeme); // Assign to exit_status 
+		exit_status = unset_builtin(*head, node->token->lexeme); // Assign to exit_status 
 		node = node->next;
 	}
-	return (0); // If all went well i.e. if all the exit status were 0
+	return (exit_status); // If all went well i.e. if all the exit status were 0
 }
 
 int	execute_export(t_token_list *tokens, t_vars *vars)
@@ -225,10 +235,7 @@ int	execute_export(t_token_list *tokens, t_vars *vars)
 	if (!tokens || !vars)
 		return (125); //For now
 	if (!tokens->head->next)
-	{
-		export_builtin(vars, NULL, NULL);
-		return (0); // For now
-	}
+		return (export_builtin(vars, NULL, NULL));
 	node = tokens->head->next;
 	var_name = node->token->lexeme;
 	var_value = NULL;
@@ -240,8 +247,7 @@ int	execute_export(t_token_list *tokens, t_vars *vars)
 			var_value = "";
 	}
 	// Should check that the token list has been fully consumed?
-	export_builtin(vars, var_name, var_value); // Return the exit status
-	return (0); //For now
+	return (export_builtin(vars, var_name, var_value));
 }
 
 int	execute_assignment(t_token_list *tokens, t_vars *vars)
