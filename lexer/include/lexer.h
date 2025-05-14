@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   lexer.h                                            :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: rojornod <rojornod@student.42.fr>          +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/03/14 16:58:50 by dloustal          #+#    #+#             */
-/*   Updated: 2025/05/06 12:27:17 by rojornod         ###   ########.fr       */
+/*                                                        ::::::::            */
+/*   lexer.h                                            :+:    :+:            */
+/*                                                     +:+                    */
+/*   By: dloustal <dloustal@student.42.fr>            +#+                     */
+/*                                                   +#+                      */
+/*   Created: 2025/03/14 16:58:50 by dloustal      #+#    #+#                 */
+/*   Updated: 2025/05/14 12:19:45 by dloustal      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,6 +93,7 @@ void			append_token(t_token_list *list, enum e_Type type, char *lex);
 t_scanner		*init_scanner(int cur, int start);
 void			print_token_list(t_token_list *list);
 int				len_token_list(t_token_list *list);
+int				len_token_list_echo(t_token_list *list);
 char			**tkn_list_to_array(t_token_list *tokens);
 
 // Lexer
