@@ -6,7 +6,7 @@
 /*   By: rojornod <rojornod@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/09 10:14:24 by rojornod          #+#    #+#             */
-/*   Updated: 2025/05/02 17:46:21 by rojornod         ###   ########.fr       */
+/*   Updated: 2025/05/14 12:04:31 by rojornod         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,8 @@ char	*find_path(t_vars *head, char *command)
 	i = 0;
 	current = head;
 	current = find_vars(head, "PATH");
+	if (!current)
+		return (NULL);
 	temp_path = ft_split(current->value, ':'); //malloc freed after a valid path is found or not
 	if (!temp_path)
 		return (NULL);
@@ -65,6 +67,8 @@ void	exec_external_com(t_vars *head, char **command, int size, t_shell_info *inf
 	char	*path;
 
 	path = find_path(head, command[0]);
+	if (!path)
+		ft_printf("command not found\n");
 	create_child_proc(head, command, path, size, info);
 }
 

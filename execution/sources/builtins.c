@@ -6,7 +6,7 @@
 /*   By: rojornod <rojornod@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/20 11:27:48 by rojornod          #+#    #+#             */
-/*   Updated: 2025/05/14 11:13:00 by rojornod         ###   ########.fr       */
+/*   Updated: 2025/05/14 15:19:18 by rojornod         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -183,39 +183,43 @@ int	cd_builtin(char *path, t_vars *vars)
 		If the value is null and it is exported 
 *
 ******************************************************************************/
-int	export_builtin(t_vars *head, char *var_name, char *var_value)
+int	export_builtin(t_vars **head, char *var_name, char *var_value)
 {
-	if (!var_name)
-	{
-		while (head)
-		{
-			if (!head->value && head->exported == 1 && head->hidden != 1)
-				ft_printf("declare -x %s\n", head->name);
-			else if (head->value && head->exported == 1 && head->hidden != 1)
-				ft_printf("declare -x %s=%s\n", head->name, head->value);
-			head = head->next;
-		}
-		return (0);
-	}
-	else
-	{
-		head = find_vars(head, var_name);
-		if (head)
-		{
-			head->exported = 1;
-			if (var_value)
-			{
-				free(var_value);
-				head->value = ft_strdup(var_value);
-			}
-			return (0);
-		}
-		else
-		{
-			add_var(&head, var_name, var_value, 1);
-			return (0);
-		}
-	}
+    t_vars	*temp;
+
+    if (!var_name)
+    {
+        temp = *head;
+        while (temp)
+        {
+            if (!temp->value && temp->exported == 1)
+                ft_printf("declare -x %s\n", temp->name);
+            else if (temp->value && temp->exported == 1)
+                ft_printf("declare -x %s=%s\n", temp->name, temp->value);
+            temp = temp->next;
+        }
+        return (0);
+    }
+    else
+    {
+        temp = find_vars(*head, var_name);
+        if (temp)
+        {
+            temp->exported = 1;
+            if (var_value)
+            {
+                if (temp->value)
+                    free(temp->value);
+                temp->value = ft_strdup(var_value);
+            }
+            return (0);
+        }
+        else
+        {
+            add_var(head, var_name, var_value, 1);
+            return (0);
+        }
+    }
 }
 
 /******************************************************************************
@@ -241,8 +245,7 @@ int	unset_builtin(t_vars *head, char *var_name)
 			if (current->name)
 				free(current->name);
 			if (current->value)
-				free(current->value);
-			free(current);
+				free(current);
 			return (0);
 		}
 

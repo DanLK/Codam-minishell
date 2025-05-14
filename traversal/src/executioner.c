@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
-/*                                                        ::::::::            */
-/*   executioner.c                                      :+:    :+:            */
-/*                                                     +:+                    */
-/*   By: dloustal <dloustal@student.42.fr>            +#+                     */
-/*                                                   +#+                      */
-/*   Created: 2025/04/22 13:36:45 by dloustal      #+#    #+#                 */
-/*   Updated: 2025/05/13 15:07:58 by dloustal      ########   odam.nl         */
+/*                                                        :::      ::::::::   */
+/*   executioner.c                                      :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: rojornod <rojornod@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/04/22 13:36:45 by dloustal          #+#    #+#             */
+/*   Updated: 2025/05/14 14:12:47 by rojornod         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -226,7 +226,7 @@ int	execute_export(t_token_list *tokens, t_vars *vars)
 		return (125); //For now
 	if (!tokens->head->next)
 	{
-		export_builtin(vars, NULL, NULL);
+		export_builtin(&vars, NULL, NULL);
 		return (0); // For now
 	}
 	node = tokens->head->next;
@@ -240,7 +240,7 @@ int	execute_export(t_token_list *tokens, t_vars *vars)
 			var_value = "";
 	}
 	// Should check that the token list has been fully consumed?
-	export_builtin(vars, var_name, var_value); // Return the exit status
+	export_builtin(&vars, var_name, var_value); // Return the exit status
 	return (0); //For now
 }
 

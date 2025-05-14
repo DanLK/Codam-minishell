@@ -6,7 +6,7 @@
 /*   By: rojornod <rojornod@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/24 15:31:59 by rojornod          #+#    #+#             */
-/*   Updated: 2025/05/14 10:27:00 by rojornod         ###   ########.fr       */
+/*   Updated: 2025/05/14 15:16:14 by rojornod         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -102,13 +102,11 @@ t_vars	*find_vars(t_vars *head, char *var_name)
 	current = head;
 	while (current)
 	{
-		if (current->name && ft_strncmp(current->name, var_name, size) == 0)
-			//return (ft_printf("NAME[%s] VALUE [%s] HIDDEN [%d] EXPORT [%d]\n", current->name, current->value, current->hidden, current->exported), current);
-			return (debug_print("variable found", 'r'), current);
+		if (current->name && ft_strcmp(current->name, var_name) == 0)
+			return (current);
 		else
 			current = current->next;
 	}
-	debug_print("variable not found", 'r');
 	return (NULL);
 }
 
