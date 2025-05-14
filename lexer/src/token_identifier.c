@@ -6,7 +6,7 @@
 /*   By: dloustal <dloustal@student.42.fr>            +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/04/01 12:11:14 by dloustal      #+#    #+#                 */
-/*   Updated: 2025/05/14 10:35:55 by dloustal      ########   odam.nl         */
+/*   Updated: 2025/05/14 15:58:05 by dloustal      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ void	get_cur_token(t_token_list *tokens, char *src, t_scanner *s)
 		redir_tkn(tokens, src, s, c);
 	else if (c == '$' || c == '"' || c == '\'')
 		tkn_quote(tokens, src, s, c);
-	else if (c == '-' || ft_isalnum(c) || issymbol(c))
+	else if (c == '-' || ft_isalnum(c) || issymbol(c) || c == ':')
 		tkn_opt_word(tokens, src, s, c);
 }
 
@@ -134,7 +134,7 @@ void	tkn_opt_word(t_token_list *tkns, char *src, t_scanner *s, char c)
 			append_token(tkns, TKN_OPTION, lexeme);
 		free(lexeme);
 	}
-	else if (ft_isalnum(c) || issymbol(c))
+	else if (ft_isalnum(c) || issymbol(c) || c == ':')
 	{
 		lexeme = read_identifier(s, src);
 		if (is_keyword(lexeme) != -1)
