@@ -6,7 +6,7 @@
 /*   By: dloustal <dloustal@student.42.fr>            +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/04/15 16:24:19 by dloustal      #+#    #+#                 */
-/*   Updated: 2025/05/13 17:10:05 by dloustal      ########   odam.nl         */
+/*   Updated: 2025/05/14 10:56:55 by dloustal      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -151,7 +151,6 @@ t_t_node	*redir_node(t_parser *parser)
 	if (!parser)
 		return (NULL);
 	tkn_node = parser->current;
-	// ft_printf("[debug redir_node] parser->current: %s\n", tkn_node->token->lexeme);
 	cmd = init_token_list();
 	redirs = malloc(sizeof(t_redir_node *));
 	if (!redirs)
@@ -166,7 +165,7 @@ t_t_node	*redir_node(t_parser *parser)
 			append_redir(redirs, tkn_node->token->type, tkn_node->token->lexeme);
 			advance(parser);
 			tkn_node = parser->current;
-			if (!tkn_node || is_redirection(tkn_node->token->type))
+			if (tkn_node->token->type == TKN_END || is_redirection(parser->current->token->type))
 			{
 				ft_printf("Syntax error near unexpected token \'%s\'\n",
 				parser->previous->token->lexeme);
