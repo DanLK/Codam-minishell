@@ -6,7 +6,7 @@
 /*   By: dloustal <dloustal@student.42.fr>            +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/04/22 12:02:07 by dloustal      #+#    #+#                 */
-/*   Updated: 2025/05/14 14:55:57 by dloustal      ########   odam.nl         */
+/*   Updated: 2025/05/14 17:03:18 by dloustal      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,9 @@
 # define TRAVERSAL_H
 # include "parser.h"
 # include "minishell.h"
+
+// Cmd string ultilities
+bool	is_cmd(char *str, char *cmd);
 
 // Executioner
 int		execute_src(t_t_node **root, t_vars *vars, t_shell_info *info);
@@ -32,9 +35,10 @@ void	call_redir(t_redir_node *cur);
 int		execute_pipe(t_t_node **root, t_vars *head, t_shell_info *info);
 
 // Variable expansion
-void	expand_var_tree(t_t_node **root, t_vars *vars);
-void	expand_var_list(t_token_list *tokens, t_vars *vars);
+void	expand_var_tree(t_t_node **root, t_vars *vars, t_shell_info *info);
+void	expand_var_list(t_token_list *tokens, t_vars *vars, t_shell_info *info);
 void	expand_envvar(t_token_node *node, t_vars *vars);
+void	expand_exitstatus(t_token_node *node, t_shell_info *info);
 char	*expand_one_dqstring(char *string, t_vars *vars);
 char	*expand_dqstring(char *string, t_vars *vars);
 

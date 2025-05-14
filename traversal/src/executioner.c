@@ -6,7 +6,7 @@
 /*   By: dloustal <dloustal@student.42.fr>            +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/04/22 13:36:45 by dloustal      #+#    #+#                 */
-/*   Updated: 2025/05/14 15:44:56 by dloustal      ########   odam.nl         */
+/*   Updated: 2025/05/14 17:09:50 by dloustal      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,6 @@ int	execute_src(t_t_node **root, t_vars *vars, t_shell_info *info)
 		exit_st = 125; // For now, as an error code
 	}
 	info->last_return_code = exit_st;
-	ft_printf("[execute_src] exit status: %d\n", info->last_return_code);
 	return (exit_st);
 }
 
@@ -111,7 +110,9 @@ int	execute_command(t_t_node **root, t_vars *vars, t_shell_info *info)
 		info->last_return_code = exit_status;
 		return (exit_status);
 	}
-	if (tokens->head->token->type == TKN_WORD)
+	if (tokens->head->token->type == TKN_WORD
+		|| tokens->head->token->type == TKN_DQ_STRING
+		|| tokens->head->token->type == TKN_SQ_STRING)
 	{
 		exit_status = execute_ext_command(root, vars, info);
 		info->last_return_code = exit_status;
@@ -128,30 +129,30 @@ int	execute_command(t_t_node **root, t_vars *vars, t_shell_info *info)
 int	execute_builtin(t_t_node **root, t_vars *vars, t_shell_info *info)
 {
 	t_token_list	*tokens;
-	enum e_Type		type;
+	t_token			*token;
 
 	if (!root)
 		return (125);
 	tokens = (*root)->tokens;
-	type = tokens->head->token->type;
-	if (type == TKN_ECHO)
+	token = tokens->head->token;
+	if (token->type == TKN_ECHO || is_cmd(token->lexeme, "echo"))
 		return (execute_echo(tokens));
-	if (type == TKN_CD)
+	if (token->type == TKN_CD || is_cmd(token->lexeme, "cd"))
 		return (execute_cd(tokens, vars));
-	if (type == TKN_PWD)
+	if (token->type == TKN_PWD || is_cmd(token->lexeme, "pwd"))
 		return (pwd_builtin());
-	if (type == TKN_EXPORT)
+	if (token->type == TKN_EXPORT || is_cmd(token->lexeme, "export"))
 		return (execute_export(tokens, vars));
-	if (type == TKN_UNSET)
+	if (token->type == TKN_UNSET || is_cmd(token->lexeme, "unset"))
 		return  (execute_unset(tokens, &vars));
-	if (type == TKN_ENV)
+	if (token->type == TKN_ENV || is_cmd(token->lexeme, "env"))
 		return (env_builtin(vars));
-	if (type == TKN_EXIT)
+	if (token->type == TKN_EXIT || is_cmd(token->lexeme, "exit"))
 	{
 		exit_builtin(vars, info); // FIXED the exit built in to not take any argument
 		return (7);
 	}
-	if (type == TKN_WORD)
+	if (token->type == TKN_WORD)
 		return (execute_assignment(tokens, vars));
 	return (125); //For now
 }
