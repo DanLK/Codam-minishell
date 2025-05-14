@@ -6,7 +6,7 @@
 /*   By: dloustal <dloustal@student.42.fr>            +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/04/28 09:49:04 by dloustal      #+#    #+#                 */
-/*   Updated: 2025/04/30 11:08:22 by dloustal      ########   odam.nl         */
+/*   Updated: 2025/05/14 17:04:32 by dloustal      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,15 +15,15 @@
 /*****************************************************************************
  * Traverses the tree and expands the variables
 ******************************************************************************/
-void	expand_var_tree(t_t_node **root, t_vars *vars)
+void	expand_var_tree(t_t_node **root, t_vars *vars, t_shell_info *info)
 {
 	if (!root || !*root | !vars)
 		return ;
-	expand_var_list((*root)->tokens, vars);
+	expand_var_list((*root)->tokens, vars, info);
 	if ((*root)->left)
-		expand_var_tree(&(*root)->left, vars);
+		expand_var_tree(&(*root)->left, vars, info);
 	if ((*root)->right)
-		expand_var_tree(&(*root)->right, vars);
+		expand_var_tree(&(*root)->right, vars, info);
 }
 
 /*****************************************************************************
@@ -32,7 +32,7 @@ void	expand_var_tree(t_t_node **root, t_vars *vars)
  * Expands the nodes of type ENV_VAR and the nodes of type DQ_STRING
  * 
 ******************************************************************************/
-void	expand_var_list(t_token_list *tokens, t_vars *vars)
+void	expand_var_list(t_token_list *tokens, t_vars *vars, t_shell_info *info)
 {
 	t_token_node	*node;
 	char			*old_lexeme;
@@ -42,6 +42,8 @@ void	expand_var_list(t_token_list *tokens, t_vars *vars)
 	node = tokens->head;
 	while (node)
 	{
+		if (node->token->type == TKN_EXIT_STATUS)
+			expand_exitstatus(node, info);
 		if (node->token->type == TKN_ENV_VAR)
 			expand_envvar(node, vars);
 		if (node->token->type == TKN_DQ_STRING)
@@ -70,14 +72,28 @@ void	expand_envvar(t_token_node *node, t_vars *vars)
 	{
 		old_lexeme = node->token->lexeme;
 		free(old_lexeme);
-		node->token->lexeme = ft_strdup(var->value); //Not sure whether I should change it for a copy of var instead
-		node->token->type = TKN_WORD;
+		node->token->lexeme = ft_strdup(var->value); 
 	}
 	else
-	{
-		perror("Variable not found"); //This is a syntax error and should stop and clean everything
-		return ; //Clear memory
-	}
+		node->token->lexeme = ft_strdup("");
+		// perror("Variable not found"); //This is a syntax error and should stop and clean everything
+		// return ; //Clear memory
+		// // !!!!!!!!!!!!!!!!!! It's actually not a syntax error, it just prints nothing
+	node->token->type = TKN_WORD;
+}
+
+void	expand_exitstatus(t_token_node *node, t_shell_info *info)
+{
+	int		exit_status;
+	char	*old_lexeme;
+
+	if (!node || !info)
+		return ;
+	exit_status = info->last_return_code;
+	old_lexeme = node->token->lexeme;
+	free(old_lexeme);
+	node->token->lexeme = ft_itoa(exit_status); 
+	node->token->type = TKN_WORD;
 }
 
 /*****************************************************************************
