@@ -6,7 +6,7 @@
 /*   By: rojornod <rojornod@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/20 11:27:48 by rojornod          #+#    #+#             */
-/*   Updated: 2025/05/14 15:26:52 by rojornod         ###   ########.fr       */
+/*   Updated: 2025/05/14 15:47:55 by rojornod         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,6 +103,8 @@ int	echo_builtin(char **tokens)
 	if (ft_strcmp(tokens[0], "-n") == 0)
 	{
 		i = 1;
+		while (ft_strcmp(tokens[i], "-n") == 0)
+			i++;
 		if (!tokens[i])
 			return (0);
 		echo_printing(tokens, i);
