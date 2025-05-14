@@ -6,7 +6,7 @@
 /*   By: rojornod <rojornod@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/20 11:27:48 by rojornod          #+#    #+#             */
-/*   Updated: 2025/05/12 17:17:07 by rojornod         ###   ########.fr       */
+/*   Updated: 2025/05/14 11:13:00 by rojornod         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -225,25 +225,31 @@ int	export_builtin(t_vars *head, char *var_name, char *var_value)
 ******************************************************************************/
 int	unset_builtin(t_vars *head, char *var_name)
 {
-	//t_vars	*temp;
-
-	(void)var_name;
-	ft_printf("inside unset\n");
-	while (head)
+	t_vars	*current;
+	t_vars *previous;
+	
+	current = head;
+	previous = NULL;
+	while (current)
 	{
-		ft_printf("inside unset loop\n");
-		// if (ft_strcmp((head)->name, var_name) == 0)
-		// {
-		// 	ft_printf("var found\nname [%s], value [%s]", head->name, head->value);
-		// 	temp = head;
-		// 	head = head->next;
-		// 	free(temp);
-		// 	return (0);
-		// }
-		ft_printf("var sss\nname [%s], value [%s]", head->name ? head->name : "(null)", head->value ? head->value : "(null)");
-		head = head->next;
+		if (current->name && ft_strcmp((current)->name, var_name) == 0)
+		{
+			if (previous)
+				previous->next = current->next;
+			else 
+				head = current->next;
+			if (current->name)
+				free(current->name);
+			if (current->value)
+				free(current->value);
+			free(current);
+			return (0);
+		}
+
+		previous = current;
+		current = current->next;
 	}
-	return (1);
+	return (0);
 }
 
 /******************************************************************************
