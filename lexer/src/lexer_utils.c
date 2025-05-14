@@ -6,7 +6,7 @@
 /*   By: dloustal <dloustal@student.42.fr>            +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/03/20 15:41:02 by dloustal      #+#    #+#                 */
-/*   Updated: 2025/05/14 10:36:17 by dloustal      ########   odam.nl         */
+/*   Updated: 2025/05/14 15:58:45 by dloustal      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -104,7 +104,7 @@ char	*read_identifier(t_scanner *scanner, char *src)
 		return (NULL);
 	st = scanner->start;
 	c = src[--(scanner->cur)];
-	while (c && (ft_isalnum(c) || issymbol(c)))
+	while (c && (ft_isalnum(c) || issymbol(c) || c == ':'))
 	{
 		scanner->cur += 1;
 		c = src[scanner->cur];
