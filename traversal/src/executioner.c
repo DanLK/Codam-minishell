@@ -6,7 +6,7 @@
 /*   By: dloustal <dloustal@student.42.fr>            +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/04/22 13:36:45 by dloustal      #+#    #+#                 */
-/*   Updated: 2025/05/14 15:26:23 by dloustal      ########   odam.nl         */
+/*   Updated: 2025/05/14 15:44:56 by dloustal      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -235,7 +235,10 @@ int	execute_export(t_token_list *tokens, t_vars *vars)
 	if (!tokens || !vars)
 		return (125); //For now
 	if (!tokens->head->next)
-		return (export_builtin(vars, NULL, NULL));
+	{
+		export_builtin(&vars, NULL, NULL);
+		return (0); // For now
+	}
 	node = tokens->head->next;
 	var_name = node->token->lexeme;
 	var_value = NULL;
@@ -247,7 +250,8 @@ int	execute_export(t_token_list *tokens, t_vars *vars)
 			var_value = "";
 	}
 	// Should check that the token list has been fully consumed?
-	return (export_builtin(vars, var_name, var_value));
+	export_builtin(&vars, var_name, var_value); // Return the exit status
+	return (0); //For now
 }
 
 int	execute_assignment(t_token_list *tokens, t_vars *vars)
