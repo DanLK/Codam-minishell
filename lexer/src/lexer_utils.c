@@ -6,7 +6,7 @@
 /*   By: dloustal <dloustal@student.42.fr>            +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/03/20 15:41:02 by dloustal      #+#    #+#                 */
-/*   Updated: 2025/04/28 17:17:04 by dloustal      ########   odam.nl         */
+/*   Updated: 2025/05/14 10:36:17 by dloustal      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,7 +59,10 @@ char	*read_filepath(t_scanner *scanner, char *src)
 	char	c;
 
 	if (!src || scanner->cur >= (int)ft_strlen(src))
+	{
+		// ft_printf("[read_filepath] we are at the endof the string\n");
 		return (NULL);
+	}
 	while (ft_isspace(src[scanner->cur]))
 	{
 		scanner->cur += 1;

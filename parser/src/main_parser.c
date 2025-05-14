@@ -6,7 +6,7 @@
 /*   By: dloustal <dloustal@student.42.fr>            +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/04/01 16:48:50 by dloustal      #+#    #+#                 */
-/*   Updated: 2025/05/13 11:25:01 by dloustal      ########   odam.nl         */
+/*   Updated: 2025/05/14 10:58:16 by dloustal      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ int	main(void)
 	t_t_node		*pipe;
 	char			*exp;
 
-	exp = "cat < file.c > filedup.c";
+	exp = "< debug.c cat > out <";
 	tokens = scan(exp);
 	parser = malloc(sizeof(t_parser));
 	if(!parser)
@@ -27,11 +27,6 @@ int	main(void)
 	parser->current = tokens->head;
 	parser->previous = NULL;
 	pipe = parse_pipe(parser);
-	// advance(parser);
-	// advance(parser);
-	// advance(parser);
-	// ft_printf("exp: %s\n", parser->current->token->lexeme);
-	// ft_printf("----------------------------------------\n");
 	if (pipe == NULL)
 	{
 		clear_token_list(tokens);
