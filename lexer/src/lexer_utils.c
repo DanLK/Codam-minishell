@@ -6,12 +6,15 @@
 /*   By: dloustal <dloustal@student.42.fr>            +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/03/20 15:41:02 by dloustal      #+#    #+#                 */
-/*   Updated: 2025/05/14 15:58:45 by dloustal      ########   odam.nl         */
+/*   Updated: 2025/05/15 16:08:13 by dloustal      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "lexer.h"
 
+/*******************************************************************************
+ * This function is reading only one set of quotes
+*******************************************************************************/
 char	*read_quoted(t_scanner *scanner, char *src, char quotes)
 {
 	char	*substr;
@@ -32,7 +35,10 @@ char	*read_quoted(t_scanner *scanner, char *src, char quotes)
 	if (quot_closed)
 	{
 		scanner->cur += 1;
-		substr = ft_substr(src, scanner->start + 1, scanner->cur - scanner->start - 2);
+		if (quotes == '\"')
+			substr = ft_substr(src, scanner->start, scanner->cur - scanner->start );
+		else // if quotes == \'
+			substr = ft_substr(src, scanner->start + 1, scanner->cur - scanner->start - 2);
 	}
 	else
 	{
@@ -99,11 +105,13 @@ char	*read_identifier(t_scanner *scanner, char *src)
 	char	*substr;
 	int		st;
 	char	c;
+	bool	in_quotes;
 
 	if (!src || scanner->cur > (int)ft_strlen(src))
 		return (NULL);
 	st = scanner->start;
 	c = src[--(scanner->cur)];
+	in_quotes = false;
 	while (c && (ft_isalnum(c) || issymbol(c) || c == ':'))
 	{
 		scanner->cur += 1;

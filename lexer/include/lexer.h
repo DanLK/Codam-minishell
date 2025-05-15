@@ -6,7 +6,7 @@
 /*   By: dloustal <dloustal@student.42.fr>            +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/03/14 16:58:50 by dloustal      #+#    #+#                 */
-/*   Updated: 2025/05/14 12:19:45 by dloustal      ########   odam.nl         */
+/*   Updated: 2025/05/15 16:10:49 by dloustal      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,6 +50,7 @@ enum e_Type
 	// Literals
 	TKN_SQ_STRING,
 	TKN_DQ_STRING,
+	TKN_Q_STRING,
 	TKN_WORD, //21
 	//EOF to indicate end of input
 	TKN_END //22
