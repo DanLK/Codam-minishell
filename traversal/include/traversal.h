@@ -6,7 +6,7 @@
 /*   By: dloustal <dloustal@student.42.fr>            +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/04/22 12:02:07 by dloustal      #+#    #+#                 */
-/*   Updated: 2025/05/14 17:03:18 by dloustal      ########   odam.nl         */
+/*   Updated: 2025/05/20 19:46:30 by dloustal      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,6 +41,10 @@ void	expand_envvar(t_token_node *node, t_vars *vars);
 void	expand_exitstatus(t_token_node *node, t_shell_info *info);
 char	*expand_one_dqstring(char *string, t_vars *vars);
 char	*expand_dqstring(char *string, t_vars *vars);
+char	*get_start_trim_quotes(char *string, size_t len);
+// Temporary functoins
+char	*expand_qstring(char *string, t_vars *vars);
+char	*remove_quotes(char *string);
 
 // Variable expansion utilities
 char	*get_var_name(char *string, int pos);

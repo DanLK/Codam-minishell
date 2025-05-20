@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   minishell.c                                        :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: rojornod <rojornod@student.42.fr>          +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/04/17 11:53:23 by dloustal          #+#    #+#             */
-/*   Updated: 2025/05/15 14:43:00 by rojornod         ###   ########.fr       */
+/*                                                        ::::::::            */
+/*   minishell.c                                        :+:    :+:            */
+/*                                                     +:+                    */
+/*   By: dloustal <dloustal@student.42.fr>            +#+                     */
+/*                                                   +#+                      */
+/*   Created: 2025/04/17 11:53:23 by dloustal      #+#    #+#                 */
+/*   Updated: 2025/05/20 19:16:11 by dloustal      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,9 +57,9 @@ int	main(int argc, char **argv, char **envp)
 				exit(EXIT_FAILURE);
 			}
 			expand_var_tree(&root, vars, info);
-			// ft_printf("-------------------------------------\n");
-			// print_tree_node(root, "", 1);
-			// ft_printf("-------------------------------------\n");
+			ft_printf("-------------------------------------\n");
+			print_tree_node(root, "", 1);
+			ft_printf("-------------------------------------\n");
 			execute_src(&root, vars, info);
 			clear_token_list(tokens);
 			clear_subtree(root);

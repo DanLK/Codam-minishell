@@ -6,7 +6,7 @@
 /*   By: dloustal <dloustal@student.42.fr>            +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/04/03 19:11:27 by dloustal      #+#    #+#                 */
-/*   Updated: 2025/05/13 17:07:24 by dloustal      ########   odam.nl         */
+/*   Updated: 2025/05/20 17:37:29 by dloustal      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,8 +57,7 @@ static const char *get_token_type(enum e_Type type)
 		case TKN_EXIT_STATUS: return "EXIT_STATUS";
 		case TKN_ENV_VAR: return "ENV_VAR";
 		case TKN_FILE_PATH: return "FILE_PATH";
-		case TKN_SQ_STRING: return "SQ_STRING";
-		case TKN_DQ_STRING: return "DQ_STRING";
+		case TKN_Q_STRING: return "Q_STRING";
 		case TKN_WORD: return "WORD";
 		case TKN_END: return "END";
 		default: return "UNKNOWN";

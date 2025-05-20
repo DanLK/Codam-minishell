@@ -6,7 +6,7 @@
 /*   By: dloustal <dloustal@student.42.fr>            +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/04/28 09:49:04 by dloustal      #+#    #+#                 */
-/*   Updated: 2025/05/14 17:04:32 by dloustal      ########   odam.nl         */
+/*   Updated: 2025/05/20 19:49:27 by dloustal      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,10 +46,11 @@ void	expand_var_list(t_token_list *tokens, t_vars *vars, t_shell_info *info)
 			expand_exitstatus(node, info);
 		if (node->token->type == TKN_ENV_VAR)
 			expand_envvar(node, vars);
-		if (node->token->type == TKN_DQ_STRING)
+		if (node->token->type == TKN_Q_STRING
+			|| node->token->type == TKN_WORD)
 		{
 			old_lexeme = node->token->lexeme;
-			node->token->lexeme = expand_dqstring(node->token->lexeme, vars);
+			node->token->lexeme = expand_qstring(node->token->lexeme, vars);
 			free(old_lexeme);
 		}
 		node = node->next;
@@ -70,6 +71,7 @@ void	expand_envvar(t_token_node *node, t_vars *vars)
 	var = find_vars(vars, node->token->lexeme);
 	if (var)
 	{
+		ft_printf("[expand_envvar] var_name = %s\n", var->value);
 		old_lexeme = node->token->lexeme;
 		free(old_lexeme);
 		node->token->lexeme = ft_strdup(var->value); 
@@ -97,6 +99,23 @@ void	expand_exitstatus(t_token_node *node, t_shell_info *info)
 }
 
 /*****************************************************************************
+ * Expands all variables that are in between double quotes
+ * Returns a new string with all the vars replaced
+******************************************************************************/
+char	*expand_qstring(char *string, t_vars *vars)
+{
+	char	*result;
+	if (!string || !vars)
+		return (NULL);
+	if (!ft_strnstr(string, "$", ft_strlen(string)))
+	{
+		result = remove_quotes(string);
+		return (result);
+	}
+	return (ft_strdup(string));
+}
+
+/*****************************************************************************
  * Expands all variables in a double quoted string
  * Returns a new string with all the vars replaced
 ******************************************************************************/
@@ -106,6 +125,7 @@ char	*expand_dqstring(char *string, t_vars *vars)
 	char	*result;
 	char	*tmp;
 	int		len;
+	// bool	in_quotes;
 
 	if (!string || !vars)
 		return (NULL);
@@ -147,15 +167,18 @@ char	*expand_one_dqstring(char *string, t_vars *vars)
 	t_vars	*var;
 	
 	i = get_position(string, '$');
+	ft_printf("[expand_one_dqstring] $-position: %d\n", i);
 	aux = malloc(5 * sizeof(char *));
 	if (!aux)
 		return (NULL);
-	aux[0] = ft_substr(string, 0, i);
+	aux[0] = get_start_trim_quotes(string, i);
+	ft_printf("[expand_one_dqstring] start: %s\n", aux[0]);
 	aux[1] = get_var_name(string, i);
 	var = find_vars(vars, aux[1]);
 	if (!var || !var->value)
 	{
 		perror("Variable not found"); //Clean up?
+		exit(EXIT_FAILURE);// JUST FOR NOWWW!!!!
 		aux[2] = ft_strjoin(aux[0], ""); //At the moment replacing with the empty string
 	}
 	else
@@ -165,5 +188,47 @@ char	*expand_one_dqstring(char *string, t_vars *vars)
 	aux[4] = NULL;
 	result = ft_strjoin(aux[2], aux[3]);
 	clear_array(aux);
+	return (result);
+}
+
+char	*get_start_trim_quotes(char *string, size_t len)
+{
+	char	*result;
+	int		i;
+	int		j;
+
+	result = malloc(len);
+	if (!result)
+		return (NULL);
+	i = 0;
+	j = 0;
+	while (string[i])
+	{
+		if (string[i] != '\"')
+			result[j++] = string[i];
+		i++;
+	}
+	result[j] = '\0';
+	return (result);
+}
+
+char	*remove_quotes(char *string)
+{
+	char	*result;
+	int		len;
+	int		i;
+	int		j;
+
+	len = ft_strlen(string);
+	result = malloc(len);
+	i = 0;
+	j = 0;
+	while (string[i])
+	{
+		if (string[i] != '\"')
+			result[j++] = string[i];
+		i++;
+	}
+	result[j] = '\0';
 	return (result);
 }

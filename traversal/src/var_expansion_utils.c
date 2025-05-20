@@ -6,7 +6,7 @@
 /*   By: dloustal <dloustal@student.42.fr>            +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/04/29 12:21:37 by dloustal      #+#    #+#                 */
-/*   Updated: 2025/04/29 14:39:44 by dloustal      ########   odam.nl         */
+/*   Updated: 2025/05/20 19:42:35 by dloustal      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ char	*get_var_name(char *string, int pos)
 }
 
 /*****************************************************************************
- * Returns the position of char c on strings
+ * Returns the position of char c on string
 ******************************************************************************/
 int	get_position(char *string, char c)
 {

@@ -6,7 +6,7 @@
 /*   By: dloustal <dloustal@student.42.fr>            +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/05/20 13:39:12 by dloustal      #+#    #+#                 */
-/*   Updated: 2025/05/20 16:27:14 by dloustal      ########   odam.nl         */
+/*   Updated: 2025/05/20 19:14:29 by dloustal      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ char	*read_quoted(t_scanner *sc, char *src)
 				sc->cur++;
 				continue ;
 			}
-			else if (src[sc->cur] == ' ')
+			else if (src[sc->cur] == ' ' || src[sc->cur] == '=')
 				break ;
 			else
 			{
