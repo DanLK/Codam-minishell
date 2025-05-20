@@ -6,7 +6,7 @@
 /*   By: dloustal <dloustal@student.42.fr>            +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/04/01 12:11:14 by dloustal      #+#    #+#                 */
-/*   Updated: 2025/05/14 15:58:05 by dloustal      ########   odam.nl         */
+/*   Updated: 2025/05/20 16:19:29 by dloustal      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,14 +97,14 @@ void	tkn_quote(t_token_list *tkns, char *src, t_scanner *s, char c)
 	}
 	else if (c == '"')
 	{
-		lexeme = read_quoted(s, src, '"');
-		append_token(tkns, TKN_DQ_STRING, lexeme);
+		lexeme = read_quoted(s, src);
+		append_token(tkns, TKN_Q_STRING, lexeme);
 		free(lexeme);
 	}
 	else if (c == '\'')
 	{
-		lexeme = read_quoted(s, src, '\'');
-		append_token(tkns, TKN_SQ_STRING, lexeme);
+		lexeme = read_quoted(s, src);
+		append_token(tkns, TKN_Q_STRING, lexeme);
 		free(lexeme);
 	}
 }
@@ -136,7 +136,7 @@ void	tkn_opt_word(t_token_list *tkns, char *src, t_scanner *s, char c)
 	}
 	else if (ft_isalnum(c) || issymbol(c) || c == ':')
 	{
-		lexeme = read_identifier(s, src);
+		lexeme = read_quoted(s, src);
 		if (is_keyword(lexeme) != -1)
 			append_token(tkns, is_keyword(lexeme), lexeme);
 		else
