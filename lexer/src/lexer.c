@@ -6,7 +6,7 @@
 /*   By: dloustal <dloustal@student.42.fr>            +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/03/14 17:06:59 by dloustal      #+#    #+#                 */
-/*   Updated: 2025/05/20 16:15:08 by dloustal      ########   odam.nl         */
+/*   Updated: 2025/05/20 17:01:20 by dloustal      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,11 @@ t_token_list	*scan(char *src)
 
 	if (!src)
 		return (NULL);
+	if (!closed_quotes(src))
+	{
+		ft_printf("Minishell: syntax error: unclosed quotes\n");
+		exit(EXIT_FAILURE);
+	}
 	tokens = init_token_list();
 	scanner = init_scanner(0, 0);
 	if (!tokens || !scanner)

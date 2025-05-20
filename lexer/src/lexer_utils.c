@@ -6,47 +6,11 @@
 /*   By: dloustal <dloustal@student.42.fr>            +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/03/20 15:41:02 by dloustal      #+#    #+#                 */
-/*   Updated: 2025/05/20 16:00:00 by dloustal      ########   odam.nl         */
+/*   Updated: 2025/05/20 16:34:58 by dloustal      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "lexer.h"
-
-/*******************************************************************************
- * This function is reading only one set of quotes
-*******************************************************************************/
-// char	*read_quoted(t_scanner *scanner, char *src, char quotes)
-// {
-// 	char	*substr;
-// 	bool	quot_closed;
-
-// 	if (!src || scanner->cur >= (int)ft_strlen(src))
-// 		return (NULL);
-// 	quot_closed = false;
-// 	while (src[scanner->cur])
-// 	{
-// 		if (src[scanner->cur] == quotes)
-// 		{
-// 			quot_closed = true;
-// 			break ;
-// 		}
-// 		scanner->cur += 1;
-// 	}
-// 	if (quot_closed)
-// 	{
-// 		scanner->cur += 1;
-// 		if (quotes == '\"')
-// 			substr = ft_substr(src, scanner->start, scanner->cur - scanner->start );
-// 		else // if quotes == \'
-// 			substr = ft_substr(src, scanner->start + 1, scanner->cur - scanner->start - 2);
-// 	}
-// 	else
-// 	{
-// 		perror("Unclosed quotations");
-// 		substr = ft_substr(src, scanner->start + 1, scanner->cur - scanner->start - 1);
-// 	}
-// 	return (substr);
-// }
 
 void	consume_space(t_scanner *scanner, char *src)
 {
