@@ -6,7 +6,7 @@
 /*   By: rojornod <rojornod@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/10 14:21:08 by rojornod          #+#    #+#             */
-/*   Updated: 2025/05/14 16:36:43 by rojornod         ###   ########.fr       */
+/*   Updated: 2025/05/19 16:18:56 by rojornod         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,7 +84,9 @@ void	debug_print(char *debug_message, char c);
 
 //signals
 void	signal_action(void);
-void	child_signal_action(void);
+int		heredoc_action(void);
+int 	get_signal_received(void);
+void 	reset_signal(void);
 
 //external commands
 char	*find_path(t_vars *head, char *command);

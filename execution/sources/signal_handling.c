@@ -6,13 +6,14 @@
 /*   By: rojornod <rojornod@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/20 10:06:02 by rojornod          #+#    #+#             */
-/*   Updated: 2025/05/08 17:20:34 by rojornod         ###   ########.fr       */
+/*   Updated: 2025/05/20 16:13:51 by rojornod         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
-volatile sig_atomic_t	g_recieved = 0;
+volatile sig_atomic_t	g_received = 0;
+
 /******************************************************************************
 
 	This is the handling of signals
@@ -20,20 +21,20 @@ volatile sig_atomic_t	g_recieved = 0;
 	ctrl + D - is not a signal, its an End of File indicator, exits the shell
 	ctrl + \ - sends SIGQUIT, does nothing
 	
-*****************************************************************************/
-
+******************************************************************************/
 void	signal_handler(int signal)
 {
-	if (signal == SIGINT) 
+	if (signal == SIGINT)
 	{
+		g_received = SIGINT;
 		write(1, "\n", 1);
 		rl_replace_line("", 0);
 		rl_on_new_line();
 		rl_redisplay();
-		g_recieved = 1;
 	}
 	else if (signal == SIGQUIT)
 	{
+		g_received = SIGQUIT;
 		rl_replace_line("", 0);
 		rl_on_new_line();
 		rl_redisplay();
@@ -41,9 +42,21 @@ void	signal_handler(int signal)
 	if (!signal) //does nothing for now
 	{
 		ft_printf("exit\n");
-		g_recieved = 1;
+		// g_recieved = 1;
 		exit(0);
 	}
+}
+static void heredoc_handler(int signal)
+{
+    if (signal == SIGINT)
+    {
+		g_received = SIGINT;
+		rl_done = 1;
+		//write(1,"test\n", 5);
+		// rl_replace_line("", 0);
+		// rl_on_new_line();
+		// rl_redisplay();
+    }
 }
 
 // I need to create a signal handler function for each of parent, child and heredoc
@@ -58,11 +71,28 @@ void	signal_action(void)
 	sigaction(SIGQUIT, &action, NULL);
 }
 
-void	child_signal_action(void)
+int	heredoc_action(void)
 {
-	struct sigaction	child_action;
+	struct sigaction	action;
 	
-	child_action.sa_handler = SIG_DFL;
-	sigaction(SIGINT, &child_action, NULL);
-	sigaction(SIGQUIT, &child_action, NULL);
+	ft_printf("heredoc_action called\n");
+	memset(&action, 0, sizeof(struct sigaction));
+	action.sa_flags = SA_RESETHAND;
+	action.sa_handler = heredoc_handler;
+	sigaction(SIGINT, &action, NULL);
+	return (0);
+}
+
+//returns the caught signal
+int	get_signal_received(void)
+{
+	return g_received;
+}
+
+// sets the global variable to 0, resets from the catched signals
+// if its 0 it lets you implement your own
+void reset_signal(void)
+{
+    g_received = 0;
+	ft_printf("changed signal to = %d\n", g_received);
 }
