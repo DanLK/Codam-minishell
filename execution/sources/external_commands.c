@@ -6,7 +6,7 @@
 /*   By: rojornod <rojornod@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/09 10:14:24 by rojornod          #+#    #+#             */
-/*   Updated: 2025/05/15 14:10:42 by rojornod         ###   ########.fr       */
+/*   Updated: 2025/05/20 14:37:42 by rojornod         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,7 +59,7 @@ char	*find_path(t_vars *head, char *command)
 		i++;
 	}
 	free_array(temp_path);
-	return (ft_printf("bash: %s command not found\n", command), NULL);
+	return (NULL);
 }
 
 void	exec_external_com(t_vars *head, char **command, int size, t_shell_info *info)
@@ -67,8 +67,8 @@ void	exec_external_com(t_vars *head, char **command, int size, t_shell_info *inf
 	char	*path;
 
 	path = find_path(head, command[0]);
-	if (!path)
-		ft_printf("command not found\n");
+	// if (!path)
+	// 	ft_printf("command not found\n");
 	create_child_proc(head, command, path, size, info);
 }
 
