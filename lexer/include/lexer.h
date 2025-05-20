@@ -6,7 +6,7 @@
 /*   By: dloustal <dloustal@student.42.fr>            +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/03/14 16:58:50 by dloustal      #+#    #+#                 */
-/*   Updated: 2025/05/20 16:27:34 by dloustal      ########   odam.nl         */
+/*   Updated: 2025/05/20 16:59:41 by dloustal      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -110,7 +110,6 @@ char			*read_options(t_scanner *scanner, char *src);
 
 // Lexer utilities
 void			consume_space(t_scanner *scanner, char *src);
-char			*read_quoted(t_scanner *sc, char *src);
 char			*read_filepath(t_scanner *scanner, char *src);
 bool			is_special_char(char c);
 bool			is_builtin_type(enum e_Type type);
@@ -125,7 +124,10 @@ char			get_current_char(int *cur, char *src);
 bool			is_next(int *cur, char *src, char expected);
 
 // Quotes reader
-char			*get_one_quoted(t_scanner *sc, char *src);
+char			*read_quoted(t_scanner *sc, char *src);
+
+// Initial checks
+bool 			closed_quotes(char *src);
 
 // Memory clears
 void			clear_token_list(t_token_list *list);
