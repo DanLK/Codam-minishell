@@ -6,7 +6,7 @@
 /*   By: dloustal <dloustal@student.42.fr>            +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/04/22 13:36:45 by dloustal      #+#    #+#                 */
-/*   Updated: 2025/05/14 17:09:50 by dloustal      ########   odam.nl         */
+/*   Updated: 2025/05/20 19:21:07 by dloustal      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -111,8 +111,7 @@ int	execute_command(t_t_node **root, t_vars *vars, t_shell_info *info)
 		return (exit_status);
 	}
 	if (tokens->head->token->type == TKN_WORD
-		|| tokens->head->token->type == TKN_DQ_STRING
-		|| tokens->head->token->type == TKN_SQ_STRING)
+		|| tokens->head->token->type == TKN_Q_STRING)
 	{
 		exit_status = execute_ext_command(root, vars, info);
 		info->last_return_code = exit_status;
@@ -263,6 +262,7 @@ int	execute_assignment(t_token_list *tokens, t_vars *vars)
 
 	if (!tokens || !vars)
 		return (125); // For now
+	ft_printf("[execute_assignment] Executing var assignment...\n");
 	node = tokens->head;
 	var_name = node->token->lexeme;
 	if (node->next->token->type == TKN_EQUAL)

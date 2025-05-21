@@ -1,7 +1,7 @@
 NAME = parser
 SRC = tree.c memory_clears_parser.c parser.c parser_utilities.c parser_nodes.c debug.c tredirs_utils.c
 MAIN = main_parser.c
-LEXER_SRC = lexer.c lexer_utils.c lexer_utils_2.c token_list.c token_identifier.c clear_list.c
+LEXER_SRC = lexer.c lexer_utils.c lexer_utils_2.c token_list.c token_identifier.c quotes_reader.c initial_checks.c clear_list.c
 SRC_DIR = ./src
 OBJ_DIR = ./obj
 OBJ = $(SRC:%.c=$(OBJ_DIR)/%.o)

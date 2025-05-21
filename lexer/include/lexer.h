@@ -6,7 +6,7 @@
 /*   By: dloustal <dloustal@student.42.fr>            +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/03/14 16:58:50 by dloustal      #+#    #+#                 */
-/*   Updated: 2025/05/14 12:19:45 by dloustal      ########   odam.nl         */
+/*   Updated: 2025/05/20 19:14:57 by dloustal      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,11 +48,10 @@ enum e_Type
 	// Path
 	TKN_FILE_PATH, //18
 	// Literals
-	TKN_SQ_STRING,
-	TKN_DQ_STRING,
-	TKN_WORD, //21
+	TKN_Q_STRING,//19
+	TKN_WORD, //20
 	//EOF to indicate end of input
-	TKN_END //22
+	TKN_END //21
 };
 
 typedef struct token
@@ -111,7 +110,6 @@ char			*read_options(t_scanner *scanner, char *src);
 
 // Lexer utilities
 void			consume_space(t_scanner *scanner, char *src);
-char			*read_quoted(t_scanner *scanner, char *src, char quotes);
 char			*read_filepath(t_scanner *scanner, char *src);
 bool			is_special_char(char c);
 bool			is_builtin_type(enum e_Type type);
@@ -124,6 +122,12 @@ bool			kw_compare(const t_map *keywords, char *lexeme, int i);
 bool			issymbol(char c);
 char			get_current_char(int *cur, char *src);
 bool			is_next(int *cur, char *src, char expected);
+
+// Quotes reader
+char			*read_quoted(t_scanner *sc, char *src);
+
+// Initial checks
+bool 			closed_quotes(char *src);
 
 // Memory clears
 void			clear_token_list(t_token_list *list);
