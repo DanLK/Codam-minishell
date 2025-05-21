@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   minishell.c                                        :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: rojornod <rojornod@student.42.fr>          +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/04/17 11:53:23 by dloustal          #+#    #+#             */
-/*   Updated: 2025/05/15 14:43:00 by rojornod         ###   ########.fr       */
+/*                                                        ::::::::            */
+/*   minishell.c                                        :+:    :+:            */
+/*                                                     +:+                    */
+/*   By: dloustal <dloustal@student.42.fr>            +#+                     */
+/*                                                   +#+                      */
+/*   Created: 2025/04/17 11:53:23 by dloustal      #+#    #+#                 */
+/*   Updated: 2025/05/21 16:05:25 by dloustal      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,6 +56,9 @@ int	main(int argc, char **argv, char **envp)
 				free(parser);
 				exit(EXIT_FAILURE);
 			}
+			// ft_printf("-------------------------------------\n");
+			// print_tree_node(root, "", 1);
+			// ft_printf("-------------------------------------\n");
 			expand_var_tree(&root, vars, info);
 			// ft_printf("-------------------------------------\n");
 			// print_tree_node(root, "", 1);

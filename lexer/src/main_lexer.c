@@ -6,7 +6,7 @@
 /*   By: dloustal <dloustal@student.42.fr>            +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/03/17 11:29:28 by dloustal      #+#    #+#                 */
-/*   Updated: 2025/05/20 17:03:04 by dloustal      ########   odam.nl         */
+/*   Updated: 2025/05/21 11:35:34 by dloustal      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ int	main(void)
 
 	// Special case: \"\"\"\"echo\" hello\'ho ho\'\"\"\"
 
-	input = "\'echo hello > \'\'\"outfile\"";
+	input = "\"hello $USER\"\'hi $USER\'morewords";
 	ft_printf("Scanning input: \"%s\" \n\n", input);
 	list = scan(input);
 	print_token_list(list);

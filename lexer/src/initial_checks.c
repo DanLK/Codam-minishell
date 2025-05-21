@@ -6,7 +6,7 @@
 /*   By: dloustal <dloustal@student.42.fr>            +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/05/20 16:45:20 by dloustal      #+#    #+#                 */
-/*   Updated: 2025/05/20 17:01:37 by dloustal      ########   odam.nl         */
+/*   Updated: 2025/05/21 16:12:46 by dloustal      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,8 @@ bool closed_quotes(char *src)
 
 	i = 0;
 	len = ft_strlen(src);
+	in_double = false;
+	in_single = false;
 	while (i < len)
 	{
 		if (!in_single && !in_double)

@@ -6,7 +6,7 @@
 /*   By: dloustal <dloustal@student.42.fr>            +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/03/14 16:58:50 by dloustal      #+#    #+#                 */
-/*   Updated: 2025/05/20 16:59:41 by dloustal      ########   odam.nl         */
+/*   Updated: 2025/05/20 19:14:57 by dloustal      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,10 +48,10 @@ enum e_Type
 	// Path
 	TKN_FILE_PATH, //18
 	// Literals
-	TKN_Q_STRING,//21
-	TKN_WORD, //22
+	TKN_Q_STRING,//19
+	TKN_WORD, //20
 	//EOF to indicate end of input
-	TKN_END //22
+	TKN_END //21
 };
 
 typedef struct token
