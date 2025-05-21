@@ -6,7 +6,7 @@
 /*   By: dloustal <dloustal@student.42.fr>            +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/04/22 12:02:07 by dloustal      #+#    #+#                 */
-/*   Updated: 2025/05/21 15:47:27 by dloustal      ########   odam.nl         */
+/*   Updated: 2025/05/21 17:03:30 by dloustal      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ int		execute_export(t_token_list *tokens, t_vars *head);
 int		execute_assignment(t_token_list *tokens, t_vars *vars);
 int		execute_ext_command(t_t_node **root, t_vars *vars, t_shell_info *info);
 int		execute_redirection(t_t_node **root, t_vars *vars, t_shell_info *info);
-void	call_redir(t_redir_node *cur);
+void	call_redir(t_redir_node *cur, t_shell_info *info);
 
 // Pipes
 int		execute_pipe(t_t_node **root, t_vars *head, t_shell_info *info);
