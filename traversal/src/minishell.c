@@ -6,7 +6,7 @@
 /*   By: rojornod <rojornod@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/17 11:53:23 by dloustal          #+#    #+#             */
-/*   Updated: 2025/05/15 14:43:00 by rojornod         ###   ########.fr       */
+/*   Updated: 2025/05/21 16:08:30 by rojornod         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,11 +36,15 @@ int	main(int argc, char **argv, char **envp)
 	while (1)
 	{
 		read = readline("> ");
-		if (ft_strcmp(read, "heredoc") == 0)
-			heredoc(vars, info, "eof");
 		
-		if (read[0] == '\0')
-			continue ;
+		// if (read[0] == '\0')
+		// 	continue ;
+		if (!read)
+			exit_builtin(vars, info);
+
+		else if (ft_strcmp(read, "heredoc") == 0)
+			heredoc(info, "eof");
+			
 		else
 		{
 			tokens = scan(read);

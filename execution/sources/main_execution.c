@@ -6,7 +6,7 @@
 /*   By: rojornod <rojornod@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/17 14:20:17 by rojornod          #+#    #+#             */
-/*   Updated: 2025/05/14 17:14:49 by rojornod         ###   ########.fr       */
+/*   Updated: 2025/05/21 12:12:09 by rojornod         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,7 +68,7 @@ int	main(int argc, char **argv, char **envp)
 		}
 		
 		else if (ft_strcmp(read, "heredoc"))
-			heredoc(vars, info, "eof");
+			heredoc(info, "eof");
 		
 			else if (ft_strcmp(read, "pwd") == 0)
 		{
