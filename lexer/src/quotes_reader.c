@@ -6,7 +6,7 @@
 /*   By: dloustal <dloustal@student.42.fr>            +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/05/20 13:39:12 by dloustal      #+#    #+#                 */
-/*   Updated: 2025/05/20 19:14:29 by dloustal      ########   odam.nl         */
+/*   Updated: 2025/05/21 16:14:15 by dloustal      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,8 @@ char	*read_quoted(t_scanner *sc, char *src)
 		return (NULL);
 	i = 0;
 	sc->cur--;
+	in_single = false;
+	in_double = false;
 	while (src[sc->cur])
 	{
 		if (!in_single && !in_double)
