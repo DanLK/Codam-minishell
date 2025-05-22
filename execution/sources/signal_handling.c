@@ -6,7 +6,7 @@
 /*   By: rojornod <rojornod@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/20 10:06:02 by rojornod          #+#    #+#             */
-/*   Updated: 2025/05/21 16:21:52 by rojornod         ###   ########.fr       */
+/*   Updated: 2025/05/21 17:35:46 by rojornod         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,10 +32,6 @@ void	signal_handler(int signal)
 		rl_on_new_line();
 		rl_redisplay();
 	}
-	else if (signal == SIGQUIT)
-	{
-		g_received = SIGQUIT;
-	}
 }
 static void heredoc_handler(int signal)
 {
@@ -48,11 +44,15 @@ static void heredoc_handler(int signal)
 		// rl_on_new_line();
 		// rl_redisplay();
     }
-	else if (signal == SIGQUIT)
-	{
+	if (signal == SIGQUIT)
+    {
 		g_received = SIGQUIT;
-		// write(1, "sigquit\n", 8);
-	}
+		rl_done = 1;
+		write(1,"test\n", 5);
+		// rl_replace_line("", 0);
+		// rl_on_new_line();
+		// rl_redisplay();
+    }
 }
 
 // I need to create a signal handler function for each of parent, child and heredoc
@@ -65,6 +65,7 @@ void	signal_action(void)
 	action.sa_handler = signal_handler;
 	sigemptyset(&action.sa_mask);
 	sigaction(SIGINT, &action, NULL);
+	action.sa_handler = SIG_IGN;
 	sigaction(SIGQUIT, &action, NULL);
 }
 

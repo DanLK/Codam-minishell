@@ -6,7 +6,7 @@
 /*   By: rojornod <rojornod@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/09 16:05:02 by rojornod          #+#    #+#             */
-/*   Updated: 2025/05/21 15:08:54 by rojornod         ###   ########.fr       */
+/*   Updated: 2025/05/22 10:27:25 by rojornod         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,14 +49,9 @@ static int	delim_found(int fd, char *read_input, char *delim)
 	if (!read_input)
 		ft_printf("warning: recieved end of file, wanted '%s'\n", delim);
 	fd = open(".temp_heredoc", O_RDONLY);
-	buf = get_next_line(fd);
-	while (buf)
-	{
-		ft_printf ("%s", buf);
-		free(buf);
-		buf = get_next_line(fd);
-	}
+	dup2(fd, STDIN_FILENO);
 	close(fd);
+	
 	unlink(".temp_heredoc");
 	reset_signal();
 	signal_action();
