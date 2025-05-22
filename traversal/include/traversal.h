@@ -6,7 +6,7 @@
 /*   By: dloustal <dloustal@student.42.fr>            +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/04/22 12:02:07 by dloustal      #+#    #+#                 */
-/*   Updated: 2025/05/22 14:29:59 by dloustal      ########   odam.nl         */
+/*   Updated: 2025/05/22 15:56:02 by dloustal      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,4 +67,7 @@ void	tmp_redir_in(char *file);
 void	parse_hd_tree(t_t_node **root, t_vars *vars, t_shell_info *info);
 void	parse_hd_node(t_t_node **root, t_vars *vars, t_shell_info *info);
 void	parse_hd(char *eof, t_vars *vars, t_shell_info *info);
+
+//Exec heredoc
+void	exec_heredoc(t_shell_info *info);
 #endif
