@@ -6,7 +6,7 @@
 /*   By: dloustal <dloustal@student.42.fr>            +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/04/28 09:49:04 by dloustal      #+#    #+#                 */
-/*   Updated: 2025/05/21 17:16:18 by dloustal      ########   odam.nl         */
+/*   Updated: 2025/05/22 16:50:06 by dloustal      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -195,38 +195,37 @@ char	*expand_qstring(char *s, t_vars *vars, t_shell_info *info)
 // }
 
 /*****************************************************************************
- * Expands all variables in a double quoted string
+ * Expands all variables in a string while respecting the rest of the characters
  * Returns a new string with all the vars replaced
 ******************************************************************************/
-// char	*expand_dqstring(char *string, t_vars *vars)
-// {
-// 	int		i;
-// 	char	*result;
-// 	char	*tmp;
-// 	int		len;
-// 	// bool	in_quotes;
+char	*expand_string(char *string, t_vars *vars)
+{
+	int		i;
+	char	*result;
+	char	*tmp;
+	int		len;
 
-// 	if (!string || !vars)
-// 		return (NULL);
-// 	if (!ft_strnstr(string, "$", ft_strlen(string)))
-// 		return (ft_strdup(string));
-// 	i = get_position(string, '$');
-// 	result = ft_strdup(string);
-// 	if (!result)
-// 		return (NULL);
-// 	len = (int)ft_strlen(string);
-// 	while (i < len)
-// 	{
-// 		tmp = result;
-// 		result = expand_one_dqstring(tmp, vars);
-// 		free(tmp);
-// 		if (!result)
-// 			return (NULL);
-// 		i = get_position(result, '$');
-// 		len = (int)ft_strlen(result);
-// 	}
-// 	return (result);
-// }
+	if (!string || !vars)
+		return (NULL);
+	if (!ft_strnstr(string, "$", ft_strlen(string)))
+		return (ft_strdup(string));
+	i = get_position(string, '$');
+	result = ft_strdup(string);
+	if (!result)
+		return (NULL);
+	len = (int)ft_strlen(string);
+	while (i < len)
+	{
+		tmp = result;
+		result = expand_one_string(tmp, vars);
+		free(tmp);
+		if (!result)
+			return (NULL);
+		i = get_position(result, '$');
+		len = (int)ft_strlen(result);
+	}
+	return (result);
+}
 
 // /*****************************************************************************
 //  * Expands a variable in a double quoted string
@@ -238,37 +237,37 @@ char	*expand_qstring(char *s, t_vars *vars, t_shell_info *info)
 //  * aux[3] = rest
 //  * 
 // ******************************************************************************/
-// char	*expand_one_dqstring(char *string, t_vars *vars)
-// {
-// 	int		i;
-// 	char	*result;
-// 	char	**aux;
-// 	t_vars	*var;
+char	*expand_one_string(char *string, t_vars *vars)
+{
+	int		i;
+	char	*result;
+	char	**aux;
+	t_vars	*var;
 	
-// 	i = get_position(string, '$');
-// 	ft_printf("[expand_one_dqstring] $-position: %d\n", i);
-// 	aux = malloc(5 * sizeof(char *));
-// 	if (!aux)
-// 		return (NULL);
-// 	aux[0] = get_start_trim_quotes(string, i);
-// 	ft_printf("[expand_one_dqstring] start: %s\n", aux[0]);
-// 	aux[1] = get_var_name(string, i);
-// 	var = find_vars(vars, aux[1]);
-// 	if (!var || !var->value)
-// 	{
-// 		perror("Variable not found"); //Clean up?
-// 		exit(EXIT_FAILURE);// JUST FOR NOWWW!!!!
-// 		aux[2] = ft_strjoin(aux[0], ""); //At the moment replacing with the empty string
-// 	}
-// 	else
-// 		aux[2] = ft_strjoin(aux[0], var->value);
-// 	aux[3] = ft_substr(string, i + 1 + ft_strlen(aux[1]),
-// 				ft_strlen(string)- i - 1 - ft_strlen(aux[1]));
-// 	aux[4] = NULL;
-// 	result = ft_strjoin(aux[2], aux[3]);
-// 	clear_array(aux);
-// 	return (result);
-// }
+	i = get_position(string, '$');
+	// ft_printf("[expand_one_dqstring] $-position: %d\n", i);
+	aux = malloc(5 * sizeof(char *));
+	if (!aux)
+		return (NULL);
+	aux[0] = ft_substr(string, 0, i);
+	// ft_printf("[expand_one_dqstring] start: %s\n", aux[0]);
+	aux[1] = get_var_name(string, i);
+	var = find_vars(vars, aux[1]);
+	if (!var || !var->value)
+	{
+		// perror("Variable not found"); //Clean up?
+		// exit(EXIT_FAILURE);// JUST FOR NOWWW!!!!
+		aux[2] = ft_strjoin(aux[0], ""); //At the moment replacing with the empty string
+	}
+	else
+		aux[2] = ft_strjoin(aux[0], var->value);
+	aux[3] = ft_substr(string, i + 1 + ft_strlen(aux[1]),
+				ft_strlen(string)- i - 1 - ft_strlen(aux[1]));
+	aux[4] = NULL;
+	result = ft_strjoin(aux[2], aux[3]);
+	clear_array(aux);
+	return (result);
+}
 
 // char	*get_start_trim_quotes(char *string, size_t len)
 // {
@@ -291,23 +290,23 @@ char	*expand_qstring(char *s, t_vars *vars, t_shell_info *info)
 // 	return (result);
 // }
 
-// char	*remove_quotes(char *string)
-// {
-// 	char	*result;
-// 	int		len;
-// 	int		i;
-// 	int		j;
+char	*remove_quotes(char *string)
+{
+	char	*result;
+	int		len;
+	int		i;
+	int		j;
 
-// 	len = ft_strlen(string);
-// 	result = malloc(len);
-// 	i = 0;
-// 	j = 0;
-// 	while (string[i])
-// 	{
-// 		if (string[i] != '\"')
-// 			result[j++] = string[i];
-// 		i++;
-// 	}
-// 	result[j] = '\0';
-// 	return (result);
-// }
+	len = ft_strlen(string);
+	result = malloc(len);
+	i = 0;
+	j = 0;
+	while (string[i])
+	{
+		if (string[i] != '\"' && string[i] != '\'')
+			result[j++] = string[i];
+		i++;
+	}
+	result[j] = '\0';
+	return (result);
+}
