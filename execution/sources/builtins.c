@@ -6,7 +6,7 @@
 /*   By: rojornod <rojornod@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/20 11:27:48 by rojornod          #+#    #+#             */
-/*   Updated: 2025/05/21 17:51:22 by rojornod         ###   ########.fr       */
+/*   Updated: 2025/05/22 15:24:05 by rojornod         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,6 +62,7 @@ static void	echo_printing(char **tokens, int i)
 	j = 0;
 	while (tokens[i])
 	{
+		ft_printf("[echo printing] tokens[i] is [%s]\n", tokens[i]);
 		if (tokens[i][j] == ' ' || tokens[i][j] == '\'' || tokens[i][j] == '\\')
 			j++;
 		else if (tokens[i][j] == ' ' && tokens[i][j + 1] == ' ')
@@ -91,7 +92,6 @@ static void	echo_printing(char **tokens, int i)
 ******************************************************************************/
 int	echo_builtin(char **tokens)
 {
-	//change token index to 0 so it works for parsing
 	int	i;
 
 	i = 0;

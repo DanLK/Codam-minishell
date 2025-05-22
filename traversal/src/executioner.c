@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
-/*                                                        ::::::::            */
-/*   executioner.c                                      :+:    :+:            */
-/*                                                     +:+                    */
-/*   By: dloustal <dloustal@student.42.fr>            +#+                     */
-/*                                                   +#+                      */
-/*   Created: 2025/04/22 13:36:45 by dloustal      #+#    #+#                 */
-/*   Updated: 2025/05/21 17:03:15 by dloustal      ########   odam.nl         */
+/*                                                        :::      ::::::::   */
+/*   executioner.c                                      :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: rojornod <rojornod@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/04/22 13:36:45 by dloustal          #+#    #+#             */
+/*   Updated: 2025/05/22 15:35:44 by rojornod         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -294,6 +294,26 @@ int	execute_ext_command(t_t_node **root, t_vars *vars, t_shell_info *info)
 	if (!command)
 		return (125); //For now
 	exec_external_com(vars, command, size, info);
+	clear_array(command);
+	return (0);
+}
+
+int	execute_abs_path(t_t_node **root, t_vars *vars, t_shell_info *info)
+{
+	int				size;
+	char			**command;
+	t_token_list	*tokens;
+	char			*path;
+
+	if (!root || !vars || !info)
+	return (125); //For now
+	tokens = (*root)->tokens;
+	size = len_token_list(tokens);
+	//command = tkn_list_to_array(tokens);
+	path = ft_strdup(command[0]);
+	if (!command)
+		return (125); //For now
+	create_child_proc(vars, command, path, size, info);
 	clear_array(command);
 	return (0);
 }

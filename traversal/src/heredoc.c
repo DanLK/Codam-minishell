@@ -6,7 +6,7 @@
 /*   By: rojornod <rojornod@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/09 16:05:02 by rojornod          #+#    #+#             */
-/*   Updated: 2025/05/22 10:46:16 by rojornod         ###   ########.fr       */
+/*   Updated: 2025/05/22 13:56:36 by rojornod         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,12 +80,12 @@ int	heredoc(t_shell_info *info, char *delim)
 	init_heredoc();
 	sim_press_hook();
 	heredoc_action();
-	fd = open(".temp_heredoc", O_WRONLY | O_APPEND | O_CREAT, 0644);
+	fd = open(".temp_heredoc", O_WRONLY | O_CREAT, 0644);
 	read_input = readline("heredoc> ");
 	if (!read_input)
-		return (delim_found(fd, read_input, delim), 1);
+		return (delim_found(fd, read_input, delim), 130);
 	if (get_signal_received() == SIGINT)
-		return (heredoc_cleanup(fd), 1);
+		return (heredoc_cleanup(fd), 130);
 	while (read_input)
 	{
 		if (ft_strcmp(read_input, delim) == 0)
@@ -94,9 +94,9 @@ int	heredoc(t_shell_info *info, char *delim)
 		write(fd, "\n", 1);
 		read_input = readline("heredoc> ");
 		if (!read_input)
-			return (delim_found(fd, read_input, delim), 1);
+			return (delim_found(fd, read_input, delim), 130);
 		if (get_signal_received() == SIGINT)
-			return (heredoc_cleanup(fd), 1);
+			return (heredoc_cleanup(fd), 130);
 	}
 	return (0);
 }
