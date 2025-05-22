@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   readline.c                                         :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: rojornod <rojornod@student.42.fr>          +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/03/10 14:21:17 by rojornod          #+#    #+#             */
-/*   Updated: 2025/05/12 14:57:39 by rojornod         ###   ########.fr       */
+/*                                                        ::::::::            */
+/*   readline.c                                         :+:    :+:            */
+/*                                                     +:+                    */
+/*   By: dloustal <dloustal@student.42.fr>            +#+                     */
+/*                                                   +#+                      */
+/*   Created: 2025/03/10 14:21:17 by rojornod      #+#    #+#                 */
+/*   Updated: 2025/05/22 13:41:11 by dloustal      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,6 +41,8 @@ t_shell_info	*initialize_info(void)
 		exit(EXIT_FAILURE);
 	}
 	ft_memset(info, 0, sizeof(t_shell_info));
+	info->fdin = dup(STDIN_FILENO);
+	info->fdout = dup(STDOUT_FILENO);
 	return (info);
 }
 

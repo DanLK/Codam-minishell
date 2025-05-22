@@ -6,7 +6,7 @@
 /*   By: rojornod <rojornod@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/10 14:21:08 by rojornod          #+#    #+#             */
-/*   Updated: 2025/05/22 14:36:06 by rojornod         ###   ########.fr       */
+/*   Updated: 2025/05/22 15:37:59 by rojornod         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,12 +39,13 @@ typedef struct s_vars
 
 typedef struct s_shell_info
 {
-	bool	is_child_running;
+	// bool	is_child_running;
 	int		last_return_code;
-	int		**child_pid;
+	// int		**child_pid;
 	char	*home_dir;
 	int 	fdin;
 	int 	fdout;
+	int		hd_count;
 }	t_shell_info;
 
 t_vars			*initialize_data(void);

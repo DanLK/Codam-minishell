@@ -6,7 +6,7 @@
 /*   By: rojornod <rojornod@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/22 13:36:45 by dloustal          #+#    #+#             */
-/*   Updated: 2025/05/22 15:35:44 by rojornod         ###   ########.fr       */
+/*   Updated: 2025/05/22 15:38:16 by rojornod         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,6 +61,7 @@ int	execute_redirection(t_t_node **root, t_vars *vars, t_shell_info *info)
 		call_redir(cur, info);
 		cur = cur->next->next;
 	}
+	ft_printf("[execute_redirection] Will execute the command now...\n");
 	execute_command(root, vars, info);
 	if (dup2(std_out, STDOUT_FILENO) == -1 || dup2(std_in, STDIN_FILENO) == -1) {
         ft_printf("[execute_redirection] dup2 in restoring out fd failed\n");
@@ -87,7 +88,11 @@ void	call_redir(t_redir_node *cur, t_shell_info *info)
 		else if (operator_node->type == TKN_REDIR_IN)
 			tmp_redir_in(cur->file);
 		else if (operator_node->type == TKN_HEREDOC)
-			heredoc(info, cur->file);
+		{
+			// heredoc(info, cur->file);
+			(void)info;
+			ft_printf("[call_redir] Currently working on the heredoc functionality... please be patient\n");
+		}
 	}
 	else
 		ft_printf("[execute_redirection] file node doesn't exist\n");

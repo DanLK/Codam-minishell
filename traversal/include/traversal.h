@@ -6,7 +6,7 @@
 /*   By: rojornod <rojornod@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/22 12:02:07 by dloustal          #+#    #+#             */
-/*   Updated: 2025/05/22 15:20:51 by rojornod         ###   ########.fr       */
+/*   Updated: 2025/05/22 15:38:06 by rojornod         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,13 +55,17 @@ void	put_var(char **result, char *var, int *res_i);
 char	*get_var_name(char *string, int pos);
 // int		get_position(char *string, char c);
 
-// Redirections
-int		execute_redir_out(t_t_node **root, t_vars *head, t_shell_info *info);
 
-// Redirection Experiments
-void	exp_redir_out(t_t_node **root, t_vars *vars, t_shell_info *info);
+// int		execute_redir_out(t_t_node **root, t_vars *head, t_shell_info *info);
+
+// // Redirections
+// void	exp_redir_out(t_t_node **root, t_vars *vars, t_shell_info *info);
 void	tmp_redir_out(char *file);
 void	tmp_redir_append(char *file);
 void	tmp_redir_in(char *file);
 
+// Heredoc parsing
+void	parse_hd_tree(t_t_node **root, t_vars *vars, t_shell_info *info);
+void	parse_hd_node(t_t_node **root, t_vars *vars, t_shell_info *info);
+void	parse_hd(char *eof, t_vars *vars, t_shell_info *info);
 #endif
