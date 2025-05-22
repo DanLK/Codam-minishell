@@ -6,7 +6,7 @@
 /*   By: dloustal <dloustal@student.42.fr>            +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/03/10 14:21:08 by rojornod      #+#    #+#                 */
-/*   Updated: 2025/05/22 13:41:38 by dloustal      ########   odam.nl         */
+/*   Updated: 2025/05/22 15:45:08 by dloustal      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,6 +46,7 @@ typedef struct s_shell_info
 	int 	fdin;
 	int 	fdout;
 	int		hd_count;
+	int		cur_hd;
 }	t_shell_info;
 
 t_vars			*initialize_data(void);
