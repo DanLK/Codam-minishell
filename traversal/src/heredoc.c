@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   heredoc.c                                          :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: rojornod <rojornod@student.42.fr>          +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/05/09 16:05:02 by rojornod          #+#    #+#             */
-/*   Updated: 2025/05/22 10:46:16 by rojornod         ###   ########.fr       */
+/*                                                        ::::::::            */
+/*   heredoc.c                                          :+:    :+:            */
+/*                                                     +:+                    */
+/*   By: dloustal <dloustal@student.42.fr>            +#+                     */
+/*                                                   +#+                      */
+/*   Created: 2025/05/09 16:05:02 by rojornod      #+#    #+#                 */
+/*   Updated: 2025/05/22 13:35:50 by dloustal      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,6 +52,7 @@ static int	delim_found(int fd, char *read_input, char *delim)
 	dup2(fd, STDIN_FILENO);
 	close(fd);
 	//after this everything gets cleaned up
+	ft_printf("[delim_found] Will delete the file\n");
 	unlink(".temp_heredoc");
 	reset_signal();
 	signal_action();
@@ -82,6 +83,7 @@ int	heredoc(t_shell_info *info, char *delim)
 	heredoc_action();
 	fd = open(".temp_heredoc", O_WRONLY | O_APPEND | O_CREAT, 0644);
 	read_input = readline("heredoc> ");
+	// read_input = expand(read_input)
 	if (!read_input)
 		return (delim_found(fd, read_input, delim), 1);
 	if (get_signal_received() == SIGINT)
