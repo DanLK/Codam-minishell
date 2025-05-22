@@ -1,0 +1,81 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        ::::::::            */
+/*   heredoc_parsing.c                                  :+:    :+:            */
+/*                                                     +:+                    */
+/*   By: dloustal <dloustal@student.42.fr>            +#+                     */
+/*                                                   +#+                      */
+/*   Created: 2025/05/22 13:49:41 by dloustal      #+#    #+#                 */
+/*   Updated: 2025/05/22 15:05:29 by dloustal      ########   odam.nl         */
+/*                                                                            */
+/* ************************************************************************** */
+
+#include "traversal.h"
+
+/*******************************************************************************
+ * Traverses the tree (DFS) in search for heredocs
+*******************************************************************************/
+void	parse_hd_tree(t_t_node **root, t_vars *vars, t_shell_info *info)
+{
+	if (!root)
+		return ;
+	if ((*root)->left)
+		parse_hd_tree(&(*root)->left, vars, info);
+	if ((*root)->right)
+		parse_hd_tree(&(*root)->right, vars, info);
+	parse_hd_node(root, vars, info);
+}
+
+/*******************************************************************************
+ * Does a pass through the redirs list to find the heredocs
+*******************************************************************************/
+void	parse_hd_node(t_t_node **root, t_vars *vars, t_shell_info *info)
+{
+	t_redir_node	*cur;
+
+	if (!root || !vars || !info)
+		return ;
+	if ((*root)->redirs == NULL)
+		return ;
+	cur = *((*root)->redirs);
+	while (cur)
+	{
+		if (cur->type == TKN_HEREDOC)
+			parse_hd(cur->next->file, vars, info);
+		cur = cur->next->next;
+	}
+}
+
+/*******************************************************************************
+ * Creates the heredoc prompt and does the reading, creating file and 
+ * parsing the input
+ * 
+ * It stops when it hits the specified eof string
+*******************************************************************************/
+void	parse_hd(char *eof, t_vars *vars, t_shell_info *info)
+{
+	int		fd;
+	char	*input;
+	char	*file_name;
+
+	(void)vars;
+	file_name = ft_strjoin(".tmp_heredoc", ft_itoa(info->hd_count));
+	ft_printf("[parse_hd] tmp filename: %s\n", file_name);
+	fd = open(file_name, O_WRONLY | O_CREAT, 0644); //I don't know what the numbers mean
+	input = readline("heredoc> "); // VAR EXPANSIONS
+	if (!input)
+		return ; //SIGNALS
+	while (input)
+	{
+		if (ft_strcmp(input, eof) == 0)
+		{
+			info->hd_count++;
+			return (free(file_name), free(input));
+		}
+		write(fd, input, ft_strlen(input));
+		write(fd, "\n", 1);
+		input = readline("heredoc> ");
+		if (!input)
+			return (free(file_name), free(input));
+	}
+}
