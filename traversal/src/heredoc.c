@@ -6,7 +6,7 @@
 /*   By: rojornod <rojornod@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/09 16:05:02 by rojornod          #+#    #+#             */
-/*   Updated: 2025/05/22 10:27:25 by rojornod         ###   ########.fr       */
+/*   Updated: 2025/05/22 10:46:16 by rojornod         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,7 @@ static int	delim_found(int fd, char *read_input, char *delim)
 	fd = open(".temp_heredoc", O_RDONLY);
 	dup2(fd, STDIN_FILENO);
 	close(fd);
-	
+	//after this everything gets cleaned up
 	unlink(".temp_heredoc");
 	reset_signal();
 	signal_action();
