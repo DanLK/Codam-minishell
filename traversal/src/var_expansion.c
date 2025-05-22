@@ -6,7 +6,7 @@
 /*   By: dloustal <dloustal@student.42.fr>            +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/04/28 09:49:04 by dloustal      #+#    #+#                 */
-/*   Updated: 2025/05/21 16:07:58 by dloustal      ########   odam.nl         */
+/*   Updated: 2025/05/21 17:16:18 by dloustal      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,7 @@ void	expand_var_tree(t_t_node **root, t_vars *vars, t_shell_info *info)
 	if (!root || !*root | !vars)
 		return ;
 	expand_var_list((*root)->tokens, vars, info);
+	// expand_var_list((*root)->redirs, vars, info);
 	if ((*root)->left)
 		expand_var_tree(&(*root)->left, vars, info);
 	if ((*root)->right)

@@ -6,7 +6,7 @@
 /*   By: dloustal <dloustal@student.42.fr>            +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/04/22 13:36:45 by dloustal      #+#    #+#                 */
-/*   Updated: 2025/05/20 19:21:07 by dloustal      ########   odam.nl         */
+/*   Updated: 2025/05/21 17:03:15 by dloustal      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,7 +58,7 @@ int	execute_redirection(t_t_node **root, t_vars *vars, t_shell_info *info)
 	cur = (*(*root)->redirs);
 	while (cur)
 	{
-		call_redir(cur);
+		call_redir(cur, info);
 		cur = cur->next->next;
 	}
 	execute_command(root, vars, info);
@@ -72,7 +72,7 @@ int	execute_redirection(t_t_node **root, t_vars *vars, t_shell_info *info)
 	return (0);
 }
 
-void	call_redir(t_redir_node *cur)
+void	call_redir(t_redir_node *cur, t_shell_info *info)
 {
 	t_redir_node	*operator_node;
 
@@ -86,6 +86,8 @@ void	call_redir(t_redir_node *cur)
 			tmp_redir_append(cur->file);
 		else if (operator_node->type == TKN_REDIR_IN)
 			tmp_redir_in(cur->file);
+		else if (operator_node->type == TKN_HEREDOC)
+			heredoc(info, cur->file);
 	}
 	else
 		ft_printf("[execute_redirection] file node doesn't exist\n");
