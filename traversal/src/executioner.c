@@ -6,7 +6,7 @@
 /*   By: rojornod <rojornod@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/22 13:36:45 by dloustal          #+#    #+#             */
-/*   Updated: 2025/05/22 15:38:16 by rojornod         ###   ########.fr       */
+/*   Updated: 2025/05/22 16:27:52 by rojornod         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,7 +61,7 @@ int	execute_redirection(t_t_node **root, t_vars *vars, t_shell_info *info)
 		call_redir(cur, info);
 		cur = cur->next->next;
 	}
-	ft_printf("[execute_redirection] Will execute the command now...\n");
+	// ft_printf("[execute_redirection] Will execute the command now...\n");
 	execute_command(root, vars, info);
 	if (dup2(std_out, STDOUT_FILENO) == -1 || dup2(std_in, STDIN_FILENO) == -1) {
         ft_printf("[execute_redirection] dup2 in restoring out fd failed\n");
@@ -69,6 +69,7 @@ int	execute_redirection(t_t_node **root, t_vars *vars, t_shell_info *info)
     }
     close(std_out);
 	close(std_in);
+	// info->cur_hd = 0;
 	// Free redirection node!!!!!
 	return (0);
 }
@@ -88,11 +89,7 @@ void	call_redir(t_redir_node *cur, t_shell_info *info)
 		else if (operator_node->type == TKN_REDIR_IN)
 			tmp_redir_in(cur->file);
 		else if (operator_node->type == TKN_HEREDOC)
-		{
-			// heredoc(info, cur->file);
-			(void)info;
-			ft_printf("[call_redir] Currently working on the heredoc functionality... please be patient\n");
-		}
+			exec_heredoc(info);
 	}
 	else
 		ft_printf("[execute_redirection] file node doesn't exist\n");
@@ -303,22 +300,22 @@ int	execute_ext_command(t_t_node **root, t_vars *vars, t_shell_info *info)
 	return (0);
 }
 
-int	execute_abs_path(t_t_node **root, t_vars *vars, t_shell_info *info)
-{
-	int				size;
-	char			**command;
-	t_token_list	*tokens;
-	char			*path;
+// int	execute_abs_path(t_t_node **root, t_vars *vars, t_shell_info *info)
+// {
+// 	int				size;
+// 	char			**command;
+// 	t_token_list	*tokens;
+// 	char			*path;
 
-	if (!root || !vars || !info)
-	return (125); //For now
-	tokens = (*root)->tokens;
-	size = len_token_list(tokens);
-	//command = tkn_list_to_array(tokens);
-	path = ft_strdup(command[0]);
-	if (!command)
-		return (125); //For now
-	create_child_proc(vars, command, path, size, info);
-	clear_array(command);
-	return (0);
-}
+// 	if (!root || !vars || !info)
+// 	return (125); //For now
+// 	tokens = (*root)->tokens;
+// 	size = len_token_list(tokens);
+// 	//command = tkn_list_to_array(tokens);
+// 	path = ft_strdup(command[0]);
+// 	if (!command)
+// 		return (125); //For now
+// 	create_child_proc(vars, command, path, size, info);
+// 	clear_array(command);
+// 	return (0);
+// }

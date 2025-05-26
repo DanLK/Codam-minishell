@@ -6,7 +6,7 @@
 /*   By: rojornod <rojornod@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/16 11:11:31 by rojornod          #+#    #+#             */
-/*   Updated: 2025/05/22 15:34:43 by rojornod         ###   ########.fr       */
+/*   Updated: 2025/05/26 16:35:50 by rojornod         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,8 @@ static void parent_process(t_shell_info	*info)
 
 	(void)info;
 	while (waitpid(-1, &w_status, 0) > 1);
+	if (WIFSIGNALED(w_status) && (WTERMSIG(w_status) == SIGQUIT))
+		ft_printf("Quit (core dumped)\n", w_status);
 	if (WIFEXITED(w_status))
 		ft_printf("Child process exited with status: %d\n", WEXITSTATUS(w_status));
 }
@@ -56,8 +58,9 @@ int	create_child_proc(t_vars *vars, char **cmd, char *path, int size, t_shell_in
 	if (!path)
 		return (free_array(env_copy), free_array(argv), EXIT_FAILURE);
 	pid = fork();
-	if (pid == 0) //if pid = 0 then we are in child process
-		child_process(path, argv, env_copy, info);
+	if (pid == 0){ //if pid = 0 then we are in child process
+		child_proc_action();
+		child_process(path, argv, env_copy, info);}
 	else if (pid > 0) //if pid is bigger than 0 we are in the parent process
 		parent_process(info);
 	else //if less than 0 something went wrong
