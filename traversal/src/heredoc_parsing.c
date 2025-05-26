@@ -6,7 +6,7 @@
 /*   By: rojornod <rojornod@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/22 13:49:41 by dloustal          #+#    #+#             */
-/*   Updated: 2025/05/26 17:42:59 by rojornod         ###   ########.fr       */
+/*   Updated: 2025/05/26 18:04:55 by rojornod         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ void	parse_hd_node(t_t_node **root, t_vars *vars, t_shell_info *info)
 	while (cur)
 	{
 		if (cur->type == TKN_HEREDOC)
-			parse_hd(cur->next->file, vars, info);
+			parse_hd(remove_quotes(cur->next->file), vars, info);
 		cur = cur->next->next;
 	}
 }

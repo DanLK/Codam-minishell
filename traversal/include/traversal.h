@@ -6,7 +6,7 @@
 /*   By: rojornod <rojornod@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/22 12:02:07 by dloustal          #+#    #+#             */
-/*   Updated: 2025/05/22 16:20:17 by rojornod         ###   ########.fr       */
+/*   Updated: 2025/05/26 18:05:31 by rojornod         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,6 +55,11 @@ void	put_var(char **result, char *var, int *res_i);
 char	*get_var_name(char *string, int pos);
 // int		get_position(char *string, char c);
 
+// Var expansion for heredoc
+char	*expand_string(char *string, t_vars *vars);
+char	*expand_one_string(char *string, t_vars *vars);
+int		get_position(char *string, char c);
+char	*remove_quotes(char *string);
 
 // int		execute_redir_out(t_t_node **root, t_vars *head, t_shell_info *info);
 
