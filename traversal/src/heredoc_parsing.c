@@ -6,7 +6,7 @@
 /*   By: rojornod <rojornod@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/22 13:49:41 by dloustal          #+#    #+#             */
-/*   Updated: 2025/05/26 18:04:55 by rojornod         ###   ########.fr       */
+/*   Updated: 2025/05/27 11:31:36 by rojornod         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,7 +82,9 @@ void	parse_hd(char *eof, t_vars *vars, t_shell_info *info)
 		return (free(file_name));
 	input = readline("heredoc> "); // VAR EXPANSIONS
 	if (!input){
+		free(file_name);
 		heredoc_cleanup(fd);
+		info->hd_count++;
 		return ;} //SIGNALS
 	if (ft_strcmp(input, eof) == 0)
 	{
@@ -92,7 +94,7 @@ void	parse_hd(char *eof, t_vars *vars, t_shell_info *info)
 		return (free(file_name), free(input));
 	}
 	if (get_signal_received() == SIGINT)
-		return (sigint_cleanup(fd, file_name), heredoc_cleanup(fd));
+		return (info->hd_count++, sigint_cleanup(fd, file_name), heredoc_cleanup(fd));
 	else
 	{
 		while (input)
@@ -108,9 +110,9 @@ void	parse_hd(char *eof, t_vars *vars, t_shell_info *info)
 			write(fd, "\n", 1);
 			input = readline("heredoc> ");
 			if (!input)
-				return (heredoc_cleanup(fd), free(file_name), free(input));
+				return (info->hd_count++, heredoc_cleanup(fd), free(file_name));
 			if (get_signal_received() == SIGINT)
-				return (sigint_cleanup(fd, file_name), heredoc_cleanup(fd));
+				return (info->hd_count++, sigint_cleanup(fd, file_name), free(file_name), heredoc_cleanup(fd));
 		}
 	}
 }

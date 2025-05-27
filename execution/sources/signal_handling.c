@@ -6,7 +6,7 @@
 /*   By: rojornod <rojornod@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/20 10:06:02 by rojornod          #+#    #+#             */
-/*   Updated: 2025/05/26 17:58:43 by rojornod         ###   ########.fr       */
+/*   Updated: 2025/05/27 11:15:09 by rojornod         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,9 +76,6 @@ int	heredoc_action(void)
 {
 	struct sigaction	action;
 	
-	//ft_printf("heredoc_action called\n");
-	//memset(&action, 0, sizeof(struct sigaction));
-	//action.sa_flags = SA_RESETHAND;
 	action.sa_handler = heredoc_handler;
 	sigaction(SIGINT, &action, NULL);
 	return (0);
