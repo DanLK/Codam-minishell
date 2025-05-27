@@ -6,7 +6,7 @@
 /*   By: rojornod <rojornod@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/16 11:11:31 by rojornod          #+#    #+#             */
-/*   Updated: 2025/05/26 16:35:50 by rojornod         ###   ########.fr       */
+/*   Updated: 2025/05/27 16:28:22 by rojornod         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,7 @@ static void parent_process(t_shell_info	*info)
 {
 	int	w_status;
 
+	w_status = 0;
 	(void)info;
 	while (waitpid(-1, &w_status, 0) > 1);
 	if (WIFSIGNALED(w_status) && (WTERMSIG(w_status) == SIGQUIT))
