@@ -6,7 +6,7 @@
 /*   By: rojornod <rojornod@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/20 11:27:48 by rojornod          #+#    #+#             */
-/*   Updated: 2025/05/27 11:23:55 by rojornod         ###   ########.fr       */
+/*   Updated: 2025/05/27 17:13:02 by rojornod         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,10 +64,9 @@ static void	echo_printing(char **tokens, int i)
 	j = 0;
 	while (tokens[i])
 	{
-		ft_printf("[echo printing] tokens[i] is [%s]\n", tokens[i]);
-		if (tokens[i][j] == ' ' || tokens[i][j] == '\'' || tokens[i][j] == '\\')
-			j++;
-		else if (tokens[i][j] == ' ' && tokens[i][j + 1] == ' ')
+		// if (tokens[i][j] == ' ' || tokens[i][j] == '\'' || tokens[i][j] == '\\')
+		// 	j++;
+		if (tokens[i][j] == ' ' && tokens[i][j + 1] == ' ')
 		{
 			ft_putstr_fd(tokens[i], 1);
 			while (tokens[i][j] == ' ')
@@ -239,7 +238,7 @@ int	export_builtin(t_vars **head, char *var_name, char *var_value)
 int	unset_builtin(t_vars *head, char *var_name)
 {
 	t_vars	*current;
-	t_vars *previous;
+	t_vars	*previous;
 	
 	current = head;
 	previous = NULL;
@@ -254,7 +253,8 @@ int	unset_builtin(t_vars *head, char *var_name)
 			if (current->name)
 				free(current->name);
 			if (current->value)
-				free(current);
+				free(current->value);
+			free(current);
 			return (0);
 		}
 
@@ -278,7 +278,7 @@ int	env_builtin(t_vars *head)
 {
 	while (head)
 	{
-		if (head->value && head->name && head->hidden == 0)
+		if (head->value && head->name && head->hidden == 0 && head->exported == 1)
 			ft_printf("%s=%s, [export:[%d], hidden[%d]] \n", head->name, head->value, head->exported, head->hidden);
 		head = head->next;
 	}

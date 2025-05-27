@@ -6,7 +6,7 @@
 /*   By: rojornod <rojornod@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/20 10:06:02 by rojornod          #+#    #+#             */
-/*   Updated: 2025/05/27 11:15:09 by rojornod         ###   ########.fr       */
+/*   Updated: 2025/05/27 11:56:30 by rojornod         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,7 +76,9 @@ int	heredoc_action(void)
 {
 	struct sigaction	action;
 	
+	action.sa_flags = 0;
 	action.sa_handler = heredoc_handler;
+	sigemptyset(&action.sa_mask);
 	sigaction(SIGINT, &action, NULL);
 	return (0);
 }
@@ -85,8 +87,9 @@ int	child_proc_action(void)
 {
 	struct sigaction	action;
 	
-	//action.sa_flags = SA_RESETHAND;
+	action.sa_flags = 0;
 	action.sa_handler = child_proc_handler;
+	sigemptyset(&action.sa_mask);
 	sigaction(SIGINT, &action, NULL);
 	sigaction(SIGQUIT, &action, NULL);
 	return (0);
