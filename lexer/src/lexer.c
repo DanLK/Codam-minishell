@@ -6,7 +6,7 @@
 /*   By: dloustal <marvin@42.fr>                      +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/03/14 17:06:59 by dloustal      #+#    #+#                 */
-/*   Updated: 2025/05/27 13:18:55 by dloustalot    ########   odam.nl         */
+/*   Updated: 2025/05/27 16:50:37 by dloustalot    ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,4 +46,28 @@ t_token_list	*populate_tkns(t_token_list *tokens, char *src, t_scanner *s)
 	}
 	append_token(tokens, TKN_END, "END");
 	return (tokens);
+}
+
+void	get_cur_token(t_token_list *tokens, char *src, t_scanner *s)
+{
+	char	c;
+
+	if (!tokens || !src)
+		return ;
+	consume_space(s, src);
+	c = get_current_char(&s->cur, src);
+	if (c == '|')
+		append_token(tokens, TKN_PIPE, "|");
+	else if (c == '(')
+		append_token(tokens, TKN_L_PAREN, "(");
+	else if (c == ')')
+		append_token(tokens, TKN_R_PAREN, ")");
+	else if (c == '=')
+		append_token(tokens, TKN_EQUAL, "=");
+	else if (c == '>' || c == '<')
+		redir_tkn(tokens, src, s, c);
+	else if (c == '$' || c == '"' || c == '\'')
+		tkn_quote(tokens, src, s, c);
+	else if (c == '-' || ft_isalnum(c) || issymbol(c) || c == ':')
+		tkn_opt_word(tokens, src, s, c);
 }

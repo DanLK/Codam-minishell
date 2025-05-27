@@ -6,7 +6,7 @@
 /*   By: dloustal <marvin@42.fr>                      +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/04/01 16:41:23 by dloustal      #+#    #+#                 */
-/*   Updated: 2025/05/27 15:47:53 by dloustalot    ########   odam.nl         */
+/*   Updated: 2025/05/27 17:09:24 by dloustalot    ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,19 +64,8 @@ void			insert_right(t_t_node *root, enum e_Ptype p_type, t_token_list *tokens);
 
 //Memory clears
 void			clear_subtree(t_t_node *root);
-// void		clear_tree(t_tree *tree);
-void			clear_tree_node(t_t_node *node);
 void			clear_array(char **words);
 
-/********************************************************************************
- * Functions from the old parser i.e. the first attempt at parsing 
-********************************************************************************/
-// t_tree		*parse(t_token_list *tokens);
-// void		parse_pipe(t_t_node **root, t_token_list *tokens, t_parser *parser);
-// void		parse_tokens(t_t_node **root, t_token_list *tokens, t_parser *parser);
-// void		advance(t_parser *parser);
-/********************************************************************************
-********************************************************************************/
 //Parsing
 t_t_node		*parse_command(t_parser *parser);
 t_t_node		*parse_pipe(t_parser *parser);
@@ -84,11 +73,11 @@ t_t_node		*parse(t_token_list *tokens);
 
 //Parsing node creation
 t_t_node		*pipe_node(t_t_node *left, t_t_node *right);
+t_t_node	*redir_node(t_parser *parser);
+t_redir_node	**get_redirs_list(t_parser *parser);
 // t_t_node	*redir_out_node(t_t_node *cmd, t_t_node *filepath);
 // t_t_node	*redir_node(t_t_node *left, t_t_node *right, t_token *redir_tkn);
-t_t_node	*redir_node(t_parser *parser);
 // void	get_redirs(t_parser *parser, t_redir_node **redir);
-t_redir_node	**get_redirs_list(t_parser *parser);
 
 //Parser utilities
 bool			is_operator(enum e_Type type);
@@ -103,5 +92,15 @@ void 			print_t_token_list(t_token_list *list, const char *prefix, int is_last);
 void 			print_tree_node(t_t_node *node, const char *prefix, int is_last);
 void			print_redirs(t_t_node *node, const char *prefix);
 // void 		print_parse_tree(t_tree *tree);
+
+/********************************************************************************
+ * Functions from the old parser i.e. the first attempt at parsing 
+********************************************************************************/
+// t_tree		*parse(t_token_list *tokens);
+// void		parse_pipe(t_t_node **root, t_token_list *tokens, t_parser *parser);
+// void		parse_tokens(t_t_node **root, t_token_list *tokens, t_parser *parser);
+// void		advance(t_parser *parser);
+/********************************************************************************
+********************************************************************************/
 
 #endif
