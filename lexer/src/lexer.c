@@ -3,10 +3,10 @@
 /*                                                        ::::::::            */
 /*   lexer.c                                            :+:    :+:            */
 /*                                                     +:+                    */
-/*   By: dloustal <dloustal@student.42.fr>            +#+                     */
+/*   By: dloustal <marvin@42.fr>                      +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/03/14 17:06:59 by dloustal      #+#    #+#                 */
-/*   Updated: 2025/05/20 17:01:20 by dloustal      ########   odam.nl         */
+/*   Updated: 2025/05/27 13:18:55 by dloustalot    ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,8 @@ t_token_list	*scan(char *src)
 	if (!closed_quotes(src))
 	{
 		ft_printf("Minishell: syntax error: unclosed quotes\n");
-		exit(EXIT_FAILURE);
+		// exit(EXIT_FAILURE);
+		// Must clear everything
 	}
 	tokens = init_token_list();
 	scanner = init_scanner(0, 0);

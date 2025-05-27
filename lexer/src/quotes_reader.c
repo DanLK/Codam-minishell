@@ -3,10 +3,10 @@
 /*                                                        ::::::::            */
 /*   quotes_reader.c                                    :+:    :+:            */
 /*                                                     +:+                    */
-/*   By: dloustal <dloustal@student.42.fr>            +#+                     */
+/*   By: dloustal <marvin@42.fr>                      +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/05/20 13:39:12 by dloustal      #+#    #+#                 */
-/*   Updated: 2025/05/21 16:14:15 by dloustal      ########   odam.nl         */
+/*   Updated: 2025/05/27 14:37:57 by dloustalot    ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,9 @@ char	*read_quoted(t_scanner *sc, char *src)
 				sc->cur++;
 				continue ;
 			}
-			else if (src[sc->cur] == ' ' || src[sc->cur] == '=')
+			else if (src[sc->cur] == ' ' || src[sc->cur] == '='
+					|| src[sc->cur] == '|' || src[sc->cur] == '<'
+					|| src[sc->cur] == '>')
 				break ;
 			else
 			{

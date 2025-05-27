@@ -3,10 +3,10 @@
 /*                                                        ::::::::            */
 /*   minishell.c                                        :+:    :+:            */
 /*                                                     +:+                    */
-/*   By: dloustal <dloustal@student.42.fr>            +#+                     */
+/*   By: dloustal <marvin@42.fr>                      +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/04/17 11:53:23 by dloustal      #+#    #+#                 */
-/*   Updated: 2025/05/22 14:58:43 by dloustal      ########   odam.nl         */
+/*   Updated: 2025/05/27 14:18:01 by dloustalot    ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,12 +42,13 @@ int	main(int argc, char **argv, char **envp)
 		if (!read)
 			exit_builtin(vars, info);
 
-		else if (ft_strcmp(read, "heredoc") == 0)
-			heredoc(info, "eof");
+		// else if (ft_strcmp(read, "heredoc") == 0)
+		// 	heredoc(info, "eof");
 			
 		else
 		{
 			tokens = scan(read);
+			print_token_list(tokens);
 			parser = malloc(sizeof(t_parser));
 			if(!parser)
 				return (0);
@@ -58,7 +59,8 @@ int	main(int argc, char **argv, char **envp)
 			{
 				clear_token_list(tokens);
 				free(parser);
-				exit(EXIT_FAILURE);
+				// exit(EXIT_FAILURE);
+				continue ;
 			}
 			// ft_printf("-------------------------------------\n");
 			// print_tree_node(root, "", 1);

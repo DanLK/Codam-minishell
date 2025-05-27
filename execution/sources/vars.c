@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   vars.c                                             :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: rojornod <rojornod@student.42.fr>          +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/03/24 15:31:59 by rojornod          #+#    #+#             */
-/*   Updated: 2025/05/14 15:16:14 by rojornod         ###   ########.fr       */
+/*                                                        ::::::::            */
+/*   vars.c                                             :+:    :+:            */
+/*                                                     +:+                    */
+/*   By: dloustal <marvin@42.fr>                      +#+                     */
+/*                                                   +#+                      */
+/*   Created: 2025/03/24 15:31:59 by rojornod      #+#    #+#                 */
+/*   Updated: 2025/05/27 12:16:35 by dloustalot    ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,10 +95,10 @@ t_vars	*add_var(t_vars **head, char *var_name, char *var_value, int exp)
 ******************************************************************************/
 t_vars	*find_vars(t_vars *head, char *var_name)
 {
-	size_t	size;
+	// size_t	size;
 	t_vars	*current;
 
-	size = ft_strlen(var_name);
+	// size = ft_strlen(var_name);
 	current = head;
 	while (current)
 	{

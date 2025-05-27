@@ -3,10 +3,10 @@
 /*                                                        ::::::::            */
 /*   lexer_utils.c                                      :+:    :+:            */
 /*                                                     +:+                    */
-/*   By: dloustal <dloustal@student.42.fr>            +#+                     */
+/*   By: dloustal <marvin@42.fr>                      +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/03/20 15:41:02 by dloustal      #+#    #+#                 */
-/*   Updated: 2025/05/20 16:34:58 by dloustal      ########   odam.nl         */
+/*   Updated: 2025/05/27 12:17:39 by dloustalot    ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,13 +69,13 @@ char	*read_identifier(t_scanner *scanner, char *src)
 	char	*substr;
 	int		st;
 	char	c;
-	bool	in_quotes;
+	// bool	in_quotes;
 
 	if (!src || scanner->cur > (int)ft_strlen(src))
 		return (NULL);
 	st = scanner->start;
 	c = src[--(scanner->cur)];
-	in_quotes = false;
+	// in_quotes = false;
 	while (c && (ft_isalnum(c) || issymbol(c) || c == ':'))
 	{
 		scanner->cur += 1;
