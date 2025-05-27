@@ -6,7 +6,7 @@
 /*   By: dloustal <marvin@42.fr>                      +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/04/17 11:53:23 by dloustal      #+#    #+#                 */
-/*   Updated: 2025/05/27 14:18:01 by dloustalot    ########   odam.nl         */
+/*   Updated: 2025/05/27 16:08:34 by dloustalot    ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,6 @@
 int	main(int argc, char **argv, char **envp)
 {
 	t_token_list	*tokens;
-	t_parser		*parser;
 	t_t_node		*root;
 	t_vars			*vars;
 	t_shell_info	*info;
@@ -48,17 +47,12 @@ int	main(int argc, char **argv, char **envp)
 		else
 		{
 			tokens = scan(read);
-			print_token_list(tokens);
-			parser = malloc(sizeof(t_parser));
-			if(!parser)
-				return (0);
-			parser->current = tokens->head;
-			parser->previous = NULL;
-			root = parse_pipe(parser);
+			// print_token_list(tokens);
+			root = parse(tokens);
 			if (root == NULL)
 			{
 				clear_token_list(tokens);
-				free(parser);
+				// free(parser); // Free stuff
 				// exit(EXIT_FAILURE);
 				continue ;
 			}
@@ -66,14 +60,14 @@ int	main(int argc, char **argv, char **envp)
 			// print_tree_node(root, "", 1);
 			// ft_printf("-------------------------------------\n");
 			expand_var_tree(&root, vars, info);
-			ft_printf("-------------------------------------\n");
-			print_tree_node(root, "", 1);
-			ft_printf("-------------------------------------\n");
+			// ft_printf("-------------------------------------\n");
+			// print_tree_node(root, "", 1);
+			// ft_printf("-------------------------------------\n");
 			parse_hd_tree(&root, vars, info);
 			execute_src(&root, vars, info);
 			clear_token_list(tokens);
 			clear_subtree(root);
-			free(parser);
+			// free(parser);
 		}
 		add_history(read);
 		//write_history_file(read);

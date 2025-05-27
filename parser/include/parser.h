@@ -3,10 +3,10 @@
 /*                                                        ::::::::            */
 /*   parser.h                                           :+:    :+:            */
 /*                                                     +:+                    */
-/*   By: dloustal <dloustal@student.42.fr>            +#+                     */
+/*   By: dloustal <marvin@42.fr>                      +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/04/01 16:41:23 by dloustal      #+#    #+#                 */
-/*   Updated: 2025/05/13 11:08:34 by dloustal      ########   odam.nl         */
+/*   Updated: 2025/05/27 15:47:53 by dloustalot    ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,7 +80,7 @@ void			clear_array(char **words);
 //Parsing
 t_t_node		*parse_command(t_parser *parser);
 t_t_node		*parse_pipe(t_parser *parser);
-// t_t_node		*parse_redir(t_parser *parser);
+t_t_node		*parse(t_token_list *tokens);
 
 //Parsing node creation
 t_t_node		*pipe_node(t_t_node *left, t_t_node *right);

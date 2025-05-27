@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   child_process.c                                    :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: rojornod <rojornod@student.42.fr>          +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/04/16 11:11:31 by rojornod          #+#    #+#             */
-/*   Updated: 2025/05/21 12:32:53 by rojornod         ###   ########.fr       */
+/*                                                        ::::::::            */
+/*   child_process.c                                    :+:    :+:            */
+/*                                                     +:+                    */
+/*   By: dloustal <marvin@42.fr>                      +#+                     */
+/*                                                   +#+                      */
+/*   Created: 2025/04/16 11:11:31 by rojornod      #+#    #+#                 */
+/*   Updated: 2025/05/27 16:09:46 by dloustalot    ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,8 +29,8 @@ static void parent_process(t_shell_info	*info)
 
 	(void)info;
 	while (waitpid(-1, &w_status, 0) > 1);
-	if (WIFEXITED(w_status))
-		ft_printf("Child process exited with status: %d\n", WEXITSTATUS(w_status));
+	// if (WIFEXITED(w_status))
+		// ft_printf("Child process exited with status: %d\n", WEXITSTATUS(w_status));
 }
 
 int	create_child_proc(t_vars *vars, char **cmd, char *path, int size, t_shell_info	*info)

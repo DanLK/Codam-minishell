@@ -6,11 +6,29 @@
 /*   By: dloustal <marvin@42.fr>                      +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/04/14 14:37:49 by dloustal      #+#    #+#                 */
-/*   Updated: 2025/05/27 13:42:30 by dloustalot    ########   odam.nl         */
+/*   Updated: 2025/05/27 15:49:22 by dloustalot    ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "parser.h"
+
+/**************************************************************************** 
+ * Creates the parser and calls the parsing functions
+****************************************************************************/
+t_t_node	*parse(t_token_list *tokens)
+{
+	t_parser	*parser;
+	t_t_node	*root;
+
+	parser = malloc(sizeof(t_parser));
+	if (!parser)
+		return (NULL);
+	parser->current = tokens->head;
+	parser->previous = NULL;
+	root = parse_pipe(parser);
+	free(parser);
+	return (root);
+}
 
 /**************************************************************************** 
  * Parses a pipe expression, returning the corresponding ast node
