@@ -3,10 +3,10 @@
 /*                                                        ::::::::            */
 /*   parser.c                                           :+:    :+:            */
 /*                                                     +:+                    */
-/*   By: dloustal <marvin@42.fr>                      +#+                     */
+/*   By: dloustal <dloustal@student.42.fr>            +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/04/14 14:37:49 by dloustal      #+#    #+#                 */
-/*   Updated: 2025/05/27 17:18:56 by dloustalot    ########   odam.nl         */
+/*   Updated: 2025/05/28 16:29:59 by dloustal      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,8 @@ t_t_node	*parse(t_token_list *tokens)
 	parser = malloc(sizeof(t_parser));
 	if (!parser)
 		return (NULL);
+	if (tokens->head->token->type == TKN_END)
+		return (free(parser), NULL);
 	parser->current = tokens->head;
 	parser->previous = NULL;
 	root = parse_pipe(parser);

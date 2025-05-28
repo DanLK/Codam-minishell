@@ -3,10 +3,10 @@
 /*                                                        ::::::::            */
 /*   token_identifier.c                                 :+:    :+:            */
 /*                                                     +:+                    */
-/*   By: dloustal <marvin@42.fr>                      +#+                     */
+/*   By: dloustal <dloustal@student.42.fr>            +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/04/01 12:11:14 by dloustal      #+#    #+#                 */
-/*   Updated: 2025/05/27 16:56:46 by dloustalot    ########   odam.nl         */
+/*   Updated: 2025/05/28 12:56:54 by dloustal      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -104,8 +104,10 @@ void	tkn_opt_word(t_token_list *tkns, char *src, t_scanner *s, char c)
 	if (c == '-')
 	{
 		lexeme = read_options(s, src);
-		if (!lexeme || ft_strlen(lexeme) == 1)
+		if (!lexeme)
 			perror("Invalid options");
+		else if (ft_strlen(lexeme) == 1)
+			append_token(tkns, TKN_WORD, lexeme);
 		else
 			append_token(tkns, TKN_OPTION, lexeme);
 		free(lexeme);
