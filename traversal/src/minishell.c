@@ -6,7 +6,7 @@
 /*   By: dloustal <dloustal@student.42.fr>            +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/04/17 11:53:23 by dloustal      #+#    #+#                 */
-/*   Updated: 2025/05/28 11:56:59 by dloustal      ########   odam.nl         */
+/*   Updated: 2025/05/28 17:17:57 by dloustal      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,10 +41,8 @@ int	main(int argc, char **argv, char **envp)
 		// 	continue ;
 		if (!read)
 			exit_builtin(vars, info);
-
 		// else if (ft_strcmp(read, "heredoc") == 0)
 		// 	heredoc(info, "eof");
-			
 		else
 		{
 			tokens = scan(read);
@@ -66,6 +64,7 @@ int	main(int argc, char **argv, char **envp)
 			// ft_printf("-------------------------------------\n");
 			parse_hd_tree(&root, vars, info);
 			execute_src(&root, vars, info);
+			
 			clear_token_list(tokens);
 			clear_subtree(root);
 			// free(parser);

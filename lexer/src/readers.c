@@ -3,10 +3,10 @@
 /*                                                        ::::::::            */
 /*   readers.c                                          :+:    :+:            */
 /*                                                     +:+                    */
-/*   By: dloustal <marvin@42.fr>                      +#+                     */
+/*   By: dloustal <dloustal@student.42.fr>            +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/05/20 13:39:12 by dloustal      #+#    #+#                 */
-/*   Updated: 2025/05/27 16:57:38 by dloustalot    ########   odam.nl         */
+/*   Updated: 2025/05/28 13:06:13 by dloustal      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,7 +84,7 @@ char	*read_options(t_scanner *scanner, char *src)
 	int		start;
 	char	c;
 
-	if (!scanner || !src || scanner->cur >= (int)ft_strlen(src))
+	if (!scanner || !src) //|| scanner->cur >= (int)ft_strlen(src)
 		return (NULL);
 	start = scanner->start;
 	c = src[(scanner->cur)];

@@ -6,7 +6,7 @@
 /*   By: dloustal <dloustal@student.42.fr>            +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/04/16 11:11:31 by rojornod      #+#    #+#                 */
-/*   Updated: 2025/05/28 11:56:30 by dloustal      ########   odam.nl         */
+/*   Updated: 2025/05/28 17:35:25 by dloustal      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ static void parent_process(t_shell_info	*info)
 
 	w_status = 0;
 	(void)info;
-	while (waitpid(-1, &w_status, 0) > 1);
+	while (waitpid(-1, &w_status, 0) > 0);
 	if (WIFSIGNALED(w_status) && (WTERMSIG(w_status) == SIGQUIT))
 		ft_printf("Quit (core dumped)\n", w_status);
 	if (WIFEXITED(w_status))
