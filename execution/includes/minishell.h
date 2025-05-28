@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
-/*                                                        ::::::::            */
-/*   minishell.h                                        :+:    :+:            */
-/*                                                     +:+                    */
-/*   By: dloustal <dloustal@student.42.fr>            +#+                     */
-/*                                                   +#+                      */
-/*   Created: 2025/03/10 14:21:08 by rojornod      #+#    #+#                 */
-/*   Updated: 2025/05/22 15:45:08 by dloustal      ########   odam.nl         */
+/*                                                        :::      ::::::::   */
+/*   minishell.h                                        :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: rojornod <rojornod@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/03/10 14:21:08 by rojornod          #+#    #+#             */
+/*   Updated: 2025/05/26 11:34:12 by rojornod         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,8 +87,13 @@ void	debug_print(char *debug_message, char c);
 //signals
 void	signal_action(void);
 int		heredoc_action(void);
+int		child_proc_action(void);
 int 	get_signal_received(void);
 void 	reset_signal(void);
+void	heredoc_cleanup(int fd);
+int		delim_found(int fd, char *read_input);
+int		sim_press_hook(void);
+void	init_heredoc(void);
 
 //external commands
 char	*find_path(t_vars *head, char *command);

@@ -3,10 +3,10 @@
 /*                                                        ::::::::            */
 /*   minishell.c                                        :+:    :+:            */
 /*                                                     +:+                    */
-/*   By: dloustal <marvin@42.fr>                      +#+                     */
+/*   By: dloustal <dloustal@student.42.fr>            +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/04/17 11:53:23 by dloustal      #+#    #+#                 */
-/*   Updated: 2025/05/27 16:08:34 by dloustalot    ########   odam.nl         */
+/*   Updated: 2025/05/28 11:56:59 by dloustal      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,7 @@ int	main(int argc, char **argv, char **envp)
 	home_dir = get_home_dir();
 	edit_var(vars, "HOME", home_dir);
 	add_var(&vars, "TEST", NULL, 0);
+	rl_catch_signals = 0;
 	signal_action();
 
 	while (1)

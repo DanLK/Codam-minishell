@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
-/*                                                        ::::::::            */
-/*   builtins.c                                         :+:    :+:            */
-/*                                                     +:+                    */
-/*   By: dloustal <dloustal@student.42.fr>            +#+                     */
-/*                                                   +#+                      */
-/*   Created: 2025/03/20 11:27:48 by rojornod      #+#    #+#                 */
-/*   Updated: 2025/05/22 14:55:29 by dloustal      ########   odam.nl         */
+/*                                                        :::      ::::::::   */
+/*   builtins.c                                         :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: rojornod <rojornod@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/03/20 11:27:48 by rojornod          #+#    #+#             */
+/*   Updated: 2025/05/27 17:13:02 by rojornod         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,8 @@ int	exit_builtin(t_vars *vars,  t_shell_info *info)
 	free_vars(vars);
 	if (info->home_dir)
    		free(info->home_dir);
+	close(info->fdin);
+	close(info->fdout);
 	free(info);
 	ft_printf("exit\n");
 	exit(255);
@@ -62,9 +64,9 @@ static void	echo_printing(char **tokens, int i)
 	j = 0;
 	while (tokens[i])
 	{
-		if (tokens[i][j] == ' ' || tokens[i][j] == '\'' || tokens[i][j] == '\\')
-			j++;
-		else if (tokens[i][j] == ' ' && tokens[i][j + 1] == ' ')
+		// if (tokens[i][j] == ' ' || tokens[i][j] == '\'' || tokens[i][j] == '\\')
+		// 	j++;
+		if (tokens[i][j] == ' ' && tokens[i][j + 1] == ' ')
 		{
 			ft_putstr_fd(tokens[i], 1);
 			while (tokens[i][j] == ' ')
@@ -91,7 +93,6 @@ static void	echo_printing(char **tokens, int i)
 ******************************************************************************/
 int	echo_builtin(char **tokens)
 {
-	//change token index to 0 so it works for parsing
 	int	i;
 
 	i = 0;
@@ -237,7 +238,7 @@ int	export_builtin(t_vars **head, char *var_name, char *var_value)
 int	unset_builtin(t_vars *head, char *var_name)
 {
 	t_vars	*current;
-	t_vars *previous;
+	t_vars	*previous;
 	
 	current = head;
 	previous = NULL;
@@ -252,7 +253,8 @@ int	unset_builtin(t_vars *head, char *var_name)
 			if (current->name)
 				free(current->name);
 			if (current->value)
-				free(current);
+				free(current->value);
+			free(current);
 			return (0);
 		}
 
@@ -276,7 +278,7 @@ int	env_builtin(t_vars *head)
 {
 	while (head)
 	{
-		if (head->value && head->name && head->hidden == 0)
+		if (head->value && head->name && head->hidden == 0 && head->exported == 1)
 			ft_printf("%s=%s, [export:[%d], hidden[%d]] \n", head->name, head->value, head->exported, head->hidden);
 		head = head->next;
 	}

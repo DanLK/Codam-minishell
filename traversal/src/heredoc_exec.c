@@ -3,10 +3,10 @@
 /*                                                        ::::::::            */
 /*   heredoc_exec.c                                     :+:    :+:            */
 /*                                                     +:+                    */
-/*   By: dloustal <marvin@42.fr>                      +#+                     */
+/*   By: dloustal <dloustal@student.42.fr>            +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/05/22 15:40:53 by dloustal      #+#    #+#                 */
-/*   Updated: 2025/05/27 11:58:51 by dloustalot    ########   odam.nl         */
+/*   Updated: 2025/05/28 11:56:09 by dloustal      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,7 @@ void	exec_heredoc(t_shell_info *info)
 	// cur_hd = info->cur_hd;
 	file = ft_strjoin(".tmp_heredoc", ft_itoa(info->cur_hd));
 	fd = open(file, O_RDONLY);
+	ft_printf("[exec_heredoc] fd is %d\n", fd);
 	if (fd < 0)
 	{
 		ft_printf("[exec_heredoc] open failed\n");
@@ -38,6 +39,7 @@ void	exec_heredoc(t_shell_info *info)
 		close(fd);
 		return (free(file));
 	}
+	ft_printf("[exec_heredoc] success\n");
 	close(fd);
 	unlink(file); // Protect 
 	free(file);

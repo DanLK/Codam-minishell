@@ -6,7 +6,7 @@
 /*   By: rojornod <rojornod@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/01 11:42:47 by rojornod          #+#    #+#             */
-/*   Updated: 2025/05/12 13:50:19 by rojornod         ###   ########.fr       */
+/*   Updated: 2025/05/27 16:18:45 by rojornod         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -147,14 +147,15 @@ void	free_vars(t_vars *head)
 	{
 		current = head;
 		head = head->next;
-		if (current->name){
+		if (current->name)
+		{
 			//ft_printf("freed name: %s\n", current->name);
 			free(current->name);
 		}
-		if (current->value){
+		if (current->value)
+		{
 			//ft_printf("freed value: %s\n", current->value);
 			free(current->value);
-		
 		}		
 		free(current);
 	}
