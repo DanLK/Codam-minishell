@@ -3,10 +3,10 @@
 /*                                                        ::::::::            */
 /*   parser_utilities.c                                 :+:    :+:            */
 /*                                                     +:+                    */
-/*   By: dloustal <dloustal@student.42.fr>            +#+                     */
+/*   By: dloustal <marvin@42.fr>                      +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/04/10 13:05:31 by dloustal      #+#    #+#                 */
-/*   Updated: 2025/05/14 10:42:31 by dloustal      ########   odam.nl         */
+/*   Updated: 2025/05/27 17:18:37 by dloustalot    ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 

@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   heredoc_parsing.c                                  :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: rojornod <rojornod@student.42.fr>          +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/05/22 13:49:41 by dloustal          #+#    #+#             */
-/*   Updated: 2025/05/27 11:46:25 by rojornod         ###   ########.fr       */
+/*                                                        ::::::::            */
+/*   heredoc_parsing.c                                  :+:    :+:            */
+/*                                                     +:+                    */
+/*   By: dloustal <dloustal@student.42.fr>            +#+                     */
+/*                                                   +#+                      */
+/*   Created: 2025/05/22 13:49:41 by dloustal      #+#    #+#                 */
+/*   Updated: 2025/05/28 11:56:52 by dloustal      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,7 +76,7 @@ void	parse_hd(char *eof, t_vars *vars, t_shell_info *info)
 	sim_press_hook();
 	heredoc_action();
 	file_name = ft_strjoin(".tmp_heredoc", ft_itoa(info->hd_count));
-	ft_printf("[parse_hd] tmp filename: %s\n", file_name);
+	// ft_printf("[parse_hd] tmp filename: %s\n", file_name);
 	fd = open(file_name, O_WRONLY | O_CREAT, 0644); //I don't know what the numbers mean
 	if (fd < 0)
 		return (free(file_name));

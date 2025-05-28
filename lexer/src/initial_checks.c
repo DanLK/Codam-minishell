@@ -3,10 +3,10 @@
 /*                                                        ::::::::            */
 /*   initial_checks.c                                   :+:    :+:            */
 /*                                                     +:+                    */
-/*   By: dloustal <dloustal@student.42.fr>            +#+                     */
+/*   By: dloustal <marvin@42.fr>                      +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/05/20 16:45:20 by dloustal      #+#    #+#                 */
-/*   Updated: 2025/05/21 16:12:46 by dloustal      ########   odam.nl         */
+/*   Updated: 2025/05/27 16:27:49 by dloustalot    ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,4 +52,16 @@ bool closed_quotes(char *src)
 		}
 	}
 	return (!in_single && !in_double);
+}
+
+t_scanner	*init_scanner(int cur, int start)
+{
+	t_scanner	*scanner;
+	
+	scanner = malloc(sizeof(t_scanner));
+	if (!scanner)
+		return (NULL);
+	scanner->cur = cur;
+	scanner->start = start;
+	return (scanner);
 }

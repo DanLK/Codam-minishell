@@ -6,7 +6,7 @@
 /*   By: dloustal <marvin@42.fr>                      +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/03/24 11:46:50 by dloustal      #+#    #+#                 */
-/*   Updated: 2025/03/31 11:25:49 by dloustalot    ########   odam.nl         */
+/*   Updated: 2025/05/27 16:53:14 by dloustalot    ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,6 +41,7 @@ bool	kw_compare(const t_map *keywords, char *lexeme, int i)
 		return (true);
 	return (false);
 }
+
 char	get_current_char(int *cur, char *src)
 {
 	char	c;
