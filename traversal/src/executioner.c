@@ -6,7 +6,7 @@
 /*   By: dloustal <dloustal@student.42.fr>            +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/04/22 13:36:45 by dloustal      #+#    #+#                 */
-/*   Updated: 2025/05/28 16:01:43 by dloustal      ########   odam.nl         */
+/*   Updated: 2025/05/29 12:04:24 by dloustal      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,6 +78,7 @@ void	call_redir(t_redir_node *cur, t_shell_info *info)
 {
 	t_redir_node	*operator_node;
 
+	(void)info;
 	operator_node = cur;
 	cur = cur->next;
 	if (cur)
@@ -89,7 +90,7 @@ void	call_redir(t_redir_node *cur, t_shell_info *info)
 		else if (operator_node->type == TKN_REDIR_IN)
 			tmp_redir_in(cur->file);
 		else if (operator_node->type == TKN_HEREDOC)
-			exec_heredoc(info);
+			exec_heredoc(cur->file);
 	}
 	else
 		ft_printf("[execute_redirection] file node doesn't exist\n");

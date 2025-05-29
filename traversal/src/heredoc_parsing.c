@@ -6,7 +6,7 @@
 /*   By: dloustal <dloustal@student.42.fr>            +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/05/22 13:49:41 by dloustal      #+#    #+#                 */
-/*   Updated: 2025/05/28 15:56:25 by dloustal      ########   odam.nl         */
+/*   Updated: 2025/05/29 14:05:37 by dloustal      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,7 @@ void	parse_hd_tree(t_t_node **root, t_vars *vars, t_shell_info *info)
 void	parse_hd_node(t_t_node **root, t_vars *vars, t_shell_info *info)
 {
 	t_redir_node	*cur;
+	// char			*file_name;
 
 	if (!root || !vars || !info)
 		return ;
@@ -41,7 +42,7 @@ void	parse_hd_node(t_t_node **root, t_vars *vars, t_shell_info *info)
 	while (cur)
 	{
 		if (cur->type == TKN_HEREDOC)
-			parse_hd(remove_quotes(cur->next->file), vars, info);
+			parse_hd(cur, vars, info);
 		cur = cur->next->next;
 	}
 }
@@ -66,73 +67,18 @@ static void sigint_cleanup(int fd, char *file_name)
  * 
  * It stops when it hits the specified eof string
 *******************************************************************************/
-void	parse_hd_cpy(char *eof, t_vars *vars, t_shell_info *info)
+void	parse_hd(t_redir_node *cur, t_vars *vars, t_shell_info *info)
 {
 	int		fd;
 	char	*input;
 	char	*file_name;
+	char	*index;
 
 	init_heredoc();
 	sim_press_hook();
 	heredoc_action();
-	file_name = ft_strjoin(".tmp_heredoc", ft_itoa(info->hd_count));
-	// ft_printf("[parse_hd] tmp filename: %s\n", file_name);
-	fd = open(file_name, O_WRONLY | O_CREAT, 0644); //I don't know what the numbers mean
-	if (fd < 0)
-		return (free(file_name));
-	input = expand_string(readline("heredoc> "), vars); // VAR EXPANSIONS
-	if (!input)
-	{
-		free(file_name);
-		heredoc_cleanup(fd);
-		info->hd_count++;
-		return ;
-	} //SIGNALS
-	// if (ft_strcmp(input, eof) == 0)
-	// {
-	// 	info->hd_count++;
-	// 	close(fd);
-	// 	heredoc_cleanup(fd);
-	// 	return (free(file_name), free(input));
-	// }
-	if (get_signal_received() == SIGINT)
-		return (info->hd_count++, sigint_cleanup(fd, file_name), heredoc_cleanup(fd));
-	else
-	{
-		while (input)
-		{
-			if (ft_strcmp(input, eof) == 0)
-			{
-				info->hd_count++;
-				close(fd);
-				heredoc_cleanup(fd);
-				return (free(file_name), free(input));
-			}
-			else
-			{
-				write(fd, input, ft_strlen(input));
-				write(fd, "\n", 1);
-				input = expand_string(readline("heredoc> "), vars);
-				if (!input)
-					return (info->hd_count++, heredoc_cleanup(fd), free(file_name));
-				if (get_signal_received() == SIGINT)
-					return (info->hd_count++, sigint_cleanup(fd, file_name), free(file_name), heredoc_cleanup(fd));
-			}
-		}
-	}
-}
-
-void	parse_hd(char *eof, t_vars *vars, t_shell_info *info)
-{
-	int		fd;
-	char	*input;
-	char	*file_name;
-
-	init_heredoc();
-	sim_press_hook();
-	heredoc_action();
-	file_name = ft_strjoin(".tmp_heredoc", ft_itoa(info->hd_count));
-	// ft_printf("[parse_hd] tmp filename: %s\n", file_name);
+	index = ft_itoa(info->hd_count);
+	file_name = ft_strjoin(".tmp_heredoc", index);
 	fd = open(file_name, O_WRONLY | O_CREAT, 0644); //I don't know what the numbers mean
 	if (fd < 0)
 		return (free(file_name));
@@ -140,15 +86,24 @@ void	parse_hd(char *eof, t_vars *vars, t_shell_info *info)
 	{
 		input = expand_string(readline("heredoc> "), vars);
 		if (get_signal_received() == SIGINT)
-			return (info->hd_count++, sigint_cleanup(fd, file_name), free(file_name), heredoc_cleanup(fd));
-		if (!input)
-			return (info->hd_count++, heredoc_cleanup(fd), free(file_name));
-		if (ft_strcmp(input, eof) == 0)
 		{
 			info->hd_count++;
+			cur->next->file = ft_strdup(file_name);
+			free(index);
+			return (sigint_cleanup(fd, file_name), free(file_name), heredoc_cleanup(fd));
+		}
+		if (!input)
+		{
+			cur->next->file = ft_strdup(file_name);
+			return (info->hd_count++, heredoc_cleanup(fd), free(file_name), free(index));
+		}
+		if (ft_strcmp(input, remove_quotes(cur->next->file)) == 0)
+		{
+			info->hd_count++;
+			cur->next->file = ft_strdup(file_name);
 			close(fd);
 			heredoc_cleanup(fd);
-			return (free(file_name), free(input));
+			return (free(input), free(index), free(file_name));
 		}
 		else
 		{
