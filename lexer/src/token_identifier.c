@@ -6,35 +6,11 @@
 /*   By: dloustal <dloustal@student.42.fr>            +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/04/01 12:11:14 by dloustal      #+#    #+#                 */
-/*   Updated: 2025/05/20 16:19:29 by dloustal      ########   odam.nl         */
+/*   Updated: 2025/05/28 12:56:54 by dloustal      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "lexer.h"
-
-void	get_cur_token(t_token_list *tokens, char *src, t_scanner *s)
-{
-	char	c;
-
-	if (!tokens || !src)
-		return ;
-	consume_space(s, src);
-	c = get_current_char(&s->cur, src);
-	if (c == '|')
-		append_token(tokens, TKN_PIPE, "|");
-	else if (c == '(')
-		append_token(tokens, TKN_L_PAREN, "(");
-	else if (c == ')')
-		append_token(tokens, TKN_R_PAREN, ")");
-	else if (c == '=')
-		append_token(tokens, TKN_EQUAL, "=");
-	else if (c == '>' || c == '<')
-		redir_tkn(tokens, src, s, c);
-	else if (c == '$' || c == '"' || c == '\'')
-		tkn_quote(tokens, src, s, c);
-	else if (c == '-' || ft_isalnum(c) || issymbol(c) || c == ':')
-		tkn_opt_word(tokens, src, s, c);
-}
 
 void	redir_tkn(t_token_list *tkns, char *src, t_scanner *s, char c)
 {
@@ -128,8 +104,10 @@ void	tkn_opt_word(t_token_list *tkns, char *src, t_scanner *s, char c)
 	if (c == '-')
 	{
 		lexeme = read_options(s, src);
-		if (!lexeme || ft_strlen(lexeme) == 1)
+		if (!lexeme)
 			perror("Invalid options");
+		else if (ft_strlen(lexeme) == 1)
+			append_token(tkns, TKN_WORD, lexeme);
 		else
 			append_token(tkns, TKN_OPTION, lexeme);
 		free(lexeme);
@@ -143,23 +121,4 @@ void	tkn_opt_word(t_token_list *tkns, char *src, t_scanner *s, char c)
 			append_token(tkns, TKN_WORD, lexeme);
 		free(lexeme);
 	}
-}
-
-char	*read_options(t_scanner *scanner, char *src)
-{
-	char	*option;
-	int		start;
-	char	c;
-
-	if (!scanner || !src || scanner->cur >= (int)ft_strlen(src))
-		return (NULL);
-	start = scanner->start;
-	c = src[(scanner->cur)];
-	while (c && ft_isalpha(c))
-	{
-		scanner->cur += 1;
-		c = src[scanner->cur];
-	}
-	option = ft_substr(src, start, (scanner->cur) - start);
-	return (option);
 }

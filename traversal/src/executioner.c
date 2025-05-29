@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   executioner.c                                      :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: rojornod <rojornod@student.42.fr>          +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/04/22 13:36:45 by dloustal          #+#    #+#             */
-/*   Updated: 2025/05/22 16:27:52 by rojornod         ###   ########.fr       */
+/*                                                        ::::::::            */
+/*   executioner.c                                      :+:    :+:            */
+/*                                                     +:+                    */
+/*   By: dloustal <dloustal@student.42.fr>            +#+                     */
+/*                                                   +#+                      */
+/*   Created: 2025/04/22 13:36:45 by dloustal      #+#    #+#                 */
+/*   Updated: 2025/05/29 12:04:24 by dloustal      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,6 +78,7 @@ void	call_redir(t_redir_node *cur, t_shell_info *info)
 {
 	t_redir_node	*operator_node;
 
+	(void)info;
 	operator_node = cur;
 	cur = cur->next;
 	if (cur)
@@ -89,7 +90,7 @@ void	call_redir(t_redir_node *cur, t_shell_info *info)
 		else if (operator_node->type == TKN_REDIR_IN)
 			tmp_redir_in(cur->file);
 		else if (operator_node->type == TKN_HEREDOC)
-			exec_heredoc(info);
+			exec_heredoc(cur->file);
 	}
 	else
 		ft_printf("[execute_redirection] file node doesn't exist\n");
@@ -185,13 +186,13 @@ int	execute_echo(t_token_list *tokens)
 	if (len > 1)
 		node = tokens->head->next;
 	i = 0;
-	while (i < len - 1)
+	while (len > 1 && node != NULL && (i < len - 1))
 	{
 		params[i]  = ft_strdup(node->token->lexeme);
 		node = node->next;
 		i++;
 	}
-	exit_st = echo_builtin(params); //Must return the value this returns
+	exit_st = echo_builtin(params); 
 	clear_array(params);
 	return (exit_st);
 }

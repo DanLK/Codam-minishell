@@ -1,7 +1,7 @@
 NAME = minishell
 MAIN = main_execution.c
 SRC = builtins.c child_process.c external_commands.c readline.c signal_handling.c utils.c vars.c 
-LEXER_SRC = lexer.c lexer_utils.c lexer_utils_2.c token_list.c token_identifier.c clear_list.c
+LEXER_SRC = lexer.c lexer_utils.c lexer_utils_2.c token_list.c token_list_utils.c token_identifier.c readers.c initial_checks.c clear_list.c
 PARSER_SRC = tree.c memory_clears_parser.c parser.c parser_utilities.c parser_nodes.c debug.c tredirs_utils.c
 TRAV_SRC = executioner.c var_expansion.c var_expansion_utils.c heredoc.c cmd_str_utilities.c redir_experiments.c redirections.c pipes.c
 SRC_DIR = ./sources
@@ -23,11 +23,14 @@ LEXER_DIR = ../lexer
 all: $(NAME)
 
 $(NAME): $(OBJ) $(LIBFT_NAME) $(MAIN_OBJ) $(EXEC_OBJ) $(PARSER_OBJ) $(LEXER_OBJ) $(TRAV_OBJ) 
-	$(CC) -Iinclude -I$(EXEC_DIR)/includes -I$(LEXER_DIR)/include -I$(PARSER_DIR)/include -I$(LIBFT_DIR) -o $(NAME) $(CFLAGS) $(OBJ) $(MAIN_OBJ) $(EXEC_OBJ) $(PARSER_OBJ) $(LEXER_OBJ) $(TRAV_OBJ) $(LIBFT_NAME) -lreadline
+	$(CC) -Iinclude -I$(EXEC_DIR)/includes -I$(LEXER_DIR)/include -I$(PARSER_DIR)/include \
+	-I$(LIBFT_DIR) -o $(NAME) $(CFLAGS) $(OBJ) $(MAIN_OBJ) $(EXEC_OBJ) $(PARSER_OBJ) $(LEXER_OBJ) \
+	$(TRAV_OBJ) $(LIBFT_NAME) -lreadline 
 
 $(OBJ_DIR)/%.o: $(SRC_DIR)/%.c
 	mkdir -p $(dir $@)
-	$(CC) -c -Iinclude -I$(EXEC_DIR)/includes -I$(PARSER_DIR)/include -I$(LEXER_DIR)/include -I$(LIBFT_DIR) $(CFLAGS) -o $@ $<
+	$(CC) -c -Iinclude -I$(EXEC_DIR)/includes -I$(PARSER_DIR)/include -I$(LEXER_DIR)/include \
+	 -I$(LIBFT_DIR) $(CFLAGS) -o $@ $<
 
 $(EXEC_DIR)/obj/%.o: $(EXEC_DIR)/sources/%.c
 	mkdir -p $(dir $@)

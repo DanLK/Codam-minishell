@@ -3,10 +3,10 @@
 /*                                                        ::::::::            */
 /*   tredirs_utils.c                                    :+:    :+:            */
 /*                                                     +:+                    */
-/*   By: dloustal <dloustal@student.42.fr>            +#+                     */
+/*   By: dloustal <marvin@42.fr>                      +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/05/11 18:33:48 by dloustalot    #+#    #+#                 */
-/*   Updated: 2025/05/13 11:25:33 by dloustal      ########   odam.nl         */
+/*   Updated: 2025/05/27 17:19:06 by dloustalot    ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 

@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   traversal.h                                        :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: rojornod <rojornod@student.42.fr>          +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/04/22 12:02:07 by dloustal          #+#    #+#             */
-/*   Updated: 2025/05/26 18:05:31 by rojornod         ###   ########.fr       */
+/*                                                        ::::::::            */
+/*   traversal.h                                        :+:    :+:            */
+/*                                                     +:+                    */
+/*   By: dloustal <dloustal@student.42.fr>            +#+                     */
+/*                                                   +#+                      */
+/*   Created: 2025/04/22 12:02:07 by dloustal      #+#    #+#                 */
+/*   Updated: 2025/05/29 13:56:32 by dloustal      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,8 +72,8 @@ void	tmp_redir_in(char *file);
 // Heredoc parsing
 void	parse_hd_tree(t_t_node **root, t_vars *vars, t_shell_info *info);
 void	parse_hd_node(t_t_node **root, t_vars *vars, t_shell_info *info);
-void	parse_hd(char *eof, t_vars *vars, t_shell_info *info);
+void	parse_hd(t_redir_node *cur, t_vars *vars, t_shell_info *info);
 
 //Exec heredoc
-void	exec_heredoc(t_shell_info *info);
+void	exec_heredoc(char *file);
 #endif

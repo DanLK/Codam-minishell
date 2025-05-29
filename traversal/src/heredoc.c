@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   heredoc.c                                          :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: rojornod <rojornod@student.42.fr>          +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/05/09 16:05:02 by rojornod          #+#    #+#             */
-/*   Updated: 2025/05/26 16:40:06 by rojornod         ###   ########.fr       */
+/*                                                        ::::::::            */
+/*   heredoc.c                                          :+:    :+:            */
+/*                                                     +:+                    */
+/*   By: dloustal <dloustal@student.42.fr>            +#+                     */
+/*                                                   +#+                      */
+/*   Created: 2025/05/09 16:05:02 by rojornod      #+#    #+#                 */
+/*   Updated: 2025/05/28 16:23:38 by dloustal      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,12 +19,12 @@ void	heredoc_cleanup(int fd)
 	reset_signal();
 	rl_on_new_line();
 	rl_replace_line("", 0);
-	rl_redisplay();
+	// rl_redisplay();
 	signal_action();
 	rl_done = 1;
 	rl_catch_signals = 0;
 	rl_event_hook = NULL;
-	ft_printf("[heredoc cleanup] finished cleanup\n");
+	// ft_printf("[heredoc cleanup] finished cleanup\n");
 }
 
 

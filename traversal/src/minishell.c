@@ -6,7 +6,7 @@
 /*   By: rojornod <rojornod@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/17 11:53:23 by dloustal          #+#    #+#             */
-/*   Updated: 2025/05/28 17:41:39 by rojornod         ###   ########.fr       */
+/*   Updated: 2025/05/29 14:12:13 by rojornod         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,6 @@
 int	main(int argc, char **argv, char **envp)
 {
 	t_token_list	*tokens;
-	t_parser		*parser;
 	t_t_node		*root;
 	t_vars			*vars;
 	t_shell_info	*info;
@@ -42,34 +41,34 @@ int	main(int argc, char **argv, char **envp)
 		// 	continue ;
 		if (!read)
 			exit_builtin(vars, info);
+		// else if (ft_strcmp(read, "heredoc") == 0)
+		// 	heredoc(info, "eof");
 			
 		else
 		{
 			tokens = scan(read);
-			parser = malloc(sizeof(t_parser));
-			if(!parser)
-				return (0);
-			parser->current = tokens->head;
-			parser->previous = NULL;
-			root = parse_pipe(parser);
+			// print_token_list(tokens);
+			root = parse(tokens);
 			if (root == NULL)
 			{
 				clear_token_list(tokens);
-				free(parser);
-				exit(EXIT_FAILURE);
+				// free(parser); // Free stuff
+				// exit(EXIT_FAILURE);
+				continue ;
 			}
 			// ft_printf("-------------------------------------\n");
 			// print_tree_node(root, "", 1);
 			// ft_printf("-------------------------------------\n");
 			expand_var_tree(&root, vars, info);
+			parse_hd_tree(&root, vars, info);
 			ft_printf("-------------------------------------\n");
 			print_tree_node(root, "", 1);
 			ft_printf("-------------------------------------\n");
-			parse_hd_tree(&root, vars, info);
 			execute_src(&root, vars, info);
+			
 			clear_token_list(tokens);
 			clear_subtree(root);
-			free(parser);
+			// free(parser);
 		}
 		add_history(read);
 		//write_history_file(read);

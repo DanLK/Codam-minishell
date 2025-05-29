@@ -6,11 +6,31 @@
 /*   By: dloustal <dloustal@student.42.fr>            +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/04/14 14:37:49 by dloustal      #+#    #+#                 */
-/*   Updated: 2025/05/13 10:09:31 by dloustal      ########   odam.nl         */
+/*   Updated: 2025/05/28 16:29:59 by dloustal      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "parser.h"
+
+/**************************************************************************** 
+ * Creates the parser and calls the parsing functions
+****************************************************************************/
+t_t_node	*parse(t_token_list *tokens)
+{
+	t_parser	*parser;
+	t_t_node	*root;
+
+	parser = malloc(sizeof(t_parser));
+	if (!parser)
+		return (NULL);
+	if (tokens->head->token->type == TKN_END)
+		return (free(parser), NULL);
+	parser->current = tokens->head;
+	parser->previous = NULL;
+	root = parse_pipe(parser);
+	free(parser);
+	return (root);
+}
 
 /**************************************************************************** 
  * Parses a pipe expression, returning the corresponding ast node
@@ -23,12 +43,17 @@ t_t_node	*parse_pipe(t_parser *parser)
 
 	if (!parser)
 		return (NULL);
+	if (parser->current->token->type == TKN_END)
+	{
+		return (NULL);
+		// And clear everything
+	}
 	node = parse_command(parser);
 	if (!node->tokens->head)
 	{
 		ft_printf("Syntax error near unexpected token \'%s\'\n",
 				parser->current->token->lexeme);
-		clear_subtree(node);
+		clear_subtree(node); //Clear everything else
 		return (NULL);
 	}
 	token = parser->current->token;
@@ -41,7 +66,7 @@ t_t_node	*parse_pipe(t_parser *parser)
 			ft_printf("Syntax error near unexpected token \'%s\'\n",
 					token->lexeme);
 			clear_subtree(node);
-			clear_subtree(right);
+			clear_subtree(right); //Clear everything else
 			return (NULL);
 		}
 		node = pipe_node(node, right);
@@ -118,5 +143,3 @@ t_t_node	*parse_command(t_parser *parser)
 	node->redirs = NULL;
 	return (node);
 }
-
-
