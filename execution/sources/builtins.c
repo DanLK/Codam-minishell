@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   builtins.c                                         :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: rojornod <rojornod@student.42.fr>          +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/03/20 11:27:48 by rojornod          #+#    #+#             */
-/*   Updated: 2025/05/27 17:13:02 by rojornod         ###   ########.fr       */
+/*                                                        ::::::::            */
+/*   builtins.c                                         :+:    :+:            */
+/*                                                     +:+                    */
+/*   By: dloustal <dloustal@student.42.fr>            +#+                     */
+/*                                                   +#+                      */
+/*   Created: 2025/03/20 11:27:48 by rojornod      #+#    #+#                 */
+/*   Updated: 2025/05/28 14:48:18 by dloustal      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -104,7 +104,7 @@ int	echo_builtin(char **tokens)
 	if (ft_strcmp(tokens[0], "-n") == 0)
 	{
 		i = 1;
-		while (ft_strcmp(tokens[i], "-n") == 0)
+		while (tokens[i] && ft_strcmp(tokens[i], "-n") == 0)
 			i++;
 		if (!tokens[i])
 			return (0);
@@ -156,8 +156,6 @@ int	cd_builtin(char *path, t_vars *vars)
 	char	buff[PATH_MAX + 1];
 
 	edit_var(vars, "OLDPWD", getcwd(buff, PATH_MAX + 1));
-	if (ft_strlen(path) == 0)
-		return (0);
 	if (!path)
 	{
 		vars = find_vars(vars, "HOME");
@@ -169,9 +167,12 @@ int	cd_builtin(char *path, t_vars *vars)
 		else
 		{
 			chdir(vars->value);
+			edit_var(vars, "PWD", vars->value);
 			return (0);
 		}
 	}
+	if (ft_strlen(path) == 0)
+		return (0);
 	else
 	{
 		if (chdir(path) < 0)
@@ -179,8 +180,11 @@ int	cd_builtin(char *path, t_vars *vars)
 			ft_printf("minishell: cd: %s: No such file or directory\n", path);
 			return (1);
 		}
-		else 
+		else
+		{
+			edit_var(vars, "PWD", getcwd(buff, PATH_MAX + 1));
 			return (0);
+		}
 	}
 	return (1);
 }

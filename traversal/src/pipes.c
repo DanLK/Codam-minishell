@@ -6,7 +6,7 @@
 /*   By: dloustal <dloustal@student.42.fr>            +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/04/18 11:16:24 by rojornod      #+#    #+#                 */
-/*   Updated: 2025/05/08 10:11:07 by dloustal      ########   odam.nl         */
+/*   Updated: 2025/05/28 17:39:02 by dloustal      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,10 +24,12 @@ static int	pipe_l(int fd[2], t_t_node **root, t_vars *head, t_shell_info *info)
 {
 	
 	close(fd[0]);
+	ft_printf("[pipe_l] Inside left pipe child\n");
 	debug_print("inside left pipe child process", 'r');
 	dup2(fd[1], STDOUT_FILENO);
-	ft_printf("pipe_l STDOUT fd: %d\n", STDOUT_FILENO);
+	// ft_printf("pipe_l STDOUT fd: %d\n", STDOUT_FILENO);
 	debug_print("after dup2", 'r');
+	ft_printf("[pipe_l] To execute: %s\n", (*root)->tokens->head->token->lexeme);
 	execute_src(root, head, info);
 	debug_print("executed command", 'r');
 	close(fd[1]);
@@ -46,6 +48,7 @@ static int	pipe_l(int fd[2], t_t_node **root, t_vars *head, t_shell_info *info)
 static int	pipe_r(int fd[2], t_t_node **root, t_vars *head, t_shell_info *info)
 {
 	close(fd[1]);
+	ft_printf("[pipe_r] Inside right pipe child\n");
 	dup2(fd[0], STDIN_FILENO);
 	close(fd[0]);
 	execute_src(root, head, info);
@@ -82,6 +85,7 @@ int	execute_pipe(t_t_node **root, t_vars *head, t_shell_info *info)
 	pid_t	pid_right;
 	int		w_status;
 
+	ft_printf("[execute_pipe] Opening pipe\n");
 	if (pipe(fd) < 0)
 		print_error('p');
 	pid_left = fork();
@@ -102,9 +106,9 @@ int	execute_pipe(t_t_node **root, t_vars *head, t_shell_info *info)
 	}
 	close(fd[0]);
 	close(fd[1]);
-	waitpid(pid_left, &w_status, 0);
-	waitpid(pid_right, &w_status, 0);
-	ft_printf("STDOUT fd: %d\n", STDOUT_FILENO);
-	ft_printf("STDIN fd: %d\n", STDIN_FILENO);
+	while (waitpid(pid_left, &w_status, 0) > 0);
+	while (waitpid(pid_right, &w_status, 0) > 0);
+	// ft_printf("STDOUT fd: %d\n", STDOUT_FILENO);
+	// ft_printf("STDIN fd: %d\n", STDIN_FILENO);
 	return (0); //For now
 }
