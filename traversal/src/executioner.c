@@ -6,7 +6,7 @@
 /*   By: dloustal <dloustal@student.42.fr>            +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/04/22 13:36:45 by dloustal      #+#    #+#                 */
-/*   Updated: 2025/05/29 12:04:24 by dloustal      ########   odam.nl         */
+/*   Updated: 2025/05/29 14:53:20 by dloustal      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -264,10 +264,11 @@ int	execute_assignment(t_token_list *tokens, t_vars *vars)
 	char			*var_name;
 	char			*var_value;
 	t_token_node	*node;
+	t_vars			*temp;
 
 	if (!tokens || !vars)
 		return (125); // For now
-	ft_printf("[execute_assignment] Executing var assignment...\n");
+	// ft_printf("[execute_assignment] Executing var assignment...\n");
 	node = tokens->head;
 	var_name = node->token->lexeme;
 	if (node->next->token->type == TKN_EQUAL)
@@ -278,8 +279,16 @@ int	execute_assignment(t_token_list *tokens, t_vars *vars)
 			var_value = "";
 	}
 	else
-		return (125); //For now -- on error
-	add_var(&vars, var_name, var_value, 0); //Add the variable and mark it as not exported
+		return (125); //For now -- on error WHAT IS THIS?? I forgot
+	temp = find_vars(vars, var_name);
+    if (temp)
+	{
+		if (temp->value)
+			free(temp->value);
+		temp->value = ft_strdup(var_value);
+	}
+	else
+		add_var(&vars, var_name, var_value, 0); //Add the variable and mark it as not exported
 	return (0); // for now -- on success
 }
 

@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   external_commands.c                                :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: rojornod <rojornod@student.42.fr>          +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/04/09 10:14:24 by rojornod          #+#    #+#             */
-/*   Updated: 2025/05/26 17:27:27 by rojornod         ###   ########.fr       */
+/*                                                        ::::::::            */
+/*   external_commands.c                                :+:    :+:            */
+/*                                                     +:+                    */
+/*   By: dloustal <dloustal@student.42.fr>            +#+                     */
+/*                                                   +#+                      */
+/*   Created: 2025/04/09 10:14:24 by rojornod      #+#    #+#                 */
+/*   Updated: 2025/05/29 14:49:55 by dloustal      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,8 +68,11 @@ void	exec_external_com(t_vars *head, char **command, int size, t_shell_info *inf
 
 	path = find_path(head, command[0]);
 	if (!path)
-		ft_printf("Minishell: \'%s\' command not found\n", command[0]);
-	create_child_proc(head, command, path, size, info);
+	{
+		create_child_proc(head, command, command[0], size, info);
+	}
+	else
+		create_child_proc(head, command, path, size, info);
 }
 
 
