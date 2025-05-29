@@ -3,10 +3,10 @@
 /*                                                        ::::::::            */
 /*   parser_nodes.c                                     :+:    :+:            */
 /*                                                     +:+                    */
-/*   By: dloustal <marvin@42.fr>                      +#+                     */
+/*   By: dloustal <dloustal@student.42.fr>            +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/04/15 16:24:19 by dloustal      #+#    #+#                 */
-/*   Updated: 2025/05/27 17:18:26 by dloustalot    ########   odam.nl         */
+/*   Updated: 2025/05/29 18:17:05 by dloustal      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,6 +63,7 @@ t_t_node	*redir_node(t_parser *parser)
 			{
 				ft_printf("Syntax error near unexpected token \'%s\'\n",
 				parser->previous->token->lexeme);
+				return (clear_redirs(redirs), NULL);
 				// exit(EXIT_FAILURE); // Just clear everything
 				//Must clear everything and exit correctly
 			}

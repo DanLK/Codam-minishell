@@ -6,7 +6,7 @@
 /*   By: dloustal <dloustal@student.42.fr>            +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/05/22 13:49:41 by dloustal      #+#    #+#                 */
-/*   Updated: 2025/05/29 14:05:37 by dloustal      ########   odam.nl         */
+/*   Updated: 2025/05/29 17:58:06 by dloustal      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,6 +73,8 @@ void	parse_hd(t_redir_node *cur, t_vars *vars, t_shell_info *info)
 	char	*input;
 	char	*file_name;
 	char	*index;
+	char	*eof;
+	char	*old_file;
 
 	init_heredoc();
 	sim_press_hook();
@@ -82,33 +84,40 @@ void	parse_hd(t_redir_node *cur, t_vars *vars, t_shell_info *info)
 	fd = open(file_name, O_WRONLY | O_CREAT, 0644); //I don't know what the numbers mean
 	if (fd < 0)
 		return (free(file_name));
+	eof = remove_quotes(cur->next->file);
 	while (1)
 	{
 		input = expand_string(readline("heredoc> "), vars);
 		if (get_signal_received() == SIGINT)
 		{
 			info->hd_count++;
+			old_file = cur->next->file;
 			cur->next->file = ft_strdup(file_name);
+			free(old_file);
 			free(index);
-			return (sigint_cleanup(fd, file_name), free(file_name), heredoc_cleanup(fd));
+			free(input);
+			return (sigint_cleanup(fd, file_name), free(eof), free(file_name), heredoc_cleanup(fd));
 		}
 		if (!input)
 		{
+			old_file = cur->next->file;
 			cur->next->file = ft_strdup(file_name);
+			free(old_file);
+			free(eof);
 			return (info->hd_count++, heredoc_cleanup(fd), free(file_name), free(index));
 		}
-		if (ft_strcmp(input, remove_quotes(cur->next->file)) == 0)
+		if (ft_strcmp(input, eof) == 0)
 		{
 			info->hd_count++;
+			old_file = cur->next->file;
 			cur->next->file = ft_strdup(file_name);
+			free(old_file);
 			close(fd);
 			heredoc_cleanup(fd);
-			return (free(input), free(index), free(file_name));
-		}
-		else
-		{
-			write(fd, input, ft_strlen(input));
-			write(fd, "\n", 1);
-		}
+			return (free(input), free(index), free(file_name), free(eof));
+		} //else:
+		write(fd, input, ft_strlen(input));
+		write(fd, "\n", 1);
+		free(input);
 	}
 }
