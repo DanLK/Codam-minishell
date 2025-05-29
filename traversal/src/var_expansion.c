@@ -6,7 +6,7 @@
 /*   By: dloustal <dloustal@student.42.fr>            +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/04/28 09:49:04 by dloustal      #+#    #+#                 */
-/*   Updated: 2025/05/22 16:50:06 by dloustal      ########   odam.nl         */
+/*   Updated: 2025/05/29 16:52:09 by dloustal      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,13 +72,10 @@ void	expand_envvar(t_token_node *node, t_vars *vars)
 	if (!node || !vars)
 		return ;
 	var = find_vars(vars, node->token->lexeme);
+	old_lexeme = node->token->lexeme;
+	free(old_lexeme);
 	if (var)
-	{
-		// ft_printf("[expand_envvar] var_name = %s\n", var->value);
-		old_lexeme = node->token->lexeme;
-		free(old_lexeme);
 		node->token->lexeme = ft_strdup(var->value); 
-	}
 	else
 		node->token->lexeme = ft_strdup("");
 		// perror("Variable not found"); //This is a syntax error and should stop and clean everything
@@ -298,7 +295,7 @@ char	*remove_quotes(char *string)
 	int		j;
 
 	len = ft_strlen(string);
-	result = malloc(len);
+	result = malloc(len + 1);
 	i = 0;
 	j = 0;
 	while (string[i])
