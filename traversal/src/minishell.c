@@ -6,7 +6,7 @@
 /*   By: rojornod <rojornod@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/17 11:53:23 by dloustal          #+#    #+#             */
-/*   Updated: 2025/05/27 16:52:00 by rojornod         ###   ########.fr       */
+/*   Updated: 2025/05/28 17:41:39 by rojornod         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,9 +42,6 @@ int	main(int argc, char **argv, char **envp)
 		// 	continue ;
 		if (!read)
 			exit_builtin(vars, info);
-
-		else if (ft_strcmp(read, "heredoc") == 0)
-			heredoc(info, "eof");
 			
 		else
 		{

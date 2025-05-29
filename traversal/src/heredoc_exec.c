@@ -6,7 +6,7 @@
 /*   By: rojornod <rojornod@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/22 15:40:53 by dloustal          #+#    #+#             */
-/*   Updated: 2025/05/26 17:49:00 by rojornod         ###   ########.fr       */
+/*   Updated: 2025/05/29 14:00:12 by rojornod         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,6 @@ void	exec_heredoc(t_shell_info *info)
 	cur_hd = info->cur_hd;
 	file = ft_strjoin(".tmp_heredoc", ft_itoa(info->cur_hd));
 	fd = open(file, O_RDONLY);
-	ft_printf("[exec_heredoc] fd is %d\n", fd);
 	if (fd < 0)
 	{
 		ft_printf("[exec_heredoc] open failed\n");
@@ -39,7 +38,6 @@ void	exec_heredoc(t_shell_info *info)
 		close(fd);
 		return (free(file));
 	}
-	ft_printf("[exec_heredoc] success\n");
 	close(fd);
 	unlink(file); // Protect 
 	free(file);
