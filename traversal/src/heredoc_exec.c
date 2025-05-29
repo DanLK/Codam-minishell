@@ -6,7 +6,7 @@
 /*   By: rojornod <rojornod@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/22 15:40:53 by dloustal          #+#    #+#             */
-/*   Updated: 2025/05/29 14:11:12 by rojornod         ###   ########.fr       */
+/*   Updated: 2025/05/29 16:57:08 by rojornod         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,9 +34,11 @@ void	exec_heredoc(char *file)
 	// ft_printf("[exec_heredoc] fd is %d\n", fd);
 	if (fd < 0)
 	{
-		ft_printf("[exec_heredoc] open failed -- file: %s\n", file);
-		close(fd);
-		return ;
+		ft_printf("[exec_heredoc] open failed\n");
+		rl_replace_line("", 0);
+		rl_done = 0;
+		write(1, "2\n", 2); 
+		return;
 	}
 	if (dup2(fd, STDIN_FILENO) < 0)
 	{
