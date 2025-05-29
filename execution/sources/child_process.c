@@ -6,17 +6,21 @@
 /*   By: dloustal <dloustal@student.42.fr>            +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/04/16 11:11:31 by rojornod      #+#    #+#                 */
-/*   Updated: 2025/05/29 12:16:37 by dloustal      ########   odam.nl         */
+/*   Updated: 2025/05/29 14:59:44 by dloustal      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
-static int	child_process(char *path, char	**argv, char **env_copy, t_shell_info	*info)
+static int	child_process(char *path, char **argv, char **env_copy, t_shell_info *info)
 {
 	(void)info;
-	execve(path, argv, env_copy);
-	perror("execve error");
+	if (execve(path, argv, env_copy) == -1)
+	{
+		// perror("execve error");
+		ft_printf("Minishell: %s command not found\n", argv[0]);
+		// SHOULD CLEAN EVERYTHING
+	}
 	free(path);
 	free_array(env_copy);
 	free_array(argv);
@@ -66,5 +70,5 @@ int	create_child_proc(t_vars *vars, char **cmd, char *path, int size, t_shell_in
 		parent_process(info);
 	else //if less than 0 something went wrong
 		return (1);	
-	return (free(path), free_array(env_copy), free_array(argv), EXIT_SUCCESS);
+	return (free_array(env_copy), free_array(argv), EXIT_SUCCESS);
 }
