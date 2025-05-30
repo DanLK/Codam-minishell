@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
-/*                                                        ::::::::            */
-/*   executioner.c                                      :+:    :+:            */
-/*                                                     +:+                    */
-/*   By: dloustal <dloustal@student.42.fr>            +#+                     */
-/*                                                   +#+                      */
-/*   Created: 2025/04/22 13:36:45 by dloustal      #+#    #+#                 */
-/*   Updated: 2025/05/29 14:53:20 by dloustal      ########   odam.nl         */
+/*                                                        :::      ::::::::   */
+/*   executioner.c                                      :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: rojornod <rojornod@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/04/22 13:36:45 by dloustal          #+#    #+#             */
+/*   Updated: 2025/05/30 15:47:38 by rojornod         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -224,7 +224,7 @@ int	execute_unset(t_token_list *tokens, t_vars **head)
 		return (0); //Success??
 	while (node)
 	{
-		exit_status = unset_builtin(*head, node->token->lexeme); // Assign to exit_status 
+		exit_status = unset_builtin(head, node->token->lexeme); // Assign to exit_status 
 		node = node->next;
 	}
 	return (exit_status); // If all went well i.e. if all the exit status were 0

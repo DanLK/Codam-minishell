@@ -6,7 +6,7 @@
 /*   By: rojornod <rojornod@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/16 11:11:31 by rojornod          #+#    #+#             */
-/*   Updated: 2025/05/29 17:03:42 by rojornod         ###   ########.fr       */
+/*   Updated: 2025/05/30 18:01:56 by rojornod         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,7 @@
 static int	child_process(char *path, char **argv, char **env_copy, t_shell_info *info)
 {
 	(void)info;
+	
 	if (execve(path, argv, env_copy) == -1)
 	{
 		// perror("execve error");
@@ -22,6 +23,7 @@ static int	child_process(char *path, char **argv, char **env_copy, t_shell_info 
 		// SHOULD CLEAN EVERYTHING
 	}
 	free(path);
+	ft_printf("freed path\n");
 	free_array(env_copy);
 	free_array(argv);
 	exit(126);

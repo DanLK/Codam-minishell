@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
-/*                                                        ::::::::            */
-/*   builtins.c                                         :+:    :+:            */
-/*                                                     +:+                    */
-/*   By: dloustal <dloustal@student.42.fr>            +#+                     */
-/*                                                   +#+                      */
-/*   Created: 2025/03/20 11:27:48 by rojornod      #+#    #+#                 */
-/*   Updated: 2025/05/28 14:48:18 by dloustal      ########   odam.nl         */
+/*                                                        :::      ::::::::   */
+/*   builtins.c                                         :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: rojornod <rojornod@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/03/20 11:27:48 by rojornod          #+#    #+#             */
+/*   Updated: 2025/05/30 11:16:15 by rojornod         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -239,12 +239,12 @@ int	export_builtin(t_vars **head, char *var_name, char *var_value)
 *	-This function will delete the node where the var_name is found
 *
 ******************************************************************************/
-int	unset_builtin(t_vars *head, char *var_name)
+int	unset_builtin(t_vars **head, char *var_name)
 {
 	t_vars	*current;
 	t_vars	*previous;
 	
-	current = head;
+	current = *head;
 	previous = NULL;
 	while (current)
 	{
@@ -253,7 +253,7 @@ int	unset_builtin(t_vars *head, char *var_name)
 			if (previous)
 				previous->next = current->next;
 			else 
-				head = current->next;
+				*head = current->next;
 			if (current->name)
 				free(current->name);
 			if (current->value)

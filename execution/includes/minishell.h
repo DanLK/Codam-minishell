@@ -6,7 +6,7 @@
 /*   By: rojornod <rojornod@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/10 14:21:08 by rojornod          #+#    #+#             */
-/*   Updated: 2025/05/26 11:34:12 by rojornod         ###   ########.fr       */
+/*   Updated: 2025/05/30 11:18:05 by rojornod         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,7 +64,7 @@ int	echo_builtin(char **tokens);
 int	pwd_builtin(void);
 int	cd_builtin(char *command, t_vars *vars);
 int	export_builtin(t_vars **head, char *var_name, char *var_value);
-int	unset_builtin(t_vars *head, char *var_name);
+int	unset_builtin(t_vars **head, char *var_name);
 int	exit_builtin(t_vars *vars, t_shell_info *info);
 int	env_builtin(t_vars *head);
 

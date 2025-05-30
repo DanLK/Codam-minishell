@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
-/*                                                        ::::::::            */
-/*   redirections.c                                     :+:    :+:            */
-/*                                                     +:+                    */
-/*   By: dloustal <dloustal@student.42.fr>            +#+                     */
-/*                                                   +#+                      */
-/*   Created: 2025/05/06 10:53:23 by rojornod      #+#    #+#                 */
-/*   Updated: 2025/05/21 17:09:14 by dloustal      ########   odam.nl         */
+/*                                                        :::      ::::::::   */
+/*   redirections.c                                     :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: rojornod <rojornod@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/05/06 10:53:23 by rojornod          #+#    #+#             */
+/*   Updated: 2025/05/30 17:56:17 by rojornod         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,14 +59,24 @@ void	tmp_redir_out(char *file)
 	if (fd < 0)
 	{
 		ft_printf("open failed\n");
-		close(fd);
-		exit(EXIT_FAILURE);
+		fd = open("/dev/null", O_RDONLY);
+		if (fd < 0)
+		{
+			ft_printf("failed to open again\n");
+			return;
+		}
+		if (dup2(fd, STDOUT_FILENO) < 0)
+		{
+			ft_printf("[tmp_redir_out] dup failed\n");
+			close(fd);
+			return ;
+		}
+		return;
 	}
 	if (dup2(fd, STDOUT_FILENO) < 0)
 	{
 		ft_printf("dup failed\n");
 		close(fd);
-		exit(EXIT_FAILURE);
 	}
 	close(fd);
 }
@@ -79,14 +89,24 @@ void	tmp_redir_append(char *file)
 	if (fd < 0)
 	{
 		ft_printf("open failed\n");
-		close(fd);
-		exit(EXIT_FAILURE);
+		fd = open("/dev/null", O_RDONLY);
+		if (fd < 0)
+		{
+			ft_printf("failed to open again\n");
+			return;
+		}
+		if (dup2(fd, STDOUT_FILENO) < 0)
+		{
+			ft_printf("[tmp_redir_append] dup failed\n");
+			close(fd);
+			return ;
+		}
+		return;
 	}
 	if (dup2(fd, STDOUT_FILENO) < 0)
 	{
 		ft_printf("dup failed\n");
 		close(fd);
-		exit(EXIT_FAILURE);
 	}
 	close(fd);
 }
@@ -98,14 +118,26 @@ void	tmp_redir_in(char *file)
 	fd = open(file, O_RDONLY);
 	if (fd < 0)
 	{
-		ft_printf("open failed\n");
-		close(fd);
-		exit(EXIT_FAILURE);
+		ft_printf("%s: No such file or directory\n", file);
+		fd = open("/dev/null", O_RDONLY);
+		if (fd < 0)
+		{
+			ft_printf("failed to open again\n");
+			return;
+		}
+		if (dup2(fd, STDIN_FILENO) < 0)
+		{
+			ft_printf("[tmp_redir_in] dup failed\n");
+			close(fd);
+			return ;
+		}
+		ft_printf("redirected\n");
+		return ;
 	}
 	if (dup2(fd, STDIN_FILENO) < 0)
 	{
 		close(fd);
-		exit(EXIT_FAILURE);
+		//exit(EXIT_FAILURE);
 	}
 	close (fd);
 }
