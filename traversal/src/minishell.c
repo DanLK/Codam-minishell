@@ -6,7 +6,7 @@
 /*   By: rojornod <rojornod@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/17 11:53:23 by dloustal          #+#    #+#             */
-/*   Updated: 2025/05/29 17:03:23 by rojornod         ###   ########.fr       */
+/*   Updated: 2025/05/30 10:31:52 by rojornod         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,13 +55,20 @@ int	main(int argc, char **argv, char **envp)
 				// free(parser); // Free stuff
 				// exit(EXIT_FAILURE);
 				// continue ;
+				free_vars(vars);
+				if (info->home_dir)
+					free(info->home_dir);
+				close(info->fdin);
+				close(info->fdout);
+				free(info);
+				free(home_dir);
 				exit(EXIT_SUCCESS);
 			}
 			// ft_printf("-------------------------------------\n");
 			// print_tree_node(root, "", 1);
 			// ft_printf("-------------------------------------\n");
 			expand_var_tree(&root, vars, info);
-			// parse_hd_tree(&root, vars, info);
+			parse_hd_tree(&root, vars, info);
 			ft_printf("-------------------------------------\n");
 			print_tree_node(root, "", 1);
 			ft_printf("-------------------------------------\n");

@@ -6,7 +6,7 @@
 /*   By: dloustal <dloustal@student.42.fr>            +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/04/14 14:37:49 by dloustal      #+#    #+#                 */
-/*   Updated: 2025/05/28 16:29:59 by dloustal      ########   odam.nl         */
+/*   Updated: 2025/05/29 18:15:17 by dloustal      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,6 +49,8 @@ t_t_node	*parse_pipe(t_parser *parser)
 		// And clear everything
 	}
 	node = parse_command(parser);
+	if (!node)
+		return (NULL);
 	if (!node->tokens->head)
 	{
 		ft_printf("Syntax error near unexpected token \'%s\'\n",
