@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
-/*                                                        ::::::::            */
-/*   heredoc_exec.c                                     :+:    :+:            */
-/*                                                     +:+                    */
-/*   By: dloustal <dloustal@student.42.fr>            +#+                     */
-/*                                                   +#+                      */
-/*   Created: 2025/05/22 15:40:53 by dloustal      #+#    #+#                 */
-/*   Updated: 2025/05/29 12:13:01 by dloustal      ########   odam.nl         */
+/*                                                        :::      ::::::::   */
+/*   heredoc_exec.c                                     :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: rojornod <rojornod@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/05/22 15:40:53 by dloustal          #+#    #+#             */
+/*   Updated: 2025/05/30 18:04:57 by rojornod         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,10 +14,11 @@
 
 /*******************************************************************************
  * This is really a redir in but with looking up the file
+ * If it fails to open
 *******************************************************************************/
 void	exec_heredoc(char *file)
 {
-	// int		cur_hd;
+		// int		cur_hd;
 	int		fd;
 	// char	*file;
 
@@ -34,9 +35,21 @@ void	exec_heredoc(char *file)
 	// ft_printf("[exec_heredoc] fd is %d\n", fd);
 	if (fd < 0)
 	{
-		ft_printf("[exec_heredoc] open failed -- file: %s\n", file);
-		close(fd);
-		return ;
+		ft_printf("[exec_heredoc] open failed\n");
+		
+		fd = open("/dev/null", O_RDONLY);
+		if (fd < 0)
+		{
+			ft_printf("failed to open again\n");
+			return;
+		}
+		if (dup2(fd, STDIN_FILENO) < 0)
+		{
+			ft_printf("[exec_heredoc] dup failed\n");
+			close(fd);
+			return ;
+		}
+		return;
 	}
 	if (dup2(fd, STDIN_FILENO) < 0)
 	{
@@ -44,7 +57,6 @@ void	exec_heredoc(char *file)
 		close(fd);
 		return ;
 	}
-	// ft_printf("[exec_heredoc] success\n");
 	close(fd);
 	unlink(file); // Protect 
 	// ft_putstr_fd("[exec_heredoc] Closed file...\n", info->fdout);

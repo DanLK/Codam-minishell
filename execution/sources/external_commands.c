@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
-/*                                                        ::::::::            */
-/*   external_commands.c                                :+:    :+:            */
-/*                                                     +:+                    */
-/*   By: dloustal <dloustal@student.42.fr>            +#+                     */
-/*                                                   +#+                      */
-/*   Created: 2025/04/09 10:14:24 by rojornod      #+#    #+#                 */
-/*   Updated: 2025/05/29 14:49:55 by dloustal      ########   odam.nl         */
+/*                                                        :::      ::::::::   */
+/*   external_commands.c                                :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: rojornod <rojornod@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/04/09 10:14:24 by rojornod          #+#    #+#             */
+/*   Updated: 2025/05/30 14:59:44 by rojornod         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,7 +72,9 @@ void	exec_external_com(t_vars *head, char **command, int size, t_shell_info *inf
 		create_child_proc(head, command, command[0], size, info);
 	}
 	else
+	{
 		create_child_proc(head, command, path, size, info);
+	}	
 }
 
 

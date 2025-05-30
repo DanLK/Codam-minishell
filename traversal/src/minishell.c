@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
-/*                                                        ::::::::            */
-/*   minishell.c                                        :+:    :+:            */
-/*                                                     +:+                    */
-/*   By: dloustal <dloustal@student.42.fr>            +#+                     */
-/*                                                   +#+                      */
-/*   Created: 2025/04/17 11:53:23 by dloustal      #+#    #+#                 */
-/*   Updated: 2025/05/29 18:21:49 by dloustal      ########   odam.nl         */
+/*                                                        :::      ::::::::   */
+/*   minishell.c                                        :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: rojornod <rojornod@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/04/17 11:53:23 by dloustal          #+#    #+#             */
+/*   Updated: 2025/05/30 18:05:46 by rojornod         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ int	main(int argc, char **argv, char **envp)
 		// 	continue ;
 		if (!read)
 		{
-			free(home_dir);
+			// free(home_dir);
 			exit_builtin(vars, info);
 		}
 		else
@@ -72,7 +72,7 @@ int	main(int argc, char **argv, char **envp)
 			ft_printf("-------------------------------------\n");
 			print_tree_node(root, "", 1);
 			ft_printf("-------------------------------------\n");
-			// execute_src(&root, vars, info);
+			execute_src(&root, vars, info);
 			
 			clear_token_list(tokens);
 			clear_subtree(root);
@@ -80,14 +80,14 @@ int	main(int argc, char **argv, char **envp)
 		}
 		add_history(read);
 		//write_history_file(read);
-		free_vars(vars);
-		if (info->home_dir)
-			free(info->home_dir);
-		close(info->fdin);
-		close(info->fdout);
-		free(info);
-		free(home_dir);
 	}
+	free_vars(vars);
+	if (info->home_dir)
+		free(info->home_dir);
+	close(info->fdin);
+	close(info->fdout);
+	free(info);
+	free(home_dir);
 }
 
 // int	main(int argc, char **argv, char **envp)
