@@ -6,7 +6,7 @@
 /*   By: rojornod <rojornod@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/17 11:53:23 by dloustal          #+#    #+#             */
-/*   Updated: 2025/05/30 18:05:46 by rojornod         ###   ########.fr       */
+/*   Updated: 2025/06/02 16:58:48 by rojornod         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,6 @@ int	main(int argc, char **argv, char **envp)
 	copy_env(&vars, envp);
 	home_dir = get_home_dir();
 	edit_var(vars, "HOME", home_dir);
-	add_var(&vars, "TEST", NULL, 0);
 	rl_catch_signals = 0;
 	signal_action();
 
