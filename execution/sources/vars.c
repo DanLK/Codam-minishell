@@ -1,16 +1,30 @@
 /* ************************************************************************** */
 /*                                                                            */
-/*                                                        ::::::::            */
-/*   vars.c                                             :+:    :+:            */
-/*                                                     +:+                    */
-/*   By: dloustal <marvin@42.fr>                      +#+                     */
-/*                                                   +#+                      */
-/*   Created: 2025/03/24 15:31:59 by rojornod      #+#    #+#                 */
-/*   Updated: 2025/05/27 12:16:35 by dloustalot    ########   odam.nl         */
+/*                                                        :::      ::::::::   */
+/*   vars.c                                             :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: rojornod <rojornod@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/03/24 15:31:59 by rojornod          #+#    #+#             */
+/*   Updated: 2025/06/02 17:23:49 by rojornod         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
+
+static t_vars	*has_value(t_vars *new_node, char *name, char *value, int exp)
+{
+	new_node->name = ft_strdup(name);
+	if (!new_node->name)
+		return (NULL);
+	new_node->value = ft_strdup(value);
+	if (!new_node->value)
+		return (NULL);
+	new_node->exported = exp;
+	new_node->hidden = 0;
+	new_node->next = NULL;
+	return (new_node);
+}
 
 /******************************************************************************
 *
@@ -30,27 +44,18 @@ t_vars	*create_var(char *var_name, char *var_value, int exp)
 		return (NULL);
 	if (!var_value)
 	{
-		new_node->name = ft_strdup(var_name); //malloc used here. needs to be free
+		new_node->name = ft_strdup(var_name);
 		if (!new_node->name)
 			return (NULL);
-		new_node->value = NULL;
+		new_node->value = ft_strdup("");
+		if (!new_node->value)
+			return (NULL);
 		new_node->exported = 1;
 		new_node->hidden = 1;
 		new_node->next = NULL;
 	}
 	else
-	{
-		new_node->name = ft_strdup(var_name); //malloc used here. needs to be free
-		if (!new_node->name)
-			return (NULL);
-		new_node->value = ft_strdup(var_value); //malloc used here. needs to be free
-		if (!new_node->value)
-			return (NULL);
-		new_node->exported = exp;
-		new_node->hidden = 0;
-		new_node->next = NULL;
-	}
-	//ft_printf("[new_node name: %s] [new_node value: %s] [new_node exported: %d]\n", new_node->name, new_node->value, new_node->exported);
+		new_node = has_value(new_node, var_name, var_value, exp);
 	return (new_node);
 }
 
@@ -71,7 +76,7 @@ t_vars	*add_var(t_vars **head, char *var_name, char *var_value, int exp)
 	t_vars	*new_node;
 	t_vars	*current;
 
-	new_node = create_var(var_name, var_value, exp); //malloc is used here. needs to be free
+	new_node = create_var(var_name, var_value, exp);
 	if (!(*head))
 		*head = new_node;
 	else
@@ -95,10 +100,8 @@ t_vars	*add_var(t_vars **head, char *var_name, char *var_value, int exp)
 ******************************************************************************/
 t_vars	*find_vars(t_vars *head, char *var_name)
 {
-	// size_t	size;
 	t_vars	*current;
 
-	// size = ft_strlen(var_name);
 	current = head;
 	while (current)
 	{
@@ -114,44 +117,10 @@ void	edit_var(t_vars *head, char *var_name, char *var_value)
 {
 	head = find_vars(head, var_name);
 	if (!head)
-		ft_printf("variable not found\n");
+		return ;
 	else
 	{
 		free(head->value);
-		head->value = ft_strdup(var_value); //malloc is used here. needs to be free
+		head->value = ft_strdup(var_value);
 	}
-}
-
-/******************************************************************************
-*	
-*	-This functon will copy all the environment variables given by the envp
-*	 variable passed by the main();
-*	-They are stored in the t_vars linked list;
-*
-******************************************************************************/
-void	copy_env(t_vars **head, char **envp)
-{
-	int		i;
-	char	**tokens;
-
-	i = 0;
-	while (envp[i])
-	{
-		debug_print("splitting tokens", 'r');
-		tokens = ft_split(envp[i], '=');
-		debug_print("checking split successful", 'r');
-		if (!tokens)
-		{
-			debug_print("error splitting tokens", 'r');
-			exit(EXIT_FAILURE);
-		}
-		else if (tokens && tokens[0] && tokens[1])
-		{
-			add_var(head, tokens[0], tokens[1], 1);
-			debug_print("var added", 'r');
-		}
-		free_array(tokens);
-		i++;
-	}
-	//free_array(tokens);
 }

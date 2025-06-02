@@ -6,7 +6,7 @@
 /*   By: rojornod <rojornod@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/01 11:42:47 by rojornod          #+#    #+#             */
-/*   Updated: 2025/05/27 16:18:45 by rojornod         ###   ########.fr       */
+/*   Updated: 2025/06/02 16:11:40 by rojornod         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,19 +48,6 @@ void	free_array(char **array)
 
 /******************************************************************************
 *
-*	-Small function that shows the pid of the current process need to remove this later
-*
-******************************************************************************/
-void	show_pid(void)
-{
-	pid_t	pid;
-
-	pid = getpid();
-	ft_printf("pid: [%d]\n", pid);
-}
-
-/******************************************************************************
-*
 *	-This function converts the linked list t_vars to a **env_copy so it can be
 *	 passed as an argument for child processes.
 *	
@@ -68,7 +55,8 @@ void	show_pid(void)
 *	- We figure out how many nodes the t_vars list has
 *	-After that we can assign memory to our env_copy array which will store the
 *	 elements
-*	-We loop through the list again and copy all the varaibles which are exported
+*	-We loop through the list again and copy all the varaibles which are 
+*	 exported
 *	 (when current->exported=1)
 *	-The loop stops when current->next is NULL meaning that's the last node
 *
@@ -88,8 +76,7 @@ char	**convert_env(t_vars *head)
 			i++;
 		current = current->next;
 	}
-	env_copy = malloc((i + 1) * sizeof(char *)); //malloc is used here. needs to be free. Also needs protection
-	current = head;
+	env_copy = malloc((i + 1) * sizeof(char *));
 	i = 0;
 	while (current)
 	{
@@ -97,14 +84,14 @@ char	**convert_env(t_vars *head)
 		{
 			if (!current->value)
 			{
-				env_copy[i] = ft_strdup(current->name); //malloc is used here, needs to be free
+				env_copy[i] = ft_strdup(current->name);
 				if (!env_copy[i])
 					return (free_array(env_copy), NULL);
 			}
 			else
 			{
-				temp = ft_strjoin(current->name, "="); //malloc is used here, needs to be free
-				env_copy[i] = ft_strjoin(temp, current->value); //malloc is used here. needs to be free
+				temp = ft_strjoin(current->name, "=");
+				env_copy[i] = ft_strjoin(temp, current->value);
 				free(temp);
 			}
 			i++;
@@ -126,38 +113,19 @@ char	**convert_env(t_vars *head)
 *	 this way it will be easier to debug each of our own code.
 *
 ******************************************************************************/
-void	debug_print(char *debug_message, char c)
-{
-	int	val_d;
-	int	val_r;
-
-	val_d = 0;
-	val_r = 0;
-	if (val_d == 1 && c == 'd')
-		ft_printf("[%s]\n", debug_message);
-	if (val_r == 1 && c == 'r')
-		ft_printf("[%s]\n", debug_message);
-}
 
 void	free_vars(t_vars *head)
 {
 	t_vars	*current;
-	
+
 	while (head)
 	{
 		current = head;
 		head = head->next;
 		if (current->name)
-		{
-			//ft_printf("freed name: %s\n", current->name);
 			free(current->name);
-		}
 		if (current->value)
-		{
-			//ft_printf("freed value: %s\n", current->value);
 			free(current->value);
-		}		
 		free(current);
 	}
 }
-

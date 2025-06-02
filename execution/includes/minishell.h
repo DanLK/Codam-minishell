@@ -6,7 +6,7 @@
 /*   By: rojornod <rojornod@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/10 14:21:08 by rojornod          #+#    #+#             */
-/*   Updated: 2025/05/30 11:18:05 by rojornod         ###   ########.fr       */
+/*   Updated: 2025/06/02 18:00:13 by rojornod         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,75 +39,73 @@ typedef struct s_vars
 
 typedef struct s_shell_info
 {
-	// bool	is_child_running;
 	int		last_return_code;
-	// int		**child_pid;
 	char	*home_dir;
-	int 	fdin;
-	int 	fdout;
+	int		fdin;
+	int		fdout;
 	int		hd_count;
 	int		cur_hd;
 }	t_shell_info;
 
-t_vars			*initialize_data(void);
-t_shell_info	*initialize_info(void);
-
 //directories
-char	*get_home_dir(void);
+char			*get_home_dir(void);
 
 //history
-void	create_history_file(void);
-void	write_history_file(char *read);
+void			create_history_file(void);
+void			write_history_file(char *read);
 
 //builtins
-int	echo_builtin(char **tokens);
-int	pwd_builtin(void);
-int	cd_builtin(char *command, t_vars *vars);
-int	export_builtin(t_vars **head, char *var_name, char *var_value);
-int	unset_builtin(t_vars **head, char *var_name);
-int	exit_builtin(t_vars *vars, t_shell_info *info);
-int	env_builtin(t_vars *head);
+int				echo_builtin(char **tokens);
+int				pwd_builtin(void);
+int				cd_builtin(char *command, t_vars *vars);
+int				export_builtin(t_vars **head, char *var_name, char *var_value);
+int				unset_builtin(t_vars **head, char *var_name);
+int				exit_builtin(t_vars *vars, t_shell_info *info);
+int				env_builtin(t_vars *head);
 
 //variables
-t_vars	*add_var(t_vars **head, char *var_name, char *var_value, int exp);
-t_vars	*create_var(char *name, char *value, int exp);
-t_vars	*find_vars(t_vars *head, char *var_name);
-void	copy_env(t_vars **head, char **envp);
-void	edit_var(t_vars *vars, char *var_name, char *var_value);
-
+t_vars			*add_var(t_vars **head, char *var_name, char *var_value,
+					int exp);
+t_vars			*create_var(char *name, char *value, int exp);
+t_vars			*find_vars(t_vars *head, char *var_name);
+void			copy_env(t_vars **head, char **envp);
+void			edit_var(t_vars *vars, char *var_name, char *var_value);
 
 //utils
-int		ft_strcmp(char *s1, char *s2);
-void	free_array(char **array);
-void	free_vars(t_vars *head);
-void	show_pid(void);
-char	**convert_env(t_vars *head);
-void	debug_print(char *debug_message, char c);
+int				ft_strcmp(char *s1, char *s2);
+void			free_array(char **array);
+void			free_vars(t_vars *head);
+void			show_pid(void);
+char			**convert_env(t_vars *head);
+void			debug_print(char *debug_message, char c);
 
 //signals
-void	signal_action(void);
-int		heredoc_action(void);
-int		child_proc_action(void);
-int 	get_signal_received(void);
-void 	reset_signal(void);
-void	heredoc_cleanup(int fd);
-int		delim_found(int fd, char *read_input);
-int		sim_press_hook(void);
-void	init_heredoc(void);
+void			signal_action(void);
+int				heredoc_action(void);
+int				child_proc_action(void);
+void			signal_handler(int signal);
+void			child_proc_handler(int signal);
+void			heredoc_handler(int signal);
+int				get_signal_received(void);
+void			reset_signal(void);
+void			heredoc_cleanup(int fd);
+int				delim_found(int fd, char *read_input);
+int				sim_press_hook(void);
+void			init_heredoc(void);
 
 //external commands
-char	*find_path(t_vars *head, char *command);
-void	exec_external_com(t_vars *head, char **cmd, int size, t_shell_info *info);
+char			*find_path(t_vars *head, char *command);
+void			exec_external_com(t_vars *head, char **cmd,
+					int size, t_shell_info *info);
 
 //child process
-int		create_child_proc(t_vars *vars, char **cmd, char *path, int size, t_shell_info *info);
-
-//commands
-int		is_builtin(char *command);
-int		is_external_cmd(t_vars	*head, char *command);
-
-//return values
-int 	return_codes(t_shell_info	*info, int return_code);
+int				create_child_proc(t_vars *vars, char **cmd, char *path,
+					int size);
+int				child_process(char *path, char **argv, char **env_copy);
 
 //heredocs
-int 	heredoc(t_shell_info *info, char *delim);
+int				heredoc(t_shell_info *info, char *delim);
+
+//initializing
+t_vars			*initialize_data(void);
+t_shell_info	*initialize_info(void);

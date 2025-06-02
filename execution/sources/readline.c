@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
-/*                                                        ::::::::            */
-/*   readline.c                                         :+:    :+:            */
-/*                                                     +:+                    */
-/*   By: dloustal <dloustal@student.42.fr>            +#+                     */
-/*                                                   +#+                      */
-/*   Created: 2025/03/10 14:21:17 by rojornod      #+#    #+#                 */
-/*   Updated: 2025/05/29 16:34:46 by dloustal      ########   odam.nl         */
+/*                                                        :::      ::::::::   */
+/*   readline.c                                         :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: rojornod <rojornod@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/03/10 14:21:17 by rojornod          #+#    #+#             */
+/*   Updated: 2025/06/02 16:53:17 by rojornod         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,10 +15,8 @@
 t_vars	*initialize_data(void)
 {
 	t_vars	*head;
-	debug_print("initializing extra", 'r');
 
 	head = malloc(sizeof(t_vars));
-	debug_print("malloced struct", 'r');
 	if (!head)
 	{
 		perror("malloc on vars initialization");
@@ -31,10 +29,8 @@ t_vars	*initialize_data(void)
 t_shell_info	*initialize_info(void)
 {
 	t_shell_info	*info;
-	debug_print("initializing extra", 'r');
 
 	info = malloc(sizeof(t_shell_info));
-	debug_print("malloced struct", 'r');
 	if (!info)
 	{
 		perror("malloc on vars initialization");
@@ -75,7 +71,6 @@ void	create_history_file(void)
 	int	fd;
 
 	fd = open("./.shell_history", O_WRONLY | O_APPEND | O_CREAT, 0644);
-	// ft_printf("history file created\n");
 	close(fd);
 }
 
@@ -89,8 +84,7 @@ void	write_history_file(char *read)
 {
 	int		fd;
 	int		i;
-	//char	*number;
-	
+
 	i = 0;
 	fd = open("../.shell_history", O_WRONLY | O_APPEND | O_CREAT, 0644);
 	while (read[i] != '\0')
@@ -99,15 +93,29 @@ void	write_history_file(char *read)
 	write(fd, "\n", 1);
 }
 
-void	print_environment(char **envp)
+/******************************************************************************
+*	
+*	-This functon will copy all the environment variables given by the envp
+*	 variable passed by the main();
+*	-They are stored in the t_vars linked list;
+*
+******************************************************************************/
+void	copy_env(t_vars **head, char **envp)
 {
-	int	i;
+	int		i;
+	char	**tokens;
 
 	i = 0;
 	while (envp[i])
 	{
-		ft_printf("%s\n", envp[i]);
+		tokens = ft_split(envp[i], '=');
+		if (!tokens)
+		{
+			exit(EXIT_FAILURE);
+		}
+		else if (tokens && tokens[0] && tokens[1])
+			add_var(head, tokens[0], tokens[1], 1);
+		free_array(tokens);
 		i++;
 	}
 }
-
