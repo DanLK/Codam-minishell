@@ -6,7 +6,7 @@
 /*   By: rojornod <rojornod@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/16 11:11:31 by rojornod          #+#    #+#             */
-/*   Updated: 2025/06/03 11:13:51 by rojornod         ###   ########.fr       */
+/*   Updated: 2025/06/03 15:32:17 by rojornod         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,9 +17,6 @@ int	child_process(char *path, char **argv, char **env_copy)
 	child_proc_action();
 	if (execve(path, argv, env_copy) == -1)
 		ft_printf("Minishell: %s command not found\n", argv[0]);
-	// free(path);
-	// free_array(env_copy);
-	// free_array(argv);
 	exit(EXIT_FAILURE);
 }
 
@@ -35,6 +32,23 @@ static void	parent_process(char *path)
 		ft_printf("Quit (core dumped)\n", w_status);
 }
 
+static char	**copy_to_argv(char **cmd, char **argv, char **env_copy,
+				char *path)
+{
+	int	i;
+
+	i = 0;
+	while (cmd[i])
+	{
+		argv[i] = ft_strdup(cmd[i]);
+		if (!argv[i])
+			return (free_array(argv), free_array(env_copy), free(path), NULL);
+		i++;
+	}
+	argv[i] = NULL;
+	return (argv);
+}
+
 int	create_child_proc(t_vars *vars, char **cmd, char *path, int size)
 {
 	pid_t		pid;
@@ -47,14 +61,9 @@ int	create_child_proc(t_vars *vars, char **cmd, char *path, int size)
 	argv = malloc((size + 1) * sizeof(char *));
 	if (!argv)
 		return (free_array(env_copy), EXIT_FAILURE);
-	while (cmd[i])
-	{
-		argv[i] = ft_strdup(cmd[i]);
-		if (!argv[i])
-			return (free_array(argv), free_array(env_copy), free(path), 1);
-		i++;
-	}
-	argv[i] = NULL;
+	argv = copy_to_argv(cmd, argv, env_copy, path);
+	if (!argv)
+		return (1);
 	if (!path)
 		return (free_array(env_copy), free_array(argv), EXIT_FAILURE);
 	pid = fork();

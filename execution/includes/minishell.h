@@ -6,7 +6,7 @@
 /*   By: rojornod <rojornod@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/10 14:21:08 by rojornod          #+#    #+#             */
-/*   Updated: 2025/06/02 18:00:13 by rojornod         ###   ########.fr       */
+/*   Updated: 2025/06/03 11:53:42 by rojornod         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,7 +75,6 @@ void			edit_var(t_vars *vars, char *var_name, char *var_value);
 int				ft_strcmp(char *s1, char *s2);
 void			free_array(char **array);
 void			free_vars(t_vars *head);
-void			show_pid(void);
 char			**convert_env(t_vars *head);
 void			debug_print(char *debug_message, char c);
 

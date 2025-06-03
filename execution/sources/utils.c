@@ -6,7 +6,7 @@
 /*   By: rojornod <rojornod@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/01 11:42:47 by rojornod          #+#    #+#             */
-/*   Updated: 2025/06/02 16:11:40 by rojornod         ###   ########.fr       */
+/*   Updated: 2025/06/03 12:25:37 by rojornod         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,6 +46,35 @@ void	free_array(char **array)
 	free(array);
 }
 
+static char	**copying_env(char **env_copy, t_vars *current, char *temp)
+{
+	int	i;
+
+	i = 0;
+	while (current)
+	{
+		if (current->exported == 1)
+		{
+			if (!current->value)
+			{
+				env_copy[i] = ft_strdup(current->name);
+				if (!env_copy[i])
+					return (free_array(env_copy), NULL);
+			}
+			else
+			{
+				temp = ft_strjoin(current->name, "=");
+				env_copy[i] = ft_strjoin(temp, current->value);
+				free(temp);
+			}
+			i++;
+		}
+		current = current->next;
+	}
+	env_copy[i] = NULL;
+	return (env_copy);
+}
+
 /******************************************************************************
 *
 *	-This function converts the linked list t_vars to a **env_copy so it can be
@@ -69,6 +98,7 @@ char	**convert_env(t_vars *head)
 	char	*temp;
 
 	i = 0;
+	temp = NULL;
 	current = head;
 	while (current)
 	{
@@ -77,28 +107,11 @@ char	**convert_env(t_vars *head)
 		current = current->next;
 	}
 	env_copy = malloc((i + 1) * sizeof(char *));
-	i = 0;
-	while (current)
-	{
-		if (current->exported == 1)
-		{
-			if (!current->value)
-			{
-				env_copy[i] = ft_strdup(current->name);
-				if (!env_copy[i])
-					return (free_array(env_copy), NULL);
-			}
-			else
-			{
-				temp = ft_strjoin(current->name, "=");
-				env_copy[i] = ft_strjoin(temp, current->value);
-				free(temp);
-			}
-			i++;
-		}
-		current = current->next;
-	}
-	env_copy[i] = NULL;
+	if (!env_copy)
+		return (NULL);
+	env_copy = copying_env(env_copy, current, temp);
+	if (!env_copy)
+		return (NULL);
 	return (env_copy);
 }
 

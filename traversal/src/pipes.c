@@ -6,7 +6,7 @@
 /*   By: rojornod <rojornod@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/18 11:16:24 by rojornod          #+#    #+#             */
-/*   Updated: 2025/06/02 17:19:50 by rojornod         ###   ########.fr       */
+/*   Updated: 2025/06/03 15:19:38 by rojornod         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,6 @@
 *******************************************************************************/
 static int	pipe_l(int fd[2], t_t_node **root, t_vars *head, t_shell_info *info)
 {
-	
 	close(fd[0]);
 	dup2(fd[1], STDOUT_FILENO);
 	execute_src(root, head, info);
@@ -55,7 +54,7 @@ static int	pipe_r(int fd[2], t_t_node **root, t_vars *head, t_shell_info *info)
 int	execute_pipe(t_t_node **root, t_vars *head, t_shell_info *info)
 {
 	int		fd[2];
-    pid_t	pid_left;
+	pid_t	pid_left;
 	pid_t	pid_right;
 	int		status_l;
 	int		status_r;
@@ -72,7 +71,7 @@ int	execute_pipe(t_t_node **root, t_vars *head, t_shell_info *info)
 	}
 	pid_right = fork();
 	if (pid_right < 0)
-		return(1);
+		return (1);
 	if (pid_right == 0)
 	{
 		pipe_r(fd, &(*root)->right, head, info);
@@ -82,5 +81,5 @@ int	execute_pipe(t_t_node **root, t_vars *head, t_shell_info *info)
 	close(fd[1]);
 	waitpid(pid_left, &status_l, 0);
 	waitpid(pid_right, &status_r, 0);
-	return (0); // Maybe WEXITSTATUS(status_r)
+	return (WEXITSTATUS(status_r));
 }

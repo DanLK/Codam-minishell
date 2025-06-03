@@ -6,7 +6,7 @@
 /*   By: rojornod <rojornod@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/10 14:21:17 by rojornod          #+#    #+#             */
-/*   Updated: 2025/06/02 16:53:17 by rojornod         ###   ########.fr       */
+/*   Updated: 2025/06/03 12:25:48 by rojornod         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,41 +56,6 @@ char	*get_home_dir(void)
 		return (NULL);
 	ft_printf("current directory is not null, returning current_directory\n");
 	return (current_directory);
-}
-
-/******************************************************************************
-*
-*	-Creates the file .shell_history which will store all 
-*	commands typed by user
-*	
-*	-The file is created in the root directory
-*	
-******************************************************************************/
-void	create_history_file(void)
-{
-	int	fd;
-
-	fd = open("./.shell_history", O_WRONLY | O_APPEND | O_CREAT, 0644);
-	close(fd);
-}
-
-/******************************************************************************
-*
-*	-This function takes the input from the command line and appends it to the 
-*	.shell_history file
-*	
-******************************************************************************/
-void	write_history_file(char *read)
-{
-	int		fd;
-	int		i;
-
-	i = 0;
-	fd = open("../.shell_history", O_WRONLY | O_APPEND | O_CREAT, 0644);
-	while (read[i] != '\0')
-		i++;
-	write(fd, read, i);
-	write(fd, "\n", 1);
 }
 
 /******************************************************************************
