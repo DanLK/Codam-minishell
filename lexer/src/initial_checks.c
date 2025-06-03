@@ -1,18 +1,18 @@
 /* ************************************************************************** */
 /*                                                                            */
-/*                                                        ::::::::            */
-/*   initial_checks.c                                   :+:    :+:            */
-/*                                                     +:+                    */
-/*   By: dloustal <marvin@42.fr>                      +#+                     */
-/*                                                   +#+                      */
-/*   Created: 2025/05/20 16:45:20 by dloustal      #+#    #+#                 */
-/*   Updated: 2025/05/27 16:27:49 by dloustalot    ########   odam.nl         */
+/*                                                        :::      ::::::::   */
+/*   initial_checks.c                                   :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: rojornod <rojornod@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/05/20 16:45:20 by dloustal          #+#    #+#             */
+/*   Updated: 2025/06/03 11:26:08 by rojornod         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "lexer.h"
 
-bool closed_quotes(char *src)
+bool	closed_quotes(char *src)
 {
 	bool	in_single;
 	bool	in_double;
@@ -39,7 +39,7 @@ bool closed_quotes(char *src)
 				i++;
 				continue ;
 			}
-			else 
+			else
 				i++;
 		}
 		else
@@ -57,7 +57,7 @@ bool closed_quotes(char *src)
 t_scanner	*init_scanner(int cur, int start)
 {
 	t_scanner	*scanner;
-	
+
 	scanner = malloc(sizeof(t_scanner));
 	if (!scanner)
 		return (NULL);

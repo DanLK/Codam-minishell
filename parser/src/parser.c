@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
-/*                                                        ::::::::            */
-/*   parser.c                                           :+:    :+:            */
-/*                                                     +:+                    */
-/*   By: dloustal <dloustal@student.42.fr>            +#+                     */
-/*                                                   +#+                      */
-/*   Created: 2025/04/14 14:37:49 by dloustal      #+#    #+#                 */
-/*   Updated: 2025/05/29 18:15:17 by dloustal      ########   odam.nl         */
+/*                                                        :::      ::::::::   */
+/*   parser.c                                           :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: rojornod <rojornod@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/04/14 14:37:49 by dloustal          #+#    #+#             */
+/*   Updated: 2025/06/03 11:38:19 by rojornod         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,7 @@ t_t_node	*parse_pipe(t_parser *parser)
 	if (!node->tokens->head)
 	{
 		ft_printf("Syntax error near unexpected token \'%s\'\n",
-				parser->current->token->lexeme);
+			parser->current->token->lexeme);
 		clear_subtree(node); //Clear everything else
 		return (NULL);
 	}
@@ -66,7 +66,7 @@ t_t_node	*parse_pipe(t_parser *parser)
 		if (!right->tokens->head)
 		{
 			ft_printf("Syntax error near unexpected token \'%s\'\n",
-					token->lexeme);
+				token->lexeme);
 			clear_subtree(node);
 			clear_subtree(right); //Clear everything else
 			return (NULL);

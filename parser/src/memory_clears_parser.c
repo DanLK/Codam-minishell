@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
-/*                                                        ::::::::            */
-/*   memory_clears_parser.c                             :+:    :+:            */
-/*                                                     +:+                    */
-/*   By: dloustal <marvin@42.fr>                      +#+                     */
-/*                                                   +#+                      */
-/*   Created: 2025/04/03 15:39:13 by dloustal      #+#    #+#                 */
-/*   Updated: 2025/05/27 17:08:08 by dloustalot    ########   odam.nl         */
+/*                                                        :::      ::::::::   */
+/*   memory_clears_parser.c                             :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: rojornod <rojornod@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/04/03 15:39:13 by dloustal          #+#    #+#             */
+/*   Updated: 2025/06/03 11:32:41 by rojornod         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ void	clear_array(char **words)
 		return ;
 	i = 0;
 	word = words[0];
-	while(word)
+	while (word)
 	{
 		i++;
 		tmp = words[i];

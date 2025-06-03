@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
-/*                                                        ::::::::            */
-/*   parser_nodes.c                                     :+:    :+:            */
-/*                                                     +:+                    */
-/*   By: dloustal <dloustal@student.42.fr>            +#+                     */
-/*                                                   +#+                      */
-/*   Created: 2025/04/15 16:24:19 by dloustal      #+#    #+#                 */
-/*   Updated: 2025/05/29 18:17:05 by dloustal      ########   odam.nl         */
+/*                                                        :::      ::::::::   */
+/*   parser_nodes.c                                     :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: rojornod <rojornod@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/04/15 16:24:19 by dloustal          #+#    #+#             */
+/*   Updated: 2025/06/03 11:37:04 by rojornod         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,7 +62,7 @@ t_t_node	*redir_node(t_parser *parser)
 			if (tkn_node->token->type == TKN_END || is_redirection(parser->current->token->type))
 			{
 				ft_printf("Syntax error near unexpected token \'%s\'\n",
-				parser->previous->token->lexeme);
+					parser->previous->token->lexeme);
 				return (clear_redirs(redirs), NULL);
 				// exit(EXIT_FAILURE); // Just clear everything
 				//Must clear everything and exit correctly
@@ -80,8 +80,6 @@ t_t_node	*redir_node(t_parser *parser)
 	node->redirs = redirs;
 	return (node);
 }
-
-
 
 /**************************************************************************** 
  * Creates a redirection tree node with the given left and right children;  
@@ -134,7 +132,6 @@ t_t_node	*redir_node(t_parser *parser)
 // 	node->redirs = redirs;
 // 	return (node);
 // }
-
 
 /***********************************************************
  * Builds the redirections list
