@@ -6,7 +6,7 @@
 /*   By: rojornod <rojornod@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/06 10:53:23 by rojornod          #+#    #+#             */
-/*   Updated: 2025/05/30 17:56:17 by rojornod         ###   ########.fr       */
+/*   Updated: 2025/06/03 15:24:38 by rojornod         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@
 //     pid_t	pid;
 // 	int		w_status;
 // 	int		fd;
-	
+
 // 	pid = fork();
 // 	if (pid < 0)
 // 		ft_printf("fork error");
@@ -62,22 +62,17 @@ void	tmp_redir_out(char *file)
 		fd = open("/dev/null", O_RDONLY);
 		if (fd < 0)
 		{
-			ft_printf("failed to open again\n");
-			return;
+			return ;
 		}
 		if (dup2(fd, STDOUT_FILENO) < 0)
 		{
-			ft_printf("[tmp_redir_out] dup failed\n");
 			close(fd);
 			return ;
 		}
-		return;
+		return ;
 	}
 	if (dup2(fd, STDOUT_FILENO) < 0)
-	{
-		ft_printf("dup failed\n");
 		close(fd);
-	}
 	close(fd);
 }
 
@@ -88,26 +83,20 @@ void	tmp_redir_append(char *file)
 	fd = open(file, O_WRONLY | O_APPEND | O_CREAT, 0644);
 	if (fd < 0)
 	{
-		ft_printf("open failed\n");
 		fd = open("/dev/null", O_RDONLY);
 		if (fd < 0)
 		{
-			ft_printf("failed to open again\n");
-			return;
+			return ;
 		}
 		if (dup2(fd, STDOUT_FILENO) < 0)
 		{
-			ft_printf("[tmp_redir_append] dup failed\n");
 			close(fd);
 			return ;
 		}
-		return;
+		return ;
 	}
 	if (dup2(fd, STDOUT_FILENO) < 0)
-	{
-		ft_printf("dup failed\n");
 		close(fd);
-	}
 	close(fd);
 }
 
@@ -122,23 +111,17 @@ void	tmp_redir_in(char *file)
 		fd = open("/dev/null", O_RDONLY);
 		if (fd < 0)
 		{
-			ft_printf("failed to open again\n");
-			return;
+			return ;
 		}
 		if (dup2(fd, STDIN_FILENO) < 0)
 		{
-			ft_printf("[tmp_redir_in] dup failed\n");
 			close(fd);
 			return ;
 		}
-		ft_printf("redirected\n");
 		return ;
 	}
 	if (dup2(fd, STDIN_FILENO) < 0)
-	{
 		close(fd);
-		//exit(EXIT_FAILURE);
-	}
 	close (fd);
 }
 
@@ -147,7 +130,6 @@ void	tmp_redir_in(char *file)
 //     pid_t	pid;
 // 	int		w_status;
 // 	int		fd;
-
 
 // 	pid = fork();
 // 	if (pid < 0)

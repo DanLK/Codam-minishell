@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
-/*                                                        ::::::::            */
-/*   heredoc.c                                          :+:    :+:            */
-/*                                                     +:+                    */
-/*   By: dloustal <dloustal@student.42.fr>            +#+                     */
-/*                                                   +#+                      */
-/*   Created: 2025/05/09 16:05:02 by rojornod      #+#    #+#                 */
-/*   Updated: 2025/05/28 16:23:38 by dloustal      ########   odam.nl         */
+/*                                                        :::      ::::::::   */
+/*   heredoc.c                                          :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: rojornod <rojornod@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/05/09 16:05:02 by rojornod          #+#    #+#             */
+/*   Updated: 2025/06/03 15:26:06 by rojornod         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,6 @@
 void	heredoc_cleanup(int fd)
 {
 	close(fd);
-	//unlink(".temp_heredoc");
 	reset_signal();
 	rl_on_new_line();
 	rl_replace_line("", 0);
@@ -24,9 +23,7 @@ void	heredoc_cleanup(int fd)
 	rl_done = 1;
 	rl_catch_signals = 0;
 	rl_event_hook = NULL;
-	// ft_printf("[heredoc cleanup] finished cleanup\n");
 }
-
 
 int	sim_press_hook(void)
 {
@@ -69,7 +66,6 @@ int	delim_found(int fd, char *read_input)
 
 void	init_heredoc(void)
 {
-	//rl_catch_signals = 0;
 	rl_event_hook = sim_press_hook;
 	reset_signal();
 }
