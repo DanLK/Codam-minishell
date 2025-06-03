@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
-/*                                                        ::::::::            */
-/*   readers.c                                          :+:    :+:            */
-/*                                                     +:+                    */
-/*   By: dloustal <dloustal@student.42.fr>            +#+                     */
-/*                                                   +#+                      */
-/*   Created: 2025/05/20 13:39:12 by dloustal      #+#    #+#                 */
-/*   Updated: 2025/05/28 13:06:13 by dloustal      ########   odam.nl         */
+/*                                                        :::      ::::::::   */
+/*   readers.c                                          :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: rojornod <rojornod@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/05/20 13:39:12 by dloustal          #+#    #+#             */
+/*   Updated: 2025/06/03 11:24:39 by rojornod         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,8 +14,8 @@
 
 char	*read_quoted(t_scanner *sc, char *src)
 {
-	bool 	in_single;
-	bool 	in_double;
+	bool	in_single;
+	bool	in_double;
 	char	*result;
 	int		i;
 
@@ -44,8 +44,8 @@ char	*read_quoted(t_scanner *sc, char *src)
 				continue ;
 			}
 			else if (src[sc->cur] == ' ' || src[sc->cur] == '='
-					|| src[sc->cur] == '|' || src[sc->cur] == '<'
-					|| src[sc->cur] == '>')
+				|| src[sc->cur] == '|' || src[sc->cur] == '<'
+				|| src[sc->cur] == '>')
 				break ;
 			else
 			{
@@ -57,14 +57,14 @@ char	*read_quoted(t_scanner *sc, char *src)
 		{
 			if (src[sc->cur] == '\'')
 			{
-                in_single = false;
-                sc->cur++;
-            }
+				in_single = false;
+				sc->cur++;
+			}
 			else
 			{
-                result[i++] = src[sc->cur];
-                sc->cur++;
-            }
+				result[i++] = src[sc->cur];
+				sc->cur++;
+			}
 		}
 		else if (in_double)
 		{
@@ -115,7 +115,7 @@ char	*read_filepath(t_scanner *scanner, char *src)
 	if (c == '\"')
 		return (get_current_char(&(scanner->cur), src), read_quoted(scanner, src));
 	if (c == '\'')
-		return (get_current_char(&(scanner->cur), src), read_quoted(scanner, src));	
+		return (get_current_char(&(scanner->cur), src), read_quoted(scanner, src));
 	while (c)
 	{
 		if (is_special_char(c))
@@ -132,7 +132,6 @@ char	*read_identifier(t_scanner *scanner, char *src)
 	int		st;
 	char	c;
 	// bool	in_quotes;
-
 	if (!src || scanner->cur > (int)ft_strlen(src))
 		return (NULL);
 	st = scanner->start;

@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
-/*                                                        ::::::::            */
-/*   main_parser.c                                      :+:    :+:            */
-/*                                                     +:+                    */
-/*   By: dloustal <marvin@42.fr>                      +#+                     */
-/*                                                   +#+                      */
-/*   Created: 2025/04/01 16:48:50 by dloustal      #+#    #+#                 */
-/*   Updated: 2025/05/27 17:09:43 by dloustalot    ########   odam.nl         */
+/*                                                        :::      ::::::::   */
+/*   main_parser.c                                      :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: rojornod <rojornod@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/04/01 16:48:50 by dloustal          #+#    #+#             */
+/*   Updated: 2025/06/03 11:31:49 by rojornod         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ int	main(void)
 	exp = "< debug.c cat > out <";
 	tokens = scan(exp);
 	parser = malloc(sizeof(t_parser));
-	if(!parser)
+	if (!parser)
 		return (0);
 	parser->current = tokens->head;
 	parser->previous = NULL;

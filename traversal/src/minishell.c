@@ -6,7 +6,7 @@
 /*   By: rojornod <rojornod@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/17 11:53:23 by dloustal          #+#    #+#             */
-/*   Updated: 2025/06/02 16:58:48 by rojornod         ###   ########.fr       */
+/*   Updated: 2025/06/03 10:40:54 by rojornod         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,13 +36,13 @@ int	main(int argc, char **argv, char **envp)
 	{
 		read = readline("> ");
 		
-		// if (read[0] == '\0')
-		// 	continue ;
 		if (!read)
 		{
-			// free(home_dir);
+			free(home_dir);
 			exit_builtin(vars, info);
 		}
+		else if (read[0] == '\0')
+			 continue ;
 		else
 		{
 			tokens = scan(read);

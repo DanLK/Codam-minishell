@@ -6,7 +6,7 @@
 /*   By: rojornod <rojornod@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/16 11:11:31 by rojornod          #+#    #+#             */
-/*   Updated: 2025/06/02 17:48:22 by rojornod         ###   ########.fr       */
+/*   Updated: 2025/06/03 11:13:51 by rojornod         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,10 +17,10 @@ int	child_process(char *path, char **argv, char **env_copy)
 	child_proc_action();
 	if (execve(path, argv, env_copy) == -1)
 		ft_printf("Minishell: %s command not found\n", argv[0]);
-	free(path);
-	free_array(env_copy);
-	free_array(argv);
-	return (127);
+	// free(path);
+	// free_array(env_copy);
+	// free_array(argv);
+	exit(EXIT_FAILURE);
 }
 
 static void	parent_process(char *path)

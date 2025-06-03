@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
-/*                                                        ::::::::            */
-/*   lexer_utils.c                                      :+:    :+:            */
-/*                                                     +:+                    */
-/*   By: dloustal <marvin@42.fr>                      +#+                     */
-/*                                                   +#+                      */
-/*   Created: 2025/03/20 15:41:02 by dloustal      #+#    #+#                 */
-/*   Updated: 2025/05/27 16:57:27 by dloustalot    ########   odam.nl         */
+/*                                                        :::      ::::::::   */
+/*   lexer_utils.c                                      :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: rojornod <rojornod@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/03/20 15:41:02 by dloustal          #+#    #+#             */
+/*   Updated: 2025/06/03 11:25:38 by rojornod         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,11 +23,10 @@ void	consume_space(t_scanner *scanner, char *src)
 	}
 }
 
-
 bool	is_special_char(char c)
 {
 	return (c == ' ' || c == '|' || c == '&'
-			|| c == '<' || c == '>' || c == '\"' || c == '\'');
+		|| c == '<' || c == '>' || c == '\"' || c == '\'');
 }
 
 bool	is_builtin_type(enum e_Type type)

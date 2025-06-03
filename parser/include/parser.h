@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
-/*                                                        ::::::::            */
-/*   parser.h                                           :+:    :+:            */
-/*                                                     +:+                    */
-/*   By: dloustal <marvin@42.fr>                      +#+                     */
-/*                                                   +#+                      */
-/*   Created: 2025/04/01 16:41:23 by dloustal      #+#    #+#                 */
-/*   Updated: 2025/05/27 17:09:24 by dloustalot    ########   odam.nl         */
+/*                                                        :::      ::::::::   */
+/*   parser.h                                           :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: rojornod <rojornod@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/04/01 16:41:23 by dloustal          #+#    #+#             */
+/*   Updated: 2025/06/03 11:31:16 by rojornod         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,7 +73,7 @@ t_t_node		*parse(t_token_list *tokens);
 
 //Parsing node creation
 t_t_node		*pipe_node(t_t_node *left, t_t_node *right);
-t_t_node	*redir_node(t_parser *parser);
+t_t_node		*redir_node(t_parser *parser);
 t_redir_node	**get_redirs_list(t_parser *parser);
 // t_t_node	*redir_out_node(t_t_node *cmd, t_t_node *filepath);
 // t_t_node	*redir_node(t_t_node *left, t_t_node *right, t_token *redir_tkn);
@@ -81,15 +81,15 @@ t_redir_node	**get_redirs_list(t_parser *parser);
 
 //Parser utilities
 bool			is_operator(enum e_Type type);
-bool 			is_redirection(enum e_Type type);
+bool			is_redirection(enum e_Type type);
 bool			is_redir_twochar(enum e_Type type);
 void			advance(t_parser *parser);
 bool			is_redir(t_parser *parser);
 
 //Debug
 // void		pretty_print_tree(t_t_node *root, int depth);
-void 			print_t_token_list(t_token_list *list, const char *prefix, int is_last);
-void 			print_tree_node(t_t_node *node, const char *prefix, int is_last);
+void			print_t_token_list(t_token_list *list, const char *prefix, int is_last);
+void			print_tree_node(t_t_node *node, const char *prefix, int is_last);
 void			print_redirs(t_t_node *node, const char *prefix);
 // void 		print_parse_tree(t_tree *tree);
 

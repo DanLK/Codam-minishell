@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
-/*                                                        ::::::::            */
-/*   token_list_utils.c                                 :+:    :+:            */
-/*                                                     +:+                    */
-/*   By: dloustal <marvin@42.fr>                      +#+                     */
-/*                                                   +#+                      */
-/*   Created: 2025/05/27 16:29:06 by dloustalot    #+#    #+#                 */
-/*   Updated: 2025/05/27 16:31:01 by dloustalot    ########   odam.nl         */
+/*                                                        :::      ::::::::   */
+/*   token_list_utils.c                                 :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: rojornod <rojornod@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/05/27 16:29:06 by dloustalot        #+#    #+#             */
+/*   Updated: 2025/06/03 11:26:51 by rojornod         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,7 +67,7 @@ char	**tkn_list_to_array(t_token_list *tokens)
 	i = 0;
 	while (i < len)
 	{
-		command[i]  = ft_strdup(node->token->lexeme);
+		command[i] = ft_strdup(node->token->lexeme);
 		node = node->next;
 		i++;
 	}

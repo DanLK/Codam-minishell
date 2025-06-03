@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
-/*                                                        ::::::::            */
-/*   parser_utilities.c                                 :+:    :+:            */
-/*                                                     +:+                    */
-/*   By: dloustal <marvin@42.fr>                      +#+                     */
-/*                                                   +#+                      */
-/*   Created: 2025/04/10 13:05:31 by dloustal      #+#    #+#                 */
-/*   Updated: 2025/05/27 17:18:37 by dloustalot    ########   odam.nl         */
+/*                                                        :::      ::::::::   */
+/*   parser_utilities.c                                 :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: rojornod <rojornod@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/04/10 13:05:31 by dloustal          #+#    #+#             */
+/*   Updated: 2025/06/03 11:32:57 by rojornod         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 void	advance(t_parser *parser)
 {
-	t_token_node *tmp;
+	t_token_node	*tmp;
 
 	if (!parser)
 		return ;
