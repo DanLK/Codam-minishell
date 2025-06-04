@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
-/*                                                        ::::::::            */
-/*   token_identifier.c                                 :+:    :+:            */
-/*                                                     +:+                    */
-/*   By: dloustal <dloustal@student.42.fr>            +#+                     */
-/*                                                   +#+                      */
-/*   Created: 2025/04/01 12:11:14 by dloustal      #+#    #+#                 */
-/*   Updated: 2025/05/28 12:56:54 by dloustal      ########   odam.nl         */
+/*                                                        :::      ::::::::   */
+/*   token_identifier.c                                 :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: rojornod <rojornod@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/04/01 12:11:14 by dloustal          #+#    #+#             */
+/*   Updated: 2025/06/04 16:38:30 by rojornod         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,16 +28,9 @@ void	redir_tkn(t_token_list *tkns, char *src, t_scanner *s, char c)
 			append_token(tkns, TKN_REDIR_OUT, ">");
 			(s->start)++;
 		}
-		// ft_printf("[redir_tkn] s->start: %d\n", s->start);
-		// ft_printf("[redir_tkn] s->cur: %d\n", s->cur);
 		lexeme = read_filepath(s, src);
-		// ft_printf("[redir_tkn] lexeme == NULL: %d\n", lexeme == NULL);
 		if (lexeme && ft_strlen(lexeme) > 0)
-		{
-			// ft_printf("[redir_tkn] Attempting to append the file_path node\n");
 			append_token(tkns, TKN_FILE_PATH, lexeme);
-		}
-		// ft_printf("[redir_tkn] We get here safely\n");
 		free(lexeme);
 	}
 	else if (c == '<')
@@ -93,7 +86,8 @@ char	*tkn_env_var(char *src, t_scanner *scanner)
 		return (NULL);
 	while (!is_special_char(src[scanner->cur]) && src[scanner->cur])
 		scanner->cur += 1;
-	substr = ft_substr(src, scanner->start + 1, scanner->cur - scanner->start - 1);
+	substr = ft_substr(src, scanner->start + 1,
+			scanner->cur - scanner->start - 1);
 	return (substr);
 }
 

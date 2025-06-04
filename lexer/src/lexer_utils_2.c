@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
-/*                                                        ::::::::            */
-/*   lexer_utils_2.c                                    :+:    :+:            */
-/*                                                     +:+                    */
-/*   By: dloustal <marvin@42.fr>                      +#+                     */
-/*                                                   +#+                      */
-/*   Created: 2025/03/24 11:46:50 by dloustal      #+#    #+#                 */
-/*   Updated: 2025/05/27 16:53:14 by dloustalot    ########   odam.nl         */
+/*                                                        :::      ::::::::   */
+/*   lexer_utils_2.c                                    :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: rojornod <rojornod@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/03/24 11:46:50 by dloustal          #+#    #+#             */
+/*   Updated: 2025/06/04 16:34:40 by rojornod         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,7 @@ bool	kw_compare(const t_map *keywords, char *lexeme, int i)
 	return (false);
 }
 
-char	get_current_char(int *cur, char *src)
+char	get_cur_char(int *cur, char *src)
 {
 	char	c;
 
