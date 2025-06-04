@@ -6,7 +6,7 @@
 /*   By: rojornod <rojornod@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/17 11:53:23 by dloustal          #+#    #+#             */
-/*   Updated: 2025/06/03 10:40:54 by rojornod         ###   ########.fr       */
+/*   Updated: 2025/06/04 12:07:53 by rojornod         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,10 +20,9 @@ int	main(int argc, char **argv, char **envp)
 	t_shell_info	*info;
 	char			*home_dir;	
 	char			*read;
+
 	(void)argv;
 	(void)argc;
-	
-	
 	vars = initialize_data();
 	info = initialize_info();
 	copy_env(&vars, envp);
@@ -31,22 +30,19 @@ int	main(int argc, char **argv, char **envp)
 	edit_var(vars, "HOME", home_dir);
 	rl_catch_signals = 0;
 	signal_action();
-
 	while (1)
 	{
 		read = readline("> ");
-		
 		if (!read)
 		{
 			free(home_dir);
 			exit_builtin(vars, info);
 		}
 		else if (read[0] == '\0')
-			 continue ;
+			continue ;
 		else
 		{
 			tokens = scan(read);
-			// print_token_list(tokens);
 			root = parse(tokens);
 			if (root == NULL)
 			{
@@ -72,7 +68,6 @@ int	main(int argc, char **argv, char **envp)
 			print_tree_node(root, "", 1);
 			ft_printf("-------------------------------------\n");
 			execute_src(&root, vars, info);
-			
 			clear_token_list(tokens);
 			clear_subtree(root);
 			// free(parser);

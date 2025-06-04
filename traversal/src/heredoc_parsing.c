@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
-/*                                                        ::::::::            */
-/*   heredoc_parsing.c                                  :+:    :+:            */
-/*                                                     +:+                    */
-/*   By: dloustal <dloustal@student.42.fr>            +#+                     */
-/*                                                   +#+                      */
-/*   Created: 2025/05/22 13:49:41 by dloustal      #+#    #+#                 */
-/*   Updated: 2025/05/29 17:58:06 by dloustal      ########   odam.nl         */
+/*                                                        :::      ::::::::   */
+/*   heredoc_parsing.c                                  :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: rojornod <rojornod@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/05/22 13:49:41 by dloustal          #+#    #+#             */
+/*   Updated: 2025/06/04 12:19:18 by rojornod         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,6 @@ void	parse_hd_tree(t_t_node **root, t_vars *vars, t_shell_info *info)
 void	parse_hd_node(t_t_node **root, t_vars *vars, t_shell_info *info)
 {
 	t_redir_node	*cur;
-	// char			*file_name;
 
 	if (!root || !vars || !info)
 		return ;
@@ -52,7 +51,7 @@ void	parse_hd_node(t_t_node **root, t_vars *vars, t_shell_info *info)
  * is pressed by the user and prevents the contents of the file from 
  * being printed
 *******************************************************************************/
-static void sigint_cleanup(int fd, char *file_name)
+static void	sigint_cleanup(int fd, char *file_name)
 {
 	close(fd);
 	fd = open(file_name, O_WRONLY | O_TRUNC);
@@ -81,7 +80,7 @@ void	parse_hd(t_redir_node *cur, t_vars *vars, t_shell_info *info)
 	heredoc_action();
 	index = ft_itoa(info->hd_count);
 	file_name = ft_strjoin(".tmp_heredoc", index);
-	fd = open(file_name, O_WRONLY | O_CREAT, 0644); //I don't know what the numbers mean
+	fd = open(file_name, O_WRONLY | O_CREAT, 0644);
 	if (fd < 0)
 		return (free(file_name));
 	eof = remove_quotes(cur->next->file);
@@ -93,18 +92,16 @@ void	parse_hd(t_redir_node *cur, t_vars *vars, t_shell_info *info)
 			info->hd_count++;
 			old_file = cur->next->file;
 			cur->next->file = ft_strdup(file_name);
-			free(old_file);
-			free(index);
-			free(input);
-			return (sigint_cleanup(fd, file_name), free(eof), free(file_name), heredoc_cleanup(fd));
+			return (free(old_file), free(index), free(input),
+				sigint_cleanup(fd, file_name), free(eof), free(file_name),
+				heredoc_cleanup(fd));
 		}
 		if (!input)
 		{
 			old_file = cur->next->file;
 			cur->next->file = ft_strdup(file_name);
-			free(old_file);
-			free(eof);
-			return (info->hd_count++, heredoc_cleanup(fd), free(file_name), free(index));
+			return (free(old_file), free(eof), info->hd_count++,
+				heredoc_cleanup(fd), free(file_name), free(index));
 		}
 		if (ft_strcmp(input, eof) == 0)
 		{
@@ -115,7 +112,7 @@ void	parse_hd(t_redir_node *cur, t_vars *vars, t_shell_info *info)
 			close(fd);
 			heredoc_cleanup(fd);
 			return (free(input), free(index), free(file_name), free(eof));
-		} //else:
+		}
 		write(fd, input, ft_strlen(input));
 		write(fd, "\n", 1);
 		free(input);

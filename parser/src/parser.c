@@ -6,7 +6,7 @@
 /*   By: rojornod <rojornod@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/14 14:37:49 by dloustal          #+#    #+#             */
-/*   Updated: 2025/06/03 11:38:19 by rojornod         ###   ########.fr       */
+/*   Updated: 2025/06/04 14:55:59 by rojornod         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,22 @@ t_t_node	*parse(t_token_list *tokens)
 	return (root);
 }
 
+// divided from parse_pipe
+static void	right_tokens_null(t_token *token, t_t_node *node, t_t_node *right)
+{
+	ft_printf("Syntax error near unexpected token \'%s\'\n", token->lexeme);
+	clear_subtree(node);
+	clear_subtree(right);
+}
+
+// divided from parse_pipe
+static void	node_tokens_null(t_t_node *node, t_parser *parser)
+{
+	ft_printf("Syntax error near unexpected token \'%s\'\n",
+		parser->current->token->lexeme);
+	clear_subtree(node);
+}
+
 /**************************************************************************** 
  * Parses a pipe expression, returning the corresponding ast node
 ****************************************************************************/
@@ -44,33 +60,19 @@ t_t_node	*parse_pipe(t_parser *parser)
 	if (!parser)
 		return (NULL);
 	if (parser->current->token->type == TKN_END)
-	{
 		return (NULL);
-		// And clear everything
-	}
 	node = parse_command(parser);
 	if (!node)
 		return (NULL);
 	if (!node->tokens->head)
-	{
-		ft_printf("Syntax error near unexpected token \'%s\'\n",
-			parser->current->token->lexeme);
-		clear_subtree(node); //Clear everything else
-		return (NULL);
-	}
+		return (node_tokens_null(node, parser), NULL);
 	token = parser->current->token;
 	while (token->type == TKN_PIPE)
 	{
 		advance(parser);
 		right = parse_command(parser);
 		if (!right->tokens->head)
-		{
-			ft_printf("Syntax error near unexpected token \'%s\'\n",
-				token->lexeme);
-			clear_subtree(node);
-			clear_subtree(right); //Clear everything else
-			return (NULL);
-		}
+			return (right_tokens_null(token, node, right), NULL);
 		node = pipe_node(node, right);
 		token = parser->current->token;
 	}
@@ -126,10 +128,7 @@ t_t_node	*parse_command(t_parser *parser)
 	if (!parser)
 		return (NULL);
 	if (is_redir(parser))
-	{
-		// ft_printf("[debug parse_command] IS_REDIR\n");
 		return (redir_node(parser));
-	}
 	command = init_token_list();
 	if (!command)
 		return (NULL);
