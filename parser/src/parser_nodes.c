@@ -6,7 +6,7 @@
 /*   By: rojornod <rojornod@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/15 16:24:19 by dloustal          #+#    #+#             */
-/*   Updated: 2025/06/03 11:37:04 by rojornod         ###   ########.fr       */
+/*   Updated: 2025/06/04 14:34:22 by rojornod         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,29 +48,33 @@ t_t_node	*redir_node(t_parser *parser)
 	cmd = init_token_list();
 	redirs = malloc(sizeof(t_redir_node *));
 	if (!redirs)
-		return (NULL); //And clear cmd
+		return (NULL);
 	if (!cmd)
-		return (NULL);// And clear redirs
+		return (NULL);
 	*redirs = NULL;
-	while (tkn_node->token->type != TKN_PIPE && tkn_node->token->type != TKN_END)
+	while (tkn_node->token->type != TKN_PIPE
+		&& tkn_node->token->type != TKN_END)
 	{
 		if (is_redirection(tkn_node->token->type))
 		{
-			append_redir(redirs, tkn_node->token->type, tkn_node->token->lexeme);
+			append_redir(redirs, tkn_node->token->type,
+				tkn_node->token->lexeme);
 			advance(parser);
 			tkn_node = parser->current;
-			if (tkn_node->token->type == TKN_END || is_redirection(parser->current->token->type))
+			if (tkn_node->token->type == TKN_END
+				|| is_redirection(parser->current->token->type))
 			{
 				ft_printf("Syntax error near unexpected token \'%s\'\n",
 					parser->previous->token->lexeme);
 				return (clear_redirs(redirs), NULL);
-				// exit(EXIT_FAILURE); // Just clear everything
 				//Must clear everything and exit correctly
 			}
-			append_redir(redirs, tkn_node->token->type, tkn_node->token->lexeme);
+			append_redir(redirs, tkn_node->token->type,
+				tkn_node->token->lexeme);
 		}
 		else
-			append_token(cmd, tkn_node->token->type, tkn_node->token->lexeme);
+			append_token(cmd, tkn_node->token->type,
+				tkn_node->token->lexeme);
 		advance(parser);
 		tkn_node = parser->current;
 	}
@@ -115,17 +119,20 @@ t_t_node	*redir_node(t_parser *parser)
 // 	if (!parser)
 // 		return (NULL);
 // 	tkn_node = parser->current;
-// 	// ft_printf("[debug redir_node] parser->current: %s\n", tkn_node->token->lexeme);
+// 	// ft_printf("[debug redir_node] parser->current: %s\n",
+// 		tkn_node->token->lexeme);
 // 	cmd = init_token_list();
 // 	if (!cmd)
 // 		return (NULL);
-// 	while (!is_redirection(tkn_node->token->type) && tkn_node->token->type != TKN_PIPE)
+// 	while (!is_redirection(tkn_node->token->type) 
+//		&& tkn_node->token->type != TKN_PIPE)
 // 	{
 // 		lexeme = tkn_node->token->lexeme;
 // 		append_token(cmd, tkn_node->token->type, lexeme);
 // 		advance(parser);
 // 		tkn_node = parser->current;
-// 		// ft_printf("[debug redir_node] parser->current: %s\n", tkn_node->token->lexeme);
+// 		// ft_printf("[debug redir_node] parser->current: %s\n",
+//				 tkn_node->token->lexeme);
 // 	}
 // 	node = new_tree_node(PARSER_REDIR, cmd);
 // 	redirs = get_redirs_list(parser);
@@ -152,7 +159,8 @@ t_t_node	*redir_node(t_parser *parser)
 // 	{
 // 		// ft_printf("[debug get_redirs] %s\n", tkn_node->token->lexeme);
 // 		append_redir(redir, tkn_node->token->type, tkn_node->token->lexeme);
-// 		// ft_printf("[debug get_redirs] -- after copy: %s\n", get_last_redir(redir)->file);
+// 		// ft_printf("[debug get_redirs] -- after copy: %s\n",
+//				get_last_redir(redir)->file);
 // 		advance(parser);
 // 		tkn_node = parser->current;
 // 	}

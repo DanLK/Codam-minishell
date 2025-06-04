@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
-/*                                                        ::::::::            */
-/*   var_expansion_utils.c                              :+:    :+:            */
-/*                                                     +:+                    */
-/*   By: dloustal <dloustal@student.42.fr>            +#+                     */
-/*                                                   +#+                      */
-/*   Created: 2025/04/29 12:21:37 by dloustal      #+#    #+#                 */
-/*   Updated: 2025/05/22 16:40:43 by dloustal      ########   odam.nl         */
+/*                                                        :::      ::::::::   */
+/*   var_expansion_utils.c                              :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: rojornod <rojornod@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/04/29 12:21:37 by dloustal          #+#    #+#             */
+/*   Updated: 2025/06/04 14:17:48 by rojornod         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,6 @@ int	qstr_exp_len(char *s, t_vars *vars, t_shell_info *info)
 	len = 0;
 	in_double = false;
 	i = 0;
-	// ft_printf("[qstr_exp_len] Entering function...\n");
 	while (s[i])
 	{
 		if (s[i] == '\"')
@@ -35,12 +34,10 @@ int	qstr_exp_len(char *s, t_vars *vars, t_shell_info *info)
 			i++;
 			continue ;
 		}
-		if (in_double && s[i] == '$') //start of a variable expansion or exit status
+		if (in_double && s[i] == '$')
 		{
 			i++;
-			// ft_printf("[qstr_exp_len] Found a $...\n");
-			// ft_printf("[qstr_exp_len] pos: [%d]\n", i);
-			if (s[i] && s[i] == '?') //It is an exit status
+			if (s[i] && s[i] == '?')
 			{
 				len += ft_strlen(ft_itoa(info->last_return_code));
 				i++;
@@ -48,25 +45,22 @@ int	qstr_exp_len(char *s, t_vars *vars, t_shell_info *info)
 			else if (s[i] && (ft_isalnum(s[i]) || s[i] == '_'))
 			{
 				var_name = get_var_name(s, i - 1);
-				// ft_printf("[qstr_exp_len] var_name: [%s]\n", var_name);
 				var = find_vars(vars, var_name);
 				if (var)
 					len += ft_strlen(var->value);
-				// ft_printf("[qstr_exp_len] var val:[%s] var len: [%d]\n", var->value, ft_strlen(var->value));
 				free(var_name);
 				while (s[i] && (ft_isalnum(s[i]) || s[i] == '_'))
 					i++;
 			}
-			else //It was just a $
+			else
 				len++;
 		}
-		else //Any other character
+		else
 		{
 			len++;
 			i++;
 		}
 	}
-	// ft_printf("[qstr_exp_len] Leaving function...\n");
 	return (len);
 }
 
@@ -98,14 +92,12 @@ void	put_var(char **result, char *var, int *res_i)
 	int	k;
 
 	k = 0;
-	// ft_printf("[put_var] Entering function...\n");
 	while (var[k])
 	{
 		(*result)[*res_i] = var[k];
 		k++;
 		(*res_i)++;
 	}
-	// ft_printf("[put_var] Leaving function...\n");
 }
 
 /*****************************************************************************
@@ -116,23 +108,19 @@ char	*get_var_name(char *string, int pos)
 	char	*name;
 	int		i;
 
-	// ft_printf("DEBUG: get_var_name -- entering functino: string: [%s], pos: [%d]\n", string, pos);
-	// ft_printf("DEBUG: get_var_name -- strlen: [%d]\n", (int)ft_strlen(string));
 	if (pos >= (int)(ft_strlen(string) - 1))
 		return (NULL);
-	// ft_printf("DEBUG: get_var_name -- managed to pass initial check\n");
 	i = 0;
 	while (string[pos + i + 1] && (ft_isalnum(string[pos + i + 1])
-		|| string[pos + i + 1] == '_'))
+			|| string[pos + i + 1] == '_'))
 		i++;
-	// ft_printf("DEBUG: get_var_name -- i: [%d]\n", i);
 	name = ft_substr(string, pos + 1, i);
 	return (name);
 }
 
-// /*****************************************************************************
-//  * Returns the position of char c on string
-// ******************************************************************************/
+/*****************************************************************************
+* Returns the position of char c on string
+******************************************************************************/
 int	get_position(char *string, char c)
 {
 	int	i;

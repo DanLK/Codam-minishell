@@ -6,7 +6,7 @@
 /*   By: rojornod <rojornod@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/22 13:36:45 by dloustal          #+#    #+#             */
-/*   Updated: 2025/05/30 15:47:38 by rojornod         ###   ########.fr       */
+/*   Updated: 2025/06/04 12:12:03 by rojornod         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ int	execute_src(t_t_node **root, t_vars *vars, t_shell_info *info)
 	int	exit_st;
 
 	if (!root)
-		return (125); //For now
+		return (1);
 	if ((*root)->p_type == PARSER_COMMAND)
 		exit_st = execute_command(root, vars, info);
 	else if ((*root)->p_type == PARSER_PIPE)
@@ -30,7 +30,7 @@ int	execute_src(t_t_node **root, t_vars *vars, t_shell_info *info)
 	else
 	{
 		ft_printf("Not able to execute right now\n");
-		exit_st = 125; // For now, as an error code
+		exit_st = 127;
 	}
 	info->last_return_code = exit_st;
 	return (exit_st);
@@ -47,27 +47,21 @@ int	execute_redirection(t_t_node **root, t_vars *vars, t_shell_info *info)
 	int				std_in;
 
 	if (!root || !vars || !info)
-		return (125);
+		return (1);
 	std_out = dup(STDOUT_FILENO);
 	std_in = dup(STDIN_FILENO);
 	if (std_out == -1 || std_in == -1)
-	{
-		ft_printf("[execute_redirection] dup failed\n");
 		return (-1);
-	}
 	cur = (*(*root)->redirs);
 	while (cur)
 	{
 		call_redir(cur, info);
 		cur = cur->next->next;
 	}
-	// ft_printf("[execute_redirection] Will execute the command now...\n");
 	execute_command(root, vars, info);
-	if (dup2(std_out, STDOUT_FILENO) == -1 || dup2(std_in, STDIN_FILENO) == -1) {
-        ft_printf("[execute_redirection] dup2 in restoring out fd failed\n");
-        return (-1);
-    }
-    close(std_out);
+	if (dup2(std_out, STDOUT_FILENO) == -1 || dup2(std_in, STDIN_FILENO) == -1)
+		return (-1);
+	close(std_out);
 	close(std_in);
 	// info->cur_hd = 0;
 	// Free redirection node!!!!!
@@ -105,11 +99,12 @@ int	execute_command(t_t_node **root, t_vars *vars, t_shell_info *info)
 	int				exit_status;
 
 	if (!root)
-		return (125); //Not sure what to return here
+		return (1);
 	tokens = (*root)->tokens;
 	if (is_builtin_type(tokens->head->token->type)
 		|| (tokens->head->token->type == TKN_WORD
-		&& tokens->head->next && tokens->head->next->token->type == TKN_EQUAL))
+			&& tokens->head->next
+			&& tokens->head->next->token->type == TKN_EQUAL))
 	{
 		exit_status = execute_builtin(root, vars, info);
 		info->last_return_code = exit_status;
@@ -136,7 +131,7 @@ int	execute_builtin(t_t_node **root, t_vars *vars, t_shell_info *info)
 	t_token			*token;
 
 	if (!root)
-		return (125);
+		return (1);
 	tokens = (*root)->tokens;
 	token = tokens->head->token;
 	if (token->type == TKN_ECHO || is_cmd(token->lexeme, "echo"))
@@ -148,17 +143,14 @@ int	execute_builtin(t_t_node **root, t_vars *vars, t_shell_info *info)
 	if (token->type == TKN_EXPORT || is_cmd(token->lexeme, "export"))
 		return (execute_export(tokens, vars));
 	if (token->type == TKN_UNSET || is_cmd(token->lexeme, "unset"))
-		return  (execute_unset(tokens, &vars));
+		return (execute_unset(tokens, &vars));
 	if (token->type == TKN_ENV || is_cmd(token->lexeme, "env"))
 		return (env_builtin(vars));
 	if (token->type == TKN_EXIT || is_cmd(token->lexeme, "exit"))
-	{
-		exit_builtin(vars, info); // FIXED the exit built in to not take any argument
-		return (7);
-	}
+		exit_builtin(vars, info);
 	if (token->type == TKN_WORD)
 		return (execute_assignment(tokens, vars));
-	return (125); //For now
+	return (127);
 }
 
 /*******************************************************************************
@@ -177,22 +169,22 @@ int	execute_echo(t_token_list *tokens)
 	t_token_node	*node;
 
 	if (!tokens)
-		return (125); //For now
+		return (1);
 	len = len_token_list(tokens);
-	params = (char**)malloc((len) * sizeof(char *));
+	params = (char **)malloc((len) * sizeof(char *));
 	if (!params)
-		return (125);
+		return (1);
 	params[len - 1] = NULL;
 	if (len > 1)
 		node = tokens->head->next;
 	i = 0;
 	while (len > 1 && node != NULL && (i < len - 1))
 	{
-		params[i]  = ft_strdup(node->token->lexeme);
+		params[i] = ft_strdup(node->token->lexeme);
 		node = node->next;
 		i++;
 	}
-	exit_st = echo_builtin(params); 
+	exit_st = echo_builtin(params);
 	clear_array(params);
 	return (exit_st);
 }
@@ -200,9 +192,9 @@ int	execute_echo(t_token_list *tokens)
 int	execute_cd(t_token_list *tokens, t_vars *vars)
 {
 	if (!tokens || !vars)
-		return (125);
+		return (1);
 	if (!tokens->head->next)
-		return cd_builtin(NULL, vars);
+		return (cd_builtin(NULL, vars));
 	if (tokens->head->next->next)
 	{
 		ft_printf("minishell: cd: too many arguments\n");
@@ -214,20 +206,20 @@ int	execute_cd(t_token_list *tokens, t_vars *vars)
 int	execute_unset(t_token_list *tokens, t_vars **head)
 {
 	t_token_node	*node;
-	int		exit_status;
+	int				exit_status;
 
 	if (!tokens || !head)
-		return (125); //For now
-	node = tokens->head->next; //Should be the first argument fot the unset
+		return (1);
+	node = tokens->head->next;
 	exit_status = 0;
 	if (!node)
-		return (0); //Success??
+		return (0);
 	while (node)
 	{
-		exit_status = unset_builtin(head, node->token->lexeme); // Assign to exit_status 
+		exit_status = unset_builtin(head, node->token->lexeme);
 		node = node->next;
 	}
-	return (exit_status); // If all went well i.e. if all the exit status were 0
+	return (exit_status);
 }
 
 int	execute_export(t_token_list *tokens, t_vars *vars)
@@ -235,28 +227,41 @@ int	execute_export(t_token_list *tokens, t_vars *vars)
 	char			*var_name;
 	char			*var_value;
 	t_token_node	*node;
-	//int			exit_status;
 
 	if (!tokens || !vars)
-		return (125); //For now
+		return (1);
 	if (!tokens->head->next)
 	{
 		export_builtin(&vars, NULL, NULL);
-		return (0); // For now
+		return (0);
 	}
 	node = tokens->head->next;
 	var_name = node->token->lexeme;
 	var_value = NULL;
-	if (node->next && node->next->token->type == TKN_EQUAL) //The equal
+	if (node->next && node->next->token->type == TKN_EQUAL)
 	{
-		if (node->next->next) //There is a node with the value
+		if (node->next->next)
 			var_value = node->next->next->token->lexeme;
 		else
 			var_value = "";
 	}
-	// Should check that the token list has been fully consumed?
-	export_builtin(&vars, var_name, var_value); // Return the exit status
-	return (0); //For now
+	export_builtin(&vars, var_name, var_value);
+	return (0);
+}
+
+//divided this from execute assignment
+static char	*get_var_value(t_token_node *node, char *var_value)
+{
+	if (node->next->token->type == TKN_EQUAL)
+	{
+		if (node->next->next)
+			var_value = node->next->next->token->lexeme;
+		else
+			var_value = "";
+		return (var_value);
+	}
+	else
+		return (NULL);
 }
 
 int	execute_assignment(t_token_list *tokens, t_vars *vars)
@@ -266,30 +271,24 @@ int	execute_assignment(t_token_list *tokens, t_vars *vars)
 	t_token_node	*node;
 	t_vars			*temp;
 
+	var_value = NULL;
 	if (!tokens || !vars)
-		return (125); // For now
-	// ft_printf("[execute_assignment] Executing var assignment...\n");
+		return (1);
 	node = tokens->head;
 	var_name = node->token->lexeme;
-	if (node->next->token->type == TKN_EQUAL)
-	{
-		if (node->next->next)
-			var_value = node->next->next->token->lexeme;
-		else
-			var_value = "";
-	}
-	else
-		return (125); //For now -- on error WHAT IS THIS?? I forgot
+	var_value = get_var_value(node, var_value);
+	if (!var_value)
+		return (1);
 	temp = find_vars(vars, var_name);
-    if (temp)
+	if (temp)
 	{
 		if (temp->value)
 			free(temp->value);
 		temp->value = ft_strdup(var_value);
 	}
 	else
-		add_var(&vars, var_name, var_value, 0); //Add the variable and mark it as not exported
-	return (0); // for now -- on success
+		add_var(&vars, var_name, var_value, 0);
+	return (0);
 }
 
 int	execute_ext_command(t_t_node **root, t_vars *vars, t_shell_info *info)
@@ -299,12 +298,12 @@ int	execute_ext_command(t_t_node **root, t_vars *vars, t_shell_info *info)
 	t_token_list	*tokens;
 
 	if (!root || !vars || !info)
-		return (125); //For now
+		return (1);
 	tokens = (*root)->tokens;
 	size = len_token_list(tokens);
 	command = tkn_list_to_array(tokens);
 	if (!command)
-		return (125); //For now
+		return (1);
 	exec_external_com(vars, command, size, info);
 	clear_array(command);
 	return (0);

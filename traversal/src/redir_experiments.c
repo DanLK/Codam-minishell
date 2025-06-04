@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
-/*                                                        ::::::::            */
-/*   redir_experiments.c                                :+:    :+:            */
-/*                                                     +:+                    */
-/*   By: dloustal <dloustal@student.42.fr>            +#+                     */
-/*                                                   +#+                      */
-/*   Created: 2025/05/07 16:20:49 by dloustal      #+#    #+#                 */
-/*   Updated: 2025/05/13 14:35:05 by dloustal      ########   odam.nl         */
+/*                                                        :::      ::::::::   */
+/*   redir_experiments.c                                :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: rojornod <rojornod@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/05/07 16:20:49 by dloustal          #+#    #+#             */
+/*   Updated: 2025/06/04 12:06:30 by rojornod         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,14 +28,14 @@
 //         }
 //         dup2(fd, STDOUT_FILENO);
 //         close(fd);
-
+//
 //         // Recurse left
 //         if (node->left->type == P_COMMAND) {
 //             execute_command(node->left);
 //         } else if (node->left->type == P_REDIR) {
 //             execute_redir_out(node->left);
 //         }
-
+//
 //         dup2(saved_stdout, STDOUT_FILENO);
 //         close(saved_stdout);
 //     }
@@ -45,7 +45,7 @@
 // {
 // 	int		fd;
 // 	int		saved_stdout;
-	
+//	
 // 	saved_stdout = dup(STDOUT_FILENO);
 // 	if ((*root)->right->p_type == PARSER_REDIR && (*root)->right->tokens->head->token->type == TKN_REDIR_OUT)
 // 	{
@@ -93,17 +93,15 @@
 //     close(saved_stdout);
 // }
 
-
 /********************************************************************************************
  * Assumming root->p_type == PARSER_REDIR
  ********************************************************************************************/
 void	exp_redir_out(t_t_node **root, t_vars *vars, t_shell_info *info)
 {
-	// int	fd;
-
 	if ((*root)->left->tokens->head->token->type == TKN_FILE_PATH)
 	{
-		ft_printf("My left child is a file name: %s\n", (*root)->left->tokens->head->token->lexeme);
+		ft_printf("My left child is a file name: %s\n",
+			(*root)->left->tokens->head->token->lexeme);
 	}
 	if ((*root)->right->tokens->head->token->type == TKN_REDIR_OUT)
 	{
@@ -112,11 +110,12 @@ void	exp_redir_out(t_t_node **root, t_vars *vars, t_shell_info *info)
 	}
 	else if ((*root)->right->tokens->head->token->type == TKN_FILE_PATH)
 	{
-		ft_printf("My right child is a file-path: %s\n", (*root)->right->tokens->head->token->lexeme);
+		ft_printf("My right child is a file-path: %s\n",
+			(*root)->right->tokens->head->token->lexeme);
 	}
 	if ((*root)->left->tokens->head->token->type != TKN_FILE_PATH)
 	{
-		ft_printf("And my left child is a command: %s\n", (*root)->left->tokens->head->token->lexeme);
+		ft_printf("And my left child is a command: %s\n",
+			(*root)->left->tokens->head->token->lexeme);
 	}
 }
-

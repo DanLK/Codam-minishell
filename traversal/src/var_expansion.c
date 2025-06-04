@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
-/*                                                        ::::::::            */
-/*   var_expansion.c                                    :+:    :+:            */
-/*                                                     +:+                    */
-/*   By: dloustal <dloustal@student.42.fr>            +#+                     */
-/*                                                   +#+                      */
-/*   Created: 2025/04/28 09:49:04 by dloustal      #+#    #+#                 */
-/*   Updated: 2025/05/29 17:43:36 by dloustal      ########   odam.nl         */
+/*                                                        :::      ::::::::   */
+/*   var_expansion.c                                    :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: rojornod <rojornod@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/04/28 09:49:04 by dloustal          #+#    #+#             */
+/*   Updated: 2025/06/04 11:50:03 by rojornod         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,6 @@ void	expand_var_tree(t_t_node **root, t_vars *vars, t_shell_info *info)
 	if (!root || !*root | !vars)
 		return ;
 	expand_var_list((*root)->tokens, vars, info);
-	// expand_var_list((*root)->redirs, vars, info);
 	if ((*root)->left)
 		expand_var_tree(&(*root)->left, vars, info);
 	if ((*root)->right)
@@ -53,7 +52,8 @@ void	expand_var_list(t_token_list *tokens, t_vars *vars, t_shell_info *info)
 			|| node->token->type == TKN_WORD)
 		{
 			old_lexeme = node->token->lexeme;
-			node->token->lexeme = expand_qstring(node->token->lexeme, vars, info);
+			node->token->lexeme = expand_qstring(node->token->lexeme,
+					vars, info);
 			free(old_lexeme);
 		}
 		node = node->next;
@@ -75,7 +75,7 @@ void	expand_envvar(t_token_node *node, t_vars *vars)
 	old_lexeme = node->token->lexeme;
 	free(old_lexeme);
 	if (var)
-		node->token->lexeme = ft_strdup(var->value); 
+		node->token->lexeme = ft_strdup(var->value);
 	else
 		node->token->lexeme = ft_strdup("");
 		// perror("Variable not found"); //This is a syntax error and should stop and clean everything
@@ -98,7 +98,7 @@ void	expand_exitstatus(t_token_node *node, t_shell_info *info)
 	exit_status = info->last_return_code;
 	old_lexeme = node->token->lexeme;
 	free(old_lexeme);
-	node->token->lexeme = ft_itoa(exit_status); 
+	node->token->lexeme = ft_itoa(exit_status);
 	node->token->type = TKN_WORD;
 }
 
@@ -115,9 +115,7 @@ char	*expand_qstring(char *s, t_vars *vars, t_shell_info *info)
 	char	*var_name;
 	t_vars	*var;
 
-	// ft_printf("[expand_qstring] Entering function...\n");
 	len = qstr_exp_len(s, vars, info);
-	// ft_printf("[expand_qstring] Expanded string len: %d\n", len);
 	result = malloc((len + 1) * sizeof(char));
 	if (!result)
 		return (NULL);
@@ -135,7 +133,6 @@ char	*expand_qstring(char *s, t_vars *vars, t_shell_info *info)
 		else if (in_double && s[i] == '$')
 		{
 			i++;
-			// ft_printf("[expand_qstring] Found a $...\n");
 			if (s[i] == '?')
 			{
 				put_exitstatus(&result, info, &res_i);
@@ -144,32 +141,20 @@ char	*expand_qstring(char *s, t_vars *vars, t_shell_info *info)
 			else if (s[i] && (ft_isalnum(s[i]) || s[i] == '_'))
 			{
 				var_name = get_var_name(s, i - 1);
-				// ft_printf("[expand_qstring] var_name: [%s]\n", var_name);
 				var = find_vars(vars, var_name);
-				// ft_printf("[expand_qstring] var_value: [%s]\n", var->value);
 				if (var)
-				{
 					put_var(&result, var->value, &res_i);
-					// ft_printf("[expand_qstring] After copying var value  res_i = [%d]\n", res_i);
-				}
 				else
 					put_var(&result, "", &res_i);
 				i += ft_strlen(var_name);
 				free(var_name);
 			}
-			else //It's just $
-			{
+			else
 				result[res_i++] = '$';
-				// result[res_i++] = s[i++];
-			}
 		}
 		else
-		{
 			result[res_i++] = s[i++];
-			// ft_printf("[expand_qstring] result[%d] = [%c]\n", res_i - 1, result[res_i -1]);
-		}
 	}
-	// ft_printf("[expand_qstring] result after loop: %s\n", result);
 	result[res_i] = '\0';
 	return (result);
 }
@@ -224,42 +209,36 @@ char	*expand_string(char *string, t_vars *vars)
 	return (result);
 }
 
-// /*****************************************************************************
-//  * Expands a variable in a double quoted string
-//  * Returns a string with the var replaced
-//  * 
-//  * aux[0] = start
-//  * aux[1] = var_name
-//  * aux[2] = start + var value
-//  * aux[3] = rest
-//  * 
-// ******************************************************************************/
+/*****************************************************************************
+* Expands a variable in a double quoted string
+* Returns a string with the var replaced
+* 
+* aux[0] = start
+* aux[1] = var_name
+* aux[2] = start + var value
+* aux[3] = rest
+* 
+******************************************************************************/
 char	*expand_one_string(char *string, t_vars *vars)
 {
 	int		i;
 	char	*result;
 	char	**aux;
 	t_vars	*var;
-	
+
 	i = get_position(string, '$');
-	// ft_printf("[expand_one_dqstring] $-position: %d\n", i);
 	aux = malloc(5 * sizeof(char *));
 	if (!aux)
 		return (NULL);
 	aux[0] = ft_substr(string, 0, i);
-	// ft_printf("[expand_one_dqstring] start: %s\n", aux[0]);
 	aux[1] = get_var_name(string, i);
 	var = find_vars(vars, aux[1]);
 	if (!var || !var->value)
-	{
-		// perror("Variable not found"); //Clean up?
-		// exit(EXIT_FAILURE);// JUST FOR NOWWW!!!!
-		aux[2] = ft_strjoin(aux[0], ""); //At the moment replacing with the empty string
-	}
+		aux[2] = ft_strjoin(aux[0], "");
 	else
 		aux[2] = ft_strjoin(aux[0], var->value);
 	aux[3] = ft_substr(string, i + 1 + ft_strlen(aux[1]),
-				ft_strlen(string)- i - 1 - ft_strlen(aux[1]));
+			ft_strlen(string)- i - 1 - ft_strlen(aux[1]));
 	aux[4] = NULL;
 	result = ft_strjoin(aux[2], aux[3]);
 	clear_array(aux);

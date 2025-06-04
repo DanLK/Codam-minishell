@@ -6,7 +6,7 @@
 /*   By: rojornod <rojornod@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/06 10:53:23 by rojornod          #+#    #+#             */
-/*   Updated: 2025/06/03 15:24:38 by rojornod         ###   ########.fr       */
+/*   Updated: 2025/06/04 11:21:34 by rojornod         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,8 @@
 // 		ft_printf("fork error");
 // 	if (pid == 0)
 // 	{
-// 		fd = open((*root)->right->tokens->head->token->lexeme, O_WRONLY | O_TRUNC | O_CREAT, 0644);
+// 		fd = open((*root)->right->tokens->head->token->lexeme, 
+//			O_WRONLY | O_TRUNC | O_CREAT, 0644);
 // 		if (fd < 0)
 // 		{
 // 			ft_printf("open failed\n");
@@ -169,7 +170,8 @@ void	tmp_redir_in(char *file)
 // 		ft_printf("fork error");
 // 	if (pid == 0)
 // 	{
-// 		fd = open((*root)->right->tokens->head->token->lexeme, O_APPEND | O_WRONLY | O_CREAT, 0644);
+// 		fd = open((*root)->right->tokens->head->token->lexeme,
+//			O_APPEND | O_WRONLY | O_CREAT, 0644);
 // 		if (fd < 0)
 // 		{
 // 			ft_printf("open failed\n");

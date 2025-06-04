@@ -6,7 +6,7 @@
 /*   By: rojornod <rojornod@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/10 13:05:31 by dloustal          #+#    #+#             */
-/*   Updated: 2025/06/03 11:32:57 by rojornod         ###   ########.fr       */
+/*   Updated: 2025/06/04 14:35:18 by rojornod         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,7 @@ bool	is_redir(t_parser *parser)
 	{
 		if (is_redirection(tmp->token->type))
 			return (true);
-		if (tmp->token->type == TKN_PIPE) // Not sure if this is incorrect, it is to process only up to a pipe
+		if (tmp->token->type == TKN_PIPE)
 			return (false);
 		tmp = tmp->next;
 	}

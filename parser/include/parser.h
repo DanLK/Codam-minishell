@@ -6,7 +6,7 @@
 /*   By: rojornod <rojornod@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/01 16:41:23 by dloustal          #+#    #+#             */
-/*   Updated: 2025/06/03 11:31:16 by rojornod         ###   ########.fr       */
+/*   Updated: 2025/06/04 14:29:13 by rojornod         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,8 +59,10 @@ void			clear_redirs(t_redir_node **head);
 //Tree utilities
 // t_tree		*init_tree(void);
 t_t_node		*new_tree_node(enum e_Ptype p_type, t_token_list *tokens);
-void			insert_left(t_t_node *root, enum e_Ptype p_type, t_token_list *tokens);
-void			insert_right(t_t_node *root, enum e_Ptype p_type, t_token_list *tokens);
+void			insert_left(t_t_node *root, enum e_Ptype p_type,
+					t_token_list *tokens);
+void			insert_right(t_t_node *root, enum e_Ptype p_type,
+					t_token_list *tokens);
 
 //Memory clears
 void			clear_subtree(t_t_node *root);
@@ -88,19 +90,22 @@ bool			is_redir(t_parser *parser);
 
 //Debug
 // void		pretty_print_tree(t_t_node *root, int depth);
-void			print_t_token_list(t_token_list *list, const char *prefix, int is_last);
-void			print_tree_node(t_t_node *node, const char *prefix, int is_last);
+void			print_t_token_list(t_token_list *list, const char *prefix,
+					int is_last);
+void			print_tree_node(t_t_node *node, const char *prefix,
+					int is_last);
 void			print_redirs(t_t_node *node, const char *prefix);
 // void 		print_parse_tree(t_tree *tree);
 
-/********************************************************************************
+/******************************************************************************
  * Functions from the old parser i.e. the first attempt at parsing 
-********************************************************************************/
+******************************************************************************/
 // t_tree		*parse(t_token_list *tokens);
 // void		parse_pipe(t_t_node **root, t_token_list *tokens, t_parser *parser);
-// void		parse_tokens(t_t_node **root, t_token_list *tokens, t_parser *parser);
+// void		parse_tokens(t_t_node **root, t_token_list *tokens, 
+//				t_parser *parser);
 // void		advance(t_parser *parser);
-/********************************************************************************
-********************************************************************************/
+/******************************************************************************
+******************************************************************************/
 
 #endif

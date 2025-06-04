@@ -6,7 +6,7 @@
 /*   By: rojornod <rojornod@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/09 16:05:02 by rojornod          #+#    #+#             */
-/*   Updated: 2025/06/03 15:26:06 by rojornod         ###   ########.fr       */
+/*   Updated: 2025/06/04 11:15:26 by rojornod         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,6 @@ void	heredoc_cleanup(int fd)
 	reset_signal();
 	rl_on_new_line();
 	rl_replace_line("", 0);
-	// rl_redisplay();
 	signal_action();
 	rl_done = 1;
 	rl_catch_signals = 0;
@@ -56,8 +55,6 @@ int	delim_found(int fd, char *read_input)
 	fd = open(".temp_heredoc", O_RDONLY);
 	dup2(fd, STDIN_FILENO);
 	close(fd);
-	//after this everything gets cleaned up
-	ft_printf("[delim_found] Will delete the file\n");
 	unlink(".temp_heredoc");
 	reset_signal();
 	signal_action();
@@ -76,33 +73,33 @@ void	init_heredoc(void)
 * this will be called
 *
 ******************************************************************************/
-int	heredoc(t_shell_info *info, char *delim)
-{
-	int		fd;
-	char	*read_input;
+// int	heredoc(t_shell_info *info, char *delim)
+// {
+// 	int		fd;
+// 	char	*read_input;
 
-	(void)info;
-	init_heredoc();
-	sim_press_hook();
-	heredoc_action();
-	fd = open(".temp_heredoc", O_WRONLY | O_CREAT, 0644);
-	read_input = readline("heredoc> ");
-	// read_input = expand(read_input)
-	if (!read_input)
-		return (delim_found(fd, read_input), 130);
-	if (get_signal_received() == SIGINT)
-		return (heredoc_cleanup(fd), 130);
-	while (read_input)
-	{
-		if (ft_strcmp(read_input, delim) == 0)
-			return (delim_found(fd, read_input), 0);
-		write(fd, read_input, ft_strlen(read_input));
-		write(fd, "\n", 1);
-		read_input = readline("heredoc> ");
-		if (!read_input)
-			return (delim_found(fd, read_input), 130);
-		if (get_signal_received() == SIGINT)
-			return (heredoc_cleanup(fd), 130);
-	}
-	return (0);
-}
+// 	(void)info;
+// 	init_heredoc();
+// 	sim_press_hook();
+// 	heredoc_action();
+// 	fd = open(".temp_heredoc", O_WRONLY | O_CREAT, 0644);
+// 	read_input = readline("heredoc> ");
+// 	// read_input = expand(read_input)
+// 	if (!read_input)
+// 		return (delim_found(fd, read_input), 130);
+// 	if (get_signal_received() == SIGINT)
+// 		return (heredoc_cleanup(fd), 130);
+// 	while (read_input)
+// 	{
+// 		if (ft_strcmp(read_input, delim) == 0)
+// 			return (delim_found(fd, read_input), 0);
+// 		write(fd, read_input, ft_strlen(read_input));
+// 		write(fd, "\n", 1);
+// 		read_input = readline("heredoc> ");
+// 		if (!read_input)
+// 			return (delim_found(fd, read_input), 130);
+// 		if (get_signal_received() == SIGINT)
+// 			return (heredoc_cleanup(fd), 130);
+// 	}
+// 	return (0);
+// }
