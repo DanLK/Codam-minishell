@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
-/*                                                        ::::::::            */
-/*   lexer.c                                            :+:    :+:            */
-/*                                                     +:+                    */
-/*   By: dloustal <marvin@42.fr>                      +#+                     */
-/*                                                   +#+                      */
-/*   Created: 2025/03/14 17:06:59 by dloustal      #+#    #+#                 */
-/*   Updated: 2025/05/27 16:50:37 by dloustalot    ########   odam.nl         */
+/*                                                        :::      ::::::::   */
+/*   lexer.c                                            :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: rojornod <rojornod@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/03/14 17:06:59 by dloustal          #+#    #+#             */
+/*   Updated: 2025/06/04 16:34:41 by rojornod         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,7 @@ void	get_cur_token(t_token_list *tokens, char *src, t_scanner *s)
 	if (!tokens || !src)
 		return ;
 	consume_space(s, src);
-	c = get_current_char(&s->cur, src);
+	c = get_cur_char(&s->cur, src);
 	if (c == '|')
 		append_token(tokens, TKN_PIPE, "|");
 	else if (c == '(')

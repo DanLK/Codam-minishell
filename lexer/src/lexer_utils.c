@@ -6,7 +6,7 @@
 /*   By: rojornod <rojornod@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/20 15:41:02 by dloustal          #+#    #+#             */
-/*   Updated: 2025/06/03 11:25:38 by rojornod         ###   ########.fr       */
+/*   Updated: 2025/06/04 16:28:18 by rojornod         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,8 @@ const t_map	*get_map(void)
 {
 	static const t_map	keywords = {
 		.words = {"echo", "cd", "pwd", "export", "unset", "env", "exit"},
-		.types = {TKN_ECHO, TKN_CD, TKN_PWD, TKN_EXPORT, TKN_UNSET, TKN_ENV, TKN_EXIT}
+		.types = {TKN_ECHO, TKN_CD, TKN_PWD, TKN_EXPORT,
+		TKN_UNSET, TKN_ENV, TKN_EXIT}
 	};
 
 	return (&keywords);

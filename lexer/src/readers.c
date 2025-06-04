@@ -6,7 +6,7 @@
 /*   By: rojornod <rojornod@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/20 13:39:12 by dloustal          #+#    #+#             */
-/*   Updated: 2025/06/03 11:24:39 by rojornod         ###   ########.fr       */
+/*   Updated: 2025/06/04 16:35:19 by rojornod         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,7 +84,7 @@ char	*read_options(t_scanner *scanner, char *src)
 	int		start;
 	char	c;
 
-	if (!scanner || !src) //|| scanner->cur >= (int)ft_strlen(src)
+	if (!scanner || !src)
 		return (NULL);
 	start = scanner->start;
 	c = src[(scanner->cur)];
@@ -102,10 +102,7 @@ char	*read_filepath(t_scanner *scanner, char *src)
 	char	c;
 
 	if (!src || scanner->cur >= (int)ft_strlen(src))
-	{
-		// ft_printf("[read_filepath] we are at the endof the string\n");
 		return (NULL);
-	}
 	while (ft_isspace(src[scanner->cur]))
 	{
 		scanner->cur += 1;
@@ -113,9 +110,9 @@ char	*read_filepath(t_scanner *scanner, char *src)
 	}
 	c = src[scanner->cur];
 	if (c == '\"')
-		return (get_current_char(&(scanner->cur), src), read_quoted(scanner, src));
+		return (get_cur_char(&(scanner->cur), src), read_quoted(scanner, src));
 	if (c == '\'')
-		return (get_current_char(&(scanner->cur), src), read_quoted(scanner, src));
+		return (get_cur_char(&(scanner->cur), src), read_quoted(scanner, src));
 	while (c)
 	{
 		if (is_special_char(c))
@@ -131,12 +128,11 @@ char	*read_identifier(t_scanner *scanner, char *src)
 	char	*substr;
 	int		st;
 	char	c;
-	// bool	in_quotes;
+
 	if (!src || scanner->cur > (int)ft_strlen(src))
 		return (NULL);
 	st = scanner->start;
 	c = src[--(scanner->cur)];
-	// in_quotes = false;
 	while (c && (ft_isalnum(c) || issymbol(c) || c == ':'))
 	{
 		scanner->cur += 1;

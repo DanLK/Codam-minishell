@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
-/*                                                        ::::::::            */
-/*   lexer.h                                            :+:    :+:            */
-/*                                                     +:+                    */
-/*   By: dloustal <marvin@42.fr>                      +#+                     */
-/*                                                   +#+                      */
-/*   Created: 2025/03/14 16:58:50 by dloustal      #+#    #+#                 */
-/*   Updated: 2025/05/27 16:56:16 by dloustalot    ########   odam.nl         */
+/*                                                        :::      ::::::::   */
+/*   lexer.h                                            :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: rojornod <rojornod@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/03/14 16:58:50 by dloustal          #+#    #+#             */
+/*   Updated: 2025/06/04 16:34:38 by rojornod         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -117,7 +117,7 @@ const t_map		*get_map(void);
 int				is_keyword(char *lexeme);
 bool			kw_compare(const t_map *keywords, char *lexeme, int i);
 bool			issymbol(char c);
-char			get_current_char(int *cur, char *src);
+char			get_cur_char(int *cur, char *src);
 bool			is_next(int *cur, char *src, char expected);
 
 // Readers
