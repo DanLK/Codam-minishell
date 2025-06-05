@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   parser.h                                           :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: rojornod <rojornod@student.42.fr>          +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/04/01 16:41:23 by dloustal          #+#    #+#             */
-/*   Updated: 2025/06/04 14:29:13 by rojornod         ###   ########.fr       */
+/*                                                        ::::::::            */
+/*   parser.h                                           :+:    :+:            */
+/*                                                     +:+                    */
+/*   By: dloustal <marvin@42.fr>                      +#+                     */
+/*                                                   +#+                      */
+/*   Created: 2025/04/01 16:41:23 by dloustal      #+#    #+#                 */
+/*   Updated: 2025/06/05 17:01:18 by dloustalot    ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,7 +76,7 @@ t_t_node		*parse(t_token_list *tokens);
 //Parsing node creation
 t_t_node		*pipe_node(t_t_node *left, t_t_node *right);
 t_t_node		*redir_node(t_parser *parser);
-t_redir_node	**get_redirs_list(t_parser *parser);
+// t_redir_node	**get_redirs_list(t_parser *parser);
 // t_t_node	*redir_out_node(t_t_node *cmd, t_t_node *filepath);
 // t_t_node	*redir_node(t_t_node *left, t_t_node *right, t_token *redir_tkn);
 // void	get_redirs(t_parser *parser, t_redir_node **redir);
