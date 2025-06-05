@@ -1,20 +1,20 @@
 /* ************************************************************************** */
 /*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   parser_nodes.c                                     :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: rojornod <rojornod@student.42.fr>          +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/04/15 16:24:19 by dloustal          #+#    #+#             */
-/*   Updated: 2025/06/04 14:34:22 by rojornod         ###   ########.fr       */
+/*                                                        ::::::::            */
+/*   parser_nodes.c                                     :+:    :+:            */
+/*                                                     +:+                    */
+/*   By: dloustal <marvin@42.fr>                      +#+                     */
+/*                                                   +#+                      */
+/*   Created: 2025/04/15 16:24:19 by dloustal      #+#    #+#                 */
+/*   Updated: 2025/06/05 17:05:34 by dloustalot    ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "parser.h"
 
-/**************************************************************************** 
+/****************************************************************************** 
  * Creates a pipe tree node with the given left and right children
-****************************************************************************/
+******************************************************************************/
 t_t_node	*pipe_node(t_t_node *left, t_t_node *right)
 {
 	t_t_node		*node;
@@ -34,6 +34,36 @@ t_t_node	*pipe_node(t_t_node *left, t_t_node *right)
 	node->right = right;
 	return (node);
 }
+/****************************************************************************** 
+ * Auxiliary function to fill up the redirections list
+******************************************************************************/
+static bool	set_redirs(t_parser *p, t_token_node *n, t_token_list *cmd, t_redir_node **redirs)
+{
+	while (n->token->type != TKN_PIPE
+		&& n->token->type != TKN_END)
+	{
+		if (is_redirection(n->token->type))
+		{
+			append_redir(redirs, n->token->type, n->token->lexeme);
+			advance(p);
+			n = p->current;
+			if (n->token->type == TKN_END
+				|| is_redirection(p->current->token->type))
+			{
+				ft_printf("Syntax error near unexpected token \'%s\'\n",
+					p->previous->token->lexeme);
+				return (clear_redirs(redirs), false);
+				//Must clear everything and exit correctly
+			}
+			append_redir(redirs, n->token->type, n->token->lexeme);
+		}
+		else
+			append_token(cmd, n->token->type, n->token->lexeme);
+		advance(p);
+		n = p->current;
+	}
+	return (true);
+}
 
 t_t_node	*redir_node(t_parser *parser)
 {
@@ -50,34 +80,10 @@ t_t_node	*redir_node(t_parser *parser)
 	if (!redirs)
 		return (NULL);
 	if (!cmd)
-		return (NULL);
+		return (NULL); // Can we do both checks at once?
 	*redirs = NULL;
-	while (tkn_node->token->type != TKN_PIPE
-		&& tkn_node->token->type != TKN_END)
-	{
-		if (is_redirection(tkn_node->token->type))
-		{
-			append_redir(redirs, tkn_node->token->type,
-				tkn_node->token->lexeme);
-			advance(parser);
-			tkn_node = parser->current;
-			if (tkn_node->token->type == TKN_END
-				|| is_redirection(parser->current->token->type))
-			{
-				ft_printf("Syntax error near unexpected token \'%s\'\n",
-					parser->previous->token->lexeme);
-				return (clear_redirs(redirs), NULL);
-				//Must clear everything and exit correctly
-			}
-			append_redir(redirs, tkn_node->token->type,
-				tkn_node->token->lexeme);
-		}
-		else
-			append_token(cmd, tkn_node->token->type,
-				tkn_node->token->lexeme);
-		advance(parser);
-		tkn_node = parser->current;
-	}
+	if (!set_redirs(parser, tkn_node, cmd, redirs))
+		return (NULL); // Maybe some extra frees needed
 	node = new_tree_node(PARSER_REDIR, cmd);
 	if (!node)
 		return (NULL);
