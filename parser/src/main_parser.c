@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   main_parser.c                                      :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: rojornod <rojornod@student.42.fr>          +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/04/01 16:48:50 by dloustal          #+#    #+#             */
-/*   Updated: 2025/06/03 11:31:49 by rojornod         ###   ########.fr       */
+/*                                                        ::::::::            */
+/*   main_parser.c                                      :+:    :+:            */
+/*                                                     +:+                    */
+/*   By: dloustal <marvin@42.fr>                      +#+                     */
+/*                                                   +#+                      */
+/*   Created: 2025/04/01 16:48:50 by dloustal      #+#    #+#                 */
+/*   Updated: 2025/06/05 17:06:11 by dloustalot    ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ int	main(void)
 	t_t_node		*pipe;
 	char			*exp;
 
-	exp = "< debug.c cat > out <";
+	exp = "cat << eof > out.txt";
 	tokens = scan(exp);
 	parser = malloc(sizeof(t_parser));
 	if (!parser)
