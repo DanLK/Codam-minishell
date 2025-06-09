@@ -6,7 +6,7 @@
 /*   By: rojornod <rojornod@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/06 10:53:23 by rojornod          #+#    #+#             */
-/*   Updated: 2025/06/04 11:21:34 by rojornod         ###   ########.fr       */
+/*   Updated: 2025/06/09 12:13:15 by rojornod         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,78 +52,100 @@
 // 	return (0);
 // }
 
-void	tmp_redir_out(char *file)
+static int	restore_fd_after_fail(int fd)
+{
+	fd = open("/dev/null", O_RDONLY);
+	if (fd < 0)
+	{
+		return (1);
+	}
+	if (dup2(fd, STDIN_FILENO) < 0)
+	{
+		close(fd);
+		return (1);
+	}
+	return (0);
+}
+
+int	tmp_redir_out(char *file)
 {
 	int	fd;
 
 	fd = open(file, O_WRONLY | O_TRUNC | O_CREAT, 0644);
+	if (errno == 13)
+	{
+		ft_printf("%s: Permission denied\n", file);
+		if (restore_fd_after_fail(fd) == 0)
+			return (1);
+		else 
+			return (1);
+	}
 	if (fd < 0)
 	{
-		ft_printf("open failed\n");
-		fd = open("/dev/null", O_RDONLY);
-		if (fd < 0)
-		{
-			return ;
-		}
-		if (dup2(fd, STDOUT_FILENO) < 0)
-		{
-			close(fd);
-			return ;
-		}
-		return ;
+		ft_printf("%s: No such file or directory\n", file);
+		if (restore_fd_after_fail(fd) == 0)
+			return (126);
+		else 
+			return (1);
 	}
 	if (dup2(fd, STDOUT_FILENO) < 0)
 		close(fd);
 	close(fd);
+	return (0);
 }
 
-void	tmp_redir_append(char *file)
+int	tmp_redir_append(char *file)
 {
 	int	fd;
 
 	fd = open(file, O_WRONLY | O_APPEND | O_CREAT, 0644);
+	if (errno == 13)
+	{
+		ft_printf("%s: Permission denied\n", file);
+		if (restore_fd_after_fail(fd) == 0)
+			return (1);
+		else 
+			return (1);
+	}
 	if (fd < 0)
 	{
-		fd = open("/dev/null", O_RDONLY);
-		if (fd < 0)
-		{
-			return ;
-		}
-		if (dup2(fd, STDOUT_FILENO) < 0)
-		{
-			close(fd);
-			return ;
-		}
-		return ;
+		ft_printf("%s: No such file or directory\n", file);
+		if (restore_fd_after_fail(fd) == 0)
+			return (1);
+		else 
+			return (1);
 	}
 	if (dup2(fd, STDOUT_FILENO) < 0)
 		close(fd);
 	close(fd);
+	return (0);
 }
 
-void	tmp_redir_in(char *file)
+int	tmp_redir_in(char *file)
 {
 	int	fd;
 
 	fd = open(file, O_RDONLY);
+	if (errno == 13)
+	{
+		ft_printf("%s: Permission denied\n", file);
+		if (restore_fd_after_fail(fd) == 0)
+			return (126);
+		else 
+			return (1);
+	}
 	if (fd < 0)
 	{
 		ft_printf("%s: No such file or directory\n", file);
-		fd = open("/dev/null", O_RDONLY);
-		if (fd < 0)
-		{
-			return ;
-		}
-		if (dup2(fd, STDIN_FILENO) < 0)
-		{
-			close(fd);
-			return ;
-		}
-		return ;
+		if (restore_fd_after_fail(fd) == 0)
+			return (1);
+		else 
+			return (1);
 	}
 	if (dup2(fd, STDIN_FILENO) < 0)
 		close(fd);
 	close (fd);
+	return (0);
 }
 
 // int	execute_redir_in(t_t_node **root, t_vars *head, t_shell_info *info)

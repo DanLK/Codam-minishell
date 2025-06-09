@@ -6,7 +6,7 @@
 /*   By: rojornod <rojornod@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/17 11:53:23 by dloustal          #+#    #+#             */
-/*   Updated: 2025/06/04 12:07:53 by rojornod         ###   ########.fr       */
+/*   Updated: 2025/06/09 15:22:24 by rojornod         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,6 +38,10 @@ int	main(int argc, char **argv, char **envp)
 			free(home_dir);
 			exit_builtin(vars, info);
 		}
+		else if (ft_strcmp(read,"$?") == 0)
+		{
+			ft_printf("%d\n", info->last_return_code);
+		}		
 		else if (read[0] == '\0')
 			continue ;
 		else

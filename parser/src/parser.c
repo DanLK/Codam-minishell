@@ -6,7 +6,7 @@
 /*   By: rojornod <rojornod@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/14 14:37:49 by dloustal          #+#    #+#             */
-/*   Updated: 2025/06/04 14:55:59 by rojornod         ###   ########.fr       */
+/*   Updated: 2025/06/05 15:35:00 by rojornod         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -133,14 +133,17 @@ t_t_node	*parse_command(t_parser *parser)
 	if (!command)
 		return (NULL);
 	token_type = parser->current->token->type;
+	//look at redir node and this function and try to remove duplicate code
 	while (token_type != TKN_PIPE && token_type != TKN_END)
 	{
-		lexeme = parser->current->token->lexeme;
+		lexeme = parser->current->token->lexeme;//maybe get rid of this and call directly
 		append_token(command, token_type, lexeme);
-		advance(parser);
+		advance(parser);//return current
 		token_type = parser->current->token->type;
 	}
 	node = new_tree_node(PARSER_COMMAND, command);
+	if (!node)
+		return (free(command), NULL);
 	node->redirs = NULL;
 	return (node);
 }

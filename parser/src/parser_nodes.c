@@ -6,13 +6,13 @@
 /*   By: rojornod <rojornod@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/15 16:24:19 by dloustal          #+#    #+#             */
-/*   Updated: 2025/06/04 14:34:22 by rojornod         ###   ########.fr       */
+/*   Updated: 2025/06/05 15:18:52 by rojornod         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "parser.h"
 
-/**************************************************************************** 
+/****************************************************************************
  * Creates a pipe tree node with the given left and right children
 ****************************************************************************/
 t_t_node	*pipe_node(t_t_node *left, t_t_node *right)
@@ -42,15 +42,14 @@ t_t_node	*redir_node(t_parser *parser)
 	t_token_list	*cmd;
 	t_redir_node	**redirs;
 
+	//use calloc
 	if (!parser)
 		return (NULL);
 	tkn_node = parser->current;
 	cmd = init_token_list();
 	redirs = malloc(sizeof(t_redir_node *));
-	if (!redirs)
-		return (NULL);
-	if (!cmd)
-		return (NULL);
+	if (!redirs || !cmd) 
+		return (NULL); // free both cmd redirs
 	*redirs = NULL;
 	while (tkn_node->token->type != TKN_PIPE
 		&& tkn_node->token->type != TKN_END)
@@ -59,7 +58,7 @@ t_t_node	*redir_node(t_parser *parser)
 		{
 			append_redir(redirs, tkn_node->token->type,
 				tkn_node->token->lexeme);
-			advance(parser);
+			advance(parser);//maybe return current 
 			tkn_node = parser->current;
 			if (tkn_node->token->type == TKN_END
 				|| is_redirection(parser->current->token->type))
@@ -67,20 +66,19 @@ t_t_node	*redir_node(t_parser *parser)
 				ft_printf("Syntax error near unexpected token \'%s\'\n",
 					parser->previous->token->lexeme);
 				return (clear_redirs(redirs), NULL);
-				//Must clear everything and exit correctly
 			}
 			append_redir(redirs, tkn_node->token->type,
 				tkn_node->token->lexeme);
 		}
 		else
 			append_token(cmd, tkn_node->token->type,
-				tkn_node->token->lexeme);
-		advance(parser);
+				tkn_node->token->lexeme);//combine token with token node ?
+		advance(parser);//maybe return current 
 		tkn_node = parser->current;
 	}
-	node = new_tree_node(PARSER_REDIR, cmd);
+	node = new_tree_node(PARSER_REDIR, cmd); //free cmd
 	if (!node)
-		return (NULL);
+		return (NULL); //free redirs
 	node->redirs = redirs;
 	return (node);
 }

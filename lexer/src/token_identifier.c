@@ -6,33 +6,38 @@
 /*   By: rojornod <rojornod@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/01 12:11:14 by dloustal          #+#    #+#             */
-/*   Updated: 2025/06/04 16:38:30 by rojornod         ###   ########.fr       */
+/*   Updated: 2025/06/05 10:50:21 by rojornod         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "lexer.h"
+
+static void	if_redir_out(t_token_list *tkns, char *src, t_scanner *s)
+{
+	char	*lexeme;
+
+	if (is_next(&(s->cur), src, '>'))
+	{
+		append_token(tkns, TKN_REDIR_OUT_APP, ">>");
+		s->start += 2;
+	}
+	else
+	{
+		append_token(tkns, TKN_REDIR_OUT, ">");
+		(s->start)++;
+	}
+	lexeme = read_filepath(s, src);
+	if (lexeme && ft_strlen(lexeme) > 0)
+		append_token(tkns, TKN_FILE_PATH, lexeme);
+	free(lexeme);
+}
 
 void	redir_tkn(t_token_list *tkns, char *src, t_scanner *s, char c)
 {
 	char	*lexeme;
 
 	if (c == '>')
-	{
-		if (is_next(&(s->cur), src, '>'))
-		{
-			append_token(tkns, TKN_REDIR_OUT_APP, ">>");
-			s->start += 2;
-		}
-		else
-		{
-			append_token(tkns, TKN_REDIR_OUT, ">");
-			(s->start)++;
-		}
-		lexeme = read_filepath(s, src);
-		if (lexeme && ft_strlen(lexeme) > 0)
-			append_token(tkns, TKN_FILE_PATH, lexeme);
-		free(lexeme);
-	}
+		if_redir_out(tkns, src, s);
 	else if (c == '<')
 	{
 		if (is_next(&(s->cur), src, '<'))

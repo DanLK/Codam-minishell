@@ -6,7 +6,7 @@
 /*   By: rojornod <rojornod@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/09 10:14:24 by rojornod          #+#    #+#             */
-/*   Updated: 2025/06/03 15:57:24 by rojornod         ###   ########.fr       */
+/*   Updated: 2025/06/09 16:41:36 by rojornod         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,7 +65,6 @@ char	*find_path(t_vars *head, char *command)
 	temp_path = ft_split(current->value, ':');
 	if (!temp_path)
 		return (NULL);
-	ft_printf("finding path\n");
 	path = finding_path(temp, temp_path, path, command);
 	if (!path)
 		return (free_array(temp_path), NULL);
@@ -81,12 +80,10 @@ void	exec_external_com(t_vars *head, char **cmd, int size, t_shell_info *in)
 	path = find_path(head, cmd[0]);
 	if (!path)
 	{
-		ft_printf("path is null\n");
-		create_child_proc(head, cmd, ft_strdup(cmd[0]), size);
+		create_child_proc(head, cmd, ft_strdup(cmd[0]), size, in);
 	}
 	else
 	{
-		ft_printf("path is not null\n");
-		create_child_proc(head, cmd, path, size);
+		create_child_proc(head, cmd, path, size, in);
 	}
 }

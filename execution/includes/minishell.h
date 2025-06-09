@@ -6,7 +6,7 @@
 /*   By: rojornod <rojornod@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/10 14:21:08 by rojornod          #+#    #+#             */
-/*   Updated: 2025/06/03 11:53:42 by rojornod         ###   ########.fr       */
+/*   Updated: 2025/06/09 16:41:15 by rojornod         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,7 +99,7 @@ void			exec_external_com(t_vars *head, char **cmd,
 
 //child process
 int				create_child_proc(t_vars *vars, char **cmd, char *path,
-					int size);
+					int size, t_shell_info *info);
 int				child_process(char *path, char **argv, char **env_copy);
 
 //heredocs

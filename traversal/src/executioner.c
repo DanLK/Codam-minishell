@@ -6,7 +6,7 @@
 /*   By: rojornod <rojornod@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/22 13:36:45 by dloustal          #+#    #+#             */
-/*   Updated: 2025/06/04 12:12:03 by rojornod         ###   ########.fr       */
+/*   Updated: 2025/06/09 16:48:55 by rojornod         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -296,6 +296,7 @@ int	execute_ext_command(t_t_node **root, t_vars *vars, t_shell_info *info)
 	int				size;
 	char			**command;
 	t_token_list	*tokens;
+	// int				exit_code;
 
 	if (!root || !vars || !info)
 		return (1);
