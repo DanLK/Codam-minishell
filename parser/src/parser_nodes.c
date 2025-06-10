@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
-/*                                                        ::::::::            */
-/*   parser_nodes.c                                     :+:    :+:            */
-/*                                                     +:+                    */
-/*   By: dloustal <marvin@42.fr>                      +#+                     */
-/*                                                   +#+                      */
-/*   Created: 2025/04/15 16:24:19 by dloustal      #+#    #+#                 */
-/*   Updated: 2025/06/05 17:05:34 by dloustalot    ########   odam.nl         */
+/*                                                        :::      ::::::::   */
+/*   parser_nodes.c                                     :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: rojornod <rojornod@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/04/15 16:24:19 by dloustal          #+#    #+#             */
+/*   Updated: 2025/06/09 17:09:17 by rojornod         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,6 +72,7 @@ t_t_node	*redir_node(t_parser *parser)
 	t_token_list	*cmd;
 	t_redir_node	**redirs;
 
+	//use calloc
 	if (!parser)
 		return (NULL);
 	tkn_node = parser->current;
@@ -86,7 +87,7 @@ t_t_node	*redir_node(t_parser *parser)
 		return (NULL); // Maybe some extra frees needed
 	node = new_tree_node(PARSER_REDIR, cmd);
 	if (!node)
-		return (NULL);
+		return (NULL); //free redirs
 	node->redirs = redirs;
 	return (node);
 }

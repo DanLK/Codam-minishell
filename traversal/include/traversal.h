@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
-/*                                                        ::::::::            */
-/*   traversal.h                                        :+:    :+:            */
-/*                                                     +:+                    */
-/*   By: dloustal <dloustal@student.42.fr>            +#+                     */
-/*                                                   +#+                      */
-/*   Created: 2025/04/22 12:02:07 by dloustal      #+#    #+#                 */
-/*   Updated: 2025/05/29 13:56:32 by dloustal      ########   odam.nl         */
+/*                                                        :::      ::::::::   */
+/*   traversal.h                                        :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: rojornod <rojornod@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/04/22 12:02:07 by dloustal          #+#    #+#             */
+/*   Updated: 2025/06/09 16:18:29 by rojornod         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,6 @@ int		execute_export(t_token_list *tokens, t_vars *head);
 int		execute_assignment(t_token_list *tokens, t_vars *vars);
 int		execute_ext_command(t_t_node **root, t_vars *vars, t_shell_info *info);
 int		execute_redirection(t_t_node **root, t_vars *vars, t_shell_info *info);
-int		execute_abs_path(t_t_node **root, t_vars *vars, t_shell_info *info);
 void	call_redir(t_redir_node *cur, t_shell_info *info);
 
 // Pipes
@@ -65,9 +64,9 @@ char	*remove_quotes(char *string);
 
 // // Redirections
 // void	exp_redir_out(t_t_node **root, t_vars *vars, t_shell_info *info);
-void	tmp_redir_out(char *file);
-void	tmp_redir_append(char *file);
-void	tmp_redir_in(char *file);
+int		tmp_redir_out(char *file);
+int		tmp_redir_append(char *file);
+int		tmp_redir_in(char *file);
 
 // Heredoc parsing
 void	parse_hd_tree(t_t_node **root, t_vars *vars, t_shell_info *info);

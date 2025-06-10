@@ -6,7 +6,7 @@
 /*   By: rojornod <rojornod@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/16 11:11:31 by rojornod          #+#    #+#             */
-/*   Updated: 2025/06/03 15:32:17 by rojornod         ###   ########.fr       */
+/*   Updated: 2025/06/09 17:02:37 by rojornod         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ int	child_process(char *path, char **argv, char **env_copy)
 	exit(EXIT_FAILURE);
 }
 
-static void	parent_process(char *path)
+static int	parent_process(char *path)
 {
 	int	w_status;
 
@@ -28,8 +28,11 @@ static void	parent_process(char *path)
 	w_status = 0;
 	while
 		(waitpid(-1, &w_status, 0) > 0);
+	if (WIFEXITED(w_status))
+		return (WEXITSTATUS(w_status));
 	if (WIFSIGNALED(w_status) && (WTERMSIG(w_status) == SIGQUIT))
-		ft_printf("Quit (core dumped)\n", w_status);
+		return (ft_printf("Quit (core dumped)\n", w_status), 131);
+	return (1);
 }
 
 static char	**copy_to_argv(char **cmd, char **argv, char **env_copy,
@@ -49,13 +52,16 @@ static char	**copy_to_argv(char **cmd, char **argv, char **env_copy,
 	return (argv);
 }
 
-int	create_child_proc(t_vars *vars, char **cmd, char *path, int size)
+int	create_child_proc(t_vars *vars, char **cmd, char *path, int size, t_shell_info *in)
 {
 	pid_t		pid;
 	char		**argv;
 	char		**env_copy;
 	int			i;
+	int			exit_code;
 
+		exit_code = 0;
+	(void)in;
 	i = 0;
 	env_copy = convert_env(vars);
 	argv = malloc((size + 1) * sizeof(char *));
@@ -70,8 +76,8 @@ int	create_child_proc(t_vars *vars, char **cmd, char *path, int size)
 	if (pid == 0)
 		child_process(path, argv, env_copy);
 	else if (pid > 0)
-		parent_process(path);
+		exit_code = parent_process(path);
 	else
 		return (free_array(argv), free_array(env_copy), free(path), 1);
-	return (free_array(env_copy), free_array(argv), EXIT_SUCCESS);
+	return (free_array(env_copy), free_array(argv), exit_code);
 }

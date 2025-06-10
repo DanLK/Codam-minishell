@@ -6,7 +6,7 @@
 /*   By: rojornod <rojornod@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/01 11:42:47 by rojornod          #+#    #+#             */
-/*   Updated: 2025/06/03 12:25:37 by rojornod         ###   ########.fr       */
+/*   Updated: 2025/06/09 11:28:08 by rojornod         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,6 +100,8 @@ char	**convert_env(t_vars *head)
 	i = 0;
 	temp = NULL;
 	current = head;
+	if (!current)
+		ft_printf("current is null\n");
 	while (current)
 	{
 		if (current->exported == 1)
@@ -109,7 +111,7 @@ char	**convert_env(t_vars *head)
 	env_copy = malloc((i + 1) * sizeof(char *));
 	if (!env_copy)
 		return (NULL);
-	env_copy = copying_env(env_copy, current, temp);
+	env_copy = copying_env(env_copy, head, temp);
 	if (!env_copy)
 		return (NULL);
 	return (env_copy);

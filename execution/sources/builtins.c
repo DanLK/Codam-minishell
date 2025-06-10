@@ -6,7 +6,7 @@
 /*   By: rojornod <rojornod@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/20 11:27:48 by rojornod          #+#    #+#             */
-/*   Updated: 2025/06/02 12:21:42 by rojornod         ###   ########.fr       */
+/*   Updated: 2025/06/09 14:59:15 by rojornod         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,7 +80,7 @@ static void	print_export(t_vars	*temp)
 {
 	while (temp)
 	{
-		if (!temp->value && temp->exported == 1)
+		if ((!temp->value || ft_strlen(temp->value) == 0) && temp->exported == 1)
 			ft_printf("declare -x %s\n", temp->name);
 		else if (temp->value && temp->exported == 1)
 			ft_printf("declare -x %s=%s\n", temp->name, temp->value);
@@ -91,7 +91,7 @@ static void	print_export(t_vars	*temp)
 /******************************************************************************
 *
 *		This function will print out all the exported variables
-		If the value is null and it is exported 
+*		If the value is null and it is exported 
 *
 ******************************************************************************/
 int	export_builtin(t_vars **head, char *var_name, char *var_value)
@@ -101,8 +101,7 @@ int	export_builtin(t_vars **head, char *var_name, char *var_value)
 	if (!var_name)
 	{
 		temp = *head;
-		print_export(temp);
-		return (0);
+		return (print_export(temp), 0);
 	}
 	else
 	{
@@ -110,6 +109,7 @@ int	export_builtin(t_vars **head, char *var_name, char *var_value)
 		if (temp)
 		{
 			temp->exported = 1;
+			temp->hidden = 0;
 			if (var_value)
 			{
 				if (temp->value)
