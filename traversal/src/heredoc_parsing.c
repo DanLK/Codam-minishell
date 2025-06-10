@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   heredoc_parsing.c                                  :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: rojornod <rojornod@student.42.fr>          +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/05/22 13:49:41 by dloustal          #+#    #+#             */
-/*   Updated: 2025/06/04 12:19:18 by rojornod         ###   ########.fr       */
+/*                                                        ::::::::            */
+/*   heredoc_parsing.c                                  :+:    :+:            */
+/*                                                     +:+                    */
+/*   By: dloustal <dloustal@student.42.fr>            +#+                     */
+/*                                                   +#+                      */
+/*   Created: 2025/05/22 13:49:41 by dloustal      #+#    #+#                 */
+/*   Updated: 2025/06/10 14:57:13 by dloustal      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,7 +79,7 @@ void	parse_hd(t_redir_node *cur, t_vars *vars, t_shell_info *info)
 	sim_press_hook();
 	heredoc_action();
 	index = ft_itoa(info->hd_count);
-	file_name = ft_strjoin(".tmp_heredoc", index);
+	file_name = ft_strjoin("/tmp/.tmp_heredoc", index);
 	fd = open(file_name, O_WRONLY | O_CREAT, 0644);
 	if (fd < 0)
 		return (free(file_name));

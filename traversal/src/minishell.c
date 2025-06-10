@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   minishell.c                                        :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: rojornod <rojornod@student.42.fr>          +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/04/17 11:53:23 by dloustal          #+#    #+#             */
-/*   Updated: 2025/06/09 15:22:24 by rojornod         ###   ########.fr       */
+/*                                                        ::::::::            */
+/*   minishell.c                                        :+:    :+:            */
+/*                                                     +:+                    */
+/*   By: dloustal <dloustal@student.42.fr>            +#+                     */
+/*                                                   +#+                      */
+/*   Created: 2025/04/17 11:53:23 by dloustal      #+#    #+#                 */
+/*   Updated: 2025/06/10 15:43:44 by dloustal      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,6 +47,11 @@ int	main(int argc, char **argv, char **envp)
 		else
 		{
 			tokens = scan(read);
+			if (tokens == NULL)
+			{
+				clear_token_list(tokens);
+				continue ;
+			}
 			root = parse(tokens);
 			if (root == NULL)
 			{
@@ -62,6 +67,7 @@ int	main(int argc, char **argv, char **envp)
 				free(info);
 				free(home_dir);
 				exit(EXIT_SUCCESS);
+				continue ;
 			}
 			// ft_printf("-------------------------------------\n");
 			// print_tree_node(root, "", 1);
