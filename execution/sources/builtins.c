@@ -6,7 +6,7 @@
 /*   By: rojornod <rojornod@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/20 11:27:48 by rojornod          #+#    #+#             */
-/*   Updated: 2025/06/09 14:59:15 by rojornod         ###   ########.fr       */
+/*   Updated: 2025/06/10 16:51:13 by rojornod         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,6 +88,14 @@ static void	print_export(t_vars	*temp)
 	}
 }
 
+static int validate_var_name(char *var_name)
+{
+	if (ft_isalpha(var_name[0]) == 1 || var_name[0] == '_')
+		return (0);
+	else
+		return (1);
+}
+
 /******************************************************************************
 *
 *		This function will print out all the exported variables
@@ -105,20 +113,25 @@ int	export_builtin(t_vars **head, char *var_name, char *var_value)
 	}
 	else
 	{
-		temp = find_vars(*head, var_name);
-		if (temp)
+		if (validate_var_name(var_name) == 0)
 		{
-			temp->exported = 1;
-			temp->hidden = 0;
-			if (var_value)
+			temp = find_vars(*head, var_name);
+			if (temp)
 			{
-				if (temp->value)
-					free(temp->value);
-				temp->value = ft_strdup(var_value);
+				temp->exported = 1;
+				temp->hidden = 0;
+				if (var_value)
+				{
+					if (temp->value)
+						free(temp->value);
+					temp->value = ft_strdup(var_value);
+				}
+				return (0);
 			}
-			return (0);
+			else
+				return (add_var(head, var_name, var_value, 1), 0);
 		}
-		else
-			return (add_var(head, var_name, var_value, 1), 0);
+		else 
+			return (ft_printf("`%s': not a valid identifier\n", var_name), 1);
 	}
 }

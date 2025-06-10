@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
-/*                                                        ::::::::            */
-/*   minishell.c                                        :+:    :+:            */
-/*                                                     +:+                    */
-/*   By: dloustal <dloustal@student.42.fr>            +#+                     */
-/*                                                   +#+                      */
-/*   Created: 2025/04/17 11:53:23 by dloustal      #+#    #+#                 */
-/*   Updated: 2025/06/10 16:15:26 by dloustal      ########   odam.nl         */
+/*                                                        :::      ::::::::   */
+/*   minishell.c                                        :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: rojornod <rojornod@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/04/17 11:53:23 by dloustal          #+#    #+#             */
+/*   Updated: 2025/06/10 17:10:32 by rojornod         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,13 +37,16 @@ int	main(int argc, char **argv, char **envp)
 		{
 			free(home_dir);
 			exit_builtin(vars, info);
-		}
-		else if (ft_strcmp(read,"$?") == 0)
-		{
-			ft_printf("%d\n", info->last_return_code);
-		}		
+		}	
 		else if (read[0] == '\0')
 			continue ;
+		else if (get_signal_received() == SIGINT)
+		{
+			info->last_return_code = 130;
+			reset_signal();
+			free(read);
+			continue ;
+		}
 		else
 		{
 			tokens = scan(read);
