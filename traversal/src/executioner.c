@@ -6,7 +6,7 @@
 /*   By: dloustal <dloustal@student.42.fr>            +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/04/22 13:36:45 by dloustal      #+#    #+#                 */
-/*   Updated: 2025/06/10 15:53:05 by dloustal      ########   odam.nl         */
+/*   Updated: 2025/06/10 16:34:40 by dloustal      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,6 +58,8 @@ int	execute_redirection(t_t_node **root, t_vars *vars, t_shell_info *info)
 	while (cur)
 	{
 		exit_code = call_redir(cur, info);
+		if (exit_code == 1)
+			break ;
 		cur = cur->next->next;
 	}
 	info->last_return_code = exit_code;
