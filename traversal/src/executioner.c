@@ -6,7 +6,7 @@
 /*   By: rojornod <rojornod@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/22 13:36:45 by dloustal          #+#    #+#             */
-/*   Updated: 2025/06/10 12:20:59 by rojornod         ###   ########.fr       */
+/*   Updated: 2025/06/10 14:52:17 by rojornod         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,7 +92,7 @@ int	call_redir(t_redir_node *cur, t_shell_info *info)
 	}
 	else
 		return (ft_printf("[execute_redirection] file node doesn't exist\n"), 1);
-	return (0);
+	return (1);
 }
 
 /*******************************************************************************

@@ -6,7 +6,7 @@
 /*   By: rojornod <rojornod@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/16 11:11:31 by rojornod          #+#    #+#             */
-/*   Updated: 2025/06/10 12:51:26 by rojornod         ###   ########.fr       */
+/*   Updated: 2025/06/10 15:28:31 by rojornod         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,8 @@ int	child_process(char *path, char **argv, char **env_copy)
 			exit(126);
 		}
 		else
-			ft_printf("Minishell: %s command not found\n", argv[0]);}
+			ft_printf("Minishell: %s command not found\n", argv[0]);
+	}
 	exit(127);
 }
 
@@ -39,6 +40,8 @@ static int	parent_process(char *path)
 		return (WEXITSTATUS(w_status));
 	if (WIFSIGNALED(w_status) && (WTERMSIG(w_status) == SIGQUIT))
 		return (ft_printf("Quit (core dumped)\n", w_status), 131);
+	if (WIFSIGNALED(w_status) && (WTERMSIG(w_status) == SIGINT))
+		return (130);
 	return (1);
 }
 
