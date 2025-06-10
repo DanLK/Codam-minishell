@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   parser.c                                           :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: rojornod <rojornod@student.42.fr>          +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/04/14 14:37:49 by dloustal          #+#    #+#             */
-/*   Updated: 2025/06/05 15:35:00 by rojornod         ###   ########.fr       */
+/*                                                        ::::::::            */
+/*   parser.c                                           :+:    :+:            */
+/*                                                     +:+                    */
+/*   By: dloustal <dloustal@student.42.fr>            +#+                     */
+/*                                                   +#+                      */
+/*   Created: 2025/04/14 14:37:49 by dloustal      #+#    #+#                 */
+/*   Updated: 2025/06/10 16:21:24 by dloustal      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ t_t_node	*parse(t_token_list *tokens)
 // divided from parse_pipe
 static void	right_tokens_null(t_token *token, t_t_node *node, t_t_node *right)
 {
-	ft_printf("Syntax error near unexpected token \'%s\'\n", token->lexeme);
+	ft_printf("Minishell: Syntax error near unexpected token \'%s\'\n", token->lexeme);
 	clear_subtree(node);
 	clear_subtree(right);
 }
@@ -43,7 +43,7 @@ static void	right_tokens_null(t_token *token, t_t_node *node, t_t_node *right)
 // divided from parse_pipe
 static void	node_tokens_null(t_t_node *node, t_parser *parser)
 {
-	ft_printf("Syntax error near unexpected token \'%s\'\n",
+	ft_printf("Minishell: Syntax error near unexpected token \'%s\'\n",
 		parser->current->token->lexeme);
 	clear_subtree(node);
 }
