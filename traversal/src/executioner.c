@@ -6,7 +6,7 @@
 /*   By: dloustal <dloustal@student.42.fr>            +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/04/22 13:36:45 by dloustal      #+#    #+#                 */
-/*   Updated: 2025/06/10 15:24:26 by dloustal      ########   odam.nl         */
+/*   Updated: 2025/06/10 15:53:05 by dloustal      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,9 @@ int	execute_redirection(t_t_node **root, t_vars *vars, t_shell_info *info)
 	t_redir_node	*cur;
 	int				std_out;
 	int				std_in;
+	int				exit_code;
 
+	exit_code = 0;
 	if (!root || !vars || !info)
 		return (1);
 	std_out = dup(STDOUT_FILENO);
@@ -55,20 +57,22 @@ int	execute_redirection(t_t_node **root, t_vars *vars, t_shell_info *info)
 	cur = (*(*root)->redirs);
 	while (cur)
 	{
-		call_redir(cur, info);
+		exit_code = call_redir(cur, info);
 		cur = cur->next->next;
 	}
-	execute_command(root, vars, info);
+	info->last_return_code = exit_code;
+	if (exit_code == 0)
+		exit_code = execute_command(root, vars, info);
 	if (dup2(std_out, STDOUT_FILENO) == -1 || dup2(std_in, STDIN_FILENO) == -1)
 		return (-1);
 	close(std_out);
 	close(std_in);
 	// info->cur_hd = 0;
 	// Free redirection node!!!!!
-	return (0);
+	return (exit_code);
 }
 
-void	call_redir(t_redir_node *cur, t_shell_info *info)
+int	call_redir(t_redir_node *cur, t_shell_info *info)
 {
 	t_redir_node	*operator_node;
 
@@ -78,16 +82,17 @@ void	call_redir(t_redir_node *cur, t_shell_info *info)
 	if (cur)
 	{
 		if (operator_node->type == TKN_REDIR_OUT)
-			tmp_redir_out(cur->file);
+			return (tmp_redir_out(cur->file));
 		else if (operator_node->type == TKN_REDIR_OUT_APP)
-			tmp_redir_append(cur->file);
+			return (tmp_redir_append(cur->file));
 		else if (operator_node->type == TKN_REDIR_IN)
-			tmp_redir_in(cur->file);
+			return (tmp_redir_in(cur->file));
 		else if (operator_node->type == TKN_HEREDOC)
-			exec_heredoc(cur->file);
+			return (exec_heredoc(cur->file));
 	}
 	else
-		ft_printf("[execute_redirection] file node doesn't exist\n");
+		return (ft_printf("[execute_redirection] file node doesn't exist\n"), 1);
+	return (0);
 }
 
 /*******************************************************************************
@@ -117,8 +122,8 @@ int	execute_command(t_t_node **root, t_vars *vars, t_shell_info *info)
 		info->last_return_code = exit_status;
 		return (exit_status);
 	}
-	info->last_return_code = 125;
-	return (125);
+	info->last_return_code = 1;
+	return (1);
 }
 
 /*******************************************************************************
@@ -315,18 +320,19 @@ int	execute_ext_command(t_t_node **root, t_vars *vars, t_shell_info *info)
 	int				size;
 	char			**command;
 	t_token_list	*tokens;
-	// int				exit_code;
+	int				exit_code;
 
 	if (!root || !vars || !info)
 		return (1);
+	exit_code = 0;
 	tokens = (*root)->tokens;
 	size = len_token_list(tokens);
 	command = tkn_list_to_array(tokens);
 	if (!command)
 		return (1);
-	exec_external_com(vars, command, size, info);
+	exit_code = exec_external_com(vars, command, size, info);
 	clear_array(command);
-	return (0);
+	return (exit_code);
 }
 
 // int	execute_abs_path(t_t_node **root, t_vars *vars, t_shell_info *info)

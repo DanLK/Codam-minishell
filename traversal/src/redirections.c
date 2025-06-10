@@ -6,7 +6,7 @@
 /*   By: rojornod <rojornod@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/06 10:53:23 by rojornod          #+#    #+#             */
-/*   Updated: 2025/06/09 12:13:15 by rojornod         ###   ########.fr       */
+/*   Updated: 2025/06/10 11:38:22 by rojornod         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,18 +75,14 @@ int	tmp_redir_out(char *file)
 	if (errno == 13)
 	{
 		ft_printf("%s: Permission denied\n", file);
-		if (restore_fd_after_fail(fd) == 0)
-			return (1);
-		else 
-			return (1);
+		restore_fd_after_fail(fd);
+		return (1);
 	}
 	if (fd < 0)
 	{
 		ft_printf("%s: No such file or directory\n", file);
-		if (restore_fd_after_fail(fd) == 0)
-			return (126);
-		else 
-			return (1);
+		restore_fd_after_fail(fd);
+		return (1);
 	}
 	if (dup2(fd, STDOUT_FILENO) < 0)
 		close(fd);
@@ -102,18 +98,14 @@ int	tmp_redir_append(char *file)
 	if (errno == 13)
 	{
 		ft_printf("%s: Permission denied\n", file);
-		if (restore_fd_after_fail(fd) == 0)
-			return (1);
-		else 
-			return (1);
+		restore_fd_after_fail(fd);
+		return (1);
 	}
 	if (fd < 0)
 	{
 		ft_printf("%s: No such file or directory\n", file);
-		if (restore_fd_after_fail(fd) == 0)
-			return (1);
-		else 
-			return (1);
+		restore_fd_after_fail(fd);
+		return (1);
 	}
 	if (dup2(fd, STDOUT_FILENO) < 0)
 		close(fd);
@@ -129,18 +121,14 @@ int	tmp_redir_in(char *file)
 	if (errno == 13)
 	{
 		ft_printf("%s: Permission denied\n", file);
-		if (restore_fd_after_fail(fd) == 0)
-			return (126);
-		else 
-			return (1);
+		restore_fd_after_fail(fd);
+		return (1);
 	}
 	if (fd < 0)
 	{
 		ft_printf("%s: No such file or directory\n", file);
-		if (restore_fd_after_fail(fd) == 0)
-			return (1);
-		else 
-			return (1);
+		restore_fd_after_fail(fd);
+		return (1);
 	}
 	if (dup2(fd, STDIN_FILENO) < 0)
 		close(fd);
