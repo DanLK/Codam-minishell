@@ -6,7 +6,7 @@
 /*   By: dloustal <dloustal@student.42.fr>            +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/03/14 17:06:59 by dloustal      #+#    #+#                 */
-/*   Updated: 2025/06/10 14:52:20 by dloustal      ########   odam.nl         */
+/*   Updated: 2025/06/10 15:34:10 by dloustal      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,8 +26,8 @@ t_token_list	*scan(char *src)
 	if (!closed_quotes(src, false, false))
 	{
 		ft_printf("Minishell: syntax error: unclosed quotes\n");
-		// exit(EXIT_FAILURE);
-		// Must clear everything
+		//Return NULL and then outside we can check whether the token list was NULL
+		return (NULL);
 	}
 	tokens = init_token_list();
 	scanner = init_scanner(0, 0);
