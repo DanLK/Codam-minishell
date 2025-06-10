@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   lexer.c                                            :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: rojornod <rojornod@student.42.fr>          +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/03/14 17:06:59 by dloustal          #+#    #+#             */
-/*   Updated: 2025/06/04 16:34:41 by rojornod         ###   ########.fr       */
+/*                                                        ::::::::            */
+/*   lexer.c                                            :+:    :+:            */
+/*                                                     +:+                    */
+/*   By: dloustal <dloustal@student.42.fr>            +#+                     */
+/*                                                   +#+                      */
+/*   Created: 2025/03/14 17:06:59 by dloustal      #+#    #+#                 */
+/*   Updated: 2025/06/10 13:11:55 by dloustal      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,10 +16,14 @@ t_token_list	*scan(char *src)
 {
 	t_token_list	*tokens;
 	t_scanner		*scanner;
+	// bool			in_single;
+	// bool			in_double;
 
 	if (!src)
 		return (NULL);
-	if (!closed_quotes(src))
+	// in_single = false;
+	// in_double = false;
+	if (!closed_quotes(src, false, false))
 	{
 		ft_printf("Minishell: syntax error: unclosed quotes\n");
 		// exit(EXIT_FAILURE);

@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   lexer.h                                            :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: rojornod <rojornod@student.42.fr>          +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/03/14 16:58:50 by dloustal          #+#    #+#             */
-/*   Updated: 2025/06/04 16:34:38 by rojornod         ###   ########.fr       */
+/*                                                        ::::::::            */
+/*   lexer.h                                            :+:    :+:            */
+/*                                                     +:+                    */
+/*   By: dloustal <dloustal@student.42.fr>            +#+                     */
+/*                                                   +#+                      */
+/*   Created: 2025/03/14 16:58:50 by dloustal      #+#    #+#                 */
+/*   Updated: 2025/06/10 13:11:38 by dloustal      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -127,7 +127,7 @@ char			*read_options(t_scanner *scanner, char *src);
 char			*read_quoted(t_scanner *sc, char *src);
 
 // Initial checks
-bool 			closed_quotes(char *src);
+bool 			closed_quotes(char *src, bool in_single, bool in_double);
 t_scanner		*init_scanner(int cur, int start);
 
 // Memory clears
