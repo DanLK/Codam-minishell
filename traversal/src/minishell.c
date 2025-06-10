@@ -6,7 +6,7 @@
 /*   By: rojornod <rojornod@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/17 11:53:23 by dloustal          #+#    #+#             */
-/*   Updated: 2025/06/10 15:34:38 by rojornod         ###   ########.fr       */
+/*   Updated: 2025/06/10 16:08:51 by rojornod         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,6 +43,11 @@ int	main(int argc, char **argv, char **envp)
 		else
 		{
 			tokens = scan(read);
+			if (tokens == NULL)
+			{
+				clear_token_list(tokens);
+				continue ;
+			}
 			root = parse(tokens);
 			if (root == NULL)
 			{
@@ -58,6 +63,7 @@ int	main(int argc, char **argv, char **envp)
 				free(info);
 				free(home_dir);
 				exit(EXIT_SUCCESS);
+				continue ;
 			}
 			// ft_printf("-------------------------------------\n");
 			// print_tree_node(root, "", 1);

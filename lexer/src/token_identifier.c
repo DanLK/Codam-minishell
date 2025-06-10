@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   token_identifier.c                                 :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: rojornod <rojornod@student.42.fr>          +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/04/01 12:11:14 by dloustal          #+#    #+#             */
-/*   Updated: 2025/06/05 10:50:21 by rojornod         ###   ########.fr       */
+/*                                                        ::::::::            */
+/*   token_identifier.c                                 :+:    :+:            */
+/*                                                     +:+                    */
+/*   By: dloustal <dloustal@student.42.fr>            +#+                     */
+/*                                                   +#+                      */
+/*   Created: 2025/04/01 12:11:14 by dloustal      #+#    #+#                 */
+/*   Updated: 2025/06/10 14:53:06 by dloustal      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -111,7 +111,7 @@ void	tkn_opt_word(t_token_list *tkns, char *src, t_scanner *s, char c)
 			append_token(tkns, TKN_OPTION, lexeme);
 		free(lexeme);
 	}
-	else if (ft_isalnum(c) || issymbol(c) || c == ':')
+	else if (ft_isalnum(c) || issymbol(c) || c == ':' || c == '$')
 	{
 		lexeme = read_quoted(s, src);
 		if (is_keyword(lexeme) != -1)

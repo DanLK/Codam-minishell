@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   lexer.c                                            :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: rojornod <rojornod@student.42.fr>          +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/03/14 17:06:59 by dloustal          #+#    #+#             */
-/*   Updated: 2025/06/04 16:34:41 by rojornod         ###   ########.fr       */
+/*                                                        ::::::::            */
+/*   lexer.c                                            :+:    :+:            */
+/*                                                     +:+                    */
+/*   By: dloustal <dloustal@student.42.fr>            +#+                     */
+/*                                                   +#+                      */
+/*   Created: 2025/03/14 17:06:59 by dloustal      #+#    #+#                 */
+/*   Updated: 2025/06/10 15:34:10 by dloustal      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,14 +16,18 @@ t_token_list	*scan(char *src)
 {
 	t_token_list	*tokens;
 	t_scanner		*scanner;
+	// bool			in_single;
+	// bool			in_double;
 
 	if (!src)
 		return (NULL);
-	if (!closed_quotes(src))
+	// in_single = false;
+	// in_double = false;
+	if (!closed_quotes(src, false, false))
 	{
 		ft_printf("Minishell: syntax error: unclosed quotes\n");
-		// exit(EXIT_FAILURE);
-		// Must clear everything
+		//Return NULL and then outside we can check whether the token list was NULL
+		return (NULL);
 	}
 	tokens = init_token_list();
 	scanner = init_scanner(0, 0);
@@ -66,8 +70,8 @@ void	get_cur_token(t_token_list *tokens, char *src, t_scanner *s)
 		append_token(tokens, TKN_EQUAL, "=");
 	else if (c == '>' || c == '<')
 		redir_tkn(tokens, src, s, c);
-	else if (c == '$' || c == '"' || c == '\'')
+	else if (c == '$' || c == '"' || c == '\'') //(c == '$' && is_variable_tkn(src, s)
 		tkn_quote(tokens, src, s, c);
-	else if (c == '-' || ft_isalnum(c) || issymbol(c) || c == ':')
+	else if (c == '-' || ft_isalnum(c) || issymbol(c) || c == ':' || c == '$')
 		tkn_opt_word(tokens, src, s, c);
 }
