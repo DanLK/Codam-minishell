@@ -3,10 +3,10 @@
 /*                                                        ::::::::            */
 /*   main_parser.c                                      :+:    :+:            */
 /*                                                     +:+                    */
-/*   By: dloustal <marvin@42.fr>                      +#+                     */
+/*   By: dloustal <dloustal@student.42.fr>            +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/04/01 16:48:50 by dloustal      #+#    #+#                 */
-/*   Updated: 2025/06/05 17:06:11 by dloustalot    ########   odam.nl         */
+/*   Updated: 2025/06/10 16:10:32 by dloustal      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ int	main(void)
 	t_t_node		*pipe;
 	char			*exp;
 
-	exp = "cat << eof > out.txt";
+	exp = "<|cat hello";
 	tokens = scan(exp);
 	parser = malloc(sizeof(t_parser));
 	if (!parser)

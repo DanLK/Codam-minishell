@@ -6,7 +6,7 @@
 /*   By: dloustal <dloustal@student.42.fr>            +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/04/17 11:53:23 by dloustal      #+#    #+#                 */
-/*   Updated: 2025/06/10 15:43:44 by dloustal      ########   odam.nl         */
+/*   Updated: 2025/06/10 16:15:26 by dloustal      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,17 +56,7 @@ int	main(int argc, char **argv, char **envp)
 			if (root == NULL)
 			{
 				clear_token_list(tokens);
-				// free(parser); // Free stuff
-				// exit(EXIT_FAILURE);
-				// continue ;
-				free_vars(vars);
-				if (info->home_dir)
-					free(info->home_dir);
-				close(info->fdin);
-				close(info->fdout);
-				free(info);
-				free(home_dir);
-				exit(EXIT_SUCCESS);
+				free(root);
 				continue ;
 			}
 			// ft_printf("-------------------------------------\n");

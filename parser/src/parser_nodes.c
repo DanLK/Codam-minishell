@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   parser_nodes.c                                     :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: rojornod <rojornod@student.42.fr>          +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/04/15 16:24:19 by dloustal          #+#    #+#             */
-/*   Updated: 2025/06/09 17:09:17 by rojornod         ###   ########.fr       */
+/*                                                        ::::::::            */
+/*   parser_nodes.c                                     :+:    :+:            */
+/*                                                     +:+                    */
+/*   By: dloustal <dloustal@student.42.fr>            +#+                     */
+/*                                                   +#+                      */
+/*   Created: 2025/04/15 16:24:19 by dloustal      #+#    #+#                 */
+/*   Updated: 2025/06/10 16:10:02 by dloustal      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,7 @@ static bool	set_redirs(t_parser *p, t_token_node *n, t_token_list *cmd, t_redir_
 			append_redir(redirs, n->token->type, n->token->lexeme);
 			advance(p);
 			n = p->current;
-			if (n->token->type == TKN_END
+			if (n->token->type == TKN_END || n->token->type == TKN_PIPE
 				|| is_redirection(p->current->token->type))
 			{
 				ft_printf("Syntax error near unexpected token \'%s\'\n",
