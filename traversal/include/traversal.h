@@ -6,7 +6,7 @@
 /*   By: rojornod <rojornod@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/22 12:02:07 by dloustal          #+#    #+#             */
-/*   Updated: 2025/06/09 16:18:29 by rojornod         ###   ########.fr       */
+/*   Updated: 2025/06/10 10:55:15 by rojornod         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ int		execute_export(t_token_list *tokens, t_vars *head);
 int		execute_assignment(t_token_list *tokens, t_vars *vars);
 int		execute_ext_command(t_t_node **root, t_vars *vars, t_shell_info *info);
 int		execute_redirection(t_t_node **root, t_vars *vars, t_shell_info *info);
-void	call_redir(t_redir_node *cur, t_shell_info *info);
+int		call_redir(t_redir_node *cur, t_shell_info *info);
 
 // Pipes
 int		execute_pipe(t_t_node **root, t_vars *head, t_shell_info *info);
@@ -74,5 +74,5 @@ void	parse_hd_node(t_t_node **root, t_vars *vars, t_shell_info *info);
 void	parse_hd(t_redir_node *cur, t_vars *vars, t_shell_info *info);
 
 //Exec heredoc
-void	exec_heredoc(char *file);
+int	exec_heredoc(char *file);
 #endif

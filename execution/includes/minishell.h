@@ -6,7 +6,7 @@
 /*   By: rojornod <rojornod@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/10 14:21:08 by rojornod          #+#    #+#             */
-/*   Updated: 2025/06/09 16:41:15 by rojornod         ###   ########.fr       */
+/*   Updated: 2025/06/10 12:24:54 by rojornod         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,7 +76,6 @@ int				ft_strcmp(char *s1, char *s2);
 void			free_array(char **array);
 void			free_vars(t_vars *head);
 char			**convert_env(t_vars *head);
-void			debug_print(char *debug_message, char c);
 
 //signals
 void			signal_action(void);
@@ -94,16 +93,16 @@ void			init_heredoc(void);
 
 //external commands
 char			*find_path(t_vars *head, char *command);
-void			exec_external_com(t_vars *head, char **cmd,
+int				exec_external_com(t_vars *head, char **cmd,
 					int size, t_shell_info *info);
 
 //child process
 int				create_child_proc(t_vars *vars, char **cmd, char *path,
-					int size, t_shell_info *info);
+					int size);
 int				child_process(char *path, char **argv, char **env_copy);
 
 //heredocs
-int				heredoc(t_shell_info *info, char *delim);
+//int				heredoc(t_shell_info *info, char *delim);
 
 //initializing
 t_vars			*initialize_data(void);

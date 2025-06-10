@@ -6,7 +6,7 @@
 /*   By: rojornod <rojornod@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/09 10:14:24 by rojornod          #+#    #+#             */
-/*   Updated: 2025/06/09 16:41:36 by rojornod         ###   ########.fr       */
+/*   Updated: 2025/06/10 13:03:40 by rojornod         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,18 +72,21 @@ char	*find_path(t_vars *head, char *command)
 		return (path);
 }
 
-void	exec_external_com(t_vars *head, char **cmd, int size, t_shell_info *in)
+int	exec_external_com(t_vars *head, char **cmd, int size, t_shell_info *in)
 {
 	char	*path;
-
+	int		exit_code;
+	
 	(void)in;
+	exit_code = 0;
 	path = find_path(head, cmd[0]);
 	if (!path)
 	{
-		create_child_proc(head, cmd, ft_strdup(cmd[0]), size, in);
+		exit_code = create_child_proc(head, cmd, ft_strdup(cmd[0]), size);
 	}
 	else
 	{
-		create_child_proc(head, cmd, path, size, in);
+		exit_code = create_child_proc(head, cmd, path, size);
 	}
+	return (exit_code);
 }

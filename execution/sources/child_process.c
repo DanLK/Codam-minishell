@@ -6,7 +6,7 @@
 /*   By: rojornod <rojornod@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/16 11:11:31 by rojornod          #+#    #+#             */
-/*   Updated: 2025/06/09 17:02:37 by rojornod         ###   ########.fr       */
+/*   Updated: 2025/06/10 12:51:26 by rojornod         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,8 +16,15 @@ int	child_process(char *path, char **argv, char **env_copy)
 {
 	child_proc_action();
 	if (execve(path, argv, env_copy) == -1)
-		ft_printf("Minishell: %s command not found\n", argv[0]);
-	exit(EXIT_FAILURE);
+	{
+		if (errno == 13)
+		{
+			ft_printf("%s: Permission denied\n", path);
+			exit(126);
+		}
+		else
+			ft_printf("Minishell: %s command not found\n", argv[0]);}
+	exit(127);
 }
 
 static int	parent_process(char *path)
@@ -52,7 +59,7 @@ static char	**copy_to_argv(char **cmd, char **argv, char **env_copy,
 	return (argv);
 }
 
-int	create_child_proc(t_vars *vars, char **cmd, char *path, int size, t_shell_info *in)
+int	create_child_proc(t_vars *vars, char **cmd, char *path, int size)
 {
 	pid_t		pid;
 	char		**argv;
@@ -60,8 +67,7 @@ int	create_child_proc(t_vars *vars, char **cmd, char *path, int size, t_shell_in
 	int			i;
 	int			exit_code;
 
-		exit_code = 0;
-	(void)in;
+	exit_code = 0;
 	i = 0;
 	env_copy = convert_env(vars);
 	argv = malloc((size + 1) * sizeof(char *));
