@@ -6,7 +6,7 @@
 /*   By: rojornod <rojornod@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/22 15:40:53 by dloustal          #+#    #+#             */
-/*   Updated: 2025/06/04 12:12:53 by rojornod         ###   ########.fr       */
+/*   Updated: 2025/06/10 10:54:17 by rojornod         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@
  * This is really a redir in but with looking up the file
  * If it fails to open
 *******************************************************************************/
-void	exec_heredoc(char *file)
+int	exec_heredoc(char *file)
 {
 	int		fd;
 
@@ -25,19 +25,20 @@ void	exec_heredoc(char *file)
 	{
 		fd = open("/dev/null", O_RDONLY);
 		if (fd < 0)
-			return ;
+			return (1);
 		if (dup2(fd, STDIN_FILENO) < 0)
 		{
 			close(fd);
-			return ;
+			return (1);
 		}
-		return ;
+		return (0);
 	}
 	if (dup2(fd, STDIN_FILENO) < 0)
 	{
 		close(fd);
-		return ;
+		return (1);
 	}
 	close(fd);
 	unlink(file);
+	return (0);
 }
