@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   executioner.c                                      :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: rojornod <rojornod@student.42.fr>          +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/04/22 13:36:45 by dloustal          #+#    #+#             */
-/*   Updated: 2025/06/09 16:48:55 by rojornod         ###   ########.fr       */
+/*                                                        ::::::::            */
+/*   executioner.c                                      :+:    :+:            */
+/*                                                     +:+                    */
+/*   By: dloustal <dloustal@student.42.fr>            +#+                     */
+/*                                                   +#+                      */
+/*   Created: 2025/04/22 13:36:45 by dloustal      #+#    #+#                 */
+/*   Updated: 2025/06/10 15:24:26 by dloustal      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -222,10 +222,37 @@ int	execute_unset(t_token_list *tokens, t_vars **head)
 	return (exit_status);
 }
 
-int	execute_export(t_token_list *tokens, t_vars *vars)
+static void	loop_export(t_token_node *node, t_vars *vars, int *exit_code)
 {
 	char			*var_name;
 	char			*var_value;
+	
+	while (node)
+	{
+		var_name = node->token->lexeme;
+		var_value = NULL;
+		if (node->next && node->next->token->type == TKN_EQUAL)
+		{
+			if (node->next->next)
+			{
+				var_value = node->next->next->token->lexeme;
+				node = node->next->next->next;
+			}
+			else
+			{
+				var_value = "";
+				node = node->next->next;
+			}
+		}
+		else
+			node = node->next;
+		*exit_code = export_builtin(&vars, var_name, var_value);
+	}
+}
+
+int	execute_export(t_token_list *tokens, t_vars *vars)
+{
+	int				exit_code;
 	t_token_node	*node;
 
 	if (!tokens || !vars)
@@ -236,17 +263,9 @@ int	execute_export(t_token_list *tokens, t_vars *vars)
 		return (0);
 	}
 	node = tokens->head->next;
-	var_name = node->token->lexeme;
-	var_value = NULL;
-	if (node->next && node->next->token->type == TKN_EQUAL)
-	{
-		if (node->next->next)
-			var_value = node->next->next->token->lexeme;
-		else
-			var_value = "";
-	}
-	export_builtin(&vars, var_name, var_value);
-	return (0);
+	exit_code = 0;
+	loop_export(node, vars, &exit_code);
+	return (exit_code);
 }
 
 //divided this from execute assignment
