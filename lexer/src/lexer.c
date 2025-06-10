@@ -6,7 +6,7 @@
 /*   By: dloustal <dloustal@student.42.fr>            +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/03/14 17:06:59 by dloustal      #+#    #+#                 */
-/*   Updated: 2025/06/10 13:11:55 by dloustal      ########   odam.nl         */
+/*   Updated: 2025/06/10 14:52:20 by dloustal      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,8 +70,8 @@ void	get_cur_token(t_token_list *tokens, char *src, t_scanner *s)
 		append_token(tokens, TKN_EQUAL, "=");
 	else if (c == '>' || c == '<')
 		redir_tkn(tokens, src, s, c);
-	else if (c == '$' || c == '"' || c == '\'')
+	else if (c == '$' || c == '"' || c == '\'') //(c == '$' && is_variable_tkn(src, s)
 		tkn_quote(tokens, src, s, c);
-	else if (c == '-' || ft_isalnum(c) || issymbol(c) || c == ':')
+	else if (c == '-' || ft_isalnum(c) || issymbol(c) || c == ':' || c == '$')
 		tkn_opt_word(tokens, src, s, c);
 }

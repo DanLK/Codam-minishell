@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   lexer_utils.c                                      :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: rojornod <rojornod@student.42.fr>          +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/03/20 15:41:02 by dloustal          #+#    #+#             */
-/*   Updated: 2025/06/04 16:28:18 by rojornod         ###   ########.fr       */
+/*                                                        ::::::::            */
+/*   lexer_utils.c                                      :+:    :+:            */
+/*                                                     +:+                    */
+/*   By: dloustal <dloustal@student.42.fr>            +#+                     */
+/*                                                   +#+                      */
+/*   Created: 2025/03/20 15:41:02 by dloustal      #+#    #+#                 */
+/*   Updated: 2025/06/10 14:48:40 by dloustal      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,4 +43,19 @@ const t_map	*get_map(void)
 	};
 
 	return (&keywords);
+}
+
+bool	is_variable_tkn(char *src, t_scanner *scanner)
+{
+	int	cur;
+
+	if (!src || scanner->cur >= (int)ft_strlen(src))
+		return (false);
+	cur = scanner->cur;
+	while (src[cur] && !is_special_char(src[cur]))
+		cur++;
+	if (!src[cur] || (src[cur] != '\'' && src[cur] != '\"'))
+		return (true);
+	else
+		return (false);
 }

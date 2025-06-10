@@ -6,7 +6,7 @@
 /*   By: dloustal <dloustal@student.42.fr>            +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/03/14 16:58:50 by dloustal      #+#    #+#                 */
-/*   Updated: 2025/06/10 13:11:38 by dloustal      ########   odam.nl         */
+/*   Updated: 2025/06/10 14:37:34 by dloustal      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -112,6 +112,7 @@ void			consume_space(t_scanner *scanner, char *src);
 bool			is_special_char(char c);
 bool			is_builtin_type(enum e_Type type);
 const t_map		*get_map(void);
+bool			is_variable_tkn(char *src, t_scanner *scanner);
 
 // Lexer utilities 2
 int				is_keyword(char *lexeme);
