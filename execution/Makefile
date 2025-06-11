@@ -25,12 +25,14 @@ all: $(NAME)
 $(NAME): $(OBJ) $(LIBFT_NAME) $(MAIN_OBJ) $(EXEC_OBJ) $(PARSER_OBJ) $(LEXER_OBJ) $(TRAV_OBJ) 
 	$(CC) -Iinclude -I$(EXEC_DIR)/includes -I$(LEXER_DIR)/include -I$(PARSER_DIR)/include \
 	-I$(LIBFT_DIR) -o $(NAME) $(CFLAGS) $(OBJ) $(MAIN_OBJ) $(EXEC_OBJ) $(PARSER_OBJ) $(LEXER_OBJ) \
-	$(TRAV_OBJ) $(LIBFT_NAME) -lreadline 
+	$(TRAV_OBJ) $(LIBFT_NAME) -lreadline
+#-L/opt/homebrew/opt/readline/lib 
 
 $(OBJ_DIR)/%.o: $(SRC_DIR)/%.c
 	mkdir -p $(dir $@)
 	$(CC) -c -Iinclude -I$(EXEC_DIR)/includes -I$(PARSER_DIR)/include -I$(LEXER_DIR)/include \
-	 -I$(LIBFT_DIR) $(CFLAGS) -o $@ $<
+	-I$(LIBFT_DIR) $(CFLAGS) -o $@ $<
+#-I/opt/homebrew/opt/readline/include 
 
 $(EXEC_DIR)/obj/%.o: $(EXEC_DIR)/sources/%.c
 	mkdir -p $(dir $@)

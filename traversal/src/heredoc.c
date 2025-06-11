@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   heredoc.c                                          :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: rojornod <rojornod@student.42.fr>          +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/05/09 16:05:02 by rojornod          #+#    #+#             */
-/*   Updated: 2025/06/04 11:15:26 by rojornod         ###   ########.fr       */
+/*                                                        ::::::::            */
+/*   heredoc.c                                          :+:    :+:            */
+/*                                                     +:+                    */
+/*   By: dloustal <marvin@42.fr>                      +#+                     */
+/*                                                   +#+                      */
+/*   Created: 2025/05/09 16:05:02 by rojornod      #+#    #+#                 */
+/*   Updated: 2025/06/11 12:22:30 by dloustalot    ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,9 +46,9 @@ int	sim_press_hook(void)
 ******************************************************************************/
 int	delim_found(int fd, char *read_input)
 {
-	char	*buf;
+	// char	*buf;
 
-	buf = NULL;
+	// buf = NULL;
 	close(fd);
 	if (!read_input)
 		ft_printf("warning: recieved end of file\n");

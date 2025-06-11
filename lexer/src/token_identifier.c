@@ -3,10 +3,10 @@
 /*                                                        ::::::::            */
 /*   token_identifier.c                                 :+:    :+:            */
 /*                                                     +:+                    */
-/*   By: dloustal <dloustal@student.42.fr>            +#+                     */
+/*   By: dloustal <marvin@42.fr>                      +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/04/01 12:11:14 by dloustal      #+#    #+#                 */
-/*   Updated: 2025/06/10 14:53:06 by dloustal      ########   odam.nl         */
+/*   Updated: 2025/06/11 17:12:38 by dloustalot    ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,47 +54,49 @@ void	redir_tkn(t_token_list *tkns, char *src, t_scanner *s, char c)
 	}
 }
 
-void	tkn_quote(t_token_list *tkns, char *src, t_scanner *s, char c)
-{
-	char	*lexeme;
+// void	tkn_quote(t_token_list *tkns, char *src, t_scanner *s, char c)
+// {
+// 	char	*lexeme;
 
-	if (c == '$')
-	{
-		if (is_next(&(s->cur), src, '?'))
-			append_token(tkns, TKN_EXIT_STATUS, "$?");
-		else
-		{
-			lexeme = tkn_env_var(src, s);
-			append_token(tkns, TKN_ENV_VAR, lexeme);
-			free(lexeme);
-		}
-	}
-	else if (c == '"')
-	{
-		lexeme = read_quoted(s, src);
-		append_token(tkns, TKN_Q_STRING, lexeme);
-		free(lexeme);
-	}
-	else if (c == '\'')
-	{
-		lexeme = read_quoted(s, src);
-		append_token(tkns, TKN_Q_STRING, lexeme);
-		free(lexeme);
-	}
-}
+// 	// if (c == '$')
+// 	// {
+// 	// 	if (is_next(&(s->cur), src, '?'))
+// 	// 		append_token(tkns, TKN_EXIT_STATUS, "$?");
+// 	// 	// else
+// 	// 	// {
+// 	// 	// 	lexeme = tkn_env_var(src, s);
+// 	// 	// 	append_token(tkns, TKN_ENV_VAR, lexeme);
+// 	// 	// 	free(lexeme);
+// 	// 	// }
+		
+// 	// }
+// 	// else if (c == '"')
+// 	// {
+// 	// 	lexeme = read_quoted(s, src);
+// 	// 	append_token(tkns, TKN_Q_STRING, lexeme);
+// 	// 	free(lexeme);
+// 	// }
+// 	else if (c == '\'')
+// 	{
+// 		lexeme = read_quoted(s, src);
+// 		append_token(tkns, TKN_Q_STRING, lexeme);
+// 		free(lexeme);
+// 	}
+// }
 
-char	*tkn_env_var(char *src, t_scanner *scanner)
-{
-	char	*substr;
+// char	*tkn_env_var(char *src, t_scanner *scanner)
+// {
+// 	char	*substr;
 
-	if (!src || scanner->cur >= (int)ft_strlen(src))
-		return (NULL);
-	while (!is_special_char(src[scanner->cur]) && src[scanner->cur])
-		scanner->cur += 1;
-	substr = ft_substr(src, scanner->start + 1,
-			scanner->cur - scanner->start - 1);
-	return (substr);
-}
+// 	if (!src || scanner->cur >= (int)ft_strlen(src))
+// 		return (NULL);
+// 	while (!is_special_char(src[scanner->cur]) && src[scanner->cur]
+// 			&& src[scanner->cur] != '$')
+// 		scanner->cur += 1;
+// 	substr = ft_substr(src, scanner->start + 1,
+// 			scanner->cur - scanner->start - 1);
+// 	return (substr);
+// }
 
 void	tkn_opt_word(t_token_list *tkns, char *src, t_scanner *s, char c)
 {
@@ -111,7 +113,8 @@ void	tkn_opt_word(t_token_list *tkns, char *src, t_scanner *s, char c)
 			append_token(tkns, TKN_OPTION, lexeme);
 		free(lexeme);
 	}
-	else if (ft_isalnum(c) || issymbol(c) || c == ':' || c == '$')
+	else if (ft_isalnum(c) || issymbol(c) || c == ':' || c == '$'
+			|| c == '\'' || c == '\"' || c == '(' || c == ')')
 	{
 		lexeme = read_quoted(s, src);
 		if (is_keyword(lexeme) != -1)
