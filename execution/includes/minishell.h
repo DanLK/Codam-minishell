@@ -6,7 +6,7 @@
 /*   By: rojornod <rojornod@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/10 14:21:08 by rojornod          #+#    #+#             */
-/*   Updated: 2025/06/10 15:35:24 by rojornod         ###   ########.fr       */
+/*   Updated: 2025/06/11 12:44:26 by rojornod         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,7 @@ typedef struct s_shell_info
 	int		fdout;
 	int		hd_count;
 	int		cur_hd;
-}	t_shell_info;
+}	t_info;
 
 //directories
 char			*get_home_dir(void);
@@ -60,8 +60,11 @@ int				pwd_builtin(void);
 int				cd_builtin(char *command, t_vars *vars);
 int				export_builtin(t_vars **head, char *var_name, char *var_value);
 int				unset_builtin(t_vars **head, char *var_name);
-int				exit_builtin(t_vars *vars, t_shell_info *info);
+int				exit_builtin(t_vars *vars, t_info *info);
 int				env_builtin(t_vars *head);
+
+//builtins utils
+void			set_exp_value(t_vars *temp, char *var_value);
 
 //variables
 t_vars			*add_var(t_vars **head, char *var_name, char *var_value,
@@ -94,7 +97,7 @@ void			init_heredoc(void);
 //external commands
 char			*find_path(t_vars *head, char *command);
 int				exec_external_com(t_vars *head, char **cmd,
-					int size, t_shell_info *info);
+					int size, t_info *info);
 
 //child process
 int				create_child_proc(t_vars *vars, char **cmd, char *path,
@@ -102,8 +105,8 @@ int				create_child_proc(t_vars *vars, char **cmd, char *path,
 int				child_process(char *path, char **argv, char **env_copy);
 
 //heredocs
-//int				heredoc(t_shell_info *info, char *delim);
+//int				heredoc(t_info *info, char *delim);
 
 //initializing
 t_vars			*initialize_data(void);
-t_shell_info	*initialize_info(void);
+t_info	*initialize_info(void);

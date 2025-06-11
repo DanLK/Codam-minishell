@@ -6,7 +6,7 @@
 /*   By: rojornod <rojornod@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/29 12:21:37 by dloustal          #+#    #+#             */
-/*   Updated: 2025/06/04 14:17:48 by rojornod         ###   ########.fr       */
+/*   Updated: 2025/06/11 12:44:35 by rojornod         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 /*****************************************************************************
  * Calculates the length of the expected expanded string
 ******************************************************************************/
-int	qstr_exp_len(char *s, t_vars *vars, t_shell_info *info)
+int	qstr_exp_len(char *s, t_vars *vars, t_info *info)
 {
 	size_t	len;
 	bool	in_double;
@@ -67,7 +67,7 @@ int	qstr_exp_len(char *s, t_vars *vars, t_shell_info *info)
 /*****************************************************************************
  * Writes char by char the exit status string in the result string
 ******************************************************************************/
-void	put_exitstatus(char **result, t_shell_info *info, int *res_i)
+void	put_exitstatus(char **result, t_info *info, int *res_i)
 {
 	int		exit_status;
 	int		k;

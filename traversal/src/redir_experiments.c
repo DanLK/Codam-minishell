@@ -6,7 +6,7 @@
 /*   By: rojornod <rojornod@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/07 16:20:49 by dloustal          #+#    #+#             */
-/*   Updated: 2025/06/04 12:06:30 by rojornod         ###   ########.fr       */
+/*   Updated: 2025/06/11 12:44:34 by rojornod         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@
 //     }
 // }
 
-// void	exp_redir_out(t_t_node **root, t_vars *vars, t_shell_info *info)
+// void	exp_redir_out(t_t_node **root, t_vars *vars, t_info *info)
 // {
 // 	int		fd;
 // 	int		saved_stdout;
@@ -96,7 +96,7 @@
 /********************************************************************************************
  * Assumming root->p_type == PARSER_REDIR
  ********************************************************************************************/
-void	exp_redir_out(t_t_node **root, t_vars *vars, t_shell_info *info)
+void	exp_redir_out(t_t_node **root, t_vars *vars, t_info *info)
 {
 	if ((*root)->left->tokens->head->token->type == TKN_FILE_PATH)
 	{

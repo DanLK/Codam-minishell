@@ -6,7 +6,7 @@
 /*   By: rojornod <rojornod@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/10 14:21:17 by rojornod          #+#    #+#             */
-/*   Updated: 2025/06/09 12:14:28 by rojornod         ###   ########.fr       */
+/*   Updated: 2025/06/11 12:44:29 by rojornod         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,17 +26,17 @@ t_vars	*initialize_data(void)
 	return (head);
 }
 
-t_shell_info	*initialize_info(void)
+t_info	*initialize_info(void)
 {
-	t_shell_info	*info;
+	t_info	*info;
 
-	info = malloc(sizeof(t_shell_info));
+	info = malloc(sizeof(t_info));
 	if (!info)
 	{
 		perror("malloc on vars initialization");
 		exit(EXIT_FAILURE);
 	}
-	ft_memset(info, 0, sizeof(t_shell_info));
+	ft_memset(info, 0, sizeof(t_info));
 	info->fdin = dup(STDIN_FILENO);
 	info->fdout = dup(STDOUT_FILENO);
 	return (info);

@@ -6,7 +6,7 @@
 /*   By: rojornod <rojornod@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/09 16:05:02 by rojornod          #+#    #+#             */
-/*   Updated: 2025/06/04 11:15:26 by rojornod         ###   ########.fr       */
+/*   Updated: 2025/06/11 12:44:31 by rojornod         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,7 +73,7 @@ void	init_heredoc(void)
 * this will be called
 *
 ******************************************************************************/
-// int	heredoc(t_shell_info *info, char *delim)
+// int	heredoc(t_info *info, char *delim)
 // {
 // 	int		fd;
 // 	char	*read_input;

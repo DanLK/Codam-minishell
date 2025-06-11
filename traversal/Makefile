@@ -10,7 +10,7 @@ MAIN_OBJ = $(MAIN:%.c=$(OBJ_DIR)/%.o)
 LEXER_OBJ = $(LEXER_SRC:%.c=$(LEXER_DIR)/obj/%.o)
 PARSER_OBJ = $(PARSER_SRC:%.c=$(PARSER_DIR)/obj/%.o)
 
-EXEC_SRC = builtins_extra.c builtins.c child_process.c external_commands.c readline.c signal_handling_extra.c signal_handling.c utils.c vars.c 
+EXEC_SRC = builtins_extra2.c builtins_extra.c builtins.c child_process.c external_commands.c readline.c signal_handling_extra.c signal_handling.c utils.c vars.c 
 EXEC_OBJ = $(EXEC_SRC:%.c=$(EXEC_DIR)/obj/%.o)
 
 CFLAGS += -Wall -Wextra -Werror

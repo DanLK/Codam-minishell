@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
-/*                                                        ::::::::            */
-/*   heredoc_parsing.c                                  :+:    :+:            */
-/*                                                     +:+                    */
-/*   By: dloustal <dloustal@student.42.fr>            +#+                     */
-/*                                                   +#+                      */
-/*   Created: 2025/05/22 13:49:41 by dloustal      #+#    #+#                 */
-/*   Updated: 2025/06/10 14:57:13 by dloustal      ########   odam.nl         */
+/*                                                        :::      ::::::::   */
+/*   heredoc_parsing.c                                  :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: rojornod <rojornod@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/05/22 13:49:41 by dloustal          #+#    #+#             */
+/*   Updated: 2025/06/11 12:44:31 by rojornod         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 /*******************************************************************************
  * Traverses the tree (DFS) in search for heredocs
 *******************************************************************************/
-void	parse_hd_tree(t_t_node **root, t_vars *vars, t_shell_info *info)
+void	parse_hd_tree(t_t_node **root, t_vars *vars, t_info *info)
 {
 	if (!root)
 		return ;
@@ -29,7 +29,7 @@ void	parse_hd_tree(t_t_node **root, t_vars *vars, t_shell_info *info)
 /*******************************************************************************
  * Does a pass through the redirs list to find the heredocs
 *******************************************************************************/
-void	parse_hd_node(t_t_node **root, t_vars *vars, t_shell_info *info)
+void	parse_hd_node(t_t_node **root, t_vars *vars, t_info *info)
 {
 	t_redir_node	*cur;
 
@@ -66,7 +66,7 @@ static void	sigint_cleanup(int fd, char *file_name)
  * 
  * It stops when it hits the specified eof string
 *******************************************************************************/
-void	parse_hd(t_redir_node *cur, t_vars *vars, t_shell_info *info)
+void	parse_hd(t_redir_node *cur, t_vars *vars, t_info *info)
 {
 	int		fd;
 	char	*input;
