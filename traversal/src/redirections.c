@@ -6,7 +6,7 @@
 /*   By: rojornod <rojornod@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/06 10:53:23 by rojornod          #+#    #+#             */
-/*   Updated: 2025/06/10 11:38:22 by rojornod         ###   ########.fr       */
+/*   Updated: 2025/06/11 12:44:34 by rojornod         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@
 *	If a redirect out is found in the full command this function will be called
 *
 *******************************************************************************/
-// int	execute_redir_out(t_t_node **root, t_vars *head, t_shell_info *info)
+// int	execute_redir_out(t_t_node **root, t_vars *head, t_info *info)
 // {
 //     pid_t	pid;
 // 	int		w_status;
@@ -136,7 +136,7 @@ int	tmp_redir_in(char *file)
 	return (0);
 }
 
-// int	execute_redir_in(t_t_node **root, t_vars *head, t_shell_info *info)
+// int	execute_redir_in(t_t_node **root, t_vars *head, t_info *info)
 // {
 //     pid_t	pid;
 // 	int		w_status;
@@ -169,7 +169,7 @@ int	tmp_redir_in(char *file)
 // 	return (0);
 // }
 
-// int	execute_redir_app(t_t_node **root, t_vars *head, t_shell_info *info)
+// int	execute_redir_app(t_t_node **root, t_vars *head, t_info *info)
 // {
 // 	pid_t	pid;
 // 	int		w_status;

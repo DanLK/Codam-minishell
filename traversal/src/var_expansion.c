@@ -6,7 +6,7 @@
 /*   By: rojornod <rojornod@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/28 09:49:04 by dloustal          #+#    #+#             */
-/*   Updated: 2025/06/04 11:50:03 by rojornod         ###   ########.fr       */
+/*   Updated: 2025/06/11 12:44:36 by rojornod         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 /*****************************************************************************
  * Traverses the tree and expands the variables
 ******************************************************************************/
-void	expand_var_tree(t_t_node **root, t_vars *vars, t_shell_info *info)
+void	expand_var_tree(t_t_node **root, t_vars *vars, t_info *info)
 {
 	if (!root || !*root | !vars)
 		return ;
@@ -34,7 +34,7 @@ void	expand_var_tree(t_t_node **root, t_vars *vars, t_shell_info *info)
  * For the WORD and Q_STRING nodes, it calls expand_qstring
  * 
 ******************************************************************************/
-void	expand_var_list(t_token_list *tokens, t_vars *vars, t_shell_info *info)
+void	expand_var_list(t_token_list *tokens, t_vars *vars, t_info *info)
 {
 	t_token_node	*node;
 	char			*old_lexeme;
@@ -88,7 +88,7 @@ void	expand_envvar(t_token_node *node, t_vars *vars)
  * Exchanges the $? for its value in a given node
  * Assumes the token type of the node is TKN_EXIT_STATUS
 ******************************************************************************/
-void	expand_exitstatus(t_token_node *node, t_shell_info *info)
+void	expand_exitstatus(t_token_node *node, t_info *info)
 {
 	int		exit_status;
 	char	*old_lexeme;
@@ -105,7 +105,7 @@ void	expand_exitstatus(t_token_node *node, t_shell_info *info)
 /*****************************************************************************
  * Builds a new string by expanding variables and exit status that are in quotes
 ******************************************************************************/
-char	*expand_qstring(char *s, t_vars *vars, t_shell_info *info)
+char	*expand_qstring(char *s, t_vars *vars, t_info *info)
 {
 	char	*result;
 	int		len;

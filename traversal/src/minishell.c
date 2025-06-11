@@ -6,7 +6,7 @@
 /*   By: rojornod <rojornod@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/17 11:53:23 by dloustal          #+#    #+#             */
-/*   Updated: 2025/06/11 11:51:36 by rojornod         ###   ########.fr       */
+/*   Updated: 2025/06/11 12:44:32 by rojornod         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ int	main(int argc, char **argv, char **envp)
 	t_token_list	*tokens;
 	t_t_node		*root;
 	t_vars			*vars;
-	t_shell_info	*info;
+	t_info	*info;
 	char			*home_dir;	
 	char			*read;
 

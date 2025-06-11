@@ -6,7 +6,7 @@
 /*   By: rojornod <rojornod@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/11 12:34:43 by rojornod          #+#    #+#             */
-/*   Updated: 2025/06/11 12:38:25 by rojornod         ###   ########.fr       */
+/*   Updated: 2025/06/11 12:44:27 by rojornod         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@
 *
 *******************************************************************************/
 
-int	exit_builtin(t_vars *vars, t_shell_info *info)
+int	exit_builtin(t_vars *vars, t_info *info)
 {
 	free_vars(vars);
 	if (info->home_dir)

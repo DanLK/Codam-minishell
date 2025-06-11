@@ -6,7 +6,7 @@
 /*   By: rojornod <rojornod@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/16 11:11:31 by rojornod          #+#    #+#             */
-/*   Updated: 2025/06/10 15:28:31 by rojornod         ###   ########.fr       */
+/*   Updated: 2025/06/11 12:45:38 by rojornod         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,7 +62,7 @@ static char	**copy_to_argv(char **cmd, char **argv, char **env_copy,
 	return (argv);
 }
 
-int	create_child_proc(t_vars *vars, char **cmd, char *path, int size)
+int	create_child_proc(t_vars *vars, char **cm, char *path, int siz, t_info *in)
 {
 	pid_t		pid;
 	char		**argv;
@@ -73,10 +73,10 @@ int	create_child_proc(t_vars *vars, char **cmd, char *path, int size)
 	exit_code = 0;
 	i = 0;
 	env_copy = convert_env(vars);
-	argv = malloc((size + 1) * sizeof(char *));
+	argv = malloc((siz + 1) * sizeof(char *));
 	if (!argv)
 		return (free_array(env_copy), EXIT_FAILURE);
-	argv = copy_to_argv(cmd, argv, env_copy, path);
+	argv = copy_to_argv(cm, argv, env_copy, path);
 	if (!argv)
 		return (1);
 	if (!path)
