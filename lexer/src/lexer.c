@@ -3,10 +3,10 @@
 /*                                                        ::::::::            */
 /*   lexer.c                                            :+:    :+:            */
 /*                                                     +:+                    */
-/*   By: dloustal <dloustal@student.42.fr>            +#+                     */
+/*   By: dloustal <marvin@42.fr>                      +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/03/14 17:06:59 by dloustal      #+#    #+#                 */
-/*   Updated: 2025/06/10 15:34:10 by dloustal      ########   odam.nl         */
+/*   Updated: 2025/06/11 17:11:56 by dloustalot    ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,16 +62,20 @@ void	get_cur_token(t_token_list *tokens, char *src, t_scanner *s)
 	c = get_cur_char(&s->cur, src);
 	if (c == '|')
 		append_token(tokens, TKN_PIPE, "|");
-	else if (c == '(')
-		append_token(tokens, TKN_L_PAREN, "(");
-	else if (c == ')')
-		append_token(tokens, TKN_R_PAREN, ")");
+	// else if (c == '(')
+	// 	append_token(tokens, TKN_L_PAREN, "(");
+	// else if (c == ')')
+	// 	append_token(tokens, TKN_R_PAREN, ")");
 	else if (c == '=')
 		append_token(tokens, TKN_EQUAL, "=");
 	else if (c == '>' || c == '<')
 		redir_tkn(tokens, src, s, c);
-	else if (c == '$' || c == '"' || c == '\'') //(c == '$' && is_variable_tkn(src, s)
-		tkn_quote(tokens, src, s, c);
-	else if (c == '-' || ft_isalnum(c) || issymbol(c) || c == ':' || c == '$')
+	else if (c == '-' || ft_isalnum(c) || issymbol(c) || c == ':'
+			|| c == '$' || c == '"' || c == '\'' || c == '('
+			|| c == ')')
 		tkn_opt_word(tokens, src, s, c);
+	// else if (c == '$' && is_next(&(s->cur), src, '?'))
+	// 	append_token(tokens, TKN_EXIT_STATUS, "$?");
+	// else if (c == '"' || c == '\'') //(c == '$' && is_variable_tkn(src, s)
+	// 	tkn_quote(tokens, src, s, c);
 }

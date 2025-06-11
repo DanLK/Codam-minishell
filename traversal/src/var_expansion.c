@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   var_expansion.c                                    :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: rojornod <rojornod@student.42.fr>          +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/04/28 09:49:04 by dloustal          #+#    #+#             */
-/*   Updated: 2025/06/11 12:44:36 by rojornod         ###   ########.fr       */
+/*                                                        ::::::::            */
+/*   var_expansion.c                                    :+:    :+:            */
+/*                                                     +:+                    */
+/*   By: dloustal <marvin@42.fr>                      +#+                     */
+/*                                                   +#+                      */
+/*   Created: 2025/04/28 09:49:04 by dloustal      #+#    #+#                 */
+/*   Updated: 2025/06/11 17:25:43 by dloustalot    ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,13 +103,15 @@ void	expand_exitstatus(t_token_node *node, t_info *info)
 }
 
 /*****************************************************************************
- * Builds a new string by expanding variables and exit status that are in quotes
+ * Builds a new string by expanding variables and exit status 
+ * 
+ * Expands everything that is not in single quotes
 ******************************************************************************/
 char	*expand_qstring(char *s, t_vars *vars, t_info *info)
 {
 	char	*result;
 	int		len;
-	bool	in_double;
+	bool	in_single;
 	int		i;
 	int		res_i;
 	char	*var_name;
@@ -119,18 +121,20 @@ char	*expand_qstring(char *s, t_vars *vars, t_info *info)
 	result = malloc((len + 1) * sizeof(char));
 	if (!result)
 		return (NULL);
-	in_double = false;
+	in_single = false;
 	i = 0;
 	res_i = 0;
 	while (s[i])
 	{
-		if (s[i] == '\"')
+		if (s[i] == '\'')
 		{
-			in_double = !in_double;
+			in_single = !in_single;
 			i++;
 			continue ;
 		}
-		else if (in_double && s[i] == '$')
+		else if (s[i] == '\"')
+			i++;
+		else if (!in_single && s[i] == '$')
 		{
 			i++;
 			if (s[i] == '?')
