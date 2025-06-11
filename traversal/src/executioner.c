@@ -6,7 +6,7 @@
 /*   By: dloustal <marvin@42.fr>                      +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/04/22 13:36:45 by dloustal      #+#    #+#                 */
-/*   Updated: 2025/06/11 12:51:23 by dloustalot    ########   odam.nl         */
+/*   Updated: 2025/06/11 17:24:10 by dloustalot    ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 /*******************************************************************************
  *  Executes the src code represented by an AST built by the parser
 *******************************************************************************/
-int	execute_src(t_t_node **root, t_vars *vars, t_shell_info *info)
+int	execute_src(t_t_node **root, t_vars *vars, t_info *info)
 {
 	int	exit_st;
 
@@ -40,7 +40,7 @@ int	execute_src(t_t_node **root, t_vars *vars, t_shell_info *info)
  *  Experiment to execute a redirection node 
  * -- For now assumming only out redirections are possible
 *******************************************************************************/
-int	execute_redirection(t_t_node **root, t_vars *vars, t_shell_info *info)
+int	execute_redirection(t_t_node **root, t_vars *vars, t_info *info)
 {
 	t_redir_node	*cur;
 	int				std_out;
@@ -74,7 +74,7 @@ int	execute_redirection(t_t_node **root, t_vars *vars, t_shell_info *info)
 	return (exit_code);
 }
 
-int	call_redir(t_redir_node *cur, t_shell_info *info)
+int	call_redir(t_redir_node *cur, t_info *info)
 {
 	t_redir_node	*operator_node;
 
@@ -100,7 +100,7 @@ int	call_redir(t_redir_node *cur, t_shell_info *info)
 /*******************************************************************************
  *  Assuming the root node is of type P_COMMAND
 *******************************************************************************/
-int	execute_command(t_t_node **root, t_vars *vars, t_shell_info *info)
+int	execute_command(t_t_node **root, t_vars *vars, t_info *info)
 {
 	t_token_list	*tokens;
 	int				exit_status;
@@ -132,7 +132,7 @@ int	execute_command(t_t_node **root, t_vars *vars, t_shell_info *info)
  *  Assuming the root node is of type P_COMMAND and the head of the
  * token list is one of the builtins
 *******************************************************************************/
-int	execute_builtin(t_t_node **root, t_vars *vars, t_shell_info *info)
+int	execute_builtin(t_t_node **root, t_vars *vars, t_info *info)
 {
 	t_token_list	*tokens;
 	t_token			*token;
@@ -317,7 +317,7 @@ int	execute_assignment(t_token_list *tokens, t_vars *vars)
 	return (0);
 }
 
-int	execute_ext_command(t_t_node **root, t_vars *vars, t_shell_info *info)
+int	execute_ext_command(t_t_node **root, t_vars *vars, t_info *info)
 {
 	int				size;
 	char			**command;
@@ -337,7 +337,7 @@ int	execute_ext_command(t_t_node **root, t_vars *vars, t_shell_info *info)
 	return (exit_code);
 }
 
-// int	execute_abs_path(t_t_node **root, t_vars *vars, t_shell_info *info)
+// int	execute_abs_path(t_t_node **root, t_vars *vars, t_info *info)
 // {
 // 	int				size;
 // 	char			**command;

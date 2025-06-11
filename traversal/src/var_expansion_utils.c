@@ -6,7 +6,7 @@
 /*   By: dloustal <marvin@42.fr>                      +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/04/29 12:21:37 by dloustal      #+#    #+#                 */
-/*   Updated: 2025/06/11 17:05:45 by dloustalot    ########   odam.nl         */
+/*   Updated: 2025/06/11 17:25:14 by dloustalot    ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@
  * It expands everywhere but in single quotes
  * Ignores single and double quotes in the counting
 ******************************************************************************/
-int	qstr_exp_len(char *s, t_vars *vars, t_shell_info *info)
+int	qstr_exp_len(char *s, t_vars *vars, t_info *info)
 {
 	size_t	len;
 	bool	in_double;
@@ -78,7 +78,7 @@ int	qstr_exp_len(char *s, t_vars *vars, t_shell_info *info)
 /*****************************************************************************
  * Writes char by char the exit status string in the result string
 ******************************************************************************/
-void	put_exitstatus(char **result, t_shell_info *info, int *res_i)
+void	put_exitstatus(char **result, t_info *info, int *res_i)
 {
 	int		exit_status;
 	int		k;

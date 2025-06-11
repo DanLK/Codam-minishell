@@ -6,7 +6,7 @@
 /*   By: dloustal <marvin@42.fr>                      +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/05/09 16:05:02 by rojornod      #+#    #+#                 */
-/*   Updated: 2025/06/11 12:22:30 by dloustalot    ########   odam.nl         */
+/*   Updated: 2025/06/11 17:24:33 by dloustalot    ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,7 +73,7 @@ void	init_heredoc(void)
 * this will be called
 *
 ******************************************************************************/
-// int	heredoc(t_shell_info *info, char *delim)
+// int	heredoc(t_info *info, char *delim)
 // {
 // 	int		fd;
 // 	char	*read_input;

@@ -6,7 +6,7 @@
 /*   By: rojornod <rojornod@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/18 11:16:24 by rojornod          #+#    #+#             */
-/*   Updated: 2025/06/03 15:19:38 by rojornod         ###   ########.fr       */
+/*   Updated: 2025/06/11 12:44:33 by rojornod         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@
 *	- Recursively calls execute pipe again
 *	
 *******************************************************************************/
-static int	pipe_l(int fd[2], t_t_node **root, t_vars *head, t_shell_info *info)
+static int	pipe_l(int fd[2], t_t_node **root, t_vars *head, t_info *info)
 {
 	close(fd[0]);
 	dup2(fd[1], STDOUT_FILENO);
@@ -37,7 +37,7 @@ static int	pipe_l(int fd[2], t_t_node **root, t_vars *head, t_shell_info *info)
 *	- Recursively calls execute pipe again
 *	
 *******************************************************************************/
-static int	pipe_r(int fd[2], t_t_node **root, t_vars *head, t_shell_info *info)
+static int	pipe_r(int fd[2], t_t_node **root, t_vars *head, t_info *info)
 {
 	close(fd[1]);
 	dup2(fd[0], STDIN_FILENO);
@@ -51,7 +51,7 @@ static int	pipe_r(int fd[2], t_t_node **root, t_vars *head, t_shell_info *info)
 *	-If a pipe is found in the full command this function will be called
 *
 *******************************************************************************/
-int	execute_pipe(t_t_node **root, t_vars *head, t_shell_info *info)
+int	execute_pipe(t_t_node **root, t_vars *head, t_info *info)
 {
 	int		fd[2];
 	pid_t	pid_left;

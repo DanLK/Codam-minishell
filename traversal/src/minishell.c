@@ -6,7 +6,7 @@
 /*   By: dloustal <marvin@42.fr>                      +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/04/17 11:53:23 by dloustal      #+#    #+#                 */
-/*   Updated: 2025/06/11 17:16:27 by dloustalot    ########   odam.nl         */
+/*   Updated: 2025/06/11 17:24:47 by dloustalot    ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ int	main(int argc, char **argv, char **envp)
 	t_token_list	*tokens;
 	t_t_node		*root;
 	t_vars			*vars;
-	t_shell_info	*info;
+	t_info	*info;
 	char			*home_dir;	
 	char			*read;
 
@@ -32,21 +32,21 @@ int	main(int argc, char **argv, char **envp)
 	signal_action();
 	while (1)
 	{
+		rl_done = 0;
 		read = readline("> ");
 		if (!read)
 		{
 			free(home_dir);
 			exit_builtin(vars, info);
 		}	
+		// else if (get_signal_received() == SIGINT)
+		// {
+		// 	info->last_return_code = 130;
+		// 	reset_signal();
+		// 	continue ;
+		// }
 		else if (read[0] == '\0')
 			continue ;
-		else if (get_signal_received() == SIGINT)
-		{
-			info->last_return_code = 130;
-			reset_signal();
-			free(read);
-			continue ;
-		}
 		else
 		{
 			tokens = scan(read);

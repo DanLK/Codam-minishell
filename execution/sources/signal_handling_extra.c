@@ -6,7 +6,7 @@
 /*   By: rojornod <rojornod@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/02 15:50:26 by rojornod          #+#    #+#             */
-/*   Updated: 2025/06/10 15:35:21 by rojornod         ###   ########.fr       */
+/*   Updated: 2025/06/11 15:34:14 by rojornod         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,9 +39,9 @@ int	child_proc_action(void)
 {
 	struct sigaction	action;
 
-	action.sa_handler = SIG_DFL;
-	sigemptyset(&action.sa_mask);
 	action.sa_flags = 0;
+	action.sa_handler = child_proc_handler;
+	sigemptyset(&action.sa_mask);
 	sigaction(SIGINT, &action, NULL);
 	sigaction(SIGQUIT, &action, NULL);
 	return (0);
