@@ -6,7 +6,7 @@
 /*   By: rojornod <rojornod@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/16 11:11:31 by rojornod          #+#    #+#             */
-/*   Updated: 2025/06/11 12:45:38 by rojornod         ###   ########.fr       */
+/*   Updated: 2025/06/11 16:15:17 by rojornod         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,15 +27,32 @@ int	child_process(char *path, char **argv, char **env_copy)
 	}
 	exit(127);
 }
+/******************************************************************************
+*	if (errno == EINTR) continue ; basically means if the error is 
+*	EINTR (interrupted by signal)
+*	the loop continues and call waitpid again. this prevents the parent form 
+*	exiting early. in case a signal interruption happens in the child. 
+*	if the error is something else the loop breaks
+******************************************************************************/
 
 static int	parent_process(char *path)
 {
-	int	w_status;
+	int		w_status;
+	pid_t	pid;
 
+	pid = 0;
 	free(path);
 	w_status = 0;
-	while
-		(waitpid(-1, &w_status, 0) > 0);
+	while (1)
+	{
+		pid = waitpid(-1, &w_status, 0);
+		if (pid == -1)
+		{
+			if (errno == EINTR)
+				continue ;
+			break ;
+		}
+	}
 	if (WIFEXITED(w_status))
 		return (WEXITSTATUS(w_status));
 	if (WIFSIGNALED(w_status) && (WTERMSIG(w_status) == SIGQUIT))
@@ -62,7 +79,7 @@ static char	**copy_to_argv(char **cmd, char **argv, char **env_copy,
 	return (argv);
 }
 
-int	create_child_proc(t_vars *vars, char **cm, char *path, int siz, t_info *in)
+int	create_child_proc(t_vars *vars, char **cm, char *path, int siz)
 {
 	pid_t		pid;
 	char		**argv;
