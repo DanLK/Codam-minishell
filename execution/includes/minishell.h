@@ -6,7 +6,7 @@
 /*   By: rojornod <rojornod@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/10 14:21:08 by rojornod          #+#    #+#             */
-/*   Updated: 2025/06/11 12:44:26 by rojornod         ###   ########.fr       */
+/*   Updated: 2025/06/11 13:02:59 by rojornod         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ typedef struct s_vars
 	struct s_vars	*next;
 }	t_vars;
 
-typedef struct s_shell_info
+typedef struct s_info
 {
 	int		last_return_code;
 	char	*home_dir;
@@ -109,4 +109,4 @@ int				child_process(char *path, char **argv, char **env_copy);
 
 //initializing
 t_vars			*initialize_data(void);
-t_info	*initialize_info(void);
+t_info			*initialize_info(void);
