@@ -6,7 +6,7 @@
 /*   By: rojornod <rojornod@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/16 11:11:31 by rojornod          #+#    #+#             */
-/*   Updated: 2025/06/11 16:10:58 by rojornod         ###   ########.fr       */
+/*   Updated: 2025/06/11 16:15:17 by rojornod         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ int	child_process(char *path, char **argv, char **env_copy)
 
 static int	parent_process(char *path)
 {
-	int	w_status;
+	int		w_status;
 	pid_t	pid;
 
 	pid = 0;

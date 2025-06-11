@@ -6,7 +6,7 @@
 /*   By: rojornod <rojornod@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/20 10:06:02 by rojornod          #+#    #+#             */
-/*   Updated: 2025/06/11 14:47:28 by rojornod         ###   ########.fr       */
+/*   Updated: 2025/06/11 16:15:43 by rojornod         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,6 @@ void	child_proc_handler(int signal)
 	if (signal == SIGINT)
 	{
 		g_received = SIGINT;
-
 	}
 	if (signal == SIGQUIT)
 		g_received = SIGQUIT;
