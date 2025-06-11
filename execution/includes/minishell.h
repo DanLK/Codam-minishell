@@ -6,7 +6,7 @@
 /*   By: rojornod <rojornod@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/10 14:21:08 by rojornod          #+#    #+#             */
-/*   Updated: 2025/06/10 15:35:24 by rojornod         ###   ########.fr       */
+/*   Updated: 2025/06/11 12:32:36 by rojornod         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,6 +62,9 @@ int				export_builtin(t_vars **head, char *var_name, char *var_value);
 int				unset_builtin(t_vars **head, char *var_name);
 int				exit_builtin(t_vars *vars, t_shell_info *info);
 int				env_builtin(t_vars *head);
+
+//builtins utils
+void			set_exp_value(t_vars *temp, char *var_value);
 
 //variables
 t_vars			*add_var(t_vars **head, char *var_name, char *var_value,

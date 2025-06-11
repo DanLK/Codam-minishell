@@ -6,7 +6,7 @@
 /*   By: rojornod <rojornod@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/17 11:53:23 by dloustal          #+#    #+#             */
-/*   Updated: 2025/06/10 17:10:32 by rojornod         ###   ########.fr       */
+/*   Updated: 2025/06/11 11:51:36 by rojornod         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,14 +32,13 @@ int	main(int argc, char **argv, char **envp)
 	signal_action();
 	while (1)
 	{
+		rl_done = 0;
 		read = readline("> ");
 		if (!read)
 		{
 			free(home_dir);
 			exit_builtin(vars, info);
 		}	
-		else if (read[0] == '\0')
-			continue ;
 		else if (get_signal_received() == SIGINT)
 		{
 			info->last_return_code = 130;
@@ -47,6 +46,8 @@ int	main(int argc, char **argv, char **envp)
 			free(read);
 			continue ;
 		}
+		else if (read[0] == '\0')
+			continue ;
 		else
 		{
 			tokens = scan(read);
