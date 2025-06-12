@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   child_process.c                                    :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: rojornod <rojornod@student.42.fr>          +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/04/16 11:11:31 by rojornod          #+#    #+#             */
-/*   Updated: 2025/06/11 16:15:17 by rojornod         ###   ########.fr       */
+/*                                                        ::::::::            */
+/*   child_process.c                                    :+:    :+:            */
+/*                                                     +:+                    */
+/*   By: dloustal <marvin@42.fr>                      +#+                     */
+/*                                                   +#+                      */
+/*   Created: 2025/04/16 11:11:31 by rojornod      #+#    #+#                 */
+/*   Updated: 2025/06/11 17:23:31 by dloustalot    ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,11 +84,11 @@ int	create_child_proc(t_vars *vars, char **cm, char *path, int siz)
 	pid_t		pid;
 	char		**argv;
 	char		**env_copy;
-	int			i;
+	// int			i;
 	int			exit_code;
 
 	exit_code = 0;
-	i = 0;
+	// i = 0;
 	env_copy = convert_env(vars);
 	argv = malloc((siz + 1) * sizeof(char *));
 	if (!argv)
