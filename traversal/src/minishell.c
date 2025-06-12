@@ -6,7 +6,7 @@
 /*   By: rojornod <rojornod@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/17 11:53:23 by dloustal          #+#    #+#             */
-/*   Updated: 2025/06/11 15:59:32 by rojornod         ###   ########.fr       */
+/*   Updated: 2025/06/12 10:38:34 by rojornod         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,12 +39,13 @@ int	main(int argc, char **argv, char **envp)
 			free(home_dir);
 			exit_builtin(vars, info);
 		}	
-		// else if (get_signal_received() == SIGINT)
-		// {
-		// 	info->last_return_code = 130;
-		// 	reset_signal();
-		// 	continue ;
-		// }
+		else if (get_signal_received() == SIGINT)
+		{
+			rl_done = 1;
+			info->last_return_code = 130;
+			reset_signal();
+			
+		}
 		else if (read[0] == '\0')
 			continue ;
 		else
