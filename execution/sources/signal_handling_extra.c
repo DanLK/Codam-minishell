@@ -1,16 +1,16 @@
 /* ************************************************************************** */
 /*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   signal_handling_extra.c                            :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: rojornod <rojornod@student.42.fr>          +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/06/02 15:50:26 by rojornod          #+#    #+#             */
-/*   Updated: 2025/06/11 15:34:14 by rojornod         ###   ########.fr       */
+/*                                                        ::::::::            */
+/*   signal_handling_extra.c                            :+:    :+:            */
+/*                                                     +:+                    */
+/*   By: dloustal <dloustal@student.42.fr>            +#+                     */
+/*                                                   +#+                      */
+/*   Created: 2025/06/02 15:50:26 by rojornod      #+#    #+#                 */
+/*   Updated: 2025/06/12 16:42:23 by dloustal      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../includes/minishell.h"
+#include "../includes/execution.h"
 
 void	signal_action(void)
 {

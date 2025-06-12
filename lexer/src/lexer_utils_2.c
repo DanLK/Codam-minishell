@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   lexer_utils_2.c                                    :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: rojornod <rojornod@student.42.fr>          +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/03/24 11:46:50 by dloustal          #+#    #+#             */
-/*   Updated: 2025/06/04 16:34:40 by rojornod         ###   ########.fr       */
+/*                                                        ::::::::            */
+/*   lexer_utils_2.c                                    :+:    :+:            */
+/*                                                     +:+                    */
+/*   By: dloustal <dloustal@student.42.fr>            +#+                     */
+/*                                                   +#+                      */
+/*   Created: 2025/03/24 11:46:50 by dloustal      #+#    #+#                 */
+/*   Updated: 2025/06/12 13:56:07 by dloustal      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,5 +70,24 @@ bool	is_next(int *cur, char *src, char expected)
 
 bool	issymbol(char c)
 {
-	return (c == '_' || c == '.' || c == '/');
+	return (c == '_' || (c >= '!' && c <= '/')
+		|| c == ';' || c == '?' || c == '@'
+		|| c == '[' || c == ']' || c == '{'
+		|| c == '}' || c == '~' || c == '^'
+		|| c == '=');
+}
+
+bool	is_assignment(t_scanner *s, char *src)
+{
+	char	c;
+	int		i;
+
+	i = s->cur;
+	c = src[i];
+	while (ft_isalnum(c) || c == '_')
+		c = src[++i];
+	if (c == '=')
+		return (true);
+	else
+		return (false);
 }

@@ -3,14 +3,14 @@
 /*                                                        ::::::::            */
 /*   child_process.c                                    :+:    :+:            */
 /*                                                     +:+                    */
-/*   By: dloustal <marvin@42.fr>                      +#+                     */
+/*   By: dloustal <dloustal@student.42.fr>            +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/04/16 11:11:31 by rojornod      #+#    #+#                 */
-/*   Updated: 2025/06/11 17:23:31 by dloustalot    ########   odam.nl         */
+/*   Updated: 2025/06/12 16:42:07 by dloustal      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../includes/minishell.h"
+#include "../includes/execution.h"
 
 int	child_process(char *path, char **argv, char **env_copy)
 {

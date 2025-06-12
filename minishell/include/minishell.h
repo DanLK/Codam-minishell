@@ -1,19 +1,19 @@
 /* ************************************************************************** */
 /*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   traversal.h                                        :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: rojornod <rojornod@student.42.fr>          +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/04/22 12:02:07 by dloustal          #+#    #+#             */
-/*   Updated: 2025/06/11 12:44:29 by rojornod         ###   ########.fr       */
+/*                                                        ::::::::            */
+/*   traversal.h                                        :+:    :+:            */
+/*                                                     +:+                    */
+/*   By: dloustal <dloustal@student.42.fr>            +#+                     */
+/*                                                   +#+                      */
+/*   Created: 2025/04/22 12:02:07 by dloustal      #+#    #+#                 */
+/*   Updated: 2025/06/12 16:43:47 by dloustal      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef TRAVERSAL_H
 # define TRAVERSAL_H
 # include "parser.h"
-# include "minishell.h"
+# include "execution.h"
 
 // Cmd string ultilities
 bool	is_cmd(char *str, char *cmd);

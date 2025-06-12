@@ -6,7 +6,7 @@
 /*   By: dloustal <dloustal@student.42.fr>            +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/04/03 19:11:27 by dloustal      #+#    #+#                 */
-/*   Updated: 2025/05/20 17:37:29 by dloustal      ########   odam.nl         */
+/*   Updated: 2025/06/12 15:46:25 by dloustal      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,8 +38,8 @@ static const char *get_token_type(enum e_Type type)
 {
 	switch (type)
 	{
-		case TKN_L_PAREN: return "LEFT_PAREN";
-		case TKN_R_PAREN: return "RIGHT_PAREN";
+		// case TKN_L_PAREN: return "LEFT_PAREN";
+		// case TKN_R_PAREN: return "RIGHT_PAREN";
 		case TKN_EQUAL: return "EQUAL";
 		case TKN_ECHO: return "ECHO";
 		case TKN_CD: return "CD";
@@ -49,15 +49,14 @@ static const char *get_token_type(enum e_Type type)
 		case TKN_ENV: return "ENV";
 		case TKN_EXIT: return "EXIT";
 		case TKN_OPTION: return "OPTION";
+		case TKN_VAR_NAME: return "VAR_NAME";
+		case TKN_VAR_VALUE: return "VAR_VALUE";
 		case TKN_REDIR_IN: return "REDIR_IN";
 		case TKN_REDIR_OUT: return "REDIR_OUT";
 		case TKN_HEREDOC: return "HEREDOC";
 		case TKN_REDIR_OUT_APP: return "REDIR_OUT_APPEND";
 		case TKN_PIPE: return "PIPE";
-		case TKN_EXIT_STATUS: return "EXIT_STATUS";
-		case TKN_ENV_VAR: return "ENV_VAR";
 		case TKN_FILE_PATH: return "FILE_PATH";
-		case TKN_Q_STRING: return "Q_STRING";
 		case TKN_WORD: return "WORD";
 		case TKN_END: return "END";
 		default: return "UNKNOWN";
