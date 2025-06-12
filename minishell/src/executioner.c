@@ -6,7 +6,7 @@
 /*   By: dloustal <dloustal@student.42.fr>            +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/04/22 13:36:45 by dloustal      #+#    #+#                 */
-/*   Updated: 2025/06/12 16:44:30 by dloustal      ########   odam.nl         */
+/*   Updated: 2025/06/12 17:09:13 by dloustal      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -201,7 +201,7 @@ int	execute_cd(t_token_list *tokens, t_vars *vars)
 		return (cd_builtin(NULL, vars));
 	if (tokens->head->next->next)
 	{
-		ft_printf("minishell: cd: too many arguments\n");
+		perror("Minishell: cd: too many arguments\n");
 		return (1);
 	}
 	return (cd_builtin(tokens->head->next->token->lexeme, vars));
