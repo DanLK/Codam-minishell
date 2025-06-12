@@ -6,7 +6,7 @@
 /*   By: dloustal <dloustal@student.42.fr>            +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/06/02 11:50:04 by rojornod      #+#    #+#                 */
-/*   Updated: 2025/06/12 16:41:35 by dloustal      ########   odam.nl         */
+/*   Updated: 2025/06/12 17:07:11 by dloustal      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,8 @@ static void	echo_printing(char **tokens, int i)
 		else
 		{
 			ft_putstr_fd(tokens[i], 1);
-			ft_putchar_fd(' ', 1);
+			if (tokens[i + 1])
+				ft_putchar_fd(' ', 1);
 		}
 		i++;
 	}

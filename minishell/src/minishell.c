@@ -6,7 +6,7 @@
 /*   By: dloustal <dloustal@student.42.fr>            +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/04/17 11:53:23 by dloustal      #+#    #+#                 */
-/*   Updated: 2025/06/12 16:49:09 by dloustal      ########   odam.nl         */
+/*   Updated: 2025/06/12 17:38:30 by dloustal      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,9 +68,9 @@ int	main(int argc, char **argv, char **envp)
 			// ft_printf("-------------------------------------\n");
 			expand_var_tree(&root, vars, info);
 			parse_hd_tree(&root, vars, info);
-			// ft_printf("-------------------------------------\n");
-			// print_tree_node(root, "", 1);
-			// ft_printf("-------------------------------------\n");
+			ft_printf("-------------------------------------\n");
+			print_tree_node(root, "", 1);
+			ft_printf("-------------------------------------\n");
 			execute_src(&root, vars, info);
 			clear_token_list(tokens);
 			clear_subtree(root);
