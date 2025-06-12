@@ -3,14 +3,14 @@
 /*                                                        ::::::::            */
 /*   heredoc.c                                          :+:    :+:            */
 /*                                                     +:+                    */
-/*   By: dloustal <marvin@42.fr>                      +#+                     */
+/*   By: dloustal <dloustal@student.42.fr>            +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/05/09 16:05:02 by rojornod      #+#    #+#                 */
-/*   Updated: 2025/06/11 17:24:33 by dloustalot    ########   odam.nl         */
+/*   Updated: 2025/06/12 16:45:52 by dloustal      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../include/traversal.h"
+#include "minishell.h"
 
 void	heredoc_cleanup(int fd)
 {

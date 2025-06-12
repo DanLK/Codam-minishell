@@ -3,14 +3,14 @@
 /*                                                        ::::::::            */
 /*   executioner.c                                      :+:    :+:            */
 /*                                                     +:+                    */
-/*   By: dloustal <marvin@42.fr>                      +#+                     */
+/*   By: dloustal <dloustal@student.42.fr>            +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/04/22 13:36:45 by dloustal      #+#    #+#                 */
-/*   Updated: 2025/06/11 17:24:10 by dloustalot    ########   odam.nl         */
+/*   Updated: 2025/06/12 16:44:30 by dloustal      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "traversal.h"
+#include "minishell.h"
 
 /*******************************************************************************
  *  Executes the src code represented by an AST built by the parser
@@ -109,16 +109,13 @@ int	execute_command(t_t_node **root, t_vars *vars, t_info *info)
 		return (1);
 	tokens = (*root)->tokens;
 	if (is_builtin_type(tokens->head->token->type)
-		|| (tokens->head->token->type == TKN_WORD
-			&& tokens->head->next
-			&& tokens->head->next->token->type == TKN_EQUAL))
+		|| (tokens->head->token->type == TKN_VAR_NAME))
 	{
 		exit_status = execute_builtin(root, vars, info);
 		info->last_return_code = exit_status;
 		return (exit_status);
 	}
-	if (tokens->head->token->type == TKN_WORD
-		|| tokens->head->token->type == TKN_Q_STRING)
+	if (tokens->head->token->type == TKN_WORD)
 	{
 		exit_status = execute_ext_command(root, vars, info);
 		info->last_return_code = exit_status;
@@ -155,7 +152,7 @@ int	execute_builtin(t_t_node **root, t_vars *vars, t_info *info)
 		return (env_builtin(vars));
 	if (token->type == TKN_EXIT || is_cmd(token->lexeme, "exit"))
 		exit_builtin(vars, info);
-	if (token->type == TKN_WORD)
+	if (token->type == TKN_VAR_NAME)
 		return (execute_assignment(tokens, vars));
 	return (127);
 }
@@ -276,14 +273,24 @@ int	execute_export(t_token_list *tokens, t_vars *vars)
 }
 
 //divided this from execute assignment
-static char	*get_var_value(t_token_node *node, char *var_value)
+static char	*get_var_value(t_token_node **node, char *var_value)
 {
-	if (node->next->token->type == TKN_EQUAL)
+	if ((*node)->next->token->type == TKN_EQUAL)
 	{
-		if (node->next->next)
-			var_value = node->next->next->token->lexeme;
+		if ((*node)->next->next
+			&& (*node)->next->next->token->type == TKN_VAR_VALUE)
+		{
+			var_value = (*node)->next->next->token->lexeme;
+			if ((*node)->next->next->next)
+				(*node) = (*node)->next->next->next;
+			else 
+				(*node) = (*node)->next;
+		}
 		else
+		{
 			var_value = "";
+			(*node) = (*node)->next->next;
+		}
 		return (var_value);
 	}
 	else
@@ -301,19 +308,22 @@ int	execute_assignment(t_token_list *tokens, t_vars *vars)
 	if (!tokens || !vars)
 		return (1);
 	node = tokens->head;
-	var_name = node->token->lexeme;
-	var_value = get_var_value(node, var_value);
-	if (!var_value)
-		return (1);
-	temp = find_vars(vars, var_name);
-	if (temp)
+	while (node->token->type == TKN_VAR_NAME)
 	{
-		if (temp->value)
-			free(temp->value);
-		temp->value = ft_strdup(var_value);
+		var_name = node->token->lexeme;
+		var_value = get_var_value(&node, var_value);
+		if (!var_value)
+			return (1);
+		temp = find_vars(vars, var_name);
+		if (temp)
+		{
+			if (temp->value)
+				free(temp->value);
+			temp->value = ft_strdup(var_value);
+		}
+		else
+			add_var(&vars, var_name, var_value, 0);
 	}
-	else
-		add_var(&vars, var_name, var_value, 0);
 	return (0);
 }
 

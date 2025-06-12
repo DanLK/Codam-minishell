@@ -3,10 +3,10 @@
 /*                                                        ::::::::            */
 /*   token_identifier.c                                 :+:    :+:            */
 /*                                                     +:+                    */
-/*   By: dloustal <marvin@42.fr>                      +#+                     */
+/*   By: dloustal <dloustal@student.42.fr>            +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/04/01 12:11:14 by dloustal      #+#    #+#                 */
-/*   Updated: 2025/06/11 17:12:38 by dloustalot    ########   odam.nl         */
+/*   Updated: 2025/06/12 14:50:07 by dloustal      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -113,8 +113,7 @@ void	tkn_opt_word(t_token_list *tkns, char *src, t_scanner *s, char c)
 			append_token(tkns, TKN_OPTION, lexeme);
 		free(lexeme);
 	}
-	else if (ft_isalnum(c) || issymbol(c) || c == ':' || c == '$'
-			|| c == '\'' || c == '\"' || c == '(' || c == ')')
+	else if (ft_isalnum(c) || issymbol(c))
 	{
 		lexeme = read_quoted(s, src);
 		if (is_keyword(lexeme) != -1)
@@ -123,4 +122,30 @@ void	tkn_opt_word(t_token_list *tkns, char *src, t_scanner *s, char c)
 			append_token(tkns, TKN_WORD, lexeme);
 		free(lexeme);
 	}
+}
+
+void	tkn_assignment(t_token_list *tokens, t_scanner *s, char *src)
+{
+	char	*var_name;
+	char	*var_value;
+
+	var_name = ft_strdup(get_variable(s, src));
+	if (!var_name)
+		return ;
+	append_token(tokens, TKN_VAR_NAME, var_name);
+	s->cur++;
+	append_token(tokens, TKN_EQUAL, "=");
+	if (src[s->cur] == ' ')
+	{
+		s->cur++;
+		ft_printf("[tkn_assignent] src[cur]: [%c]\n", src[s->cur]);
+		return (free(var_name));
+	}
+	s->cur++;
+	var_value = ft_strdup(read_quoted(s, src));
+	if (!var_value)
+		return (free(var_name));
+	append_token(tokens, TKN_VAR_VALUE, var_value);
+	free(var_name);
+	free(var_value);
 }

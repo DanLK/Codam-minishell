@@ -6,7 +6,7 @@
 /*   By: dloustal <dloustal@student.42.fr>            +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/03/14 16:58:50 by dloustal      #+#    #+#                 */
-/*   Updated: 2025/06/10 14:37:34 by dloustal      ########   odam.nl         */
+/*   Updated: 2025/06/12 15:46:46 by dloustal      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,8 +21,8 @@
 enum e_Type
 {
 	// Single character tokens
-	TKN_L_PAREN, //0
-	TKN_R_PAREN, //1
+	// TKN_L_PAREN, //0
+	// TKN_R_PAREN, //1
 	TKN_EQUAL, //2
 	// Builtins
 	TKN_ECHO, //3
@@ -34,24 +34,22 @@ enum e_Type
 	TKN_EXIT, //9
 	// Options
 	TKN_OPTION,
+	// Var assignment
+	TKN_VAR_NAME, //11
+	TKN_VAR_VALUE,
 	// Redirections
-	TKN_REDIR_IN, //11
+	TKN_REDIR_IN, //13
 	TKN_REDIR_OUT,
 	TKN_HEREDOC,
 	TKN_REDIR_OUT_APP,
 	// Operators
-	TKN_PIPE, //15
-	// Exit status ($?)
-	TKN_EXIT_STATUS,
-	// Parameter Expansion ($)
-	TKN_ENV_VAR, //17
+	TKN_PIPE, //17
 	// Path
 	TKN_FILE_PATH, //18
 	// Literals
-	TKN_Q_STRING,//19
-	TKN_WORD, //20
+	TKN_WORD, //19
 	//EOF to indicate end of input
-	TKN_END //21
+	TKN_END //20
 };
 
 typedef struct token
@@ -102,10 +100,10 @@ void			get_cur_token(t_token_list *tokens, char *src, t_scanner *s);
 
 //Token type identifier (token_identifier.c)
 void			redir_tkn(t_token_list *tkns, char *src, t_scanner *s, char c);
-void			tkn_quote(t_token_list *tkns, char *src, t_scanner *s, char c);
-char			*tkn_env_var(char *src, t_scanner *scanner);
+// void			tkn_quote(t_token_list *tkns, char *src, t_scanner *s, char c);
+// char			*tkn_env_var(char *src, t_scanner *scanner);
 void			tkn_opt_word(t_token_list *tkns, char *src, t_scanner *s, char c);
-
+void			tkn_assignment(t_token_list *tokens, t_scanner *s, char *src);
 
 // Lexer utilities
 void			consume_space(t_scanner *scanner, char *src);
@@ -120,12 +118,13 @@ bool			kw_compare(const t_map *keywords, char *lexeme, int i);
 bool			issymbol(char c);
 char			get_cur_char(int *cur, char *src);
 bool			is_next(int *cur, char *src, char expected);
+bool			is_assignment(t_scanner *s, char *src);
 
 // Readers
-char			*read_identifier(t_scanner *scanner, char *src);
 char			*read_filepath(t_scanner *scanner, char *src);
 char			*read_options(t_scanner *scanner, char *src);
 char			*read_quoted(t_scanner *sc, char *src);
+char			*get_variable(t_scanner *s, char *src);
 
 // Initial checks
 bool 			closed_quotes(char *src, bool in_single, bool in_double);

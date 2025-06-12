@@ -3,14 +3,14 @@
 /*                                                        ::::::::            */
 /*   var_expansion.c                                    :+:    :+:            */
 /*                                                     +:+                    */
-/*   By: dloustal <marvin@42.fr>                      +#+                     */
+/*   By: dloustal <dloustal@student.42.fr>            +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/04/28 09:49:04 by dloustal      #+#    #+#                 */
-/*   Updated: 2025/06/11 17:25:43 by dloustalot    ########   odam.nl         */
+/*   Updated: 2025/06/12 16:46:19 by dloustal      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "traversal.h"
+#include "minishell.h"
 
 /*****************************************************************************
  * Traverses the tree and expands the variables
@@ -44,12 +44,11 @@ void	expand_var_list(t_token_list *tokens, t_vars *vars, t_info *info)
 	node = tokens->head;
 	while (node)
 	{
-		if (node->token->type == TKN_EXIT_STATUS)
-			expand_exitstatus(node, info);
-		else if (node->token->type == TKN_ENV_VAR)
-			expand_envvar(node, vars);
-		else if (node->token->type == TKN_Q_STRING
-			|| node->token->type == TKN_WORD)
+		// if (node->token->type == TKN_EXIT_STATUS)
+		// 	expand_exitstatus(node, info);
+		// else if (node->token->type == TKN_ENV_VAR)
+		// 	expand_envvar(node, vars);
+		if (node->token->type == TKN_WORD || node->token->type == TKN_VAR_VALUE)
 		{
 			old_lexeme = node->token->lexeme;
 			node->token->lexeme = expand_qstring(node->token->lexeme,
@@ -64,43 +63,43 @@ void	expand_var_list(t_token_list *tokens, t_vars *vars, t_info *info)
  * Exchanges the environment variable for its value in a given node
  * Assumes the token type of the node is TKN_ENV_VAR
 ******************************************************************************/
-void	expand_envvar(t_token_node *node, t_vars *vars)
-{
-	t_vars	*var;
-	char	*old_lexeme;
+// void	expand_envvar(t_token_node *node, t_vars *vars)
+// {
+// 	t_vars	*var;
+// 	char	*old_lexeme;
 
-	if (!node || !vars)
-		return ;
-	var = find_vars(vars, node->token->lexeme);
-	old_lexeme = node->token->lexeme;
-	free(old_lexeme);
-	if (var)
-		node->token->lexeme = ft_strdup(var->value);
-	else
-		node->token->lexeme = ft_strdup("");
-		// perror("Variable not found"); //This is a syntax error and should stop and clean everything
-		// return ; //Clear memory
-		// // !!!!!!!!!!!!!!!!!! It's actually not a syntax error, it just prints nothing
-	node->token->type = TKN_WORD;
-}
+// 	if (!node || !vars)
+// 		return ;
+// 	var = find_vars(vars, node->token->lexeme);
+// 	old_lexeme = node->token->lexeme;
+// 	free(old_lexeme);
+// 	if (var)
+// 		node->token->lexeme = ft_strdup(var->value);
+// 	else
+// 		node->token->lexeme = ft_strdup("");
+// 		// perror("Variable not found"); //This is a syntax error and should stop and clean everything
+// 		// return ; //Clear memory
+// 		// // !!!!!!!!!!!!!!!!!! It's actually not a syntax error, it just prints nothing
+// 	node->token->type = TKN_WORD;
+// }
 
 /*****************************************************************************
  * Exchanges the $? for its value in a given node
  * Assumes the token type of the node is TKN_EXIT_STATUS
 ******************************************************************************/
-void	expand_exitstatus(t_token_node *node, t_info *info)
-{
-	int		exit_status;
-	char	*old_lexeme;
+// void	expand_exitstatus(t_token_node *node, t_info *info)
+// {
+// 	int		exit_status;
+// 	char	*old_lexeme;
 
-	if (!node || !info)
-		return ;
-	exit_status = info->last_return_code;
-	old_lexeme = node->token->lexeme;
-	free(old_lexeme);
-	node->token->lexeme = ft_itoa(exit_status);
-	node->token->type = TKN_WORD;
-}
+// 	if (!node || !info)
+// 		return ;
+// 	exit_status = info->last_return_code;
+// 	old_lexeme = node->token->lexeme;
+// 	free(old_lexeme);
+// 	node->token->lexeme = ft_itoa(exit_status);
+// 	node->token->type = TKN_WORD;
+// }
 
 /*****************************************************************************
  * Builds a new string by expanding variables and exit status 
@@ -162,23 +161,6 @@ char	*expand_qstring(char *s, t_vars *vars, t_info *info)
 	result[res_i] = '\0';
 	return (result);
 }
-
-/*****************************************************************************
- * Expands all variables that are in between double quotes
- * Returns a new string with all the vars replaced
-******************************************************************************/
-// char	*expand_qstring(char *string, t_vars *vars)
-// {
-// 	char	*result;
-// 	if (!string || !vars)
-// 		return (NULL);
-// 	if (!ft_strnstr(string, "$", ft_strlen(string)))
-// 	{
-// 		result = remove_quotes(string);
-// 		return (result);
-// 	}
-// 	return (ft_strdup(string));
-// }
 
 /*****************************************************************************
  * Expands all variables in a string while respecting the rest of the characters

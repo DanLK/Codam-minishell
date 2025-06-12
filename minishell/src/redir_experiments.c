@@ -1,16 +1,16 @@
 /* ************************************************************************** */
 /*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   redir_experiments.c                                :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: rojornod <rojornod@student.42.fr>          +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/05/07 16:20:49 by dloustal          #+#    #+#             */
-/*   Updated: 2025/06/11 12:44:34 by rojornod         ###   ########.fr       */
+/*                                                        ::::::::            */
+/*   redir_experiments.c                                :+:    :+:            */
+/*                                                     +:+                    */
+/*   By: dloustal <dloustal@student.42.fr>            +#+                     */
+/*                                                   +#+                      */
+/*   Created: 2025/05/07 16:20:49 by dloustal      #+#    #+#                 */
+/*   Updated: 2025/06/12 16:46:00 by dloustal      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "traversal.h"
+#include "minishell.h"
 
 // void execute_redir_out(ASTNode *node) {
 //     if (!node || node->type != P_REDIR) return;
