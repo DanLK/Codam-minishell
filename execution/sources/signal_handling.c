@@ -6,7 +6,7 @@
 /*   By: rojornod <rojornod@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/20 10:06:02 by rojornod          #+#    #+#             */
-/*   Updated: 2025/06/11 16:15:43 by rojornod         ###   ########.fr       */
+/*   Updated: 2025/06/12 11:07:19 by rojornod         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,22 +16,25 @@ volatile sig_atomic_t	g_received = 0;
 
 /******************************************************************************
 
-	This is the handling of signals
-	ctrl + C - sends SIGINT signal which interrupts the current process
-	ctrl + D - is not a signal, its an End of File indicator, exits the shell
-	ctrl + \ - sends SIGQUIT, does nothing
+		This is the handling of signals
+		ctrl + C - sends SIGINT signal which interrupts the current process
+		ctrl + D - not a signal, its an End of File indicator, exits the shell
+		ctrl + \ - sends SIGQUIT, does nothing
+		ioctl function basically fakes an enter press by the user 
+	(by way of the TIOCSTI command which injects input into the 
+	terminals input buffer, emulaing presses as if they were typed by the user) 
+	this way readline doesnt ignore the first input by a user after a ctrl-c
 	
 ******************************************************************************/
 void	signal_handler(int signal)
 {
 	if (signal == SIGINT)
 	{
+		char line;
+
+		line = '\n';
 		g_received = SIGINT;
-		write(1, "\n", 1);
-		rl_replace_line("", 0);
-		rl_on_new_line();
-		rl_redisplay();
-		rl_done = 1;
+		ioctl(STDIN_FILENO, TIOCSTI, &line);
 	}
 }
 

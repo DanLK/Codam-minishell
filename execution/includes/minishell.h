@@ -6,7 +6,7 @@
 /*   By: rojornod <rojornod@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/10 14:21:08 by rojornod          #+#    #+#             */
-/*   Updated: 2025/06/11 13:02:59 by rojornod         ###   ########.fr       */
+/*   Updated: 2025/06/12 10:44:20 by rojornod         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,7 @@
 #include <sys/types.h>
 #include <sys/wait.h>
 #include <errno.h>
+#include <sys/ioctl.h>
 #include "../../libft/libft.h"
 #include "../../parser/include/parser.h"
 #include "../../lexer/include/lexer.h"
