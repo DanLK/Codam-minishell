@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   builtins_extra2.c                                  :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: rojornod <rojornod@student.42.fr>          +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/06/11 12:34:43 by rojornod          #+#    #+#             */
-/*   Updated: 2025/06/13 17:51:38 by rojornod         ###   ########.fr       */
+/*                                                        ::::::::            */
+/*   builtins_extra2.c                                  :+:    :+:            */
+/*                                                     +:+                    */
+/*   By: dloustal <dloustal@student.42.fr>            +#+                     */
+/*                                                   +#+                      */
+/*   Created: 2025/06/11 12:34:43 by rojornod      #+#    #+#                 */
+/*   Updated: 2025/06/13 19:06:54 by dloustal      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,7 +60,7 @@ int	cd_builtin(char *path, t_vars *vars)
 	{
 		vars = find_vars(vars, "HOME");
 		if (!vars)
-			return (ft_printf("error: no HOME variable found"), 1);
+			return (ft_putendl_fd("Minishell: cd: No HOME variable found", STDERR_FILENO), 1);
 		else
 			return (chdir(vars->value), edit_var(vars, "PWD", vars->value), 0);
 	}
@@ -70,7 +70,7 @@ int	cd_builtin(char *path, t_vars *vars)
 	{
 		if (chdir(path) < 0)
 		{
-			ft_printf("minishell: cd: %s: No such file or directory\n", path);
+			ft_putendl_fd("Minishell: cd: No such file or directory", STDERR_FILENO);
 			return (1);
 		}
 		else

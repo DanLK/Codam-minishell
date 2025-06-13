@@ -6,7 +6,7 @@
 /*   By: dloustal <dloustal@student.42.fr>            +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/04/28 09:49:04 by dloustal      #+#    #+#                 */
-/*   Updated: 2025/06/12 16:46:19 by dloustal      ########   odam.nl         */
+/*   Updated: 2025/06/13 17:09:57 by dloustal      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,7 @@ void	expand_var_tree(t_t_node **root, t_vars *vars, t_info *info)
 	if (!root || !*root | !vars)
 		return ;
 	expand_var_list((*root)->tokens, vars, info);
+	expand_redir_files((*root)->redirs, vars, info);
 	if ((*root)->left)
 		expand_var_tree(&(*root)->left, vars, info);
 	if ((*root)->right)
@@ -28,10 +29,6 @@ void	expand_var_tree(t_t_node **root, t_vars *vars, t_info *info)
 
 /*****************************************************************************
  * Expands the necessary variables in a token list 
- * 
- * Expands the nodes of type ENV_VAR and the nodes of type DQ_STRING
- * 
- * For the WORD and Q_STRING nodes, it calls expand_qstring
  * 
 ******************************************************************************/
 void	expand_var_list(t_token_list *tokens, t_vars *vars, t_info *info)
@@ -44,10 +41,6 @@ void	expand_var_list(t_token_list *tokens, t_vars *vars, t_info *info)
 	node = tokens->head;
 	while (node)
 	{
-		// if (node->token->type == TKN_EXIT_STATUS)
-		// 	expand_exitstatus(node, info);
-		// else if (node->token->type == TKN_ENV_VAR)
-		// 	expand_envvar(node, vars);
 		if (node->token->type == TKN_WORD || node->token->type == TKN_VAR_VALUE)
 		{
 			old_lexeme = node->token->lexeme;
@@ -56,6 +49,31 @@ void	expand_var_list(t_token_list *tokens, t_vars *vars, t_info *info)
 			free(old_lexeme);
 		}
 		node = node->next;
+	}
+}
+
+/*****************************************************************************
+ * Expands the necessary variables in a redirs list
+ * 
+******************************************************************************/
+void	expand_redir_files(t_redir_node **red_head, t_vars *v, t_info *info)
+{
+	t_redir_node	*redir;
+	char			*old_file;
+
+	if (!red_head || !v || !info)
+		return ;
+	redir = *red_head;
+	while (redir)
+	{
+		if (redir->type == TKN_FILE_PATH)
+		{
+			old_file = redir->file;
+			redir->file = expand_qstring(redir->file,
+					v, info);
+			free(old_file);
+		}
+		redir = redir->next;
 	}
 }
 
@@ -111,6 +129,7 @@ char	*expand_qstring(char *s, t_vars *vars, t_info *info)
 	char	*result;
 	int		len;
 	bool	in_single;
+	bool	in_double;
 	int		i;
 	int		res_i;
 	char	*var_name;
@@ -121,18 +140,28 @@ char	*expand_qstring(char *s, t_vars *vars, t_info *info)
 	if (!result)
 		return (NULL);
 	in_single = false;
+	in_double = false;
 	i = 0;
 	res_i = 0;
 	while (s[i])
 	{
 		if (s[i] == '\'')
 		{
-			in_single = !in_single;
+			if (in_double)
+				result[res_i++] = s[i];
+			else
+				in_single = !in_single;
 			i++;
 			continue ;
 		}
 		else if (s[i] == '\"')
+		{
+			if (in_single)
+				result[res_i++] = s[i];
+			else
+				in_double = !in_double;
 			i++;
+		}
 		else if (!in_single && s[i] == '$')
 		{
 			i++;
@@ -162,74 +191,74 @@ char	*expand_qstring(char *s, t_vars *vars, t_info *info)
 	return (result);
 }
 
-/*****************************************************************************
- * Expands all variables in a string while respecting the rest of the characters
- * Returns a new string with all the vars replaced
-******************************************************************************/
-char	*expand_string(char *string, t_vars *vars)
-{
-	int		i;
-	char	*result;
-	char	*tmp;
-	int		len;
+// /*****************************************************************************
+//  * Expands all variables in a string while respecting the rest of the characters
+//  * Returns a new string with all the vars replaced
+// ******************************************************************************/
+// char	*expand_string(char *string, t_vars *vars)
+// {
+// 	int		i;
+// 	char	*result;
+// 	char	*tmp;
+// 	int		len;
 
-	if (!string || !vars)
-		return (NULL);
-	if (!ft_strnstr(string, "$", ft_strlen(string)))
-		return (ft_strdup(string));
-	i = get_position(string, '$');
-	result = ft_strdup(string);
-	if (!result)
-		return (NULL);
-	len = (int)ft_strlen(string);
-	while (i < len)
-	{
-		tmp = result;
-		result = expand_one_string(tmp, vars);
-		free(tmp);
-		if (!result)
-			return (NULL);
-		i = get_position(result, '$');
-		len = (int)ft_strlen(result);
-	}
-	return (result);
-}
+// 	if (!string || !vars)
+// 		return (NULL);
+// 	if (!ft_strnstr(string, "$", ft_strlen(string)))
+// 		return (ft_strdup(string));
+// 	i = get_position(string, '$');
+// 	result = ft_strdup(string);
+// 	if (!result)
+// 		return (NULL);
+// 	len = (int)ft_strlen(string);
+// 	while (i < len)
+// 	{
+// 		tmp = result;
+// 		result = expand_one_string(tmp, vars);
+// 		free(tmp);
+// 		if (!result)
+// 			return (NULL);
+// 		i = get_position(result, '$');
+// 		len = (int)ft_strlen(result);
+// 	}
+// 	return (result);
+// }
 
-/*****************************************************************************
-* Expands a variable in a double quoted string
-* Returns a string with the var replaced
-* 
-* aux[0] = start
-* aux[1] = var_name
-* aux[2] = start + var value
-* aux[3] = rest
-* 
-******************************************************************************/
-char	*expand_one_string(char *string, t_vars *vars)
-{
-	int		i;
-	char	*result;
-	char	**aux;
-	t_vars	*var;
+// /*****************************************************************************
+// * Expands a variable in a double quoted string
+// * Returns a string with the var replaced
+// * 
+// * aux[0] = start
+// * aux[1] = var_name
+// * aux[2] = start + var value
+// * aux[3] = rest
+// * 
+// ******************************************************************************/
+// char	*expand_one_string(char *string, t_vars *vars)
+// {
+// 	int		i;
+// 	char	*result;
+// 	char	**aux;
+// 	t_vars	*var;
 
-	i = get_position(string, '$');
-	aux = malloc(5 * sizeof(char *));
-	if (!aux)
-		return (NULL);
-	aux[0] = ft_substr(string, 0, i);
-	aux[1] = get_var_name(string, i);
-	var = find_vars(vars, aux[1]);
-	if (!var || !var->value)
-		aux[2] = ft_strjoin(aux[0], "");
-	else
-		aux[2] = ft_strjoin(aux[0], var->value);
-	aux[3] = ft_substr(string, i + 1 + ft_strlen(aux[1]),
-			ft_strlen(string)- i - 1 - ft_strlen(aux[1]));
-	aux[4] = NULL;
-	result = ft_strjoin(aux[2], aux[3]);
-	clear_array(aux);
-	return (result);
-}
+// 	i = get_position(string, '$');
+// 	aux = malloc(5 * sizeof(char *));
+// 	if (!aux)
+// 		return (NULL);
+// 	aux[0] = ft_substr(string, 0, i);
+// 	aux[1] = get_var_name(string, i);
+// 	var = find_vars(vars, aux[1]);
+// 	if (!var || !var->value)
+// 		aux[2] = ft_strjoin(aux[0], "");
+// 	else
+// 		aux[2] = ft_strjoin(aux[0], var->value);
+// 	aux[3] = ft_substr(string, i + 1 + ft_strlen(aux[1]),
+// 			ft_strlen(string)- i - 1 - ft_strlen(aux[1]));
+// 	aux[4] = NULL;
+// 	result = ft_strjoin(aux[2], aux[3]);
+// 	clear_array(aux);
+// 	return (result);
+// }
 
 // char	*get_start_trim_quotes(char *string, size_t len)
 // {

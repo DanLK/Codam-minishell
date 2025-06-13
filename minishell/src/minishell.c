@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   minishell.c                                        :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: rojornod <rojornod@student.42.fr>          +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/04/17 11:53:23 by dloustal          #+#    #+#             */
-/*   Updated: 2025/06/13 15:44:54 by rojornod         ###   ########.fr       */
+/*                                                        ::::::::            */
+/*   minishell.c                                        :+:    :+:            */
+/*                                                     +:+                    */
+/*   By: dloustal <dloustal@student.42.fr>            +#+                     */
+/*                                                   +#+                      */
+/*   Created: 2025/04/17 11:53:23 by dloustal      #+#    #+#                 */
+/*   Updated: 2025/06/13 19:01:01 by dloustal      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,8 +45,10 @@ int	main(int argc, char **argv, char **envp)
 		else
 		{
 			tokens = scan(read);
+			// print_token_list(tokens);
 			if (tokens == NULL)
 			{
+				info->last_return_code = 2;
 				clear_token_list(tokens);
 				continue ;
 			}
@@ -62,6 +64,7 @@ int	main(int argc, char **argv, char **envp)
 			// print_tree_node(root, "", 1);
 			// ft_printf("-------------------------------------\n");
 			expand_var_tree(&root, vars, info);
+			// print_tree_node(root, "", 1);
 			parse_hd_tree(&root, vars, info);
 			// ft_printf("-------------------------------------\n");
 			// print_tree_node(root, "", 1);

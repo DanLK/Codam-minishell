@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   child_process.c                                    :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: rojornod <rojornod@student.42.fr>          +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/04/16 11:11:31 by rojornod          #+#    #+#             */
-/*   Updated: 2025/06/13 17:36:23 by rojornod         ###   ########.fr       */
+/*                                                        ::::::::            */
+/*   child_process.c                                    :+:    :+:            */
+/*                                                     +:+                    */
+/*   By: dloustal <dloustal@student.42.fr>            +#+                     */
+/*                                                   +#+                      */
+/*   Created: 2025/04/16 11:11:31 by rojornod      #+#    #+#                 */
+/*   Updated: 2025/06/13 18:02:58 by dloustal      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,19 +38,26 @@ int	child_process(char *path, char **argv, char **env_copy)
 	{
 		if (stat(path, &sb) == 0 && S_ISDIR(sb.st_mode))
 		{
-			ft_printf("%s: is a directory\n", path);
-        	exit(126);
+			ft_putstr_fd("Minishell: ", STDERR_FILENO);
+			ft_putstr_fd(path, STDERR_FILENO);
+			ft_putendl_fd(" Is a directory", STDERR_FILENO);
+			exit(126);
 		}
 		if (errno == 13)
 		{
-			ft_printf("%s: Permission denied\n", path);
+			ft_putstr_fd("Minishell: ", STDERR_FILENO);
+			ft_putstr_fd(path, STDERR_FILENO);
+			ft_putendl_fd(" Permission denied", STDERR_FILENO);
 			exit(126);
 		}
 		else
+		{
 			// ft_printf("Minishell: %s command not found\n", argv[0]);
 			not_found_error(argv[0]);
+			exit(127);
+		}
 	}
-	exit(127);
+	exit(0);
 }
 /******************************************************************************
 *	if (errno == EINTR) continue ; basically means if the error is 

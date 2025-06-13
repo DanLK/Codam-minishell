@@ -6,7 +6,7 @@
 /*   By: dloustal <dloustal@student.42.fr>            +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/04/29 12:21:37 by dloustal      #+#    #+#                 */
-/*   Updated: 2025/06/12 16:46:12 by dloustal      ########   odam.nl         */
+/*   Updated: 2025/06/13 16:15:19 by dloustal      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,12 +36,16 @@ int	qstr_exp_len(char *s, t_vars *vars, t_info *info)
 		if (s[i] == '\'') //Ignore the quotes -- advance the index
 		{
 			in_single = !in_single;
+			if (in_double)
+				len++;
 			i++;
 			continue ;
 		}
 		if (s[i] == '\"') //Ignore the quotes -- advance the index
 		{
 			in_double = !in_double;
+			if (in_single)
+				len++;
 			i++;
 			continue ;
 		}

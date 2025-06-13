@@ -6,7 +6,7 @@
 /*   By: dloustal <dloustal@student.42.fr>            +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/03/20 11:27:48 by rojornod      #+#    #+#                 */
-/*   Updated: 2025/06/12 16:42:02 by dloustal      ########   odam.nl         */
+/*   Updated: 2025/06/13 19:12:39 by dloustal      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,14 @@ static void	print_export(t_vars	*temp)
 
 static int	validate_var_name(char *var_name)
 {
-	if (ft_isalpha(var_name[0]) == 1 || var_name[0] == '_')
+	int	i;
+
+	if (!ft_isalpha(var_name[0]) && var_name[0] != '_')
+		return (1);
+	i = 1;
+	while (var_name[i] && (ft_isalnum(var_name[i]) || var_name[i] == '_'))
+		i++;
+	if (!var_name[i])
 		return (0);
 	else
 		return (1);
@@ -71,6 +78,11 @@ int	export_builtin(t_vars **head, char *var_name, char *var_value)
 				return (add_var(head, var_name, var_value, 1), 0);
 		}
 		else
-			return (ft_printf("`%s': not a valid identifier\n", var_name), 1);
+		{
+			ft_putstr_fd("Minishell: ", STDERR_FILENO);
+			ft_putstr_fd(var_name, STDERR_FILENO);
+			ft_putendl_fd(": not a valid identifier", STDERR_FILENO);
+			return (1);
+		}
 	}
 }

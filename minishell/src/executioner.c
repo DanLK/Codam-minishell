@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   executioner.c                                      :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: rojornod <rojornod@student.42.fr>          +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/04/22 13:36:45 by dloustal          #+#    #+#             */
-/*   Updated: 2025/06/13 17:51:49 by rojornod         ###   ########.fr       */
+/*                                                        ::::::::            */
+/*   executioner.c                                      :+:    :+:            */
+/*                                                     +:+                    */
+/*   By: dloustal <dloustal@student.42.fr>            +#+                     */
+/*                                                   +#+                      */
+/*   Created: 2025/04/22 13:36:45 by dloustal      #+#    #+#                 */
+/*   Updated: 2025/06/13 18:52:13 by dloustal      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,7 +64,8 @@ int	execute_redirection(t_t_node **root, t_vars *vars, t_info *info)
 	}
 	info->last_return_code = exit_code;
 	if (exit_code == 0)
-		exit_code = execute_command(root, vars, info);
+		if ((*root)->tokens->head)
+			exit_code = execute_command(root, vars, info);
 	if (dup2(std_out, STDOUT_FILENO) == -1 || dup2(std_in, STDIN_FILENO) == -1)
 		return (-1);
 	close(std_out);
@@ -102,20 +103,30 @@ int	call_redir(t_redir_node *cur, t_info *info)
 *******************************************************************************/
 int	execute_command(t_t_node **root, t_vars *vars, t_info *info)
 {
-	t_token_list	*tokens;
+	t_token_node	*node;
 	int				exit_status;
 
 	if (!root)
 		return (1);
-	tokens = (*root)->tokens;
-	if (is_builtin_type(tokens->head->token->type)
-		|| (tokens->head->token->type == TKN_VAR_NAME))
+	node = (*root)->tokens->head;
+	if (ft_strlen(node->token->lexeme) == 0)
+	{
+		if (!node->next)
+			return (0);
+		else
+		{
+			node = node->next;
+			(*root)->tokens->head = node;
+		}
+	}
+	if (is_builtin_type(node->token->type)
+		|| (node->token->type == TKN_VAR_NAME))
 	{
 		exit_status = execute_builtin(root, vars, info);
 		info->last_return_code = exit_status;
 		return (exit_status);
 	}
-	if (tokens->head->token->type == TKN_WORD)
+	if (node->token->type == TKN_WORD)
 	{
 		exit_status = execute_ext_command(root, vars, info);
 		info->last_return_code = exit_status;
@@ -214,6 +225,8 @@ static int check_exit_code(char *exit_code)
 	i = 0;
 	if (!exit_code || exit_code[i] == '\0')
         return (0);
+	while (exit_code[i] && (exit_code[i] == '+' || exit_code[i] == '-')) //Consume +/-
+		i++;
 	while (exit_code[i] != '\0')
 	{
 		if (!ft_isdigit(exit_code[i]))
