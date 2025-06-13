@@ -6,7 +6,7 @@
 /*   By: dloustal <dloustal@student.42.fr>            +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/03/14 16:58:50 by dloustal      #+#    #+#                 */
-/*   Updated: 2025/06/12 15:46:46 by dloustal      ########   odam.nl         */
+/*   Updated: 2025/06/13 18:13:39 by dloustal      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,33 +23,33 @@ enum e_Type
 	// Single character tokens
 	// TKN_L_PAREN, //0
 	// TKN_R_PAREN, //1
-	TKN_EQUAL, //2
+	TKN_EQUAL, //0
 	// Builtins
-	TKN_ECHO, //3
+	TKN_ECHO, //1
 	TKN_CD,
-	TKN_PWD, //5
+	TKN_PWD, //3
 	TKN_EXPORT,
 	TKN_UNSET,
 	TKN_ENV,
-	TKN_EXIT, //9
+	TKN_EXIT, //7
 	// Options
 	TKN_OPTION,
 	// Var assignment
-	TKN_VAR_NAME, //11
+	TKN_VAR_NAME, //9
 	TKN_VAR_VALUE,
 	// Redirections
-	TKN_REDIR_IN, //13
+	TKN_REDIR_IN, //11
 	TKN_REDIR_OUT,
 	TKN_HEREDOC,
 	TKN_REDIR_OUT_APP,
 	// Operators
-	TKN_PIPE, //17
+	TKN_PIPE, //
 	// Path
-	TKN_FILE_PATH, //18
+	TKN_FILE_PATH, //16
 	// Literals
-	TKN_WORD, //19
+	TKN_WORD, //17
 	//EOF to indicate end of input
-	TKN_END //20
+	TKN_END //18
 };
 
 typedef struct token

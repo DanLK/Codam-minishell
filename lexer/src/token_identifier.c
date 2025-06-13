@@ -6,7 +6,7 @@
 /*   By: dloustal <dloustal@student.42.fr>            +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/04/01 12:11:14 by dloustal      #+#    #+#                 */
-/*   Updated: 2025/06/13 16:04:53 by dloustal      ########   odam.nl         */
+/*   Updated: 2025/06/13 19:00:15 by dloustal      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -102,7 +102,7 @@ void	tkn_opt_word(t_token_list *tkns, char *src, t_scanner *s, char c)
 {
 	char	*lexeme;
 
-	if (c == '-')
+	if (c == '-' && ( !src[s->cur] || ft_isalpha(c)))
 	{
 		lexeme = read_options(s, src);
 		if (!lexeme)
