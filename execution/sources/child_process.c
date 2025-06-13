@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
-/*                                                        ::::::::            */
-/*   child_process.c                                    :+:    :+:            */
-/*                                                     +:+                    */
-/*   By: dloustal <dloustal@student.42.fr>            +#+                     */
-/*                                                   +#+                      */
-/*   Created: 2025/04/16 11:11:31 by rojornod      #+#    #+#                 */
-/*   Updated: 2025/06/13 12:13:58 by dloustal      ########   odam.nl         */
+/*                                                        :::      ::::::::   */
+/*   child_process.c                                    :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: rojornod <rojornod@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/04/16 11:11:31 by rojornod          #+#    #+#             */
+/*   Updated: 2025/06/13 17:36:23 by rojornod         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,9 +31,16 @@ static void not_found_error(char *argv)
 
 int	child_process(char *path, char **argv, char **env_copy)
 {
+	struct stat sb;
+	
 	child_proc_action();
 	if (execve(path, argv, env_copy) == -1)
 	{
+		if (stat(path, &sb) == 0 && S_ISDIR(sb.st_mode))
+		{
+			ft_printf("%s: is a directory\n", path);
+        	exit(126);
+		}
 		if (errno == 13)
 		{
 			ft_printf("%s: Permission denied\n", path);

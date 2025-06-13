@@ -6,7 +6,7 @@
 /*   By: rojornod <rojornod@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/17 11:53:23 by dloustal          #+#    #+#             */
-/*   Updated: 2025/06/13 14:11:17 by rojornod         ###   ########.fr       */
+/*   Updated: 2025/06/13 15:44:54 by rojornod         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ int	main(int argc, char **argv, char **envp)
 		rl_done = 0;
 		read = readline("> ");
 		if (!read)
-			exit_builtin(vars, info);
+			exit_builtin(vars, info, info->last_return_code);
 		else if (get_signal_received() == SIGINT)
 		{
 			rl_done = 1;
