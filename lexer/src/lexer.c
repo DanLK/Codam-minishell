@@ -6,7 +6,7 @@
 /*   By: dloustal <dloustal@student.42.fr>            +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/03/14 17:06:59 by dloustal      #+#    #+#                 */
-/*   Updated: 2025/06/12 14:47:37 by dloustal      ########   odam.nl         */
+/*   Updated: 2025/06/13 16:09:05 by dloustal      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,17 +16,12 @@ t_token_list	*scan(char *src)
 {
 	t_token_list	*tokens;
 	t_scanner		*scanner;
-	// bool			in_single;
-	// bool			in_double;
 
 	if (!src)
 		return (NULL);
-	// in_single = false;
-	// in_double = false;
 	if (!closed_quotes(src, false, false))
 	{
-		ft_printf("Minishell: syntax error: unclosed quotes\n");
-		//Return NULL and then outside we can check whether the token list was NULL
+		ft_putendl_fd("Minishell: syntax error: unclosed quotes", STDERR_FILENO);
 		return (NULL);
 	}
 	tokens = init_token_list();
@@ -45,7 +40,6 @@ t_token_list	*populate_tkns(t_token_list *tokens, char *src, t_scanner *s)
 	while (src[s->cur])
 	{
 		s->start = s->cur;
-		// ft_printf("[populate_tkns] current char: \"%c\"\n", src[s->cur]);
 		get_cur_token(tokens, src, s);
 	}
 	append_token(tokens, TKN_END, "END");

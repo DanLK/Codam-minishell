@@ -6,7 +6,7 @@
 /*   By: dloustal <dloustal@student.42.fr>            +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/04/16 11:11:31 by rojornod      #+#    #+#                 */
-/*   Updated: 2025/06/13 12:13:58 by dloustal      ########   odam.nl         */
+/*   Updated: 2025/06/13 17:35:18 by dloustal      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,16 +34,27 @@ int	child_process(char *path, char **argv, char **env_copy)
 	child_proc_action();
 	if (execve(path, argv, env_copy) == -1)
 	{
-		if (errno == 13)
+		ft_printf("[child_process] errno: %d\n", errno);
+		if (errno ==  21)
 		{
-			ft_printf("%s: Permission denied\n", path);
+			ft_putstr_fd("Minishell: ", STDERR_FILENO);
+			ft_putstr_fd(path, STDERR_FILENO);
+			ft_putendl_fd(" Is a directory", STDERR_FILENO);
+			exit(126);
+		}
+		else if (errno == 13)
+		{
+			ft_printf("%s: Permission denied\n", path); //stderr
 			exit(126);
 		}
 		else
+		{
 			// ft_printf("Minishell: %s command not found\n", argv[0]);
 			not_found_error(argv[0]);
+			exit(127);
+		}
 	}
-	exit(127);
+	exit(0);
 }
 /******************************************************************************
 *	if (errno == EINTR) continue ; basically means if the error is 

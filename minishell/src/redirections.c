@@ -6,7 +6,7 @@
 /*   By: dloustal <dloustal@student.42.fr>            +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/05/06 10:53:23 by rojornod      #+#    #+#                 */
-/*   Updated: 2025/06/12 16:46:07 by dloustal      ########   odam.nl         */
+/*   Updated: 2025/06/13 15:37:12 by dloustal      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,13 +74,17 @@ int	tmp_redir_out(char *file)
 	fd = open(file, O_WRONLY | O_TRUNC | O_CREAT, 0644);
 	if (errno == 13)
 	{
-		ft_printf("%s: Permission denied\n", file);
+		ft_putstr_fd("Minishell: ", STDERR_FILENO);
+		ft_putstr_fd(file, STDERR_FILENO);
+		ft_putendl_fd(": Permission denied", STDERR_FILENO);
 		restore_fd_after_fail(fd);
 		return (1);
 	}
 	if (fd < 0)
 	{
-		ft_printf("%s: No such file or directory\n", file);
+		ft_putstr_fd("Minishell: ", STDERR_FILENO);
+		ft_putstr_fd(file, STDERR_FILENO);
+		ft_putendl_fd(": No such file or directory", STDERR_FILENO);
 		restore_fd_after_fail(fd);
 		return (1);
 	}
@@ -97,13 +101,17 @@ int	tmp_redir_append(char *file)
 	fd = open(file, O_WRONLY | O_APPEND | O_CREAT, 0644);
 	if (errno == 13)
 	{
-		ft_printf("%s: Permission denied\n", file);
+		ft_putstr_fd("Minishell: ", STDERR_FILENO);
+		ft_putstr_fd(file, STDERR_FILENO);
+		ft_putendl_fd(": Permission denied", STDERR_FILENO);
 		restore_fd_after_fail(fd);
 		return (1);
 	}
 	if (fd < 0)
 	{
-		ft_printf("%s: No such file or directory\n", file);
+		ft_putstr_fd("Minishell: ", STDERR_FILENO);
+		ft_putstr_fd(file, STDERR_FILENO);
+		ft_putendl_fd(": No such file or directory", STDERR_FILENO);
 		restore_fd_after_fail(fd);
 		return (1);
 	}
@@ -120,13 +128,17 @@ int	tmp_redir_in(char *file)
 	fd = open(file, O_RDONLY);
 	if (errno == 13)
 	{
-		ft_printf("%s: Permission denied\n", file);
+		ft_putstr_fd("Minishell: ", STDERR_FILENO);
+		ft_putstr_fd(file, STDERR_FILENO);
+		ft_putendl_fd(": Permission denied", STDERR_FILENO);
 		restore_fd_after_fail(fd);
 		return (1);
 	}
 	if (fd < 0)
 	{
-		ft_printf("%s: No such file or directory\n", file);
+		ft_putstr_fd("Minishell: ", STDERR_FILENO);
+		ft_putstr_fd(file, STDERR_FILENO);
+		ft_putendl_fd(": No such file or directory", STDERR_FILENO);
 		restore_fd_after_fail(fd);
 		return (1);
 	}

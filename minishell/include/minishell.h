@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        ::::::::            */
-/*   traversal.h                                        :+:    :+:            */
+/*   minishell.h                                        :+:    :+:            */
 /*                                                     +:+                    */
 /*   By: dloustal <dloustal@student.42.fr>            +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/04/22 12:02:07 by dloustal      #+#    #+#                 */
-/*   Updated: 2025/06/12 16:43:47 by dloustal      ########   odam.nl         */
+/*   Updated: 2025/06/13 17:10:16 by dloustal      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,8 +37,9 @@ int		execute_pipe(t_t_node **root, t_vars *head, t_info *info);
 // Variable expansion
 void	expand_var_tree(t_t_node **root, t_vars *vars, t_info *info);
 void	expand_var_list(t_token_list *tokens, t_vars *vars, t_info *info);
-void	expand_envvar(t_token_node *node, t_vars *vars);
-void	expand_exitstatus(t_token_node *node, t_info *info);
+void	expand_redir_files(t_redir_node **red_head, t_vars *v, t_info *info);
+// void	expand_envvar(t_token_node *node, t_vars *vars);
+// void	expand_exitstatus(t_token_node *node, t_info *info);
 // char	*expand_one_dqstring(char *string, t_vars *vars);
 // char	*expand_dqstring(char *string, t_vars *vars);
 // char	*get_start_trim_quotes(char *string, size_t len);
@@ -55,8 +56,8 @@ char	*get_var_name(char *string, int pos);
 // int		get_position(char *string, char c);
 
 // Var expansion for heredoc
-char	*expand_string(char *string, t_vars *vars);
-char	*expand_one_string(char *string, t_vars *vars);
+// char	*expand_string(char *string, t_vars *vars);
+// char	*expand_one_string(char *string, t_vars *vars);
 int		get_position(char *string, char c);
 char	*remove_quotes(char *string);
 

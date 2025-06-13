@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   pipes.c                                            :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: rojornod <rojornod@student.42.fr>          +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/04/18 11:16:24 by rojornod          #+#    #+#             */
-/*   Updated: 2025/06/13 14:11:51 by rojornod         ###   ########.fr       */
+/*                                                        ::::::::            */
+/*   pipes.c                                            :+:    :+:            */
+/*                                                     +:+                    */
+/*   By: dloustal <dloustal@student.42.fr>            +#+                     */
+/*                                                   +#+                      */
+/*   Created: 2025/04/18 11:16:24 by rojornod      #+#    #+#                 */
+/*   Updated: 2025/06/13 15:19:38 by dloustal      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,7 +87,7 @@ int	execute_pipe(t_t_node **root, t_vars *head, t_info *info)
 	close(fd[1]);
 	waitpid(pid_left, &status_l, 0);
 	waitpid(pid_right, &status_r, 0);
-	ft_printf("[execute_pipe] left exit: [%d]\n", WEXITSTATUS(status_l));
-	ft_printf("[execute_pipe] right exit: [%d]\n", WEXITSTATUS(status_r));
-	return (WEXITSTATUS(status_l));
+	// ft_printf("[execute_pipe] left exit: [%d]\n", WEXITSTATUS(status_l));
+	// ft_printf("[execute_pipe] right exit: [%d]\n", WEXITSTATUS(status_r));
+	return (WEXITSTATUS(status_r));
 }

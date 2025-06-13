@@ -6,7 +6,7 @@
 /*   By: dloustal <dloustal@student.42.fr>            +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/04/22 13:36:45 by dloustal      #+#    #+#                 */
-/*   Updated: 2025/06/12 17:09:13 by dloustal      ########   odam.nl         */
+/*   Updated: 2025/06/13 16:31:26 by dloustal      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -108,6 +108,8 @@ int	execute_command(t_t_node **root, t_vars *vars, t_info *info)
 	if (!root)
 		return (1);
 	tokens = (*root)->tokens;
+	if (ft_strlen(tokens->head->token->lexeme) == 0 && !tokens->head->next)
+		return (0);
 	if (is_builtin_type(tokens->head->token->type)
 		|| (tokens->head->token->type == TKN_VAR_NAME))
 	{

@@ -6,7 +6,7 @@
 /*   By: dloustal <dloustal@student.42.fr>            +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/04/01 12:11:14 by dloustal      #+#    #+#                 */
-/*   Updated: 2025/06/12 14:50:07 by dloustal      ########   odam.nl         */
+/*   Updated: 2025/06/13 16:04:53 by dloustal      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -138,7 +138,7 @@ void	tkn_assignment(t_token_list *tokens, t_scanner *s, char *src)
 	if (src[s->cur] == ' ')
 	{
 		s->cur++;
-		ft_printf("[tkn_assignent] src[cur]: [%c]\n", src[s->cur]);
+		// ft_printf("[tkn_assignent] src[cur]: [%c]\n", src[s->cur]);
 		return (free(var_name));
 	}
 	s->cur++;
