@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
-/*                                                        ::::::::            */
-/*   builtins_extra2.c                                  :+:    :+:            */
-/*                                                     +:+                    */
-/*   By: dloustal <dloustal@student.42.fr>            +#+                     */
-/*                                                   +#+                      */
-/*   Created: 2025/06/11 12:34:43 by rojornod      #+#    #+#                 */
-/*   Updated: 2025/06/12 16:41:53 by dloustal      ########   odam.nl         */
+/*                                                        :::      ::::::::   */
+/*   builtins_extra2.c                                  :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: rojornod <rojornod@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/06/11 12:34:43 by rojornod          #+#    #+#             */
+/*   Updated: 2025/06/13 17:51:38 by rojornod         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,8 +25,11 @@
 *
 *******************************************************************************/
 
-int	exit_builtin(t_vars *vars, t_info *info)
+int	exit_builtin(t_vars *vars, t_info *info, int exit_code)
 {
+	int exit_code_cpy;
+
+	exit_code_cpy = exit_code;
 	free_vars(vars);
 	if (info->home_dir)
 		free(info->home_dir);
@@ -34,7 +37,7 @@ int	exit_builtin(t_vars *vars, t_info *info)
 	close(info->fdout);
 	free(info);
 	ft_printf("exit\n");
-	exit(255);
+	exit(exit_code_cpy);
 }
 
 /******************************************************************************

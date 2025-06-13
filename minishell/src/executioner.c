@@ -6,7 +6,7 @@
 /*   By: dloustal <dloustal@student.42.fr>            +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/04/22 13:36:45 by dloustal      #+#    #+#                 */
-/*   Updated: 2025/06/13 16:31:26 by dloustal      ########   odam.nl         */
+/*   Updated: 2025/06/13 17:58:02 by dloustal      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -153,7 +153,7 @@ int	execute_builtin(t_t_node **root, t_vars *vars, t_info *info)
 	if (token->type == TKN_ENV || is_cmd(token->lexeme, "env"))
 		return (env_builtin(vars));
 	if (token->type == TKN_EXIT || is_cmd(token->lexeme, "exit"))
-		exit_builtin(vars, info);
+		return (execute_exit(tokens, vars, info));
 	if (token->type == TKN_VAR_NAME)
 		return (execute_assignment(tokens, vars));
 	return (127);
@@ -207,6 +207,51 @@ int	execute_cd(t_token_list *tokens, t_vars *vars)
 		return (1);
 	}
 	return (cd_builtin(tokens->head->next->token->lexeme, vars));
+}
+
+static int check_exit_code(char *exit_code)
+{
+	int	i;
+	
+	i = 0;
+	if (!exit_code || exit_code[i] == '\0')
+        return (0);
+	while (exit_code[i] != '\0')
+	{
+		if (!ft_isdigit(exit_code[i]))
+            return (0);
+        i++;
+	}
+	return (1);
+}
+
+int	execute_exit(t_token_list *tokens, t_vars *vars, t_info *info)
+{
+	int exit_code;
+
+	exit_code = 0;
+	if (!tokens || !vars)
+		return (1);
+	if (!tokens->head->next)
+		return (exit_builtin(vars, info, info->last_return_code));
+	if (tokens->head->next->next)
+	{
+		ft_putendl_fd("Minishell: exit: too many arguments", STDERR_FILENO);
+		return (1);
+	}
+	else
+	{
+		if (check_exit_code(tokens->head->next->token->lexeme) == 1)
+			exit_code = ft_atoi(tokens->head->next->token->lexeme);
+		else
+		{
+			ft_putstr_fd("Minishell: ", STDERR_FILENO);
+			ft_putstr_fd(tokens->head->next->token->lexeme, STDERR_FILENO);
+			ft_putendl_fd(": exit: numeric argument required", STDERR_FILENO);
+			return (exit_builtin(vars, info, 2));
+		}	
+	}
+	return (exit_builtin(vars, info, exit_code));
 }
 
 int	execute_unset(t_token_list *tokens, t_vars **head)

@@ -6,7 +6,7 @@
 /*   By: dloustal <dloustal@student.42.fr>            +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/04/17 11:53:23 by dloustal      #+#    #+#                 */
-/*   Updated: 2025/06/13 17:15:04 by dloustal      ########   odam.nl         */
+/*   Updated: 2025/06/13 17:58:05 by dloustal      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ int	main(int argc, char **argv, char **envp)
 		rl_done = 0;
 		read = readline("> ");
 		if (!read)
-			exit_builtin(vars, info);
+			exit_builtin(vars, info, info->last_return_code);
 		else if (get_signal_received() == SIGINT)
 		{
 			rl_done = 1;

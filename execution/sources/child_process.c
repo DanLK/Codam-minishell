@@ -6,7 +6,7 @@
 /*   By: dloustal <dloustal@student.42.fr>            +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/04/16 11:11:31 by rojornod      #+#    #+#                 */
-/*   Updated: 2025/06/13 17:35:18 by dloustal      ########   odam.nl         */
+/*   Updated: 2025/06/13 17:58:04 by dloustal      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,11 +31,17 @@ static void not_found_error(char *argv)
 
 int	child_process(char *path, char **argv, char **env_copy)
 {
+	struct stat sb;
+	
 	child_proc_action();
 	if (execve(path, argv, env_copy) == -1)
 	{
-		ft_printf("[child_process] errno: %d\n", errno);
-		if (errno ==  21)
+		if (stat(path, &sb) == 0 && S_ISDIR(sb.st_mode))
+		{
+			ft_printf("%s: is a directory\n", path);
+        	exit(126);
+		}
+		if (errno == 13)
 		{
 			ft_putstr_fd("Minishell: ", STDERR_FILENO);
 			ft_putstr_fd(path, STDERR_FILENO);

@@ -6,7 +6,7 @@
 /*   By: rojornod <rojornod@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/20 10:06:02 by rojornod          #+#    #+#             */
-/*   Updated: 2025/06/13 14:10:53 by rojornod         ###   ########.fr       */
+/*   Updated: 2025/06/13 15:12:58 by rojornod         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,8 @@ void	signal_handler(int signal)
 
 		line = '\n';
 		g_received = SIGINT;
+		ioctl(STDIN_FILENO, TCFLSH, TCIFLUSH);
+		rl_done = 1;
 		ioctl(STDIN_FILENO, TIOCSTI, &line);
 	}
 }
