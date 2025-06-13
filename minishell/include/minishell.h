@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
-/*                                                        ::::::::            */
-/*   traversal.h                                        :+:    :+:            */
-/*                                                     +:+                    */
-/*   By: dloustal <dloustal@student.42.fr>            +#+                     */
-/*                                                   +#+                      */
-/*   Created: 2025/04/22 12:02:07 by dloustal      #+#    #+#                 */
-/*   Updated: 2025/06/12 16:43:47 by dloustal      ########   odam.nl         */
+/*                                                        :::      ::::::::   */
+/*   minishell.h                                        :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: rojornod <rojornod@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/04/22 12:02:07 by dloustal          #+#    #+#             */
+/*   Updated: 2025/06/13 16:30:07 by rojornod         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,7 @@ int		execute_builtin(t_t_node **root, t_vars *vars, t_info *info);
 int		execute_echo(t_token_list *tokens);
 int		execute_cd(t_token_list *tokens, t_vars *vars);
 int		execute_unset(t_token_list *tokens, t_vars **head);
+int		execute_exit(t_token_list *tokens, t_vars *vars, t_info *info);
 int		execute_export(t_token_list *tokens, t_vars *head);
 int		execute_assignment(t_token_list *tokens, t_vars *vars);
 int		execute_ext_command(t_t_node **root, t_vars *vars, t_info *info);

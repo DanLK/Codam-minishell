@@ -6,7 +6,7 @@
 /*   By: rojornod <rojornod@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/18 11:16:24 by rojornod          #+#    #+#             */
-/*   Updated: 2025/06/13 14:11:51 by rojornod         ###   ########.fr       */
+/*   Updated: 2025/06/13 15:14:51 by rojornod         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,7 @@ static int	pipe_l(int fd[2], t_t_node **root, t_vars *head, t_info *info)
 {
 	int exit_code;
 
+	child_proc_action();
 	exit_code = 0;
 	close(fd[0]);
 	dup2(fd[1], STDOUT_FILENO);
@@ -44,6 +45,7 @@ static int	pipe_r(int fd[2], t_t_node **root, t_vars *head, t_info *info)
 {
 	int exit_code;
 
+	child_proc_action();
 	exit_code = 0;
 	close(fd[1]);
 	dup2(fd[0], STDIN_FILENO);
@@ -87,7 +89,5 @@ int	execute_pipe(t_t_node **root, t_vars *head, t_info *info)
 	close(fd[1]);
 	waitpid(pid_left, &status_l, 0);
 	waitpid(pid_right, &status_r, 0);
-	ft_printf("[execute_pipe] left exit: [%d]\n", WEXITSTATUS(status_l));
-	ft_printf("[execute_pipe] right exit: [%d]\n", WEXITSTATUS(status_r));
-	return (WEXITSTATUS(status_l));
+	return (WEXITSTATUS(status_r));
 }

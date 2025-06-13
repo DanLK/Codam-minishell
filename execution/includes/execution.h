@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   minishell.h                                        :+:      :+:    :+:   */
+/*   execution.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: rojornod <rojornod@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/10 14:21:08 by rojornod          #+#    #+#             */
-/*   Updated: 2025/06/13 10:36:18 by rojornod         ###   ########.fr       */
+/*   Updated: 2025/06/13 17:32:25 by rojornod         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,7 @@
 #include <readline/history.h>
 #include <fcntl.h>
 #include <signal.h>
+#include <sys/stat.h>
 #include <limits.h>
 #include <sys/types.h>
 #include <sys/wait.h>
@@ -62,7 +63,7 @@ int				pwd_builtin(void);
 int				cd_builtin(char *command, t_vars *vars);
 int				export_builtin(t_vars **head, char *var_name, char *var_value);
 int				unset_builtin(t_vars **head, char *var_name);
-int				exit_builtin(t_vars *vars, t_info *info);
+int				exit_builtin(t_vars *vars, t_info *info, int exit_code);
 int				env_builtin(t_vars *head);
 
 //builtins utils
