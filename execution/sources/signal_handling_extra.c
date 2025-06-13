@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
-/*                                                        ::::::::            */
-/*   signal_handling_extra.c                            :+:    :+:            */
-/*                                                     +:+                    */
-/*   By: dloustal <dloustal@student.42.fr>            +#+                     */
-/*                                                   +#+                      */
-/*   Created: 2025/06/02 15:50:26 by rojornod      #+#    #+#                 */
-/*   Updated: 2025/06/12 16:42:23 by dloustal      ########   odam.nl         */
+/*                                                        :::      ::::::::   */
+/*   signal_handling_extra.c                            :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: rojornod <rojornod@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/06/02 15:50:26 by rojornod          #+#    #+#             */
+/*   Updated: 2025/06/13 14:11:07 by rojornod         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ int	child_proc_action(void)
 	struct sigaction	action;
 
 	action.sa_flags = 0;
-	action.sa_handler = child_proc_handler;
+	action.sa_handler = SIG_DFL;
 	sigemptyset(&action.sa_mask);
 	sigaction(SIGINT, &action, NULL);
 	sigaction(SIGQUIT, &action, NULL);

@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
-/*                                                        ::::::::            */
-/*   pipes.c                                            :+:    :+:            */
-/*                                                     +:+                    */
-/*   By: dloustal <dloustal@student.42.fr>            +#+                     */
-/*                                                   +#+                      */
-/*   Created: 2025/04/18 11:16:24 by rojornod      #+#    #+#                 */
-/*   Updated: 2025/06/13 12:06:59 by dloustal      ########   odam.nl         */
+/*                                                        :::      ::::::::   */
+/*   pipes.c                                            :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: rojornod <rojornod@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/04/18 11:16:24 by rojornod          #+#    #+#             */
+/*   Updated: 2025/06/13 14:11:51 by rojornod         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,11 +22,14 @@
 *******************************************************************************/
 static int	pipe_l(int fd[2], t_t_node **root, t_vars *head, t_info *info)
 {
+	int exit_code;
+
+	exit_code = 0;
 	close(fd[0]);
 	dup2(fd[1], STDOUT_FILENO);
-	execute_src(root, head, info);
+	exit_code = execute_src(root, head, info);
 	close(fd[1]);
-	return (0);
+	return (exit_code);
 }
 
 /******************************************************************************
@@ -39,11 +42,14 @@ static int	pipe_l(int fd[2], t_t_node **root, t_vars *head, t_info *info)
 *******************************************************************************/
 static int	pipe_r(int fd[2], t_t_node **root, t_vars *head, t_info *info)
 {
+	int exit_code;
+
+	exit_code = 0;
 	close(fd[1]);
 	dup2(fd[0], STDIN_FILENO);
 	close(fd[0]);
-	execute_src(root, head, info);
-	return (0);
+	exit_code = execute_src(root, head, info);
+	return (exit_code);
 }
 
 /******************************************************************************
@@ -66,16 +72,16 @@ int	execute_pipe(t_t_node **root, t_vars *head, t_info *info)
 		return (1);
 	if (pid_left == 0)
 	{
-		pipe_l(fd, &(*root)->left, head, info);
-		exit(EXIT_SUCCESS);
+		status_l = pipe_l(fd, &(*root)->left, head, info);
+		exit(status_l);
 	}
 	pid_right = fork();
 	if (pid_right < 0)
 		return (1);
 	if (pid_right == 0)
 	{
-		pipe_r(fd, &(*root)->right, head, info);
-		exit(EXIT_SUCCESS);
+		status_r = pipe_r(fd, &(*root)->right, head, info);
+		exit(status_r);
 	}
 	close(fd[0]);
 	close(fd[1]);
