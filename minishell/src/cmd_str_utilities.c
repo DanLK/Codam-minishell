@@ -1,26 +1,25 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        ::::::::            */
-/*   main_lexer.c                                       :+:    :+:            */
+/*   cmd_str_utilities.c                                :+:    :+:            */
 /*                                                     +:+                    */
 /*   By: dloustal <dloustal@student.42.fr>            +#+                     */
 /*                                                   +#+                      */
-/*   Created: 2025/03/17 11:29:28 by dloustal      #+#    #+#                 */
-/*   Updated: 2025/06/12 14:44:29 by dloustal      ########   odam.nl         */
+/*   Created: 2025/05/14 16:33:10 by dloustal      #+#    #+#                 */
+/*   Updated: 2025/06/12 16:44:14 by dloustal      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "lexer.h"
+#include "minishell.h"
 
-int	main(void)
+bool	is_cmd(char *str, char *cmd)
 {
-	t_token_list	*list;
-	char			*input;
+	int	cmd_len;
 
-	input = "3var_2=value -n -l";
-	ft_printf("Scanning input: \"%s\" \n\n", input);
-	list = scan(input);
-	print_token_list(list);
-	clear_token_list(list);
-	return (0);
+	cmd_len = ft_strlen(cmd);
+	if (cmd_len != (int)ft_strlen(str))
+		return (false);
+	if (ft_strncmp(str, cmd, cmd_len) != 0)
+		return (false);
+	return (true);
 }

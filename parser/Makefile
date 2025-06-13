@@ -10,8 +10,11 @@ LEXER_OBJ = $(LEXER_SRC:%.c=$(LEXER_DIR)/obj/%.o)
 
 CFLAGS += -Wall -Wextra -Werror
 
+EXEC_SRC = builtins_extra2.c builtins_extra.c builtins.c child_process.c external_commands.c readline.c signal_handling_extra.c signal_handling.c utils.c vars.c 
+EXEC_OBJ = $(EXEC_SRC:%.c=$(EXEC_DIR)/obj/%.o)
 
 LEXER_DIR = ../lexer
+EXEC_DIR = ../execution
 
 LIBFT_NAME = ../libft/libft.a
 LIBFT_PATH = ../libft
@@ -19,11 +22,16 @@ LIBFT_PATH = ../libft
 all: $(NAME)
 
 $(NAME): $(OBJ) $(LIBFT_NAME) $(MAIN_OBJ) $(LEXER_OBJ)
-	$(CC) -Iinclude  -I$(LEXER_DIR)/include -I$(LIBFT_PATH) -o $(NAME) $(CFLAGS) $(OBJ) $(MAIN_OBJ) $(LEXER_OBJ) $(LIBFT_NAME)
+	$(CC) -Iinclude  -I$(LEXER_DIR)/include  -I$(LIBFT_PATH) -o $(NAME) $(CFLAGS) $(OBJ) $(MAIN_OBJ) $(LEXER_OBJ) $(LIBFT_NAME)
 
 $(OBJ_DIR)/%.o: $(SRC_DIR)/%.c
 	mkdir -p $(dir $@)
 	$(CC) -c -Iinclude -I$(LEXER_DIR)/include -I$(LIBFT_PATH) $(CFLAGS) -o $@ $<
+
+$(EXEC_DIR)/obj/%.o: $(EXEC_DIR)/sources/%.c
+	mkdir -p $(dir $@)
+	$(CC) -c -I$(EXEC_DIR)/includes -I$(PARSER_DIR)/include -I$(LEXER_DIR)/include \
+	-I$(LIBFT_DIR) $(CFLAGS) -o $@ $<
 
 $(LIBFT_NAME):
 	$(MAKE) -C $(LIBFT_PATH)

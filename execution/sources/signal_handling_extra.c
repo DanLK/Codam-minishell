@@ -6,11 +6,11 @@
 /*   By: rojornod <rojornod@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/02 15:50:26 by rojornod          #+#    #+#             */
-/*   Updated: 2025/06/13 10:58:34 by rojornod         ###   ########.fr       */
+/*   Updated: 2025/06/13 14:11:07 by rojornod         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../includes/minishell.h"
+#include "../includes/execution.h"
 
 void	signal_action(void)
 {

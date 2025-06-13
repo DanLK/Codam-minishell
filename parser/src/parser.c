@@ -6,7 +6,7 @@
 /*   By: dloustal <dloustal@student.42.fr>            +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/04/14 14:37:49 by dloustal      #+#    #+#                 */
-/*   Updated: 2025/06/10 16:21:24 by dloustal      ########   odam.nl         */
+/*   Updated: 2025/06/13 11:48:33 by dloustal      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,21 @@ t_t_node	*parse(t_token_list *tokens)
 // divided from parse_pipe
 static void	right_tokens_null(t_token *token, t_t_node *node, t_t_node *right)
 {
-	ft_printf("Minishell: Syntax error near unexpected token \'%s\'\n", token->lexeme);
+	char	*error;
+	char	*error_comp;
+	char	*tk;
+	
+	tk = ft_strdup(token->lexeme);
+	error = ft_strjoin("Minishell: syntax error near unexpected token `", tk);
+	error_comp = ft_strjoin(error, "'");
+	// ft_printf("Minishell: Syntax error near unexpected token \'%s\'\n", token->lexeme);
+	if (!error_comp)
+		perror("Error: ");
+	else
+		ft_putendl_fd(error_comp, STDERR_FILENO);
+	free(tk);
+	free(error);
+	free(error_comp);
 	clear_subtree(node);
 	clear_subtree(right);
 }
@@ -43,8 +57,23 @@ static void	right_tokens_null(t_token *token, t_t_node *node, t_t_node *right)
 // divided from parse_pipe
 static void	node_tokens_null(t_t_node *node, t_parser *parser)
 {
-	ft_printf("Minishell: Syntax error near unexpected token \'%s\'\n",
-		parser->current->token->lexeme);
+	// ft_printf("Minishell: Syntax error near unexpected token \'%s\'\n",
+		// parser->current->token->lexeme);
+	char	*error;
+	char	*error_comp;
+	char	*tk;
+	
+	tk = ft_strdup(parser->current->token->lexeme);
+	error = ft_strjoin("Minishell: syntax error near unexpected token `", tk);
+	error_comp = ft_strjoin(error, "'");
+	// ft_printf("Minishell: Syntax error near unexpected token \'%s\'\n", token->lexeme);
+	if (!error_comp)
+		perror("Error: ");
+	else
+		ft_putendl_fd(error_comp, STDERR_FILENO);
+	free(tk);
+	free(error);
+	free(error_comp);
 	clear_subtree(node);
 }
 
@@ -71,6 +100,8 @@ t_t_node	*parse_pipe(t_parser *parser)
 	{
 		advance(parser);
 		right = parse_command(parser);
+		if (!right)
+			return (NULL); //CLEAR!!
 		if (!right->tokens->head)
 			return (right_tokens_null(token, node, right), NULL);
 		node = pipe_node(node, right);
@@ -79,6 +110,38 @@ t_t_node	*parse_pipe(t_parser *parser)
 	return (node);
 }
 
+/**************************************************************************** 
+ * Parses a command, the most atomic entity -- has highest precedence
+****************************************************************************/
+t_t_node	*parse_command(t_parser *parser)
+{
+	t_token_list	*command;
+	enum e_Type		token_type;
+	char			*lexeme;
+	t_t_node		*node;
+
+	if (!parser)
+		return (NULL);
+	if (is_redir(parser))
+		return (redir_node(parser));
+	command = init_token_list();
+	if (!command)
+		return (NULL);
+	token_type = parser->current->token->type;
+	//look at redir node and this function and try to remove duplicate code
+	while (token_type != TKN_PIPE && token_type != TKN_END)
+	{
+		lexeme = parser->current->token->lexeme;//maybe get rid of this and call directly
+		append_token(command, token_type, lexeme);
+		advance(parser);//return current
+		token_type = parser->current->token->type;
+	}
+	node = new_tree_node(PARSER_COMMAND, command);
+	if (!node)
+		return (free(command), NULL);
+	node->redirs = NULL;
+	return (node);
+}
 /**************************************************************************** 
  * Parses a redirection expression, returning the corresponding ast node
 ****************************************************************************/
@@ -115,35 +178,3 @@ t_t_node	*parse_pipe(t_parser *parser)
 // 	// return(node);
 // }
 
-/**************************************************************************** 
- * Parses a command, the most atomic entity -- has highest precedence
-****************************************************************************/
-t_t_node	*parse_command(t_parser *parser)
-{
-	t_token_list	*command;
-	enum e_Type		token_type;
-	char			*lexeme;
-	t_t_node		*node;
-
-	if (!parser)
-		return (NULL);
-	if (is_redir(parser))
-		return (redir_node(parser));
-	command = init_token_list();
-	if (!command)
-		return (NULL);
-	token_type = parser->current->token->type;
-	//look at redir node and this function and try to remove duplicate code
-	while (token_type != TKN_PIPE && token_type != TKN_END)
-	{
-		lexeme = parser->current->token->lexeme;//maybe get rid of this and call directly
-		append_token(command, token_type, lexeme);
-		advance(parser);//return current
-		token_type = parser->current->token->type;
-	}
-	node = new_tree_node(PARSER_COMMAND, command);
-	if (!node)
-		return (free(command), NULL);
-	node->redirs = NULL;
-	return (node);
-}

@@ -3,14 +3,14 @@
 /*                                                        ::::::::            */
 /*   var_expansion_utils.c                              :+:    :+:            */
 /*                                                     +:+                    */
-/*   By: dloustal <marvin@42.fr>                      +#+                     */
+/*   By: dloustal <dloustal@student.42.fr>            +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/04/29 12:21:37 by dloustal      #+#    #+#                 */
-/*   Updated: 2025/06/11 17:25:14 by dloustalot    ########   odam.nl         */
+/*   Updated: 2025/06/12 16:46:12 by dloustal      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "traversal.h"
+#include "minishell.h"
 
 /*****************************************************************************
  * Calculates the length of the expected expanded string
