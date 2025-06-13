@@ -6,11 +6,28 @@
 /*   By: dloustal <dloustal@student.42.fr>            +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/04/16 11:11:31 by rojornod      #+#    #+#                 */
-/*   Updated: 2025/06/12 16:42:07 by dloustal      ########   odam.nl         */
+/*   Updated: 2025/06/13 12:13:58 by dloustal      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/execution.h"
+
+static void not_found_error(char *argv)
+{
+	char	*cmd;
+	char	*error;
+	char	*err_cmp;
+
+	cmd = ft_strdup(argv);
+	error = ft_strjoin("Minishell: ", cmd);
+	err_cmp = ft_strjoin(error, " command not found");
+	if (!err_cmp)
+		perror("Error:");
+	ft_putendl_fd(err_cmp, STDERR_FILENO);
+	free(cmd);
+	free(error);
+	free(err_cmp);
+}
 
 int	child_process(char *path, char **argv, char **env_copy)
 {
@@ -23,7 +40,8 @@ int	child_process(char *path, char **argv, char **env_copy)
 			exit(126);
 		}
 		else
-			ft_printf("Minishell: %s command not found\n", argv[0]);
+			// ft_printf("Minishell: %s command not found\n", argv[0]);
+			not_found_error(argv[0]);
 	}
 	exit(127);
 }
@@ -84,11 +102,9 @@ int	create_child_proc(t_vars *vars, char **cm, char *path, int siz)
 	pid_t		pid;
 	char		**argv;
 	char		**env_copy;
-	// int			i;
 	int			exit_code;
 
 	exit_code = 0;
-	// i = 0;
 	env_copy = convert_env(vars);
 	argv = malloc((siz + 1) * sizeof(char *));
 	if (!argv)
@@ -100,7 +116,7 @@ int	create_child_proc(t_vars *vars, char **cm, char *path, int siz)
 		return (free_array(env_copy), free_array(argv), EXIT_FAILURE);
 	pid = fork();
 	if (pid == 0)
-		child_process(path, argv, env_copy);
+		exit_code = child_process(path, argv, env_copy);
 	else if (pid > 0)
 		exit_code = parent_process(path);
 	else

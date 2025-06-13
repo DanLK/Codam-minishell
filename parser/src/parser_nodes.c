@@ -6,7 +6,7 @@
 /*   By: dloustal <dloustal@student.42.fr>            +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/04/15 16:24:19 by dloustal      #+#    #+#                 */
-/*   Updated: 2025/06/10 16:10:02 by dloustal      ########   odam.nl         */
+/*   Updated: 2025/06/13 11:46:59 by dloustal      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,31 @@ t_t_node	*pipe_node(t_t_node *left, t_t_node *right)
 	node->right = right;
 	return (node);
 }
+
+/****************************************************************************** 
+ * Sets the error message
+******************************************************************************/
+static void redir_error(t_parser *p)
+{
+	char	*error;
+	char	*err_comp;
+	char	*lex;
+
+	if (p->current->token->type == TKN_END)
+		lex = ft_strdup("newline");
+	else
+		lex = ft_strdup(p->current->token->lexeme);
+	error = ft_strjoin("Minishell: syntax error near unexpected token `", lex);
+	err_comp = ft_strjoin(error, "'");
+	if (!err_comp)
+		perror("Error");
+	else
+		ft_putendl_fd(err_comp, STDERR_FILENO);
+	free(error);
+	free(lex);
+	free(err_comp);
+}
+
 /****************************************************************************** 
  * Auxiliary function to fill up the redirections list
 ******************************************************************************/
@@ -50,8 +75,7 @@ static bool	set_redirs(t_parser *p, t_token_node *n, t_token_list *cmd, t_redir_
 			if (n->token->type == TKN_END || n->token->type == TKN_PIPE
 				|| is_redirection(p->current->token->type))
 			{
-				ft_printf("Syntax error near unexpected token \'%s\'\n",
-					p->previous->token->lexeme);
+				redir_error(p);
 				return (clear_redirs(redirs), false);
 				//Must clear everything and exit correctly
 			}
