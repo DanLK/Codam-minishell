@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
-/*                                                        ::::::::            */
-/*   readline.c                                         :+:    :+:            */
-/*                                                     +:+                    */
-/*   By: dloustal <dloustal@student.42.fr>            +#+                     */
-/*                                                   +#+                      */
-/*   Created: 2025/03/10 14:21:17 by rojornod      #+#    #+#                 */
-/*   Updated: 2025/06/12 16:42:19 by dloustal      ########   odam.nl         */
+/*                                                        :::      ::::::::   */
+/*   readline.c                                         :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: rojornod <rojornod@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/03/10 14:21:17 by rojornod          #+#    #+#             */
+/*   Updated: 2025/06/14 15:07:20 by rojornod         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,24 +61,33 @@ char	*get_home_dir(void)
 *	-This functon will copy all the environment variables given by the envp
 *	 variable passed by the main();
 *	-They are stored in the t_vars linked list;
+*	-Changed the function to use strchr to the detect te first = 
+*	then instead of using split, use substr to extract the name of the variable 
+*	starting from 0 and up to the first equal. then use strdup to copy the rest 
+*	of the string to value
 *
 ******************************************************************************/
 void	copy_env(t_vars **head, char **envp)
 {
 	int		i;
-	char	**tokens;
-
+	char	*value;
+	char	*name;
+	char	*first_equal;
+	
+	(void)head;
+	(void)value;
 	i = 0;
 	while (envp[i])
 	{
-		tokens = ft_split(envp[i], '=');
-		if (!tokens)
-		{
+		first_equal = ft_strchr(envp[i], '=' );
+		name = ft_substr(envp[i], 0, first_equal - envp[i]);
+		value = ft_strdup(first_equal + 1);
+		if (!name || !value)
 			exit(EXIT_FAILURE);
-		}
-		else if (tokens && tokens[0] && tokens[1])
-			add_var(head, tokens[0], tokens[1], 1);
-		free_array(tokens);
+		else if (name && value)
+		 	add_var(head, name, value, 1);
+		free(name);
+		free(value);
 		i++;
 	}
 }
