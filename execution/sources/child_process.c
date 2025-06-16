@@ -1,58 +1,36 @@
 /* ************************************************************************** */
 /*                                                                            */
-/*                                                        ::::::::            */
-/*   child_process.c                                    :+:    :+:            */
-/*                                                     +:+                    */
-/*   By: dloustal <dloustal@student.42.fr>            +#+                     */
-/*                                                   +#+                      */
-/*   Created: 2025/04/16 11:11:31 by rojornod      #+#    #+#                 */
-/*   Updated: 2025/06/13 18:02:58 by dloustal      ########   odam.nl         */
+/*                                                        :::      ::::::::   */
+/*   child_process.c                                    :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: rojornod <rojornod@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/04/16 11:11:31 by rojornod          #+#    #+#             */
+/*   Updated: 2025/06/16 16:07:06 by rojornod         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/execution.h"
 
-static void not_found_error(char *argv)
-{
-	char	*cmd;
-	char	*error;
-	char	*err_cmp;
-
-	cmd = ft_strdup(argv);
-	error = ft_strjoin("Minishell: ", cmd);
-	err_cmp = ft_strjoin(error, " command not found");
-	if (!err_cmp)
-		perror("Error:");
-	ft_putendl_fd(err_cmp, STDERR_FILENO);
-	free(cmd);
-	free(error);
-	free(err_cmp);
-}
-
 int	child_process(char *path, char **argv, char **env_copy)
 {
-	struct stat sb;
-	
+	struct stat	file_info;
+
 	child_proc_action();
 	if (execve(path, argv, env_copy) == -1)
 	{
-		if (stat(path, &sb) == 0 && S_ISDIR(sb.st_mode))
+		if (stat(path, &file_info) == 0 && S_ISDIR(file_info.st_mode))
 		{
-			ft_putstr_fd("Minishell: ", STDERR_FILENO);
-			ft_putstr_fd(path, STDERR_FILENO);
-			ft_putendl_fd(" Is a directory", STDERR_FILENO);
+			is_directory_error(path);
 			exit(126);
 		}
 		if (errno == 13)
 		{
-			ft_putstr_fd("Minishell: ", STDERR_FILENO);
-			ft_putstr_fd(path, STDERR_FILENO);
-			ft_putendl_fd(" Permission denied", STDERR_FILENO);
+			permission_error(path);
 			exit(126);
 		}
 		else
 		{
-			// ft_printf("Minishell: %s command not found\n", argv[0]);
 			not_found_error(argv[0]);
 			exit(127);
 		}
@@ -86,11 +64,12 @@ static int	parent_process(char *path)
 		}
 	}
 	if (WIFEXITED(w_status))
-		return (WEXITSTATUS(w_status));
+		return (signal_action(), WEXITSTATUS(w_status));
 	if (WIFSIGNALED(w_status) && (WTERMSIG(w_status) == SIGQUIT))
-		return (ft_printf("Quit (core dumped)\n", w_status), 131);
+		return (ft_printf("Quit (core dumped)\n", w_status),
+			signal_action(), 131);
 	if (WIFSIGNALED(w_status) && (WTERMSIG(w_status) == SIGINT))
-		return (130);
+		return (res_sig(), 130);
 	return (1);
 }
 
@@ -128,12 +107,14 @@ int	create_child_proc(t_vars *vars, char **cm, char *path, int siz)
 		return (1);
 	if (!path)
 		return (free_array(env_copy), free_array(argv), EXIT_FAILURE);
+	ignore_sig_action();
 	pid = fork();
 	if (pid == 0)
 		exit_code = child_process(path, argv, env_copy);
 	else if (pid > 0)
 		exit_code = parent_process(path);
 	else
-		return (free_array(argv), free_array(env_copy), free(path), 1);
-	return (free_array(env_copy), free_array(argv), exit_code);
+		return (signal_action(), free_array(argv), free_array(env_copy),
+			free(path), 1);
+	return (signal_action(), free_array(env_copy), free_array(argv), exit_code);
 }

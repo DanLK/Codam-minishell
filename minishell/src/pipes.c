@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
-/*                                                        ::::::::            */
-/*   pipes.c                                            :+:    :+:            */
-/*                                                     +:+                    */
-/*   By: dloustal <dloustal@student.42.fr>            +#+                     */
-/*                                                   +#+                      */
-/*   Created: 2025/04/18 11:16:24 by rojornod      #+#    #+#                 */
-/*   Updated: 2025/06/13 18:03:28 by dloustal      ########   odam.nl         */
+/*                                                        :::      ::::::::   */
+/*   pipes.c                                            :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: rojornod <rojornod@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/04/18 11:16:24 by rojornod          #+#    #+#             */
+/*   Updated: 2025/06/16 15:35:00 by rojornod         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,11 +67,12 @@ int	execute_pipe(t_t_node **root, t_vars *head, t_info *info)
 	int		status_l;
 	int		status_r;
 
+	ignore_sig_action();
 	if (pipe(fd) < 0)
-		return (1);
+		return (signal_action(), 1);
 	pid_left = fork();
 	if (pid_left < 0)
-		return (1);
+		return (signal_action(), 1);
 	if (pid_left == 0)
 	{
 		status_l = pipe_l(fd, &(*root)->left, head, info);
@@ -79,7 +80,7 @@ int	execute_pipe(t_t_node **root, t_vars *head, t_info *info)
 	}
 	pid_right = fork();
 	if (pid_right < 0)
-		return (1);
+		return (signal_action(), 1);
 	if (pid_right == 0)
 	{
 		status_r = pipe_r(fd, &(*root)->right, head, info);
@@ -89,5 +90,5 @@ int	execute_pipe(t_t_node **root, t_vars *head, t_info *info)
 	close(fd[1]);
 	waitpid(pid_left, &status_l, 0);
 	waitpid(pid_right, &status_r, 0);
-	return (WEXITSTATUS(status_r));
+	return (signal_action(), WEXITSTATUS(status_r));
 }

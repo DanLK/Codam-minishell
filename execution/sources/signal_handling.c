@@ -6,7 +6,7 @@
 /*   By: rojornod <rojornod@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/20 10:06:02 by rojornod          #+#    #+#             */
-/*   Updated: 2025/06/13 15:12:58 by rojornod         ###   ########.fr       */
+/*   Updated: 2025/06/16 14:36:48 by rojornod         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,23 +15,22 @@
 volatile sig_atomic_t	g_received = 0;
 
 /******************************************************************************
-
-		This is the handling of signals
-		ctrl + C - sends SIGINT signal which interrupts the current process
-		ctrl + D - not a signal, its an End of File indicator, exits the shell
-		ctrl + \ - sends SIGQUIT, does nothing
-		ioctl function basically fakes an enter press by the user 
-	(by way of the TIOCSTI command which injects input into the 
-	terminals input buffer, emulaing presses as if they were typed by the user) 
-	this way readline doesnt ignore the first input by a user after a ctrl-c
-	
+*
+*		ioctl(STDIN_FILENO, TIOCSTI, &line) - basically fakes an enter press by
+*	the user (by way of the TIOCSTI command which injects input into the 
+*	terminals input buffer, emulaing presses as if they were typed by the user) 
+*	this way readline doesnt ignore the first input by a user after a ctrl-c
+*		ioctl(STDIN_FILENO, TCFLSH, TCIFLUSH) - makes so that the first
+*	keystroke by the user isn't ignored by readline by discarding any unread
+*	bytes in the input queue.
+*	
 ******************************************************************************/
 void	signal_handler(int signal)
 {
+	char	line;
+
 	if (signal == SIGINT)
 	{
-		char line;
-
 		line = '\n';
 		g_received = SIGINT;
 		ioctl(STDIN_FILENO, TCFLSH, TCIFLUSH);
@@ -45,6 +44,7 @@ void	child_proc_handler(int signal)
 	if (signal == SIGINT)
 	{
 		g_received = SIGINT;
+		rl_done = 1;
 	}
 	if (signal == SIGQUIT)
 		g_received = SIGQUIT;

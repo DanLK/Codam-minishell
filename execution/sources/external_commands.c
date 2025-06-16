@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
-/*                                                        ::::::::            */
-/*   external_commands.c                                :+:    :+:            */
-/*                                                     +:+                    */
-/*   By: dloustal <dloustal@student.42.fr>            +#+                     */
-/*                                                   +#+                      */
-/*   Created: 2025/04/09 10:14:24 by rojornod      #+#    #+#                 */
-/*   Updated: 2025/06/12 16:42:15 by dloustal      ########   odam.nl         */
+/*                                                        :::      ::::::::   */
+/*   external_commands.c                                :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: rojornod <rojornod@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/04/09 10:14:24 by rojornod          #+#    #+#             */
+/*   Updated: 2025/06/16 17:51:03 by rojornod         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 static char	*finding_path(char	*temp, char	**temp_path, char *path, char *cmd)
 {
 	int	i;
-
+	
 	i = 0;
 	while (temp_path[i])
 	{
@@ -79,13 +79,13 @@ int	exec_external_com(t_vars *head, char **cmd, int size, t_info *in)
 
 	(void)in;
 	exit_code = 0;
-	path = find_path(head, cmd[0]);
-	if (!path)
-	{
+	if (ft_strchr(cmd[0], '/') != 0)
 		exit_code = create_child_proc(head, cmd, ft_strdup(cmd[0]), size);
-	}
 	else
 	{
+		path = find_path(head, cmd[0]);
+		if (!path)
+			return (not_found_error(cmd[0]), free(path), 127);
 		exit_code = create_child_proc(head, cmd, path, size);
 	}
 	return (exit_code);

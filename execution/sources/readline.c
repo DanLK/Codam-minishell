@@ -6,7 +6,7 @@
 /*   By: rojornod <rojornod@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/10 14:21:17 by rojornod          #+#    #+#             */
-/*   Updated: 2025/06/14 15:07:20 by rojornod         ###   ########.fr       */
+/*   Updated: 2025/06/16 14:38:49 by rojornod         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,7 +73,7 @@ void	copy_env(t_vars **head, char **envp)
 	char	*value;
 	char	*name;
 	char	*first_equal;
-	
+
 	(void)head;
 	(void)value;
 	i = 0;
@@ -85,7 +85,7 @@ void	copy_env(t_vars **head, char **envp)
 		if (!name || !value)
 			exit(EXIT_FAILURE);
 		else if (name && value)
-		 	add_var(head, name, value, 1);
+			add_var(head, name, value, 1);
 		free(name);
 		free(value);
 		i++;

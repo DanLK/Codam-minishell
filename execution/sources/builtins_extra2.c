@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
-/*                                                        ::::::::            */
-/*   builtins_extra2.c                                  :+:    :+:            */
-/*                                                     +:+                    */
-/*   By: dloustal <dloustal@student.42.fr>            +#+                     */
-/*                                                   +#+                      */
-/*   Created: 2025/06/11 12:34:43 by rojornod      #+#    #+#                 */
-/*   Updated: 2025/06/13 19:06:54 by dloustal      ########   odam.nl         */
+/*                                                        :::      ::::::::   */
+/*   builtins_extra2.c                                  :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: rojornod <rojornod@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/06/11 12:34:43 by rojornod          #+#    #+#             */
+/*   Updated: 2025/06/16 14:38:19 by rojornod         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@
 
 int	exit_builtin(t_vars *vars, t_info *info, int exit_code)
 {
-	int exit_code_cpy;
+	int	exit_code_cpy;
 
 	exit_code_cpy = exit_code;
 	free_vars(vars);
@@ -60,7 +60,8 @@ int	cd_builtin(char *path, t_vars *vars)
 	{
 		vars = find_vars(vars, "HOME");
 		if (!vars)
-			return (ft_putendl_fd("Minishell: cd: No HOME variable found", STDERR_FILENO), 1);
+			return (ft_putendl_fd("Minishell: cd: No HOME variable found"
+					, 2), 1);
 		else
 			return (chdir(vars->value), edit_var(vars, "PWD", vars->value), 0);
 	}
@@ -70,7 +71,7 @@ int	cd_builtin(char *path, t_vars *vars)
 	{
 		if (chdir(path) < 0)
 		{
-			ft_putendl_fd("Minishell: cd: No such file or directory", STDERR_FILENO);
+			ft_putendl_fd("Minishell: cd: No such file or directory", 2);
 			return (1);
 		}
 		else

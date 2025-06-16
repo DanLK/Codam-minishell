@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
-/*                                                        ::::::::            */
-/*   executioner.c                                      :+:    :+:            */
-/*                                                     +:+                    */
-/*   By: dloustal <dloustal@student.42.fr>            +#+                     */
-/*                                                   +#+                      */
-/*   Created: 2025/04/22 13:36:45 by dloustal      #+#    #+#                 */
-/*   Updated: 2025/06/13 18:52:13 by dloustal      ########   odam.nl         */
+/*                                                        :::      ::::::::   */
+/*   executioner.c                                      :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: rojornod <rojornod@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/04/22 13:36:45 by dloustal          #+#    #+#             */
+/*   Updated: 2025/06/16 14:46:56 by rojornod         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -212,7 +212,7 @@ int	execute_cd(t_token_list *tokens, t_vars *vars)
 		return (cd_builtin(NULL, vars));
 	if (tokens->head->next->next)
 	{
-		perror("Minishell: cd: too many arguments\n");
+		ft_putstr_fd("Minishell: cd: too many arguments\n", STDERR_FILENO);
 		return (1);
 	}
 	return (cd_builtin(tokens->head->next->token->lexeme, vars));
