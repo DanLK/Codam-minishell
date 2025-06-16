@@ -6,7 +6,7 @@
 /*   By: rojornod <rojornod@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/10 14:21:08 by rojornod          #+#    #+#             */
-/*   Updated: 2025/06/13 17:32:25 by rojornod         ###   ########.fr       */
+/*   Updated: 2025/06/16 15:19:46 by rojornod         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,6 +87,7 @@ char			**convert_env(t_vars *head);
 void			signal_action(void);
 int				heredoc_action(void);
 int				child_proc_action(void);
+int				ignore_sig_action(void);
 void			signal_handler(int signal);
 void			child_proc_handler(int signal);
 void			heredoc_handler(int signal);
@@ -96,6 +97,7 @@ void			heredoc_cleanup(int fd);
 int				delim_found(int fd, char *read_input);
 int				sim_press_hook(void);
 void			init_heredoc(void);
+void			res_sig(void);
 
 //external commands
 char			*find_path(t_vars *head, char *command);
@@ -107,8 +109,9 @@ int				create_child_proc(t_vars *vars, char **cmd, char *path,
 					int size);
 int				child_process(char *path, char **argv, char **env_copy);
 
-//heredocs
-//int				heredoc(t_info *info, char *delim);
+//errors
+void			not_found_error(char *argv);
+void			permission_error(char *path);
 
 //initializing
 t_vars			*initialize_data(void);
