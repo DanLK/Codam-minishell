@@ -6,7 +6,7 @@
 /*   By: rojornod <rojornod@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/16 11:11:31 by rojornod          #+#    #+#             */
-/*   Updated: 2025/06/16 15:09:03 by rojornod         ###   ########.fr       */
+/*   Updated: 2025/06/16 16:07:06 by rojornod         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,9 +21,7 @@ int	child_process(char *path, char **argv, char **env_copy)
 	{
 		if (stat(path, &file_info) == 0 && S_ISDIR(file_info.st_mode))
 		{
-			ft_putstr_fd("Minishell: ", STDERR_FILENO);
-			ft_putstr_fd(path, STDERR_FILENO);
-			ft_putendl_fd(" Is a directory", STDERR_FILENO);
+			is_directory_error(path);
 			exit(126);
 		}
 		if (errno == 13)

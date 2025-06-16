@@ -6,7 +6,7 @@
 /*   By: rojornod <rojornod@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/10 14:21:08 by rojornod          #+#    #+#             */
-/*   Updated: 2025/06/16 15:19:46 by rojornod         ###   ########.fr       */
+/*   Updated: 2025/06/16 16:08:06 by rojornod         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -112,6 +112,7 @@ int				child_process(char *path, char **argv, char **env_copy);
 //errors
 void			not_found_error(char *argv);
 void			permission_error(char *path);
+void			is_directory_error(char *path);
 
 //initializing
 t_vars			*initialize_data(void);

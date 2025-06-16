@@ -6,7 +6,7 @@
 /*   By: rojornod <rojornod@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/16 15:07:39 by rojornod          #+#    #+#             */
-/*   Updated: 2025/06/16 15:09:12 by rojornod         ###   ########.fr       */
+/*   Updated: 2025/06/16 16:07:41 by rojornod         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,4 +34,11 @@ void	permission_error(char *path)
 	ft_putstr_fd("Minishell: ", STDERR_FILENO);
 	ft_putstr_fd(path, STDERR_FILENO);
 	ft_putendl_fd(" Permission denied", STDERR_FILENO);
+}
+
+void	is_directory_error(char *path)
+{
+	ft_putstr_fd("Minishell: ", STDERR_FILENO);
+	ft_putstr_fd(path, STDERR_FILENO);
+	ft_putendl_fd(" Is a directory", STDERR_FILENO);
 }
