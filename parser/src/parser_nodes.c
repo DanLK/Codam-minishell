@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
-/*                                                        ::::::::            */
-/*   parser_nodes.c                                     :+:    :+:            */
-/*                                                     +:+                    */
-/*   By: dloustal <dloustal@student.42.fr>            +#+                     */
-/*                                                   +#+                      */
-/*   Created: 2025/04/15 16:24:19 by dloustal      #+#    #+#                 */
-/*   Updated: 2025/06/13 11:46:59 by dloustal      ########   odam.nl         */
+/*                                                        :::      ::::::::   */
+/*   parser_nodes.c                                     :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: rojornod <rojornod@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/04/15 16:24:19 by dloustal          #+#    #+#             */
+/*   Updated: 2025/06/17 10:37:43 by rojornod         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ t_t_node	*pipe_node(t_t_node *left, t_t_node *right)
 /****************************************************************************** 
  * Sets the error message
 ******************************************************************************/
-static void redir_error(t_parser *p)
+static void	redir_error(t_parser *p)
 {
 	char	*error;
 	char	*err_comp;
@@ -62,7 +62,8 @@ static void redir_error(t_parser *p)
 /****************************************************************************** 
  * Auxiliary function to fill up the redirections list
 ******************************************************************************/
-static bool	set_redirs(t_parser *p, t_token_node *n, t_token_list *cmd, t_redir_node **redirs)
+static bool	set_redirs(t_parser *p,
+	t_token_node *n, t_token_list *cmd, t_redir_node **redirs)
 {
 	while (n->token->type != TKN_PIPE
 		&& n->token->type != TKN_END)
@@ -77,7 +78,6 @@ static bool	set_redirs(t_parser *p, t_token_node *n, t_token_list *cmd, t_redir_
 			{
 				redir_error(p);
 				return (clear_redirs(redirs), false);
-				//Must clear everything and exit correctly
 			}
 			append_redir(redirs, n->token->type, n->token->lexeme);
 		}
@@ -96,22 +96,21 @@ t_t_node	*redir_node(t_parser *parser)
 	t_token_list	*cmd;
 	t_redir_node	**redirs;
 
-	//use calloc
 	if (!parser)
 		return (NULL);
 	tkn_node = parser->current;
 	cmd = init_token_list();
+	if (!cmd)
+		return (NULL);
 	redirs = malloc(sizeof(t_redir_node *));
 	if (!redirs)
-		return (NULL);
-	if (!cmd)
-		return (NULL); // Can we do both checks at once?
+		return (clear_token_list(cmd), NULL);
 	*redirs = NULL;
 	if (!set_redirs(parser, tkn_node, cmd, redirs))
-		return (NULL); // Maybe some extra frees needed
+		return (clear_token_list(cmd), free(redirs), NULL);
 	node = new_tree_node(PARSER_REDIR, cmd);
 	if (!node)
-		return (NULL); //free redirs
+		return (clear_token_list(cmd), free(redirs), NULL);
 	node->redirs = redirs;
 	return (node);
 }
