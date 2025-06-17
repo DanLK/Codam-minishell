@@ -6,7 +6,7 @@
 /*   By: rojornod <rojornod@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/10 14:21:17 by rojornod          #+#    #+#             */
-/*   Updated: 2025/06/16 14:38:49 by rojornod         ###   ########.fr       */
+/*   Updated: 2025/06/17 12:16:46 by rojornod         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ t_vars	*initialize_data(void)
 	return (head);
 }
 
-t_info	*initialize_info(void)
+t_info	*initialize_info(t_vars *vars, char **envp)
 {
 	t_info	*info;
 
@@ -37,8 +37,9 @@ t_info	*initialize_info(void)
 		exit(EXIT_FAILURE);
 	}
 	ft_memset(info, 0, sizeof(t_info));
-	info->fdin = dup(STDIN_FILENO);
-	info->fdout = dup(STDOUT_FILENO);
+	copy_env(&vars, envp);
+	rl_catch_signals = 0;
+	signal_action();
 	return (info);
 }
 

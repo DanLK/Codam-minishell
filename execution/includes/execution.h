@@ -6,7 +6,7 @@
 /*   By: dloustal <dloustal@student.42.fr>            +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/03/10 14:21:08 by rojornod      #+#    #+#                 */
-/*   Updated: 2025/06/17 12:11:33 by dloustal      ########   odam.nl         */
+/*   Updated: 2025/06/17 15:27:52 by dloustal      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,8 +40,6 @@ typedef struct s_vars
 typedef struct s_info
 {
 	int		last_return_code;
-	int		fdin;
-	int		fdout;
 	int		hd_count;
 	int		cur_hd;
 }	t_info;
@@ -113,4 +111,4 @@ void			no_such_file_error(char *argv);
 
 //initializing
 t_vars			*initialize_data(void);
-t_info			*initialize_info(void);
+t_info			*initialize_info(t_vars *vars, char **envp);

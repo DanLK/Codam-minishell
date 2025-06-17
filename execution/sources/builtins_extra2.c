@@ -6,7 +6,7 @@
 /*   By: rojornod <rojornod@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/11 12:34:43 by rojornod          #+#    #+#             */
-/*   Updated: 2025/06/17 11:00:44 by rojornod         ###   ########.fr       */
+/*   Updated: 2025/06/17 12:08:05 by rojornod         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,8 +31,6 @@ int	exit_builtin(t_vars *vars, t_info *info, int exit_code)
 
 	exit_code_cpy = exit_code;
 	free_vars(vars);
-	close(info->fdin);
-	close(info->fdout);
 	free(info);
 	ft_printf("exit\n");
 	exit(exit_code_cpy);
