@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   minishell.h                                        :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: rojornod <rojornod@student.42.fr>          +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/04/22 12:02:07 by dloustal          #+#    #+#             */
-/*   Updated: 2025/06/17 10:54:16 by rojornod         ###   ########.fr       */
+/*                                                        ::::::::            */
+/*   minishell.h                                        :+:    :+:            */
+/*                                                     +:+                    */
+/*   By: dloustal <dloustal@student.42.fr>            +#+                     */
+/*                                                   +#+                      */
+/*   Created: 2025/04/22 12:02:07 by dloustal      #+#    #+#                 */
+/*   Updated: 2025/06/17 15:43:20 by dloustal      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,9 +66,9 @@ char	*remove_quotes(char *string);
 
 // // Redirections
 // void	exp_redir_out(t_t_node **root, t_vars *vars, t_info *info);
-int		tmp_redir_out(char *file);
-int		tmp_redir_append(char *file);
-int		tmp_redir_in(char *file);
+int		exec_redir_out(char *file);
+int		exec_redir_append(char *file);
+int		exec_redir_in(char *file);
 
 // Heredoc parsing
 void	parse_hd_tree(t_t_node **root, t_vars *vars, t_info *info);
