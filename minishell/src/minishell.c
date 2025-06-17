@@ -6,7 +6,7 @@
 /*   By: rojornod <rojornod@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/17 11:53:23 by dloustal          #+#    #+#             */
-/*   Updated: 2025/06/17 14:12:44 by rojornod         ###   ########.fr       */
+/*   Updated: 2025/06/17 15:05:55 by rojornod         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,6 +75,7 @@ int	main(int argc, char **argv, char **envp)
 		else
 			scan_parse_exec(info, vars, read);
 		add_history(read);
+		free(read);
 	}
 	free_vars(vars);
 	free(info);
