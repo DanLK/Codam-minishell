@@ -6,7 +6,7 @@
 /*   By: rojornod <rojornod@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/10 14:21:08 by rojornod          #+#    #+#             */
-/*   Updated: 2025/06/17 11:13:37 by rojornod         ###   ########.fr       */
+/*   Updated: 2025/06/17 12:11:39 by rojornod         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,8 +40,6 @@ typedef struct s_vars
 typedef struct s_info
 {
 	int		last_return_code;
-	int		fdin;
-	int		fdout;
 	int		hd_count;
 	int		cur_hd;
 }	t_info;
@@ -112,4 +110,4 @@ void			is_directory_error(char *path);
 
 //initializing
 t_vars			*initialize_data(void);
-t_info			*initialize_info(void);
+t_info			*initialize_info(t_vars *vars, char **envp);
