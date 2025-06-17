@@ -6,7 +6,7 @@
 /*   By: rojornod <rojornod@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/18 11:16:24 by rojornod          #+#    #+#             */
-/*   Updated: 2025/06/16 15:35:00 by rojornod         ###   ########.fr       */
+/*   Updated: 2025/06/17 11:33:36 by rojornod         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@
 *******************************************************************************/
 static int	pipe_l(int fd[2], t_t_node **root, t_vars *head, t_info *info)
 {
-	int exit_code;
+	int	exit_code;
 
 	child_proc_action();
 	exit_code = 0;
@@ -43,7 +43,7 @@ static int	pipe_l(int fd[2], t_t_node **root, t_vars *head, t_info *info)
 *******************************************************************************/
 static int	pipe_r(int fd[2], t_t_node **root, t_vars *head, t_info *info)
 {
-	int exit_code;
+	int	exit_code;
 
 	child_proc_action();
 	exit_code = 0;

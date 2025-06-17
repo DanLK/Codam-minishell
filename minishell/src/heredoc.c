@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
-/*                                                        ::::::::            */
-/*   heredoc.c                                          :+:    :+:            */
-/*                                                     +:+                    */
-/*   By: dloustal <dloustal@student.42.fr>            +#+                     */
-/*                                                   +#+                      */
-/*   Created: 2025/05/09 16:05:02 by rojornod      #+#    #+#                 */
-/*   Updated: 2025/06/12 16:45:52 by dloustal      ########   odam.nl         */
+/*                                                        :::      ::::::::   */
+/*   heredoc.c                                          :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: rojornod <rojornod@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/05/09 16:05:02 by rojornod          #+#    #+#             */
+/*   Updated: 2025/06/17 10:55:16 by rojornod         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,9 +46,6 @@ int	sim_press_hook(void)
 ******************************************************************************/
 int	delim_found(int fd, char *read_input)
 {
-	// char	*buf;
-
-	// buf = NULL;
 	close(fd);
 	if (!read_input)
 		ft_printf("warning: recieved end of file\n");
@@ -66,40 +63,3 @@ void	init_heredoc(void)
 	rl_event_hook = sim_press_hook;
 	reset_signal();
 }
-
-/******************************************************************************
-*
-* 	This will be the main heredoc function. Once a heredoc is detected 
-* this will be called
-*
-******************************************************************************/
-// int	heredoc(t_info *info, char *delim)
-// {
-// 	int		fd;
-// 	char	*read_input;
-
-// 	(void)info;
-// 	init_heredoc();
-// 	sim_press_hook();
-// 	heredoc_action();
-// 	fd = open(".temp_heredoc", O_WRONLY | O_CREAT, 0644);
-// 	read_input = readline("heredoc> ");
-// 	// read_input = expand(read_input)
-// 	if (!read_input)
-// 		return (delim_found(fd, read_input), 130);
-// 	if (get_signal_received() == SIGINT)
-// 		return (heredoc_cleanup(fd), 130);
-// 	while (read_input)
-// 	{
-// 		if (ft_strcmp(read_input, delim) == 0)
-// 			return (delim_found(fd, read_input), 0);
-// 		write(fd, read_input, ft_strlen(read_input));
-// 		write(fd, "\n", 1);
-// 		read_input = readline("heredoc> ");
-// 		if (!read_input)
-// 			return (delim_found(fd, read_input), 130);
-// 		if (get_signal_received() == SIGINT)
-// 			return (heredoc_cleanup(fd), 130);
-// 	}
-// 	return (0);
-// }

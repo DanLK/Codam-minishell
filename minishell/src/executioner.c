@@ -6,7 +6,7 @@
 /*   By: rojornod <rojornod@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/22 13:36:45 by dloustal          #+#    #+#             */
-/*   Updated: 2025/06/16 14:46:56 by rojornod         ###   ########.fr       */
+/*   Updated: 2025/06/17 11:26:34 by rojornod         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,7 +94,8 @@ int	call_redir(t_redir_node *cur, t_info *info)
 			return (exec_heredoc(cur->file));
 	}
 	else
-		return (ft_printf("[execute_redirection] file node doesn't exist\n"), 1);
+		return (ft_printf("[execute_redirection] file node doesn't exist\n"),
+			1);
 	return (1);
 }
 
@@ -218,27 +219,27 @@ int	execute_cd(t_token_list *tokens, t_vars *vars)
 	return (cd_builtin(tokens->head->next->token->lexeme, vars));
 }
 
-static int check_exit_code(char *exit_code)
+static int	check_exit_code(char *exit_code)
 {
 	int	i;
-	
+
 	i = 0;
 	if (!exit_code || exit_code[i] == '\0')
-        return (0);
-	while (exit_code[i] && (exit_code[i] == '+' || exit_code[i] == '-')) //Consume +/-
+		return (0);
+	while (exit_code[i] && (exit_code[i] == '+' || exit_code[i] == '-'))
 		i++;
 	while (exit_code[i] != '\0')
 	{
 		if (!ft_isdigit(exit_code[i]))
-            return (0);
-        i++;
+			return (0);
+		i++;
 	}
 	return (1);
 }
 
 int	execute_exit(t_token_list *tokens, t_vars *vars, t_info *info)
 {
-	int exit_code;
+	int	exit_code;
 
 	exit_code = 0;
 	if (!tokens || !vars)
@@ -260,7 +261,7 @@ int	execute_exit(t_token_list *tokens, t_vars *vars, t_info *info)
 			ft_putstr_fd(tokens->head->next->token->lexeme, STDERR_FILENO);
 			ft_putendl_fd(": exit: numeric argument required", STDERR_FILENO);
 			return (exit_builtin(vars, info, 2));
-		}	
+		}
 	}
 	return (exit_builtin(vars, info, exit_code));
 }
@@ -288,7 +289,7 @@ static void	loop_export(t_token_node *node, t_vars *vars, int *exit_code)
 {
 	char			*var_name;
 	char			*var_value;
-	
+
 	while (node)
 	{
 		var_name = node->token->lexeme;
@@ -341,7 +342,7 @@ static char	*get_var_value(t_token_node **node, char *var_value)
 			var_value = (*node)->next->next->token->lexeme;
 			if ((*node)->next->next->next)
 				(*node) = (*node)->next->next->next;
-			else 
+			else
 				(*node) = (*node)->next;
 		}
 		else

@@ -6,7 +6,7 @@
 /*   By: rojornod <rojornod@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/10 14:21:08 by rojornod          #+#    #+#             */
-/*   Updated: 2025/06/16 16:08:06 by rojornod         ###   ########.fr       */
+/*   Updated: 2025/06/17 11:13:37 by rojornod         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,9 +28,6 @@
 #include "../../parser/include/parser.h"
 #include "../../lexer/include/lexer.h"
 
-#define STDIN  0
-#define STDOUT 1
-
 typedef struct s_vars
 {
 	char			*name;
@@ -43,7 +40,6 @@ typedef struct s_vars
 typedef struct s_info
 {
 	int		last_return_code;
-	char	*home_dir;
 	int		fdin;
 	int		fdout;
 	int		hd_count;

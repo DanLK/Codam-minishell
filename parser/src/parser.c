@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
-/*                                                        ::::::::            */
-/*   parser.c                                           :+:    :+:            */
-/*                                                     +:+                    */
-/*   By: dloustal <dloustal@student.42.fr>            +#+                     */
-/*                                                   +#+                      */
-/*   Created: 2025/04/14 14:37:49 by dloustal      #+#    #+#                 */
-/*   Updated: 2025/06/13 18:18:39 by dloustal      ########   odam.nl         */
+/*                                                        :::      ::::::::   */
+/*   parser.c                                           :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: rojornod <rojornod@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/04/14 14:37:49 by dloustal          #+#    #+#             */
+/*   Updated: 2025/06/17 10:47:35 by rojornod         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,11 +38,10 @@ static void	right_tokens_null(t_token *token, t_t_node *node, t_t_node *right)
 	char	*error;
 	char	*error_comp;
 	char	*tk;
-	
+
 	tk = ft_strdup(token->lexeme);
 	error = ft_strjoin("Minishell: syntax error near unexpected token `", tk);
 	error_comp = ft_strjoin(error, "'");
-	// ft_printf("Minishell: Syntax error near unexpected token \'%s\'\n", token->lexeme);
 	if (!error_comp)
 		perror("Error: ");
 	else
@@ -57,16 +56,13 @@ static void	right_tokens_null(t_token *token, t_t_node *node, t_t_node *right)
 // divided from parse_pipe
 static void	node_tokens_null(t_t_node *node, t_parser *parser)
 {
-	// ft_printf("Minishell: Syntax error near unexpected token \'%s\'\n",
-		// parser->current->token->lexeme);
 	char	*error;
 	char	*error_comp;
 	char	*tk;
-	
+
 	tk = ft_strdup(parser->current->token->lexeme);
 	error = ft_strjoin("Minishell: syntax error near unexpected token `", tk);
 	error_comp = ft_strjoin(error, "'");
-	// ft_printf("Minishell: Syntax error near unexpected token \'%s\'\n", token->lexeme);
 	if (!error_comp)
 		perror("Error: ");
 	else
@@ -128,10 +124,9 @@ t_t_node	*parse_command(t_parser *parser)
 	if (!command)
 		return (NULL);
 	token_type = parser->current->token->type;
-	//look at redir node and this function and try to remove duplicate code
 	while (token_type != TKN_PIPE && token_type != TKN_END)
 	{
-		lexeme = parser->current->token->lexeme;//maybe get rid of this and call directly
+		lexeme = parser->current->token->lexeme;
 		append_token(command, token_type, lexeme);
 		advance(parser);//return current
 		token_type = parser->current->token->type;
@@ -177,4 +172,3 @@ t_t_node	*parse_command(t_parser *parser)
 // 	// }
 // 	// return(node);
 // }
-

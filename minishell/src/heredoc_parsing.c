@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
-/*                                                        ::::::::            */
-/*   heredoc_parsing.c                                  :+:    :+:            */
-/*                                                     +:+                    */
-/*   By: dloustal <dloustal@student.42.fr>            +#+                     */
-/*                                                   +#+                      */
-/*   Created: 2025/05/22 13:49:41 by dloustal      #+#    #+#                 */
-/*   Updated: 2025/06/13 16:42:30 by dloustal      ########   odam.nl         */
+/*                                                        :::      ::::::::   */
+/*   heredoc_parsing.c                                  :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: rojornod <rojornod@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/05/22 13:49:41 by dloustal          #+#    #+#             */
+/*   Updated: 2025/06/17 11:32:53 by rojornod         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,7 +84,8 @@ void	parse_hd(t_redir_node *cur, t_vars *vars, t_info *info)
 	fd = open(file_name, O_WRONLY | O_CREAT, 0644);
 	if (fd < 0)
 		return (free(file_name));
-	if (cur->next->file[0] && (cur->next->file[0] == '"' || cur->next->file[0] == '\''))
+	if (cur->next->file[0] && (cur->next->file[0] == '"'
+			|| cur->next->file[0] == '\''))
 		quoted_eof = true;
 	else
 		quoted_eof = false;
