@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   executioner.c                                      :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: rojornod <rojornod@student.42.fr>          +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/04/22 13:36:45 by dloustal          #+#    #+#             */
-/*   Updated: 2025/06/17 11:26:34 by rojornod         ###   ########.fr       */
+/*                                                        ::::::::            */
+/*   executioner.c                                      :+:    :+:            */
+/*                                                     +:+                    */
+/*   By: dloustal <dloustal@student.42.fr>            +#+                     */
+/*                                                   +#+                      */
+/*   Created: 2025/04/22 13:36:45 by dloustal      #+#    #+#                 */
+/*   Updated: 2025/06/17 15:44:38 by dloustal      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,11 +85,11 @@ int	call_redir(t_redir_node *cur, t_info *info)
 	if (cur)
 	{
 		if (operator_node->type == TKN_REDIR_OUT)
-			return (tmp_redir_out(cur->file));
+			return (exec_redir_out(cur->file));
 		else if (operator_node->type == TKN_REDIR_OUT_APP)
-			return (tmp_redir_append(cur->file));
+			return (exec_redir_append(cur->file));
 		else if (operator_node->type == TKN_REDIR_IN)
-			return (tmp_redir_in(cur->file));
+			return (exec_redir_in(cur->file));
 		else if (operator_node->type == TKN_HEREDOC)
 			return (exec_heredoc(cur->file));
 	}
@@ -169,242 +169,6 @@ int	execute_builtin(t_t_node **root, t_vars *vars, t_info *info)
 	return (127);
 }
 
-/*******************************************************************************
- *  Transforms the token list on the command node into an array containing 
- * the parameters to echo and calls the echo_builtin function
- * 
- * 
- * Maybe the ignoring should happen inside the builtin!!!
-*******************************************************************************/
-int	execute_echo(t_token_list *tokens)
-{
-	char			**params;
-	int				len;
-	int				i;
-	int				exit_st;
-	t_token_node	*node;
-
-	if (!tokens)
-		return (1);
-	len = len_token_list(tokens);
-	params = (char **)malloc((len) * sizeof(char *));
-	if (!params)
-		return (1);
-	params[len - 1] = NULL;
-	if (len > 1)
-		node = tokens->head->next;
-	i = 0;
-	while (len > 1 && node != NULL && (i < len - 1))
-	{
-		params[i] = ft_strdup(node->token->lexeme);
-		node = node->next;
-		i++;
-	}
-	exit_st = echo_builtin(params);
-	clear_array(params);
-	return (exit_st);
-}
-
-int	execute_cd(t_token_list *tokens, t_vars *vars)
-{
-	if (!tokens || !vars)
-		return (1);
-	if (!tokens->head->next)
-		return (cd_builtin(NULL, vars));
-	if (tokens->head->next->next)
-	{
-		ft_putstr_fd("Minishell: cd: too many arguments\n", STDERR_FILENO);
-		return (1);
-	}
-	return (cd_builtin(tokens->head->next->token->lexeme, vars));
-}
-
-static int	check_exit_code(char *exit_code)
-{
-	int	i;
-
-	i = 0;
-	if (!exit_code || exit_code[i] == '\0')
-		return (0);
-	while (exit_code[i] && (exit_code[i] == '+' || exit_code[i] == '-'))
-		i++;
-	while (exit_code[i] != '\0')
-	{
-		if (!ft_isdigit(exit_code[i]))
-			return (0);
-		i++;
-	}
-	return (1);
-}
-
-int	execute_exit(t_token_list *tokens, t_vars *vars, t_info *info)
-{
-	int	exit_code;
-
-	exit_code = 0;
-	if (!tokens || !vars)
-		return (1);
-	if (!tokens->head->next)
-		return (exit_builtin(vars, info, info->last_return_code));
-	if (tokens->head->next->next)
-	{
-		ft_putendl_fd("Minishell: exit: too many arguments", STDERR_FILENO);
-		return (1);
-	}
-	else
-	{
-		if (check_exit_code(tokens->head->next->token->lexeme) == 1)
-			exit_code = ft_atoi(tokens->head->next->token->lexeme);
-		else
-		{
-			ft_putstr_fd("Minishell: ", STDERR_FILENO);
-			ft_putstr_fd(tokens->head->next->token->lexeme, STDERR_FILENO);
-			ft_putendl_fd(": exit: numeric argument required", STDERR_FILENO);
-			return (exit_builtin(vars, info, 2));
-		}
-	}
-	return (exit_builtin(vars, info, exit_code));
-}
-
-int	execute_unset(t_token_list *tokens, t_vars **head)
-{
-	t_token_node	*node;
-	int				exit_status;
-
-	if (!tokens || !head)
-		return (1);
-	node = tokens->head->next;
-	exit_status = 0;
-	if (!node)
-		return (0);
-	while (node)
-	{
-		exit_status = unset_builtin(head, node->token->lexeme);
-		node = node->next;
-	}
-	return (exit_status);
-}
-
-static void	loop_export(t_token_node *node, t_vars *vars, int *exit_code)
-{
-	char			*var_name;
-	char			*var_value;
-
-	while (node)
-	{
-		var_name = node->token->lexeme;
-		var_value = NULL;
-		if (node->next && node->next->token->type == TKN_EQUAL)
-		{
-			if (node->next->next)
-			{
-				var_value = node->next->next->token->lexeme;
-				node = node->next->next->next;
-			}
-			else
-			{
-				var_value = "";
-				node = node->next->next;
-			}
-		}
-		else
-			node = node->next;
-		*exit_code = export_builtin(&vars, var_name, var_value);
-	}
-}
-
-int	execute_export(t_token_list *tokens, t_vars *vars)
-{
-	int				exit_code;
-	t_token_node	*node;
-
-	if (!tokens || !vars)
-		return (1);
-	if (!tokens->head->next)
-	{
-		export_builtin(&vars, NULL, NULL);
-		return (0);
-	}
-	node = tokens->head->next;
-	exit_code = 0;
-	loop_export(node, vars, &exit_code);
-	return (exit_code);
-}
-
-//divided this from execute assignment
-static char	*get_var_value(t_token_node **node, char *var_value)
-{
-	if ((*node)->next->token->type == TKN_EQUAL)
-	{
-		if ((*node)->next->next
-			&& (*node)->next->next->token->type == TKN_VAR_VALUE)
-		{
-			var_value = (*node)->next->next->token->lexeme;
-			if ((*node)->next->next->next)
-				(*node) = (*node)->next->next->next;
-			else
-				(*node) = (*node)->next;
-		}
-		else
-		{
-			var_value = "";
-			(*node) = (*node)->next->next;
-		}
-		return (var_value);
-	}
-	else
-		return (NULL);
-}
-
-int	execute_assignment(t_token_list *tokens, t_vars *vars)
-{
-	char			*var_name;
-	char			*var_value;
-	t_token_node	*node;
-	t_vars			*temp;
-
-	var_value = NULL;
-	if (!tokens || !vars)
-		return (1);
-	node = tokens->head;
-	while (node->token->type == TKN_VAR_NAME)
-	{
-		var_name = node->token->lexeme;
-		var_value = get_var_value(&node, var_value);
-		if (!var_value)
-			return (1);
-		temp = find_vars(vars, var_name);
-		if (temp)
-		{
-			if (temp->value)
-				free(temp->value);
-			temp->value = ft_strdup(var_value);
-		}
-		else
-			add_var(&vars, var_name, var_value, 0);
-	}
-	return (0);
-}
-
-int	execute_ext_command(t_t_node **root, t_vars *vars, t_info *info)
-{
-	int				size;
-	char			**command;
-	t_token_list	*tokens;
-	int				exit_code;
-
-	if (!root || !vars || !info)
-		return (1);
-	exit_code = 0;
-	tokens = (*root)->tokens;
-	size = len_token_list(tokens);
-	command = tkn_list_to_array(tokens);
-	if (!command)
-		return (1);
-	exit_code = exec_external_com(vars, command, size, info);
-	clear_array(command);
-	return (exit_code);
-}
 
 // int	execute_abs_path(t_t_node **root, t_vars *vars, t_info *info)
 // {
