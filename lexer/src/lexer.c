@@ -6,7 +6,7 @@
 /*   By: dloustal <dloustal@student.42.fr>            +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/03/14 17:06:59 by dloustal      #+#    #+#                 */
-/*   Updated: 2025/06/13 16:09:05 by dloustal      ########   odam.nl         */
+/*   Updated: 2025/06/17 15:13:25 by dloustal      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,8 @@ t_token_list	*scan(char *src)
 		return (NULL);
 	if (!closed_quotes(src, false, false))
 	{
-		ft_putendl_fd("Minishell: syntax error: unclosed quotes", STDERR_FILENO);
+		ft_putendl_fd("Minishell: syntax error: unclosed quotes",
+			STDERR_FILENO);
 		return (NULL);
 	}
 	tokens = init_token_list();
@@ -64,4 +65,3 @@ void	get_cur_token(t_token_list *tokens, char *src, t_scanner *s)
 		tkn_opt_word(tokens, src, s, c);
 }
 //Symbols that we may not want to read: ` 
-

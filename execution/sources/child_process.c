@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   child_process.c                                    :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: rojornod <rojornod@student.42.fr>          +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/04/16 11:11:31 by rojornod          #+#    #+#             */
-/*   Updated: 2025/06/16 16:07:06 by rojornod         ###   ########.fr       */
+/*                                                        ::::::::            */
+/*   child_process.c                                    :+:    :+:            */
+/*                                                     +:+                    */
+/*   By: dloustal <dloustal@student.42.fr>            +#+                     */
+/*                                                   +#+                      */
+/*   Created: 2025/04/16 11:11:31 by rojornod      #+#    #+#                 */
+/*   Updated: 2025/06/17 12:19:37 by dloustal      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,11 @@ int	child_process(char *path, char **argv, char **env_copy)
 		{
 			permission_error(path);
 			exit(126);
+		}
+		if ((*argv)[0] == '/' || (*argv)[0] == '.')
+		{
+			no_such_file_error(*argv);
+			exit(127);
 		}
 		else
 		{
