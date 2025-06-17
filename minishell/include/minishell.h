@@ -1,17 +1,17 @@
 /* ************************************************************************** */
 /*                                                                            */
-/*                                                        ::::::::            */
-/*   minishell.h                                        :+:    :+:            */
-/*                                                     +:+                    */
-/*   By: dloustal <dloustal@student.42.fr>            +#+                     */
-/*                                                   +#+                      */
-/*   Created: 2025/04/22 12:02:07 by dloustal      #+#    #+#                 */
-/*   Updated: 2025/06/13 18:03:13 by dloustal      ########   odam.nl         */
+/*                                                        :::      ::::::::   */
+/*   minishell.h                                        :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: rojornod <rojornod@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/04/22 12:02:07 by dloustal          #+#    #+#             */
+/*   Updated: 2025/06/17 10:54:16 by rojornod         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef TRAVERSAL_H
-# define TRAVERSAL_H
+#ifndef MINISHELL_H
+# define MINISHELL_H
 # include "parser.h"
 # include "execution.h"
 
@@ -76,5 +76,5 @@ void	parse_hd_node(t_t_node **root, t_vars *vars, t_info *info);
 void	parse_hd(t_redir_node *cur, t_vars *vars, t_info *info);
 
 //Exec heredoc
-int	exec_heredoc(char *file);
+int		exec_heredoc(char *file);
 #endif

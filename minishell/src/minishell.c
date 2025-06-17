@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
-/*                                                        ::::::::            */
-/*   minishell.c                                        :+:    :+:            */
-/*                                                     +:+                    */
-/*   By: dloustal <dloustal@student.42.fr>            +#+                     */
-/*                                                   +#+                      */
-/*   Created: 2025/04/17 11:53:23 by dloustal      #+#    #+#                 */
-/*   Updated: 2025/06/13 19:01:01 by dloustal      ########   odam.nl         */
+/*                                                        :::      ::::::::   */
+/*   minishell.c                                        :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: rojornod <rojornod@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/04/17 11:53:23 by dloustal          #+#    #+#             */
+/*   Updated: 2025/06/17 11:05:22 by rojornod         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,8 +17,7 @@ int	main(int argc, char **argv, char **envp)
 	t_token_list	*tokens;
 	t_t_node		*root;
 	t_vars			*vars;
-	t_info	*info;
-	char			*home_dir;	
+	t_info			*info;
 	char			*read;
 
 	(void)argv;
@@ -45,7 +44,6 @@ int	main(int argc, char **argv, char **envp)
 		else
 		{
 			tokens = scan(read);
-			// print_token_list(tokens);
 			if (tokens == NULL)
 			{
 				info->last_return_code = 2;
@@ -60,62 +58,16 @@ int	main(int argc, char **argv, char **envp)
 				free(root);
 				continue ;
 			}
-			// ft_printf("-------------------------------------\n");
-			// print_tree_node(root, "", 1);
-			// ft_printf("-------------------------------------\n");
 			expand_var_tree(&root, vars, info);
-			// print_tree_node(root, "", 1);
 			parse_hd_tree(&root, vars, info);
-			// ft_printf("-------------------------------------\n");
-			// print_tree_node(root, "", 1);
-			// ft_printf("-------------------------------------\n");
 			execute_src(&root, vars, info);
 			clear_token_list(tokens);
 			clear_subtree(root);
-			// free(parser);
 		}
 		add_history(read);
-		//write_history_file(read);
 	}
 	free_vars(vars);
-	if (info->home_dir)
-		free(info->home_dir);
 	close(info->fdin);
 	close(info->fdout);
 	free(info);
-	free(home_dir);
 }
-
-// int	main(int argc, char **argv, char **envp)
-// {
-// 	t_token_list	*tokens;
-// 	t_parser		*parser;
-// 	t_t_node		*root;
-// 	t_vars			*vars;
-// 	char			*home_dir;
-// 	(void)argc;
-// 	(void)argv;
-
-// 	vars = initialize_data();
-// 	copy_env(&vars, envp);
-// 	home_dir = get_home_dir();
-// 	edit_var(vars, "HOME", home_dir);
-// 	add_var(&vars, "TEST", NULL, 0);
-
-// 	tokens = scan("MYVAR=$PWD");
-// 	// print_token_list(tokens);
-// 	// ft_printf("-------------------------------------\n");
-// 	parser = malloc(sizeof(t_parser));
-// 	if(!parser)
-// 		return (0);
-// 	parser->current = tokens->head;
-// 	parser->previous = NULL;
-// 	root = parse_pipe(parser);
-// 	// print_tree_node(root, "", 1);
-// 	// ft_printf("-------------------------------------\n");
-// 	expand_var_tree(&root, vars);
-// 	print_tree_node(root, "", 1);
-// 	clear_token_list(tokens);
-// 	clear_subtree(root);
-// 	free(parser);
-// }

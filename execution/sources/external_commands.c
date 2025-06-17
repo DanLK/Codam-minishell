@@ -6,7 +6,7 @@
 /*   By: rojornod <rojornod@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/09 10:14:24 by rojornod          #+#    #+#             */
-/*   Updated: 2025/06/16 17:51:03 by rojornod         ###   ########.fr       */
+/*   Updated: 2025/06/17 11:14:34 by rojornod         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 static char	*finding_path(char	*temp, char	**temp_path, char *path, char *cmd)
 {
 	int	i;
-	
+
 	i = 0;
 	while (temp_path[i])
 	{
