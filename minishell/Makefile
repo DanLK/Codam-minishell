@@ -1,7 +1,10 @@
 NAME = minishell
 MAIN = minishell.c
-SRC = executioner.c var_expansion.c var_expansion_utils.c pipes.c redirections.c cmd_str_utilities.c heredoc.c heredoc_parsing.c heredoc_exec.c
-LEXER_SRC = lexer.c lexer_utils.c lexer_utils_2.c lexer_utils_symbols.c token_list.c token_list_utils.c token_identifier.c reader_quotes.c readers.c initial_checks.c clear_list.c
+SRC = executioner.c exec_builtins.c exec_builtins_2.c exec_var_assignment.c var_expansion.c \
+var_expansion_utils.c pipes.c redirections.c cmd_str_utilities.c heredoc.c heredoc_parsing.c \
+heredoc_exec.c
+LEXER_SRC = lexer.c lexer_utils.c lexer_utils_2.c lexer_utils_symbols.c token_list.c \
+token_list_utils.c token_identifier.c reader_quotes.c readers.c initial_checks.c clear_list.c
 PARSER_SRC = tree.c memory_clears_parser.c parser.c parser_utilities.c parser_nodes.c debug.c tredirs_utils.c
 SRC_DIR = ./src
 OBJ_DIR = ./obj
@@ -10,7 +13,8 @@ MAIN_OBJ = $(MAIN:%.c=$(OBJ_DIR)/%.o)
 LEXER_OBJ = $(LEXER_SRC:%.c=$(LEXER_DIR)/obj/%.o)
 PARSER_OBJ = $(PARSER_SRC:%.c=$(PARSER_DIR)/obj/%.o)
 
-EXEC_SRC = error_msgs.c builtins_extra2.c builtins_extra.c builtins.c child_process.c external_commands.c readline.c signal_handling_extra.c signal_handling.c utils.c vars.c 
+EXEC_SRC = error_msgs.c builtins_extra2.c builtins_extra.c builtins.c child_process.c \
+external_commands.c readline.c signal_handling_extra.c signal_handling.c utils.c vars.c 
 EXEC_OBJ = $(EXEC_SRC:%.c=$(EXEC_DIR)/obj/%.o)
 
 CFLAGS += -Wall -Wextra -Werror
