@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
-/*                                                        ::::::::            */
-/*   var_expansion_utils.c                              :+:    :+:            */
-/*                                                     +:+                    */
-/*   By: dloustal <dloustal@student.42.fr>            +#+                     */
-/*                                                   +#+                      */
-/*   Created: 2025/04/29 12:21:37 by dloustal      #+#    #+#                 */
-/*   Updated: 2025/06/13 16:15:19 by dloustal      ########   odam.nl         */
+/*                                                        :::      ::::::::   */
+/*   var_expansion_utils.c                              :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: rojornod <rojornod@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/04/29 12:21:37 by dloustal          #+#    #+#             */
+/*   Updated: 2025/06/17 14:47:04 by rojornod         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,8 @@ int	qstr_exp_len(char *s, t_vars *vars, t_info *info)
 	in_double = false;
 	in_single = false;
 	i = 0;
+	if (!s)
+		return (0);
 	while (s[i])
 	{
 		if (s[i] == '\'') //Ignore the quotes -- advance the index

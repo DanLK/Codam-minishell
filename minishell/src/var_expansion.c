@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
-/*                                                        ::::::::            */
-/*   var_expansion.c                                    :+:    :+:            */
-/*                                                     +:+                    */
-/*   By: dloustal <dloustal@student.42.fr>            +#+                     */
-/*                                                   +#+                      */
-/*   Created: 2025/04/28 09:49:04 by dloustal      #+#    #+#                 */
-/*   Updated: 2025/06/13 17:09:57 by dloustal      ########   odam.nl         */
+/*                                                        :::      ::::::::   */
+/*   var_expansion.c                                    :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: rojornod <rojornod@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/04/28 09:49:04 by dloustal          #+#    #+#             */
+/*   Updated: 2025/06/17 14:46:45 by rojornod         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -135,6 +135,8 @@ char	*expand_qstring(char *s, t_vars *vars, t_info *info)
 	char	*var_name;
 	t_vars	*var;
 
+	if (!s)
+		return (NULL);
 	len = qstr_exp_len(s, vars, info);
 	result = malloc((len + 1) * sizeof(char));
 	if (!result)
