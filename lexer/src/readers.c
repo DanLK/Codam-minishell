@@ -6,72 +6,11 @@
 /*   By: dloustal <dloustal@student.42.fr>            +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/05/20 13:39:12 by dloustal      #+#    #+#                 */
-/*   Updated: 2025/06/12 14:53:39 by dloustal      ########   odam.nl         */
+/*   Updated: 2025/06/17 15:18:22 by dloustal      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "lexer.h"
-
-char	*read_quoted(t_scanner *sc, char *src)
-{
-	bool	in_single;
-	bool	in_double;
-	char	*result;
-	int		i;
-
-	result = malloc((ft_strlen(src) + 1) * sizeof (char));
-	if (!result)
-		return (NULL);
-	i = 0;
-	sc->cur--;
-	in_single = false;
-	in_double = false;
-	while (src[sc->cur])
-	{
-		if (!in_single && !in_double)
-		{
-			if (src[sc->cur] == '\'')
-			{
-				in_single = true;
-				result[i++] = src[sc->cur];
-				sc->cur++;
-				continue ;
-			}
-			else if (src[sc->cur] == '\"')
-			{
-				in_double = true;
-				result[i++] = src[sc->cur];
-				sc->cur++;
-				continue ;
-			}
-			else if (src[sc->cur] == ' '
-				|| src[sc->cur] == '|' || src[sc->cur] == '<'
-				|| src[sc->cur] == '>')
-				break ;
-			else
-			{
-				result[i++] = src[sc->cur];
-				sc->cur++;
-			}
-		}
-		else if (in_single)
-		{
-			result[i++] = src[sc->cur];
-			if (src[sc->cur] == '\'')
-				in_single = false;
-			sc->cur++;
-		}
-		else if (in_double)
-		{
-			result[i++] = src[sc->cur];
-			if (src[sc->cur] == '\"')
-				in_double = false;
-			sc->cur++;
-		}
-	}
-	result[i] = '\0';
-	return (result);
-}
 
 char	*read_options(t_scanner *scanner, char *src)
 {
@@ -118,24 +57,6 @@ char	*read_filepath(t_scanner *scanner, char *src)
 	return (ft_substr(src, scanner->start, scanner->cur - scanner->start));
 }
 
-// char	*read_identifier(t_scanner *scanner, char *src)
-// {
-// 	char	*substr;
-// 	int		st;
-// 	char	c;
-
-// 	if (!src || scanner->cur > (int)ft_strlen(src))
-// 		return (NULL);
-// 	st = scanner->start;
-// 	c = src[--(scanner->cur)];
-// 	while (c && (ft_isalnum(c) || issymbol(c) || c == ':'))
-// 	{
-// 		scanner->cur += 1;
-// 		c = src[scanner->cur];
-// 	}
-// 	substr = ft_substr(src, st, (scanner->cur) - st);
-// 	return (substr);
-// }
 char	*get_variable(t_scanner *s, char *src)
 {
 	char	c;
@@ -148,4 +69,3 @@ char	*get_variable(t_scanner *s, char *src)
 	var_name = ft_substr(src, s->start, s->cur - s->start);
 	return (var_name);
 }
-
