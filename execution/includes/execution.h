@@ -6,7 +6,7 @@
 /*   By: dloustal <dloustal@student.42.fr>            +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/03/10 14:21:08 by rojornod      #+#    #+#                 */
-/*   Updated: 2025/06/17 15:27:52 by dloustal      ########   odam.nl         */
+/*   Updated: 2025/06/17 16:38:07 by dloustal      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,8 +48,8 @@ typedef struct s_info
 char			*get_home_dir(void);
 
 //history
-void			create_history_file(void);
-void			write_history_file(char *read);
+// void			create_history_file(void);
+// void			write_history_file(char *read);
 
 //builtins
 int				echo_builtin(char **tokens);
@@ -87,10 +87,7 @@ void			child_proc_handler(int signal);
 void			heredoc_handler(int signal);
 int				get_signal_received(void);
 void			reset_signal(void);
-void			heredoc_cleanup(int fd);
-int				delim_found(int fd, char *read_input);
-int				sim_press_hook(void);
-void			init_heredoc(void);
+void			init_sig_heredoc(void);
 void			res_sig(void);
 
 //external commands

@@ -6,7 +6,7 @@
 /*   By: dloustal <dloustal@student.42.fr>            +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/04/22 13:36:45 by dloustal      #+#    #+#                 */
-/*   Updated: 2025/06/17 15:44:38 by dloustal      ########   odam.nl         */
+/*   Updated: 2025/06/17 15:57:39 by dloustal      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,8 +70,6 @@ int	execute_redirection(t_t_node **root, t_vars *vars, t_info *info)
 		return (-1);
 	close(std_out);
 	close(std_in);
-	// info->cur_hd = 0;
-	// Free redirection node!!!!!
 	return (exit_code);
 }
 
@@ -168,7 +166,6 @@ int	execute_builtin(t_t_node **root, t_vars *vars, t_info *info)
 		return (execute_assignment(tokens, vars));
 	return (127);
 }
-
 
 // int	execute_abs_path(t_t_node **root, t_vars *vars, t_info *info)
 // {
