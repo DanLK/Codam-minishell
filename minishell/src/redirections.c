@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
-/*                                                        ::::::::            */
-/*   redirections.c                                     :+:    :+:            */
-/*                                                     +:+                    */
-/*   By: dloustal <dloustal@student.42.fr>            +#+                     */
-/*                                                   +#+                      */
-/*   Created: 2025/05/06 10:53:23 by rojornod      #+#    #+#                 */
-/*   Updated: 2025/06/13 15:37:12 by dloustal      ########   odam.nl         */
+/*                                                        :::      ::::::::   */
+/*   redirections.c                                     :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: rojornod <rojornod@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/05/06 10:53:23 by rojornod          #+#    #+#             */
+/*   Updated: 2025/06/17 17:17:22 by rojornod         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,6 +64,7 @@ static int	restore_fd_after_fail(int fd)
 		close(fd);
 		return (1);
 	}
+	close(fd);
 	return (0);
 }
 
