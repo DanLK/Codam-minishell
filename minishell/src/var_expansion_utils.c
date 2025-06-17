@@ -6,7 +6,7 @@
 /*   By: rojornod <rojornod@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/29 12:21:37 by dloustal          #+#    #+#             */
-/*   Updated: 2025/06/17 14:47:04 by rojornod         ###   ########.fr       */
+/*   Updated: 2025/06/17 15:33:18 by rojornod         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,7 @@ int	qstr_exp_len(char *s, t_vars *vars, t_info *info)
 	int		i;
 	char	*var_name;
 	t_vars	*var;
+	char	*get_len;
 
 	len = 0;
 	in_double = false;
@@ -56,8 +57,10 @@ int	qstr_exp_len(char *s, t_vars *vars, t_info *info)
 			i++;
 			if (s[i] && s[i] == '?')
 			{
-				len += ft_strlen(ft_itoa(info->last_return_code));
+				get_len = ft_itoa(info->last_return_code);
+				len += ft_strlen(get_len);
 				i++;
+				free(get_len);
 			}
 			else if (s[i] && (ft_isalnum(s[i]) || s[i] == '_'))
 			{
@@ -99,6 +102,7 @@ void	put_exitstatus(char **result, t_info *info, int *res_i)
 		(*res_i)++;
 		k++;
 	}
+	free(st_exitstatus);
 }
 
 /*****************************************************************************
