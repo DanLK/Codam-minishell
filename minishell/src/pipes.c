@@ -6,7 +6,7 @@
 /*   By: rojornod <rojornod@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/18 11:16:24 by rojornod          #+#    #+#             */
-/*   Updated: 2025/06/17 11:33:36 by rojornod         ###   ########.fr       */
+/*   Updated: 2025/06/17 16:13:50 by rojornod         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,8 +28,8 @@ static int	pipe_l(int fd[2], t_t_node **root, t_vars *head, t_info *info)
 	exit_code = 0;
 	close(fd[0]);
 	dup2(fd[1], STDOUT_FILENO);
-	exit_code = execute_src(root, head, info);
 	close(fd[1]);
+	exit_code = execute_src(root, head, info);
 	return (exit_code);
 }
 
