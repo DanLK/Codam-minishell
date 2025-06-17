@@ -6,7 +6,7 @@
 /*   By: dloustal <dloustal@student.42.fr>            +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/03/14 16:58:50 by dloustal      #+#    #+#                 */
-/*   Updated: 2025/06/13 18:13:39 by dloustal      ########   odam.nl         */
+/*   Updated: 2025/06/17 15:19:33 by dloustal      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,36 +20,25 @@
 
 enum e_Type
 {
-	// Single character tokens
-	// TKN_L_PAREN, //0
-	// TKN_R_PAREN, //1
-	TKN_EQUAL, //0
-	// Builtins
-	TKN_ECHO, //1
+	TKN_EQUAL,
+	TKN_ECHO,
 	TKN_CD,
-	TKN_PWD, //3
+	TKN_PWD,
 	TKN_EXPORT,
 	TKN_UNSET,
 	TKN_ENV,
-	TKN_EXIT, //7
-	// Options
+	TKN_EXIT,
 	TKN_OPTION,
-	// Var assignment
-	TKN_VAR_NAME, //9
+	TKN_VAR_NAME,
 	TKN_VAR_VALUE,
-	// Redirections
-	TKN_REDIR_IN, //11
+	TKN_REDIR_IN,
 	TKN_REDIR_OUT,
 	TKN_HEREDOC,
 	TKN_REDIR_OUT_APP,
-	// Operators
-	TKN_PIPE, //
-	// Path
-	TKN_FILE_PATH, //16
-	// Literals
-	TKN_WORD, //17
-	//EOF to indicate end of input
-	TKN_END //18
+	TKN_PIPE,
+	TKN_FILE_PATH,
+	TKN_WORD,
+	TKN_END
 };
 
 typedef struct token
@@ -81,6 +70,14 @@ typedef struct s_map
 	enum e_Type	types[7];
 }		t_map;
 
+// Context struct for reducing quote reading length (s_quoted_state)
+typedef struct s_qt_st
+{
+	bool	in_single;
+	bool	in_double;
+	int		*i;
+}		t_qt_st;
+
 // Token list
 t_token_list	*init_token_list(void);
 t_token			*create_token(enum e_Type type, char *lex);
@@ -102,12 +99,11 @@ void			get_cur_token(t_token_list *tokens, char *src, t_scanner *s);
 void			redir_tkn(t_token_list *tkns, char *src, t_scanner *s, char c);
 // void			tkn_quote(t_token_list *tkns, char *src, t_scanner *s, char c);
 // char			*tkn_env_var(char *src, t_scanner *scanner);
-void			tkn_opt_word(t_token_list *tkns, char *src, t_scanner *s, char c);
+void			tkn_opt_word(t_token_list *t, char *src, t_scanner *s, char c);
 void			tkn_assignment(t_token_list *tokens, t_scanner *s, char *src);
 
 // Lexer utilities
 void			consume_space(t_scanner *scanner, char *src);
-bool			is_special_char(char c);
 bool			is_builtin_type(enum e_Type type);
 const t_map		*get_map(void);
 bool			is_variable_tkn(char *src, t_scanner *scanner);
@@ -115,19 +111,25 @@ bool			is_variable_tkn(char *src, t_scanner *scanner);
 // Lexer utilities 2
 int				is_keyword(char *lexeme);
 bool			kw_compare(const t_map *keywords, char *lexeme, int i);
-bool			issymbol(char c);
 char			get_cur_char(int *cur, char *src);
 bool			is_next(int *cur, char *src, char expected);
 bool			is_assignment(t_scanner *s, char *src);
 
+//Lexer utilities symbol identifiers
+bool			issymbol(char c);
+bool			is_special_char(char c);
+bool			is_token_breaker(char c);
+
+// Reader quotes
+char			*read_quoted(t_scanner *sc, char *src);
+
 // Readers
 char			*read_filepath(t_scanner *scanner, char *src);
 char			*read_options(t_scanner *scanner, char *src);
-char			*read_quoted(t_scanner *sc, char *src);
 char			*get_variable(t_scanner *s, char *src);
 
 // Initial checks
-bool 			closed_quotes(char *src, bool in_single, bool in_double);
+bool			closed_quotes(char *src, bool in_single, bool in_double);
 t_scanner		*init_scanner(int cur, int start);
 
 // Memory clears

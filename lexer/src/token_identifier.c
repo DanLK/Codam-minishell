@@ -6,7 +6,7 @@
 /*   By: dloustal <dloustal@student.42.fr>            +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/04/01 12:11:14 by dloustal      #+#    #+#                 */
-/*   Updated: 2025/06/13 19:00:15 by dloustal      ########   odam.nl         */
+/*   Updated: 2025/06/17 15:22:39 by dloustal      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,7 +68,6 @@ void	redir_tkn(t_token_list *tkns, char *src, t_scanner *s, char c)
 // 	// 	// 	append_token(tkns, TKN_ENV_VAR, lexeme);
 // 	// 	// 	free(lexeme);
 // 	// 	// }
-		
 // 	// }
 // 	// else if (c == '"')
 // 	// {
@@ -98,28 +97,28 @@ void	redir_tkn(t_token_list *tkns, char *src, t_scanner *s, char c)
 // 	return (substr);
 // }
 
-void	tkn_opt_word(t_token_list *tkns, char *src, t_scanner *s, char c)
+void	tkn_opt_word(t_token_list *t, char *src, t_scanner *s, char c)
 {
 	char	*lexeme;
 
-	if (c == '-' && ( !src[s->cur] || ft_isalpha(c)))
+	if (c == '-' && (!src[s->cur] || ft_isalpha(c)))
 	{
 		lexeme = read_options(s, src);
 		if (!lexeme)
 			perror("Invalid options");
 		else if (ft_strlen(lexeme) == 1)
-			append_token(tkns, TKN_WORD, lexeme);
+			append_token(t, TKN_WORD, lexeme);
 		else
-			append_token(tkns, TKN_OPTION, lexeme);
+			append_token(t, TKN_OPTION, lexeme);
 		free(lexeme);
 	}
 	else if (ft_isalnum(c) || issymbol(c))
 	{
 		lexeme = read_quoted(s, src);
 		if (is_keyword(lexeme) != -1)
-			append_token(tkns, is_keyword(lexeme), lexeme);
+			append_token(t, is_keyword(lexeme), lexeme);
 		else
-			append_token(tkns, TKN_WORD, lexeme);
+			append_token(t, TKN_WORD, lexeme);
 		free(lexeme);
 	}
 }
@@ -138,7 +137,6 @@ void	tkn_assignment(t_token_list *tokens, t_scanner *s, char *src)
 	if (src[s->cur] == ' ')
 	{
 		s->cur++;
-		// ft_printf("[tkn_assignent] src[cur]: [%c]\n", src[s->cur]);
 		return (free(var_name));
 	}
 	s->cur++;

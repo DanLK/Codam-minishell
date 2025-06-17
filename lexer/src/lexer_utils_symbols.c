@@ -1,26 +1,33 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        ::::::::            */
-/*   main_lexer.c                                       :+:    :+:            */
+/*   lexer_utils_symbols.c                              :+:    :+:            */
 /*                                                     +:+                    */
 /*   By: dloustal <dloustal@student.42.fr>            +#+                     */
 /*                                                   +#+                      */
-/*   Created: 2025/03/17 11:29:28 by dloustal      #+#    #+#                 */
-/*   Updated: 2025/06/17 15:12:30 by dloustal      ########   odam.nl         */
+/*   Created: 2025/06/17 12:34:30 by dloustal      #+#    #+#                 */
+/*   Updated: 2025/06/17 15:15:46 by dloustal      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "lexer.h"
 
-int	main(void)
+bool	issymbol(char c)
 {
-	t_token_list	*list;
-	char			*input;
+	return (c == '_' || (c >= '!' && c <= '/')
+		|| c == ';' || c == '?' || c == '@'
+		|| c == '[' || c == ']' || c == '{'
+		|| c == '}' || c == '~' || c == '^'
+		|| c == '=');
+}
 
-	input = "echo \"hello '\"'house'of>cards";
-	ft_printf("Scanning input: \"%s\" \n\n", input);
-	list = scan(input);
-	print_token_list(list);
-	clear_token_list(list);
-	return (0);
+bool	is_special_char(char c)
+{
+	return (c == ' ' || c == '|' || c == '&'
+		|| c == '<' || c == '>' || c == '\"' || c == '\'');
+}
+
+bool	is_token_breaker(char c)
+{
+	return (c == ' ' || c == '|' || c == '<' || c == '>');
 }

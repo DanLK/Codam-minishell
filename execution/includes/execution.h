@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   execution.h                                        :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: rojornod <rojornod@student.42.fr>          +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/03/10 14:21:08 by rojornod          #+#    #+#             */
-/*   Updated: 2025/06/17 11:13:37 by rojornod         ###   ########.fr       */
+/*                                                        ::::::::            */
+/*   execution.h                                        :+:    :+:            */
+/*                                                     +:+                    */
+/*   By: dloustal <dloustal@student.42.fr>            +#+                     */
+/*                                                   +#+                      */
+/*   Created: 2025/03/10 14:21:08 by rojornod      #+#    #+#                 */
+/*   Updated: 2025/06/17 12:11:33 by dloustal      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -109,6 +109,7 @@ int				child_process(char *path, char **argv, char **env_copy);
 void			not_found_error(char *argv);
 void			permission_error(char *path);
 void			is_directory_error(char *path);
+void			no_such_file_error(char *argv);
 
 //initializing
 t_vars			*initialize_data(void);
