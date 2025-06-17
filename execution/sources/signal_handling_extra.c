@@ -6,7 +6,7 @@
 /*   By: rojornod <rojornod@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/02 15:50:26 by rojornod          #+#    #+#             */
-/*   Updated: 2025/06/16 14:35:43 by rojornod         ###   ########.fr       */
+/*   Updated: 2025/06/17 16:00:58 by rojornod         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,7 @@ void	signal_action(void)
 	sigaction(SIGINT, &action, NULL);
 	action.sa_handler = SIG_IGN;
 	sigaction(SIGQUIT, &action, NULL);
+	sigaction(SIGPIPE, &action, NULL);
 }
 
 int	heredoc_action(void)

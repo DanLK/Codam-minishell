@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
-/*                                                        ::::::::            */
-/*   reader_quotes.c                                    :+:    :+:            */
-/*                                                     +:+                    */
-/*   By: dloustal <dloustal@student.42.fr>            +#+                     */
-/*                                                   +#+                      */
-/*   Created: 2025/06/17 15:18:00 by dloustal      #+#    #+#                 */
-/*   Updated: 2025/06/17 15:18:47 by dloustal      ########   odam.nl         */
+/*                                                        :::      ::::::::   */
+/*   reader_quotes.c                                    :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: rojornod <rojornod@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/06/17 15:18:00 by dloustal          #+#    #+#             */
+/*   Updated: 2025/06/17 16:27:49 by rojornod         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,6 +77,7 @@ char	*read_quoted(t_scanner *sc, char *src)
 		else
 			handle_in_quote(sc, src, result, st);
 	}
+	free(st);
 	result[i] = '\0';
 	return (result);
 }
