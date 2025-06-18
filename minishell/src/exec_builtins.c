@@ -6,7 +6,7 @@
 /*   By: dloustal <dloustal@student.42.fr>            +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/06/17 15:45:21 by dloustal      #+#    #+#                 */
-/*   Updated: 2025/06/17 15:46:06 by dloustal      ########   odam.nl         */
+/*   Updated: 2025/06/18 19:32:00 by dloustal      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,7 +80,7 @@ static int	check_exit_code(char *exit_code)
 	return (1);
 }
 
-int	execute_exit(t_token_list *tokens, t_vars *vars, t_info *info)
+int	execute_exit(t_t_node *root, t_token_list *tokens, t_vars *vars, t_info *info)
 {
 	int	exit_code;
 
@@ -88,7 +88,7 @@ int	execute_exit(t_token_list *tokens, t_vars *vars, t_info *info)
 	if (!tokens || !vars)
 		return (1);
 	if (!tokens->head->next)
-		return (exit_builtin(vars, info, info->last_return_code));
+		return (clear_subtree(root), exit_builtin(vars, info, info->last_return_code));
 	if (tokens->head->next->next)
 	{
 		ft_putendl_fd("Minishell: exit: too many arguments", STDERR_FILENO);
@@ -103,8 +103,8 @@ int	execute_exit(t_token_list *tokens, t_vars *vars, t_info *info)
 			ft_putstr_fd("Minishell: ", STDERR_FILENO);
 			ft_putstr_fd(tokens->head->next->token->lexeme, STDERR_FILENO);
 			ft_putendl_fd(": exit: numeric argument required", STDERR_FILENO);
-			return (exit_builtin(vars, info, 2));
+			return (clear_subtree(root), exit_builtin(vars, info, 2));
 		}
 	}
-	return (exit_builtin(vars, info, exit_code));
+	return (clear_subtree(root), exit_builtin(vars, info, exit_code));
 }

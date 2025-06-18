@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   child_process.c                                    :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: rojornod <rojornod@student.42.fr>          +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/04/16 11:11:31 by rojornod          #+#    #+#             */
-/*   Updated: 2025/06/18 16:35:58 by rojornod         ###   ########.fr       */
+/*                                                        ::::::::            */
+/*   child_process.c                                    :+:    :+:            */
+/*                                                     +:+                    */
+/*   By: dloustal <dloustal@student.42.fr>            +#+                     */
+/*                                                   +#+                      */
+/*   Created: 2025/04/16 11:11:31 by rojornod      #+#    #+#                 */
+/*   Updated: 2025/06/18 18:57:12 by dloustal      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,7 @@ static int	check_if_directory(char *path)
 		is_directory_error(path);
 		return (126);
 	}
+	return (0);
 }
 
 int	child_process(char *path, char **argv, char **env_copy)
