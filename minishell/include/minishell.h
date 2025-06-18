@@ -6,7 +6,7 @@
 /*   By: dloustal <dloustal@student.42.fr>            +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/04/22 12:02:07 by dloustal      #+#    #+#                 */
-/*   Updated: 2025/06/17 18:13:37 by dloustal      ########   odam.nl         */
+/*   Updated: 2025/06/18 16:47:30 by dloustal      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,16 @@ typedef struct s_hd
 	bool	quoted_eof;
 	int		*fd;
 }		t_hd;
+
+// Helper struct to keep the variable expansion short
+typedef struct s_exp
+{
+	int		i;
+	int		res_i;
+	bool	in_single;
+	bool	in_double;
+	char	*s;
+}		t_exp;
 
 // Cmd string ultilities
 bool	is_cmd(char *str, char *cmd);
@@ -57,10 +67,15 @@ void	expand_redir_files(t_redir_node **red_head, t_vars *v, t_info *info);
 // Temporary functoins
 // char	*expand_qstring(char *string, t_vars *vars);
 // char	*remove_quotes(char *string);
+
+// String expansion length calculation
+int		qstr_exp_len(char *s, t_vars *vars, t_info *info);
+
+//Expand one string
+t_exp	*init_var_exp(char *s);
 char	*expand_qstring(char *s, t_vars *vars, t_info *info);
 
 // Variable expansion utilities
-int		qstr_exp_len(char *s, t_vars *vars, t_info *info);
 void	put_exitstatus(char **result, t_info *info, int *res_i);
 void	put_var(char **result, char *var, int *res_i);
 char	*get_var_name(char *string, int pos);
