@@ -1,29 +1,35 @@
 /* ************************************************************************** */
 /*                                                                            */
-/*                                                        ::::::::            */
-/*   child_process.c                                    :+:    :+:            */
-/*                                                     +:+                    */
-/*   By: dloustal <dloustal@student.42.fr>            +#+                     */
-/*                                                   +#+                      */
-/*   Created: 2025/04/16 11:11:31 by rojornod      #+#    #+#                 */
-/*   Updated: 2025/06/17 12:19:37 by dloustal      ########   odam.nl         */
+/*                                                        :::      ::::::::   */
+/*   child_process.c                                    :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: rojornod <rojornod@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/04/16 11:11:31 by rojornod          #+#    #+#             */
+/*   Updated: 2025/06/18 16:35:58 by rojornod         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/execution.h"
 
-int	child_process(char *path, char **argv, char **env_copy)
+static int	check_if_directory(char *path)
 {
 	struct stat	file_info;
 
+	if (stat(path, &file_info) == 0 && S_ISDIR(file_info.st_mode))
+	{
+		is_directory_error(path);
+		return (126);
+	}
+}
+
+int	child_process(char *path, char **argv, char **env_copy)
+{
 	child_proc_action();
 	if (execve(path, argv, env_copy) == -1)
 	{
-		if (stat(path, &file_info) == 0 && S_ISDIR(file_info.st_mode))
-		{
-			is_directory_error(path);
+		if (check_if_directory(path) == 126)
 			exit(126);
-		}
 		if (errno == 13)
 		{
 			permission_error(path);
