@@ -1,8 +1,8 @@
 NAME = minishell
 MAIN = minishell.c
-SRC = executioner.c exec_builtins.c exec_builtins_2.c exec_var_assignment.c var_expansion.c \
-var_expansion_utils.c pipes.c redirections.c cmd_str_utilities.c heredoc.c heredoc_parse.c \
-heredoc_exec.c heredoc_parse_aux.c heredoc_parse_tree.c
+SRC = executioner.c exec_builtins.c exec_builtins_2.c exec_var_assignment.c expand_qstring.c \
+string_exp_len.c var_expansion.c var_expansion_utils.c pipes.c redirections.c cmd_str_utilities.c \
+heredoc.c heredoc_parse.c heredoc_exec.c heredoc_parse_aux.c heredoc_parse_tree.c
 LEXER_SRC = lexer.c lexer_utils.c lexer_utils_2.c lexer_utils_symbols.c token_list.c \
 token_list_utils.c token_identifier.c reader_quotes.c readers.c initial_checks.c clear_list.c
 PARSER_SRC = tree.c memory_clears_parser.c parser.c parser_utilities.c parser_nodes.c debug.c tredirs_utils.c
