@@ -34,7 +34,6 @@ int	main(void)
 		exit(EXIT_FAILURE);
 	}
 	ft_printf("Finished parsing... expression: \"%s\"\n", exp);
-	print_tree_node(pipe, "", 1);
 	clear_token_list(tokens);
 	clear_subtree(pipe);
 	free(parser);
