@@ -6,7 +6,7 @@
 /*   By: dloustal <dloustal@student.42.fr>            +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/04/22 12:02:07 by dloustal      #+#    #+#                 */
-/*   Updated: 2025/06/18 16:47:30 by dloustal      ########   odam.nl         */
+/*   Updated: 2025/06/18 19:28:37 by dloustal      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,17 +40,28 @@ bool	is_cmd(char *str, char *cmd);
 
 // Executioner
 int		execute_src(t_t_node **root, t_vars *vars, t_info *info);
-int		execute_command(t_t_node **root, t_vars *vars, t_info *info);
-int		execute_builtin(t_t_node **root, t_vars *vars, t_info *info);
-int		execute_echo(t_token_list *tokens);
-int		execute_cd(t_token_list *tokens, t_vars *vars);
-int		execute_unset(t_token_list *tokens, t_vars **head);
-int		execute_exit(t_token_list *tokens, t_vars *vars, t_info *info);
-int		execute_export(t_token_list *tokens, t_vars *head);
-int		execute_assignment(t_token_list *tokens, t_vars *vars);
-int		execute_ext_command(t_t_node **root, t_vars *vars, t_info *info);
 int		execute_redirection(t_t_node **root, t_vars *vars, t_info *info);
 int		call_redir(t_redir_node *cur, t_info *info);
+int		execute_command(t_t_node **root, t_vars *vars, t_info *info);
+int		execute_builtin(t_t_node **root, t_vars *vars, t_info *info);
+
+//Exec Builtins
+int		execute_echo(t_token_list *tokens);
+int		execute_cd(t_token_list *tokens, t_vars *vars);
+// int		execute_exit(t_token_list *tokens, t_vars *vars, t_info *info);
+int		execute_exit(t_t_node *root, t_token_list *tokens, t_vars *vars, t_info *info);
+
+//Exec Builtins 2
+int		execute_unset(t_token_list *tokens, t_vars **head);
+int		execute_export(t_token_list *tokens, t_vars *head);
+int		execute_ext_command(t_t_node **root, t_vars *vars, t_info *info);
+
+//Exec Aux
+void	exec_redirection_aux(t_redir_node *cur, t_info *info, int *exit_code);
+t_token_node	*skip_empty_nodes(t_t_node **root);
+
+//Execute var assignment
+int		execute_assignment(t_token_list *tokens, t_vars *vars);
 
 // Pipes
 int		execute_pipe(t_t_node **root, t_vars *head, t_info *info);
