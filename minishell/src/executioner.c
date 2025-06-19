@@ -6,7 +6,7 @@
 /*   By: dloustal <dloustal@student.42.fr>            +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/04/22 13:36:45 by dloustal      #+#    #+#                 */
-/*   Updated: 2025/06/17 15:57:39 by dloustal      ########   odam.nl         */
+/*   Updated: 2025/06/18 19:26:05 by dloustal      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ int	execute_src(t_t_node **root, t_vars *vars, t_info *info)
 		exit_st = execute_redirection(root, vars, info);
 	else
 	{
-		ft_printf("Not able to execute right now\n");
+		ft_putendl_fd("Not able to execute right now", STDERR_FILENO);
 		exit_st = 127;
 	}
 	info->last_return_code = exit_st;
@@ -55,13 +55,7 @@ int	execute_redirection(t_t_node **root, t_vars *vars, t_info *info)
 	if (std_out == -1 || std_in == -1)
 		return (-1);
 	cur = (*(*root)->redirs);
-	while (cur)
-	{
-		exit_code = call_redir(cur, info);
-		if (exit_code == 1)
-			break ;
-		cur = cur->next->next;
-	}
+	exec_redirection_aux(cur, info, &exit_code);
 	info->last_return_code = exit_code;
 	if (exit_code == 0)
 		if ((*root)->tokens->head)
@@ -107,17 +101,9 @@ int	execute_command(t_t_node **root, t_vars *vars, t_info *info)
 
 	if (!root)
 		return (1);
-	node = (*root)->tokens->head;
-	if (ft_strlen(node->token->lexeme) == 0)
-	{
-		if (!node->next)
-			return (0);
-		else
-		{
-			node = node->next;
-			(*root)->tokens->head = node;
-		}
-	}
+	node = skip_empty_nodes(root);
+	if (!node)
+		return (0);
 	if (is_builtin_type(node->token->type)
 		|| (node->token->type == TKN_VAR_NAME))
 	{
@@ -144,7 +130,7 @@ int	execute_builtin(t_t_node **root, t_vars *vars, t_info *info)
 	t_token_list	*tokens;
 	t_token			*token;
 
-	if (!root)
+	if (!root || !vars || !info)
 		return (1);
 	tokens = (*root)->tokens;
 	token = tokens->head->token;
@@ -161,28 +147,8 @@ int	execute_builtin(t_t_node **root, t_vars *vars, t_info *info)
 	if (token->type == TKN_ENV || is_cmd(token->lexeme, "env"))
 		return (env_builtin(vars));
 	if (token->type == TKN_EXIT || is_cmd(token->lexeme, "exit"))
-		return (execute_exit(tokens, vars, info));
+		return (execute_exit(*root, tokens, vars, info));
 	if (token->type == TKN_VAR_NAME)
 		return (execute_assignment(tokens, vars));
 	return (127);
 }
-
-// int	execute_abs_path(t_t_node **root, t_vars *vars, t_info *info)
-// {
-// 	int				size;
-// 	char			**command;
-// 	t_token_list	*tokens;
-// 	char			*path;
-
-// 	if (!root || !vars || !info)
-// 	return (125); //For now
-// 	tokens = (*root)->tokens;
-// 	size = len_token_list(tokens);
-// 	//command = tkn_list_to_array(tokens);
-// 	path = ft_strdup(command[0]);
-// 	if (!command)
-// 		return (125); //For now
-// 	create_child_proc(vars, command, path, size, info);
-// 	clear_array(command);
-// 	return (0);
-// }

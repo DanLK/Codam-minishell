@@ -6,7 +6,7 @@
 /*   By: dloustal <dloustal@student.42.fr>            +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/06/17 15:47:50 by dloustal      #+#    #+#                 */
-/*   Updated: 2025/06/17 18:25:37 by dloustal      ########   odam.nl         */
+/*   Updated: 2025/06/18 18:01:30 by dloustal      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,8 +44,6 @@ int	execute_assignment(t_token_list *tokens, t_vars *vars)
 	t_vars			*temp;
 
 	var_value = NULL;
-	if (!tokens || !vars)
-		return (1);
 	node = tokens->head;
 	while (node->token->type == TKN_VAR_NAME)
 	{

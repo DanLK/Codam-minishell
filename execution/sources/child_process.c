@@ -6,7 +6,7 @@
 /*   By: rojornod <rojornod@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/16 11:11:31 by rojornod          #+#    #+#             */
-/*   Updated: 2025/06/19 09:34:41 by rojornod         ###   ########.fr       */
+/*   Updated: 2025/06/19 10:47:33 by rojornod         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,6 +49,7 @@ int	child_process(char *path, char **argv, char **env_copy)
 	}
 	exit(0);
 }
+
 /******************************************************************************
 *	if (errno == EINTR) continue ; basically means if the error is 
 *	EINTR (interrupted by signal)
@@ -56,7 +57,6 @@ int	child_process(char *path, char **argv, char **env_copy)
 *	exiting early. in case a signal interruption happens in the child. 
 *	if the error is something else the loop breaks
 ******************************************************************************/
-
 static int	parent_process(char *path)
 {
 	int		w_status;
