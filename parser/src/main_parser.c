@@ -6,7 +6,7 @@
 /*   By: dloustal <dloustal@student.42.fr>            +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/04/01 16:48:50 by dloustal      #+#    #+#                 */
-/*   Updated: 2025/06/10 16:10:32 by dloustal      ########   odam.nl         */
+/*   Updated: 2025/06/19 15:39:48 by dloustal      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,6 @@ int	main(void)
 		exit(EXIT_FAILURE);
 	}
 	ft_printf("Finished parsing... expression: \"%s\"\n", exp);
-	print_tree_node(pipe, "", 1);
 	clear_token_list(tokens);
 	clear_subtree(pipe);
 	free(parser);
