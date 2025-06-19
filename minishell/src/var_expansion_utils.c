@@ -6,7 +6,7 @@
 /*   By: dloustal <dloustal@student.42.fr>            +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/04/29 12:21:37 by dloustal      #+#    #+#                 */
-/*   Updated: 2025/06/18 17:39:33 by dloustal      ########   odam.nl         */
+/*   Updated: 2025/06/19 12:06:54 by dloustal      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ void	put_exitstatus(char **result, t_info *info, int *res_i)
 	int		k;
 	char	*st_exitstatus;
 
-	exit_status = info->last_return_code;
+	exit_status = info->exit_code;
 	k = 0;
 	st_exitstatus = ft_itoa(exit_status);
 	while (st_exitstatus[k])
@@ -132,7 +132,7 @@ int	get_position(char *string, char c)
 // 			i++;
 // 			if (s[i] && s[i] == '?')
 // 			{
-// 				get_len = ft_itoa(info->last_return_code);
+// 				get_len = ft_itoa(info->exit_code);
 // 				len += ft_strlen(get_len);
 // 				i++;
 // 				free(get_len);

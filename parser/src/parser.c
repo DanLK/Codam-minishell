@@ -6,7 +6,7 @@
 /*   By: dloustal <dloustal@student.42.fr>            +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/04/14 14:37:49 by dloustal      #+#    #+#                 */
-/*   Updated: 2025/06/18 19:06:19 by dloustal      ########   odam.nl         */
+/*   Updated: 2025/06/19 11:47:00 by dloustal      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,11 +41,11 @@ static void	right_tokens_null(t_token *token, t_t_node *node, t_t_node *right)
 
 	tk = ft_strdup(token->lexeme);
 	error = ft_strjoin("Minishell: syntax error near unexpected token `", tk);
-	error_comp = ft_strjoin(error, "'");
+	error_comp = ft_strjoin(error, "'\n");
 	if (!error_comp)
 		perror("Error: ");
 	else
-		ft_putendl_fd(error_comp, STDERR_FILENO);
+		write(STDERR_FILENO, error_comp, ft_strlen(error_comp));
 	free(tk);
 	free(error);
 	free(error_comp);
@@ -62,11 +62,11 @@ static void	node_tokens_null(t_t_node *node, t_parser *parser)
 
 	tk = ft_strdup(parser->current->token->lexeme);
 	error = ft_strjoin("Minishell: syntax error near unexpected token `", tk);
-	error_comp = ft_strjoin(error, "'");
+	error_comp = ft_strjoin(error, "'\n");
 	if (!error_comp)
 		perror("Error: ");
 	else
-		ft_putendl_fd(error_comp, STDERR_FILENO);
+		write(STDERR_FILENO, error_comp, ft_strlen(error_comp));
 	free(tk);
 	free(error);
 	free(error_comp);

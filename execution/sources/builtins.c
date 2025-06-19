@@ -6,7 +6,7 @@
 /*   By: dloustal <dloustal@student.42.fr>            +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/03/20 11:27:48 by rojornod      #+#    #+#                 */
-/*   Updated: 2025/06/13 19:12:39 by dloustal      ########   odam.nl         */
+/*   Updated: 2025/06/19 11:50:16 by dloustal      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,9 +79,9 @@ int	export_builtin(t_vars **head, char *var_name, char *var_value)
 		}
 		else
 		{
-			ft_putstr_fd("Minishell: ", STDERR_FILENO);
-			ft_putstr_fd(var_name, STDERR_FILENO);
-			ft_putendl_fd(": not a valid identifier", STDERR_FILENO);
+			write(STDERR_FILENO, "Minishell: ", 11);
+			write(STDERR_FILENO, var_name, ft_strlen(var_name));
+			write(STDERR_FILENO, ": not a valid identifier\n", 25);
 			return (1);
 		}
 	}

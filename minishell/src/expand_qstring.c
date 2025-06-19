@@ -6,7 +6,7 @@
 /*   By: dloustal <dloustal@student.42.fr>            +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/06/18 15:14:39 by dloustal      #+#    #+#                 */
-/*   Updated: 2025/06/18 17:30:53 by dloustal      ########   odam.nl         */
+/*   Updated: 2025/06/19 12:07:31 by dloustal      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,7 @@ static void	handle_quotes(char *result, t_exp *vexp, char *s)
 static void	handle_exp(t_exp *vexp, char *res, t_vars *vars, t_info *info)
 {
 	char	*var_name;
-	t_vars	*var; //Not sure if I still have to free this 
+	t_vars	*var;
 
 	vexp->i++;
 	if (vexp->s[vexp->i] && vexp->s[vexp->i] == '?')

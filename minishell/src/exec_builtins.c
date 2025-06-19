@@ -6,7 +6,7 @@
 /*   By: dloustal <dloustal@student.42.fr>            +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/06/17 15:45:21 by dloustal      #+#    #+#                 */
-/*   Updated: 2025/06/18 19:32:00 by dloustal      ########   odam.nl         */
+/*   Updated: 2025/06/19 12:06:20 by dloustal      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,7 @@ int	execute_cd(t_token_list *tokens, t_vars *vars)
 		return (cd_builtin(NULL, vars));
 	if (tokens->head->next->next)
 	{
-		ft_putstr_fd("Minishell: cd: too many arguments\n", STDERR_FILENO);
+		write(STDERR_FILENO, "Minishell: cd: too many arguments\n", 34);
 		return (1);
 	}
 	return (cd_builtin(tokens->head->next->token->lexeme, vars));
@@ -80,7 +80,8 @@ static int	check_exit_code(char *exit_code)
 	return (1);
 }
 
-int	execute_exit(t_t_node *root, t_token_list *tokens, t_vars *vars, t_info *info)
+int	execute_exit(t_t_node *root, t_token_list *tokens, t_vars *vars,
+	t_info *info)
 {
 	int	exit_code;
 
@@ -88,10 +89,10 @@ int	execute_exit(t_t_node *root, t_token_list *tokens, t_vars *vars, t_info *inf
 	if (!tokens || !vars)
 		return (1);
 	if (!tokens->head->next)
-		return (clear_subtree(root), exit_builtin(vars, info, info->last_return_code));
+		return (clear_subtree(root), exit_builtin(vars, info, info->exit_code));
 	if (tokens->head->next->next)
 	{
-		ft_putendl_fd("Minishell: exit: too many arguments", STDERR_FILENO);
+		write(STDERR_FILENO, "Minishell: exit: too many arguments\n", 36);
 		return (1);
 	}
 	else
@@ -100,9 +101,9 @@ int	execute_exit(t_t_node *root, t_token_list *tokens, t_vars *vars, t_info *inf
 			exit_code = ft_atoi(tokens->head->next->token->lexeme);
 		else
 		{
-			ft_putstr_fd("Minishell: ", STDERR_FILENO);
+			write(STDERR_FILENO, "Minishell: ", 11);
 			ft_putstr_fd(tokens->head->next->token->lexeme, STDERR_FILENO);
-			ft_putendl_fd(": exit: numeric argument required", STDERR_FILENO);
+			write(STDERR_FILENO, ": exit: numeric argument required\n", 34);
 			return (clear_subtree(root), exit_builtin(vars, info, 2));
 		}
 	}
