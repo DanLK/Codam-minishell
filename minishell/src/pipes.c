@@ -6,7 +6,7 @@
 /*   By: dloustal <dloustal@student.42.fr>            +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/04/18 11:16:24 by rojornod      #+#    #+#                 */
-/*   Updated: 2025/06/19 10:22:30 by dloustal      ########   odam.nl         */
+/*   Updated: 2025/06/19 11:16:51 by dloustal      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,6 +76,9 @@ int	execute_pipe(t_t_node **root, t_vars *head, t_info *info)
 	if (pid_left == 0)
 	{
 		status_l = pipe_l(fd, &(*root)->left, head, info);
+		clear_subtree(*root);
+		free_vars(head);
+		free(info);
 		exit(status_l);
 	}
 	pid_right = fork();
@@ -84,6 +87,9 @@ int	execute_pipe(t_t_node **root, t_vars *head, t_info *info)
 	if (pid_right == 0)
 	{
 		status_r = pipe_r(fd, &(*root)->right, head, info);
+		clear_subtree(*root);
+		free_vars(head);
+		free(info);
 		exit(status_r);
 	}
 	close(fd[0]);

@@ -6,7 +6,7 @@
 /*   By: dloustal <dloustal@student.42.fr>            +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/04/22 13:36:45 by dloustal      #+#    #+#                 */
-/*   Updated: 2025/06/18 19:26:05 by dloustal      ########   odam.nl         */
+/*   Updated: 2025/06/19 11:00:50 by dloustal      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,9 +85,6 @@ int	call_redir(t_redir_node *cur, t_info *info)
 		else if (operator_node->type == TKN_HEREDOC)
 			return (exec_heredoc(cur->file));
 	}
-	else
-		return (ft_printf("[execute_redirection] file node doesn't exist\n"),
-			1);
 	return (1);
 }
 
