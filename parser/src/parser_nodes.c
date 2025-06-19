@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   parser_nodes.c                                     :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: rojornod <rojornod@student.42.fr>          +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/04/15 16:24:19 by dloustal          #+#    #+#             */
-/*   Updated: 2025/06/17 10:37:43 by rojornod         ###   ########.fr       */
+/*                                                        ::::::::            */
+/*   parser_nodes.c                                     :+:    :+:            */
+/*                                                     +:+                    */
+/*   By: dloustal <dloustal@student.42.fr>            +#+                     */
+/*                                                   +#+                      */
+/*   Created: 2025/04/15 16:24:19 by dloustal      #+#    #+#                 */
+/*   Updated: 2025/06/19 11:46:21 by dloustal      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,11 +49,11 @@ static void	redir_error(t_parser *p)
 	else
 		lex = ft_strdup(p->current->token->lexeme);
 	error = ft_strjoin("Minishell: syntax error near unexpected token `", lex);
-	err_comp = ft_strjoin(error, "'");
+	err_comp = ft_strjoin(error, "'\n");
 	if (!err_comp)
 		perror("Error");
 	else
-		ft_putendl_fd(err_comp, STDERR_FILENO);
+		write(STDERR_FILENO, err_comp, ft_strlen(err_comp));
 	free(error);
 	free(lex);
 	free(err_comp);
