@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
-/*                                                        ::::::::            */
-/*   pipes.c                                            :+:    :+:            */
-/*                                                     +:+                    */
-/*   By: dloustal <dloustal@student.42.fr>            +#+                     */
-/*                                                   +#+                      */
-/*   Created: 2025/04/18 11:16:24 by rojornod      #+#    #+#                 */
-/*   Updated: 2025/06/19 11:16:51 by dloustal      ########   odam.nl         */
+/*                                                        :::      ::::::::   */
+/*   pipes.c                                            :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: rojornod <rojornod@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/04/18 11:16:24 by rojornod          #+#    #+#             */
+/*   Updated: 2025/06/19 12:15:56 by rojornod         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,6 +54,50 @@ static int	pipe_r(int fd[2], t_t_node **root, t_vars *head, t_info *info)
 	return (exit_code);
 }
 
+static int	left_child(t_t_node **root, t_vars *head, t_info *info, int fd[2])
+{
+	int		status_l;
+	pid_t	pid_left;
+
+	pid_left = fork();
+	if (pid_left < 0)
+	{
+		signal_action();
+		exit(1);
+	}
+	if (pid_left == 0)
+	{
+		status_l = pipe_l(fd, &(*root)->left, head, info);
+		clear_subtree(*root);
+		free_vars(head);
+		free(info);
+		exit(status_l);
+	}
+	return (pid_left);
+}
+
+static int	right_child(t_t_node **root, t_vars *head, t_info *info, int fd[2])
+{
+	int		status_r;
+	pid_t	pid_right;
+
+	pid_right = fork();
+	if (pid_right < 0)
+	{
+		signal_action();
+		exit(1);
+	}
+	if (pid_right == 0)
+	{
+		status_r = pipe_r(fd, &(*root)->right, head, info);
+		clear_subtree(*root);
+		free_vars(head);
+		free(info);
+		exit(status_r);
+	}
+	return (pid_right);
+}
+
 /******************************************************************************
 *
 *	-If a pipe is found in the full command this function will be called
@@ -70,28 +114,8 @@ int	execute_pipe(t_t_node **root, t_vars *head, t_info *info)
 	ignore_sig_action();
 	if (pipe(fd) < 0)
 		return (signal_action(), 1);
-	pid_left = fork();
-	if (pid_left < 0)
-		return (signal_action(), 1);
-	if (pid_left == 0)
-	{
-		status_l = pipe_l(fd, &(*root)->left, head, info);
-		clear_subtree(*root);
-		free_vars(head);
-		free(info);
-		exit(status_l);
-	}
-	pid_right = fork();
-	if (pid_right < 0)
-		return (signal_action(), 1);
-	if (pid_right == 0)
-	{
-		status_r = pipe_r(fd, &(*root)->right, head, info);
-		clear_subtree(*root);
-		free_vars(head);
-		free(info);
-		exit(status_r);
-	}
+	pid_left = left_child(root, head, info, fd);
+	pid_right = right_child(root, head, info, fd);
 	close(fd[0]);
 	close(fd[1]);
 	waitpid(pid_left, &status_l, 0);
