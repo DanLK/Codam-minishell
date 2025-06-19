@@ -6,7 +6,7 @@
 /*   By: dloustal <dloustal@student.42.fr>            +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/04/14 14:37:49 by dloustal      #+#    #+#                 */
-/*   Updated: 2025/06/19 11:47:00 by dloustal      ########   odam.nl         */
+/*   Updated: 2025/06/19 12:52:39 by dloustal      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,7 +87,7 @@ t_t_node	*parse_pipe(t_parser *parser)
 	node = parse_command(parser);
 	if (!node)
 		return (NULL);
-	if (!node->tokens->head && !*(node->redirs))
+	if (!node->tokens->head && !(node->redirs))
 		return (node_tokens_null(node, parser), NULL);
 	token = parser->current->token;
 	while (token->type == TKN_PIPE)
@@ -95,7 +95,7 @@ t_t_node	*parse_pipe(t_parser *parser)
 		advance(parser);
 		right = parse_command(parser);
 		if (!right)
-			return (NULL); //CLEAR!!
+			return (NULL);
 		if (!right->tokens->head)
 			return (right_tokens_null(token, node, right), NULL);
 		node = pipe_node(node, right);
@@ -126,7 +126,7 @@ t_t_node	*parse_command(t_parser *parser)
 	{
 		lexeme = parser->current->token->lexeme;
 		append_token(command, token_type, lexeme);
-		advance(parser);//return current
+		advance(parser);
 		token_type = parser->current->token->type;
 	}
 	node = new_tree_node(PARSER_COMMAND, command);
