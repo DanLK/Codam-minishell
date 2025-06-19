@@ -6,7 +6,7 @@
 /*   By: dloustal <dloustal@student.42.fr>            +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/03/24 15:31:59 by rojornod      #+#    #+#                 */
-/*   Updated: 2025/06/12 16:42:36 by dloustal      ########   odam.nl         */
+/*   Updated: 2025/06/19 15:52:52 by dloustal      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -120,6 +120,8 @@ void	edit_var(t_vars *head, char *var_name, char *var_value)
 		return ;
 	else
 	{
+		if (!var_value)
+			return ;
 		free(head->value);
 		head->value = ft_strdup(var_value);
 	}
