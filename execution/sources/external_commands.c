@@ -6,39 +6,51 @@
 /*   By: dloustal <dloustal@student.42.fr>            +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/04/09 10:14:24 by rojornod      #+#    #+#                 */
-/*   Updated: 2025/06/17 12:21:46 by dloustal      ########   odam.nl         */
+/*   Updated: 2025/06/19 20:31:04 by dloustal      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/execution.h"
 
-static char	*finding_path(char	*temp, char	**temp_path, char *path, char *cmd)
+static char	*finding_path(char	*temp, char	**temp_p, char *path, char *cmd)
 {
 	int	i;
+	char	*check;
 
 	i = 0;
-	while (temp_path[i])
+	check = NULL;
+	while (temp_p[i])
 	{
-		temp = ft_strjoin(temp_path[i], "/");
-		free(temp_path[i]);
+		temp = ft_strjoin(temp_p[i], "/");
+		free(temp_p[i]);
 		if (!temp)
-			return (free_array(temp_path), NULL);
-		temp_path[i] = temp;
-		temp = ft_strjoin(temp_path[i], cmd);
-		free(temp_path[i]);
-		temp_path[i] = temp;
-		if (!temp_path[i])
-			return (free_array(temp_path), NULL);
-		if (access(temp_path[i], F_OK) == 0)
+			return (free_array(temp_p), NULL);
+		temp_p[i] = temp;
+		temp = ft_strjoin(temp_p[i], cmd);
+		free(temp_p[i]);
+		temp_p[i] = temp;
+		if (!temp_p[i])
+			return (free_array(temp_p), NULL);
+		if (access(temp_p[i], F_OK) == 0)
 		{
-			path = ft_strdup(temp_path[i]);
-			if (!path)
-				return (free_array(temp_path), NULL);
-			return (free_array(temp_path), path);
+			if (access(temp_p[i], X_OK) != 0)
+			{
+				check = ft_strdup(temp_p[i]);
+				if (!check)
+					return (free_array(temp_p), NULL);
+			}
+			else
+			{
+				path = ft_strdup(temp_p[i]);
+				if (!path)
+					return (free_array(temp_p), NULL);
+				return (free_array(temp_p), path);
+			}
 		}
 		i++;
+		// ft_printf("going next\n");
 	}
-	return (NULL);
+	return (check);
 }
 
 /******************************************************************************
@@ -67,7 +79,7 @@ char	*find_path(t_vars *head, char *command)
 		return (NULL);
 	path = finding_path(temp, temp_path, path, command);
 	if (!path)
-		return (free_array(temp_path), NULL);
+		return (ft_printf(""), free_array(temp_path), NULL);
 	else
 		return (path);
 }

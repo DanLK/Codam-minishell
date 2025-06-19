@@ -6,7 +6,7 @@
 /*   By: dloustal <dloustal@student.42.fr>            +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/06/17 12:34:30 by dloustal      #+#    #+#                 */
-/*   Updated: 2025/06/17 15:15:46 by dloustal      ########   odam.nl         */
+/*   Updated: 2025/06/19 18:44:05 by dloustal      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,5 +29,5 @@ bool	is_special_char(char c)
 
 bool	is_token_breaker(char c)
 {
-	return (c == ' ' || c == '|' || c == '<' || c == '>');
+	return (c == ' ' || c == '\t' || c == '|' || c == '<' || c == '>');
 }
