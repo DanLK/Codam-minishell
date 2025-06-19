@@ -6,7 +6,7 @@
 /*   By: dloustal <dloustal@student.42.fr>            +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/06/16 15:07:39 by rojornod      #+#    #+#                 */
-/*   Updated: 2025/06/19 11:35:12 by dloustal      ########   odam.nl         */
+/*   Updated: 2025/06/19 12:10:50 by dloustal      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@ char	*error_mssg(char *file, char *type)
 {
 	char	*err_0;
 	char	*err_1;
-	char 	*final;
+	char	*final;
 
 	err_0 = ft_strdup("Minishell: ");
 	err_1 = ft_strjoin(err_0, file);

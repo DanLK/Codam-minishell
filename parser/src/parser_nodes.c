@@ -6,7 +6,7 @@
 /*   By: rojornod <rojornod@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/15 16:24:19 by dloustal          #+#    #+#             */
-/*   Updated: 2025/06/19 12:37:26 by rojornod         ###   ########.fr       */
+/*   Updated: 2025/06/19 13:02:49 by rojornod         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -110,7 +110,7 @@ t_t_node	*redir_node(t_parser *parser)
 		return (clear_token_list(cmd), NULL);
 	node = new_tree_node(PARSER_REDIR, cmd);
 	if (!node)
-		return (clear_token_list(cmd), NULL);
+		return (clear_token_list(cmd), free(redirs), NULL);
 	node->redirs = redirs;
 	return (node);
 }
