@@ -6,7 +6,7 @@
 /*   By: dloustal <dloustal@student.42.fr>            +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/03/10 14:21:08 by rojornod      #+#    #+#                 */
-/*   Updated: 2025/06/19 11:31:05 by dloustal      ########   odam.nl         */
+/*   Updated: 2025/06/19 12:06:10 by dloustal      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@ typedef struct s_vars
 
 typedef struct s_info
 {
-	int		last_return_code;
+	int		exit_code;
 	int		hd_count;
 	int		cur_hd;
 }	t_info;

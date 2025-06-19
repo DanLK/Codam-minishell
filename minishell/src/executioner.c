@@ -6,7 +6,7 @@
 /*   By: dloustal <dloustal@student.42.fr>            +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/04/22 13:36:45 by dloustal      #+#    #+#                 */
-/*   Updated: 2025/06/19 11:00:50 by dloustal      ########   odam.nl         */
+/*   Updated: 2025/06/19 12:06:39 by dloustal      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ int	execute_src(t_t_node **root, t_vars *vars, t_info *info)
 		ft_putendl_fd("Not able to execute right now", STDERR_FILENO);
 		exit_st = 127;
 	}
-	info->last_return_code = exit_st;
+	info->exit_code = exit_st;
 	return (exit_st);
 }
 
@@ -56,7 +56,7 @@ int	execute_redirection(t_t_node **root, t_vars *vars, t_info *info)
 		return (-1);
 	cur = (*(*root)->redirs);
 	exec_redirection_aux(cur, info, &exit_code);
-	info->last_return_code = exit_code;
+	info->exit_code = exit_code;
 	if (exit_code == 0)
 		if ((*root)->tokens->head)
 			exit_code = execute_command(root, vars, info);
@@ -105,16 +105,16 @@ int	execute_command(t_t_node **root, t_vars *vars, t_info *info)
 		|| (node->token->type == TKN_VAR_NAME))
 	{
 		exit_status = execute_builtin(root, vars, info);
-		info->last_return_code = exit_status;
+		info->exit_code = exit_status;
 		return (exit_status);
 	}
 	if (node->token->type == TKN_WORD)
 	{
 		exit_status = execute_ext_command(root, vars, info);
-		info->last_return_code = exit_status;
+		info->exit_code = exit_status;
 		return (exit_status);
 	}
-	info->last_return_code = 1;
+	info->exit_code = 1;
 	return (1);
 }
 

@@ -6,7 +6,7 @@
 /*   By: dloustal <dloustal@student.42.fr>            +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/04/17 11:53:23 by dloustal      #+#    #+#                 */
-/*   Updated: 2025/06/19 10:59:18 by dloustal      ########   odam.nl         */
+/*   Updated: 2025/06/19 12:06:48 by dloustal      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,14 +14,8 @@
 
 static void	tree_exec_clear(t_t_node *root, t_vars *vars, t_info *info)
 {
-	// ft_printf("-----------------------------\n");
-	// print_tree_node(root, "", 1);
-	// ft_printf("-----------------------------\n");
 	expand_var_tree(&root, vars, info);
 	parse_hd_tree(&root, vars, info);
-	// ft_printf("-----------------------------\n");
-	// print_tree_node(root, "", 1);
-	// ft_printf("-----------------------------\n");
 	execute_src(&root, vars, info);
 	clear_subtree(root);
 }
@@ -34,7 +28,7 @@ static void	scan_parse_exec(t_info *info, t_vars *vars, char *read)
 	tokens = scan(read);
 	if (!tokens)
 	{
-		info->last_return_code = 2;
+		info->exit_code = 2;
 		clear_token_list(tokens);
 		return ;
 	}
@@ -42,7 +36,7 @@ static void	scan_parse_exec(t_info *info, t_vars *vars, char *read)
 	clear_token_list(tokens);
 	if (root == NULL)
 	{
-		info->last_return_code = 2;
+		info->exit_code = 2;
 		free(root);
 		return ;
 	}
@@ -52,7 +46,7 @@ static void	scan_parse_exec(t_info *info, t_vars *vars, char *read)
 static void	handle_sigint_main(t_info *info)
 {
 	rl_done = 1;
-	info->last_return_code = 130;
+	info->exit_code = 130;
 	reset_signal();
 }
 
@@ -71,7 +65,7 @@ int	main(int argc, char **argv, char **envp)
 		rl_done = 0;
 		read = readline("> ");
 		if (!read)
-			exit_builtin(vars, info, info->last_return_code);
+			exit_builtin(vars, info, info->exit_code);
 		else if (get_signal_received() == SIGINT)
 			handle_sigint_main(info);
 		else if (read[0] == '\0')

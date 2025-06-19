@@ -6,7 +6,7 @@
 /*   By: dloustal <dloustal@student.42.fr>            +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/06/17 15:45:21 by dloustal      #+#    #+#                 */
-/*   Updated: 2025/06/19 11:48:35 by dloustal      ########   odam.nl         */
+/*   Updated: 2025/06/19 12:06:20 by dloustal      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,7 +80,8 @@ static int	check_exit_code(char *exit_code)
 	return (1);
 }
 
-int	execute_exit(t_t_node *root, t_token_list *tokens, t_vars *vars, t_info *info)
+int	execute_exit(t_t_node *root, t_token_list *tokens, t_vars *vars,
+	t_info *info)
 {
 	int	exit_code;
 
@@ -88,7 +89,7 @@ int	execute_exit(t_t_node *root, t_token_list *tokens, t_vars *vars, t_info *inf
 	if (!tokens || !vars)
 		return (1);
 	if (!tokens->head->next)
-		return (clear_subtree(root), exit_builtin(vars, info, info->last_return_code));
+		return (clear_subtree(root), exit_builtin(vars, info, info->exit_code));
 	if (tokens->head->next->next)
 	{
 		write(STDERR_FILENO, "Minishell: exit: too many arguments\n", 36);
