@@ -6,7 +6,7 @@
 /*   By: dloustal <dloustal@student.42.fr>            +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/06/18 16:44:59 by dloustal      #+#    #+#                 */
-/*   Updated: 2025/06/18 17:35:37 by dloustal      ########   odam.nl         */
+/*   Updated: 2025/06/19 12:07:58 by dloustal      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,13 +51,13 @@ static void	handle_vars(size_t *len, t_exp *vexp, t_vars *vars, t_info *info)
 		vexp->i++;
 		if (vexp->s[vexp->i] && vexp->s[vexp->i] == '?')
 		{
-			get_len = ft_itoa(info->last_return_code);
+			get_len = ft_itoa(info->exit_code);
 			*len += ft_strlen(get_len);
 			vexp->i++;
 			free(get_len);
 		}
 		else if (vexp->s[vexp->i] && (ft_isalpha(vexp->s[vexp->i])
-				|| vexp->s[vexp->i] == '_')) // I think ft_isalpha
+				|| vexp->s[vexp->i] == '_'))
 		{
 			advance_var_size(len, vexp, vars);
 			while (vexp->s[vexp->i] && (ft_isalnum(vexp->s[vexp->i])

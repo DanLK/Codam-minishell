@@ -6,7 +6,7 @@
 /*   By: dloustal <dloustal@student.42.fr>            +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/03/10 14:21:08 by rojornod      #+#    #+#                 */
-/*   Updated: 2025/06/17 16:38:07 by dloustal      ########   odam.nl         */
+/*   Updated: 2025/06/19 12:06:10 by dloustal      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@ typedef struct s_vars
 
 typedef struct s_info
 {
-	int		last_return_code;
+	int		exit_code;
 	int		hd_count;
 	int		cur_hd;
 }	t_info;
@@ -101,6 +101,7 @@ int				create_child_proc(t_vars *vars, char **cmd, char *path,
 int				child_process(char *path, char **argv, char **env_copy);
 
 //errors
+char			*error_mssg(char *file, char *type);
 void			not_found_error(char *argv);
 void			permission_error(char *path);
 void			is_directory_error(char *path);
