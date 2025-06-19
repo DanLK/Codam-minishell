@@ -6,7 +6,7 @@
 /*   By: rojornod <rojornod@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/16 11:11:31 by rojornod          #+#    #+#             */
-/*   Updated: 2025/06/18 16:35:58 by rojornod         ###   ########.fr       */
+/*   Updated: 2025/06/19 09:34:41 by rojornod         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,7 @@ static int	check_if_directory(char *path)
 		is_directory_error(path);
 		return (126);
 	}
+	return (0);
 }
 
 int	child_process(char *path, char **argv, char **env_copy)
