@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
-/*                                                        ::::::::            */
-/*   parser_nodes.c                                     :+:    :+:            */
-/*                                                     +:+                    */
-/*   By: dloustal <dloustal@student.42.fr>            +#+                     */
-/*                                                   +#+                      */
-/*   Created: 2025/04/15 16:24:19 by dloustal      #+#    #+#                 */
-/*   Updated: 2025/06/19 11:46:21 by dloustal      ########   odam.nl         */
+/*                                                        :::      ::::::::   */
+/*   parser_nodes.c                                     :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: rojornod <rojornod@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/04/15 16:24:19 by dloustal          #+#    #+#             */
+/*   Updated: 2025/06/19 12:37:26 by rojornod         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -107,10 +107,10 @@ t_t_node	*redir_node(t_parser *parser)
 		return (clear_token_list(cmd), NULL);
 	*redirs = NULL;
 	if (!set_redirs(parser, tkn_node, cmd, redirs))
-		return (clear_token_list(cmd), free(redirs), NULL);
+		return (clear_token_list(cmd), NULL);
 	node = new_tree_node(PARSER_REDIR, cmd);
 	if (!node)
-		return (clear_token_list(cmd), free(redirs), NULL);
+		return (clear_token_list(cmd), NULL);
 	node->redirs = redirs;
 	return (node);
 }
