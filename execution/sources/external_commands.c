@@ -1,44 +1,62 @@
 /* ************************************************************************** */
 /*                                                                            */
-/*                                                        ::::::::            */
-/*   external_commands.c                                :+:    :+:            */
-/*                                                     +:+                    */
-/*   By: dloustal <dloustal@student.42.fr>            +#+                     */
-/*                                                   +#+                      */
-/*   Created: 2025/04/09 10:14:24 by rojornod      #+#    #+#                 */
-/*   Updated: 2025/06/17 12:21:46 by dloustal      ########   odam.nl         */
+/*                                                        :::      ::::::::   */
+/*   external_commands.c                                :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: rojornod <rojornod@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/04/09 10:14:24 by rojornod          #+#    #+#             */
+/*   Updated: 2025/06/20 11:54:13 by rojornod         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/execution.h"
 
-static char	*finding_path(char	*temp, char	**temp_path, char *path, char *cmd)
+static char	*join_path(char **temp_p, int i, char *cmd)
+{
+	char	*temp;
+
+	temp = ft_strjoin(temp_p[i], "/");
+	free(temp_p[i]);
+	if (!temp)
+		return (free_array(temp_p), NULL);
+	temp_p[i] = temp;
+	temp = ft_strjoin(temp_p[i], cmd);
+	free(temp_p[i]);
+	temp_p[i] = temp;
+	if (!temp_p[i])
+		return (free_array(temp_p), NULL);
+	else
+		return (temp_p[i]);
+}
+
+static char	*finding_path(char	**temp_p, char *path, char *cmd)
 {
 	int	i;
 
 	i = 0;
-	while (temp_path[i])
+	while (temp_p[i])
 	{
-		temp = ft_strjoin(temp_path[i], "/");
-		free(temp_path[i]);
-		if (!temp)
-			return (free_array(temp_path), NULL);
-		temp_path[i] = temp;
-		temp = ft_strjoin(temp_path[i], cmd);
-		free(temp_path[i]);
-		temp_path[i] = temp;
-		if (!temp_path[i])
-			return (free_array(temp_path), NULL);
-		if (access(temp_path[i], F_OK) == 0)
+		temp_p[i] = join_path(temp_p, i, cmd);
+		if (access(temp_p[i], F_OK) == 0)
 		{
-			path = ft_strdup(temp_path[i]);
-			if (!path)
-				return (free_array(temp_path), NULL);
-			return (free_array(temp_path), path);
+			if (access(temp_p[i], X_OK) != 0)
+			{
+				path = ft_strdup(temp_p[i]);
+				if (!path)
+					return (free_array(temp_p), NULL);
+			}
+			else
+			{
+				path = ft_strdup(temp_p[i]);
+				if (!path)
+					return (free_array(temp_p), NULL);
+				return (free_array(temp_p), path);
+			}
 		}
 		i++;
 	}
-	return (NULL);
+	return (path);
 }
 
 /******************************************************************************
@@ -54,10 +72,8 @@ char	*find_path(t_vars *head, char *command)
 	t_vars	*current;
 	char	**temp_path;
 	char	*path;
-	char	*temp;
 
 	path = NULL;
-	temp = NULL;
 	current = head;
 	current = find_vars(head, "PATH");
 	if (!current)
@@ -65,9 +81,9 @@ char	*find_path(t_vars *head, char *command)
 	temp_path = ft_split(current->value, ':');
 	if (!temp_path)
 		return (NULL);
-	path = finding_path(temp, temp_path, path, command);
+	path = finding_path(temp_path, path, command);
 	if (!path)
-		return (free_array(temp_path), NULL);
+		return (ft_printf(""), free_array(temp_path), NULL);
 	else
 		return (path);
 }
