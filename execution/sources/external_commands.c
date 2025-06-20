@@ -6,7 +6,7 @@
 /*   By: rojornod <rojornod@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/09 10:14:24 by rojornod          #+#    #+#             */
-/*   Updated: 2025/06/20 11:54:13 by rojornod         ###   ########.fr       */
+/*   Updated: 2025/06/20 12:03:30 by rojornod         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,7 @@ static char	*join_path(char **temp_p, int i, char *cmd)
 static char	*finding_path(char	**temp_p, char *path, char *cmd)
 {
 	int	i;
+	char	*check;
 
 	i = 0;
 	while (temp_p[i])
@@ -55,6 +56,7 @@ static char	*finding_path(char	**temp_p, char *path, char *cmd)
 			}
 		}
 		i++;
+		// ft_printf("going next\n");
 	}
 	return (path);
 }
