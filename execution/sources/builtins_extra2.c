@@ -6,7 +6,7 @@
 /*   By: rojornod <rojornod@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/11 12:34:43 by rojornod          #+#    #+#             */
-/*   Updated: 2025/06/17 12:08:05 by rojornod         ###   ########.fr       */
+/*   Updated: 2025/06/20 18:34:32 by rojornod         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,7 @@ int	exit_builtin(t_vars *vars, t_info *info, int exit_code)
 	free_vars(vars);
 	free(info);
 	ft_printf("exit\n");
+	rl_clear_history();
 	exit(exit_code_cpy);
 }
 

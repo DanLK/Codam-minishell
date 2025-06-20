@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
-/*                                                        ::::::::            */
-/*   exec_builtins.c                                    :+:    :+:            */
-/*                                                     +:+                    */
-/*   By: dloustal <dloustal@student.42.fr>            +#+                     */
-/*                                                   +#+                      */
-/*   Created: 2025/06/17 15:45:21 by dloustal      #+#    #+#                 */
-/*   Updated: 2025/06/19 12:06:20 by dloustal      ########   odam.nl         */
+/*                                                        :::      ::::::::   */
+/*   exec_builtins.c                                    :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: rojornod <rojornod@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/06/17 15:45:21 by dloustal          #+#    #+#             */
+/*   Updated: 2025/06/20 17:57:45 by rojornod         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,7 +93,7 @@ int	execute_exit(t_t_node *root, t_token_list *tokens, t_vars *vars,
 	if (tokens->head->next->next)
 	{
 		write(STDERR_FILENO, "Minishell: exit: too many arguments\n", 36);
-		return (1);
+		return (clear_subtree(root), exit_builtin(vars, info, 2));
 	}
 	else
 	{
