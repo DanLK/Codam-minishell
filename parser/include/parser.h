@@ -3,10 +3,10 @@
 /*                                                        ::::::::            */
 /*   parser.h                                           :+:    :+:            */
 /*                                                     +:+                    */
-/*   By: dloustal <dloustal@student.42.fr>            +#+                     */
+/*   By: dloustal <marvin@42.fr>                      +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/04/01 16:41:23 by dloustal      #+#    #+#                 */
-/*   Updated: 2025/06/12 17:26:24 by dloustal      ########   odam.nl         */
+/*   Updated: 2025/06/21 09:48:48 by dloustalot    ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,7 +85,8 @@ t_t_node		*redir_node(t_parser *parser);
 //Parser utilities
 bool			is_operator(enum e_Type type);
 bool			is_redirection(enum e_Type type);
-bool			is_redir_twochar(enum e_Type type);
+// bool			is_redir_twochar(enum e_Type type);
+bool			has_heredoc(t_t_node *node);
 void			advance(t_parser *parser);
 bool			is_redir(t_parser *parser);
 
