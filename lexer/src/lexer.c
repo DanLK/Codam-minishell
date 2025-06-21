@@ -6,7 +6,7 @@
 /*   By: dloustal <dloustal@student.42.fr>            +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/03/14 17:06:59 by dloustal      #+#    #+#                 */
-/*   Updated: 2025/06/17 15:13:25 by dloustal      ########   odam.nl         */
+/*   Updated: 2025/06/21 17:22:20 by dloustal      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,7 +59,7 @@ void	get_cur_token(t_token_list *tokens, char *src, t_scanner *s)
 		append_token(tokens, TKN_PIPE, "|");
 	else if (c == '>' || c == '<')
 		redir_tkn(tokens, src, s, c);
-	else if ((ft_isalpha(c) || c == '_') && is_assignment(s, src))
+	else if ((ft_isalpha(c) || c == '_' || c == '$') && is_assignment(s, src))
 		tkn_assignment(tokens, s, src);
 	else if (ft_isalnum(c) || issymbol(c))
 		tkn_opt_word(tokens, src, s, c);

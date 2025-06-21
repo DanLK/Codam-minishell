@@ -6,7 +6,7 @@
 /*   By: dloustal <dloustal@student.42.fr>            +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/06/18 16:44:59 by dloustal      #+#    #+#                 */
-/*   Updated: 2025/06/19 12:07:58 by dloustal      ########   odam.nl         */
+/*   Updated: 2025/06/21 17:18:25 by dloustal      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,16 +16,18 @@ static void	handle_quotes(size_t *len, t_exp *vexp)
 {
 	if (vexp->s[vexp->i] == '\'')
 	{
-		vexp->in_single = !vexp->in_single;
 		if (vexp->in_double)
 			(*len)++;
+		else	
+			vexp->in_single = !vexp->in_single;
 		vexp->i++;
 	}
 	else if (vexp->s[vexp->i] == '\"')
 	{
-		vexp->in_double = !vexp->in_double;
 		if (vexp->in_single)
 			(*len)++;
+		else
+			vexp->in_double = !vexp->in_double;
 		vexp->i++;
 	}
 }

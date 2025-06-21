@@ -6,7 +6,7 @@
 /*   By: dloustal <dloustal@student.42.fr>            +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/05/20 13:39:12 by dloustal      #+#    #+#                 */
-/*   Updated: 2025/06/17 15:18:22 by dloustal      ########   odam.nl         */
+/*   Updated: 2025/06/21 17:29:05 by dloustal      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,6 +64,8 @@ char	*get_variable(t_scanner *s, char *src)
 
 	s->cur--;
 	c = src[s->cur];
+	if (c == '$')
+		c = src[++s->cur];
 	while (ft_isalnum(c) || c == '_')
 		c = src[++s->cur];
 	var_name = ft_substr(src, s->start, s->cur - s->start);
