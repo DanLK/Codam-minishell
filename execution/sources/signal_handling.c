@@ -1,16 +1,17 @@
 /* ************************************************************************** */
 /*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   signal_handling.c                                  :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: rojornod <rojornod@student.42.fr>          +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/03/20 10:06:02 by rojornod          #+#    #+#             */
-/*   Updated: 2025/06/16 14:36:48 by rojornod         ###   ########.fr       */
+/*                                                        ::::::::            */
+/*   signal_handling.c                                  :+:    :+:            */
+/*                                                     +:+                    */
+/*   By: dloustal <marvin@42.fr>                      +#+                     */
+/*                                                   +#+                      */
+/*   Created: 2025/03/20 10:06:02 by rojornod      #+#    #+#                 */
+/*   Updated: 2025/06/21 10:31:42 by dloustalot    ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/execution.h"
+#include <sys/ttycom.h>
 
 volatile sig_atomic_t	g_received = 0;
 

@@ -3,10 +3,10 @@
 /*                                                        ::::::::            */
 /*   parser.c                                           :+:    :+:            */
 /*                                                     +:+                    */
-/*   By: dloustal <dloustal@student.42.fr>            +#+                     */
+/*   By: dloustal <marvin@42.fr>                      +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/04/14 14:37:49 by dloustal      #+#    #+#                 */
-/*   Updated: 2025/06/19 12:52:39 by dloustal      ########   odam.nl         */
+/*   Updated: 2025/06/21 09:43:21 by dloustalot    ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,7 +87,7 @@ t_t_node	*parse_pipe(t_parser *parser)
 	node = parse_command(parser);
 	if (!node)
 		return (NULL);
-	if (!node->tokens->head && !(node->redirs))
+	if (!node->tokens->head && (!(node->redirs) || has_heredoc(node)))
 		return (node_tokens_null(node, parser), NULL);
 	token = parser->current->token;
 	while (token->type == TKN_PIPE)
@@ -96,7 +96,7 @@ t_t_node	*parse_pipe(t_parser *parser)
 		right = parse_command(parser);
 		if (!right)
 			return (NULL);
-		if (!right->tokens->head)
+		if (!right->tokens->head && (!(right->redirs) || has_heredoc(right)))
 			return (right_tokens_null(token, node, right), NULL);
 		node = pipe_node(node, right);
 		token = parser->current->token;
