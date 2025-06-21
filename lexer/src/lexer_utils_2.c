@@ -6,7 +6,7 @@
 /*   By: dloustal <dloustal@student.42.fr>            +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/03/24 11:46:50 by dloustal      #+#    #+#                 */
-/*   Updated: 2025/06/17 12:35:36 by dloustal      ########   odam.nl         */
+/*   Updated: 2025/06/21 17:24:01 by dloustal      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,6 +75,8 @@ bool	is_assignment(t_scanner *s, char *src)
 
 	i = s->cur;
 	c = src[i];
+	if (c == '$')
+		c = src[++i];
 	while (ft_isalnum(c) || c == '_')
 		c = src[++i];
 	if (c == '=')

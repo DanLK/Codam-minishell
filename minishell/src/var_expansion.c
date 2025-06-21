@@ -6,7 +6,7 @@
 /*   By: dloustal <dloustal@student.42.fr>            +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/04/28 09:49:04 by dloustal      #+#    #+#                 */
-/*   Updated: 2025/06/18 17:34:40 by dloustal      ########   odam.nl         */
+/*   Updated: 2025/06/21 17:19:09 by dloustal      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,8 @@ void	expand_var_list(t_token_list *tokens, t_vars *vars, t_info *info)
 	node = tokens->head;
 	while (node)
 	{
-		if (node->token->type == TKN_WORD || node->token->type == TKN_VAR_VALUE)
+		if (node->token->type == TKN_WORD || node->token->type == TKN_VAR_VALUE
+			|| node->token->type == TKN_VAR_NAME)
 		{
 			old_lexeme = node->token->lexeme;
 			node->token->lexeme = expand_qstring(node->token->lexeme,

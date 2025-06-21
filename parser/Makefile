@@ -1,5 +1,5 @@
 NAME = parser
-SRC = tree.c memory_clears_parser.c parser.c parser_utilities.c parser_nodes.c tredirs_utils.c
+SRC = tree.c memory_clears_parser.c parser.c parser_utilities.c parser_nodes.c tredirs_utils.c debug.c
 MAIN = main_parser.c
 LEXER_SRC = lexer.c lexer_utils.c lexer_utils_2.c lexer_utils_symbols.c token_list.c token_list_utils.c token_identifier.c reader_quotes.c readers.c initial_checks.c clear_list.c
 SRC_DIR = ./src
